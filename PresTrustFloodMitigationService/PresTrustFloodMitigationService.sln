@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{F522CB3F-2DC6-4A41-A3CD-1A262F592B3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{4681305C-1EC6-4C98-B3C2-C8500F41E417}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{2B6DE1D7-0939-4C4D-86A5-36EB66A334F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalSystems", "ExternalSystems", "{AB8169CF-EF0A-43DB-8437-ED9591961D71}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{C77591B1-B825-420F-AB16-7C3A5B9F8E48}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole1", "UnitTests\TestConsole1\TestConsole1.csproj", "{AA389506-C66A-4479-B2C6-624EB294FAD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{67A7AD3F-2C11-4868-9D63-738420BE96DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresTrust.FloodMitigation.API", "Src\APIs\PresTrust.FloodMitigation.API\PresTrust.FloodMitigation.API.csproj", "{1790EE3C-C40F-4D25-809C-FFC5C4294F4D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresTrust.FloodMitigation.Application", "Src\PresTrust.FloodMitigation.Application\PresTrust.FloodMitigation.Application.csproj", "{57BCB211-F44D-4302-8D9E-2F1CCA2DECD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresTrust.FloodMitigation.Domain", "Src\PresTrust.FloodMitigation.Domain\PresTrust.FloodMitigation.Domain.csproj", "{28616553-87C6-4339-883D-DD8FF20C8D2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresTrust.FloodMitigation.Infrastructure", "Src\PresTrust.FloodMitigation.Infrastructure\PresTrust.FloodMitigation.Infrastructure.csproj", "{C1E8B177-9FEE-4C18-86AC-22CB64662337}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA389506-C66A-4479-B2C6-624EB294FAD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA389506-C66A-4479-B2C6-624EB294FAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA389506-C66A-4479-B2C6-624EB294FAD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA389506-C66A-4479-B2C6-624EB294FAD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1790EE3C-C40F-4D25-809C-FFC5C4294F4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1790EE3C-C40F-4D25-809C-FFC5C4294F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1790EE3C-C40F-4D25-809C-FFC5C4294F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1790EE3C-C40F-4D25-809C-FFC5C4294F4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57BCB211-F44D-4302-8D9E-2F1CCA2DECD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57BCB211-F44D-4302-8D9E-2F1CCA2DECD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57BCB211-F44D-4302-8D9E-2F1CCA2DECD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57BCB211-F44D-4302-8D9E-2F1CCA2DECD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28616553-87C6-4339-883D-DD8FF20C8D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28616553-87C6-4339-883D-DD8FF20C8D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28616553-87C6-4339-883D-DD8FF20C8D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28616553-87C6-4339-883D-DD8FF20C8D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E8B177-9FEE-4C18-86AC-22CB64662337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E8B177-9FEE-4C18-86AC-22CB64662337}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E8B177-9FEE-4C18-86AC-22CB64662337}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E8B177-9FEE-4C18-86AC-22CB64662337}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AA389506-C66A-4479-B2C6-624EB294FAD1} = {4681305C-1EC6-4C98-B3C2-C8500F41E417}
+		{67A7AD3F-2C11-4868-9D63-738420BE96DC} = {F522CB3F-2DC6-4A41-A3CD-1A262F592B3F}
+		{1790EE3C-C40F-4D25-809C-FFC5C4294F4D} = {67A7AD3F-2C11-4868-9D63-738420BE96DC}
+		{57BCB211-F44D-4302-8D9E-2F1CCA2DECD5} = {F522CB3F-2DC6-4A41-A3CD-1A262F592B3F}
+		{28616553-87C6-4339-883D-DD8FF20C8D2D} = {F522CB3F-2DC6-4A41-A3CD-1A262F592B3F}
+		{C1E8B177-9FEE-4C18-86AC-22CB64662337} = {F522CB3F-2DC6-4A41-A3CD-1A262F592B3F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67848930-6B8F-4F5B-94F7-4FFEDB18D95B}
+	EndGlobalSection
+EndGlobal
