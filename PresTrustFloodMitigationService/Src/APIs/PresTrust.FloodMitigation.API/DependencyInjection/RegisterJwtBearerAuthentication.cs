@@ -20,23 +20,20 @@
             {
                 // policy for county level write access
                 options.AddPolicy("RequireCountyWriteAccess", policy =>
-                        policy.RequireRole(IdentityRoles.SYSTEM_ADMIN, IdentityRoles.HIST_PROGRAM_ADMIN, IdentityRoles.HIST_PROGRAM_EDITOR));
+                        policy.RequireRole(IdentityRoles.SYSTEM_ADMIN, IdentityRoles.FLOOD_PROGRAM_ADMIN, IdentityRoles.FLOOD_PROGRAM_EDITOR));
 
                 // policy for county's admin access
                 options.AddPolicy("RequireCountyAdminAccess", policy =>
-                policy.RequireRole(IdentityRoles.SYSTEM_ADMIN, IdentityRoles.HIST_PROGRAM_ADMIN));
+                policy.RequireRole(IdentityRoles.SYSTEM_ADMIN, IdentityRoles.FLOOD_PROGRAM_ADMIN));
 
                 // policy for county level read access
                 options.AddPolicy("RequireCountyReadAccess", policy =>
-                policy.RequireRole(IdentityRoles.SYSTEM_ADMIN, IdentityRoles.HIST_PROGRAM_ADMIN, IdentityRoles.HIST_PROGRAM_EDITOR, IdentityRoles.HIST_PROGRAM_READONLY));
+                policy.RequireRole(IdentityRoles.SYSTEM_ADMIN, IdentityRoles.FLOOD_PROGRAM_ADMIN, IdentityRoles.FLOOD_PROGRAM_EDITOR, IdentityRoles.FLOOD_PROGRAM_READONLY));
 
                 // policy for county committee review access
                 options.AddPolicy("RequireCountyCommitteeReviewAccess", policy =>
-                        policy.RequireRole(IdentityRoles.SYSTEM_ADMIN, IdentityRoles.HIST_PROGRAM_COMMITTEE));
-
-                // policy for county architect access
-                options.AddPolicy("RequireCountyConsultantAccess", policy =>
-                        policy.RequireRole(IdentityRoles.SYSTEM_ADMIN, IdentityRoles.HIST_PROGRAM_CONSULTANT));
+                        policy.RequireRole(IdentityRoles.SYSTEM_ADMIN, IdentityRoles.FLOOD_PROGRAM_COMMITTEE));
+                
             });
         }
     }

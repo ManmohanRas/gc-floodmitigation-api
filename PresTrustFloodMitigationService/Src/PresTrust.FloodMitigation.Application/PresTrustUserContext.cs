@@ -72,6 +72,18 @@
             userProfile.Name = this.accessor.HttpContext.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname")?.Value;
             userProfile.Email = this.accessor.HttpContext.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
 
+            if (this.accessor.HttpContext.User.IsInRole(IdentityRoles.FLOOD_PROGRAM_ADMIN))
+                userProfile.Role = UserRoleEnum.PROGRAM_ADMIN;
+
+            if (this.accessor.HttpContext.User.IsInRole(IdentityRoles.FLOOD_PROGRAM_EDITOR))
+                userProfile.Role = UserRoleEnum.PROGRAM_EDITOR;
+
+            if (this.accessor.HttpContext.User.IsInRole(IdentityRoles.FLOOD_PROGRAM_COMMITTEE))
+                userProfile.Role = UserRoleEnum.PROGRAM_COMMITTEE;
+
+            if (this.accessor.HttpContext.User.IsInRole(IdentityRoles.FLOOD_PROGRAM_READONLY))
+                userProfile.Role = UserRoleEnum.PROGRAM_READONLY;
+
             if (this.accessor.HttpContext.User.IsInRole(IdentityRoles.SYSTEM_ADMIN))
                 userProfile.Role = UserRoleEnum.SYSTEM_ADMIN;
 
@@ -80,12 +92,6 @@
 
             this.isExternalUser = true;
 
-            //if (this.accessor.HttpContext.User.IsInRole(IdentityRoles.HIST_APPLICANT_CONTRACTOR))
-            //    userProfile.Role = UserRoleEnum.APPLICANT_CONTRACTOR;
-
-            //if (Role != UserRoleEnum.NONE)
-            //    return;
-
             agencyUserRoles = new List<AgencyUserRole>();
             userProfile.AgencyIds = new List<int>();
             int number;
@@ -93,6 +99,35 @@
             {
                 switch (c.Type)
                 {
+                    case IdentityClaimTypes.FLOOD_AGENCY_ADMIN:
+                        if (!string.IsNullOrEmpty(c.Value) && int.TryParse(c.Value, out number))
+                        {
+                            userProfile.AgencyIds.Add(number);
+                            agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_ADMIN });
+                        }
+
+                        break;
+                    case IdentityClaimTypes.FLOOD_AGENCY_EDITOR:
+                        if (!string.IsNullOrEmpty(c.Value) && int.TryParse(c.Value, out number))
+                        {
+                            userProfile.AgencyIds.Add(number);
+                            agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_EDITOR });
+                        }
+                        break;
+                    case IdentityClaimTypes.FLOOD_AGENCY_SIGNATURE:
+                        if (!string.IsNullOrEmpty(c.Value) && int.TryParse(c.Value, out number))
+                        {
+                            userProfile.AgencyIds.Add(number);
+                            agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_SIGNATORY });
+                        }
+                        break;
+                    case IdentityClaimTypes.FLOOD_AGENCY_READONLY:
+                        if (!string.IsNullOrEmpty(c.Value) && int.TryParse(c.Value, out number))
+                        {
+                            userProfile.AgencyIds.Add(number);
+                            agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_READONLY });
+                        }
+                        break;
                     default:
                         break;
                 }

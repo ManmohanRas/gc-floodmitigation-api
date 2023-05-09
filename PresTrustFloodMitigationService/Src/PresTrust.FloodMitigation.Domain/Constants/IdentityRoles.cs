@@ -13,25 +13,21 @@ namespace PresTrust.FloodMitigation.Domain.Constants
             /// </summary>
             public const string SYSTEM_ADMIN = "system_admin";
             /// <summary>
-            /// Constant to hold role for Historic Preservation Program Admin 
+            /// Constant to hold role for Flood Program Admin 
             /// </summary>
-            public const string HIST_PROGRAM_ADMIN = "hist_program_admin";
+            public const string FLOOD_PROGRAM_ADMIN = "flood_program_admin";
             /// <summary>
-            /// Constant to hold role for Historic Preservation Program Editor 
+            /// Constant to hold role for Flood Mitigation Program Editor 
             /// </summary>
-            public const string HIST_PROGRAM_EDITOR = "hist_program_editor";
+            public const string FLOOD_PROGRAM_EDITOR = "flood_program_editor";
             /// <summary>
-            /// Constant to hold role for Historic Preservation Program Committee 
+            /// Constant to hold role for Flood Mitigation Program Committee 
             /// </summary>
-            public const string HIST_PROGRAM_COMMITTEE = "hist_program_committee";
+            public const string FLOOD_PROGRAM_COMMITTEE = "flood_program_committee";
             /// <summary>
-            /// Constant to hold role for Historic Preservation Program ReadOnly 
+            /// Constant to hold role for Flood Mitigation Program ReadOnly 
             /// </summary>
-            public const string HIST_PROGRAM_READONLY = "hist_program_readonly";
-            /// <summary>
-            /// Constant to hold role for Historic Preservation Program consultant 
-            /// </summary>
-            public const string HIST_PROGRAM_CONSULTANT = "hist_program_consultant";
+            public const string FLOOD_PROGRAM_READONLY = "flood_program_readonly";
         }
     }
 }
