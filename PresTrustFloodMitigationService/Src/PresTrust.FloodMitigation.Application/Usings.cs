@@ -31,6 +31,7 @@ global using Polly;
 global using PresTrust.FloodMitigation.Application.Http;
 global using PresTrust.FloodMitigation.Application.Services.EmailApi;
 global using PresTrust.FloodMitigation.Application.Services.IdentityApi;
+global using PresTrust.FloodMitigation.Application.CommonViewModels;
 
 //---------------------------------------------- PresTrust.FloodMitigation.Domain Namespaces ----------------------------------------------//
 //=========================================================================================================================================//

@@ -5,6 +5,8 @@
         public void Register(IServiceCollection services, IConfiguration config)
         {
             services.AddTransient<ITestRepository, TestRepository>();
+            services.AddTransient<IApplicationRepository, ApplicationRepository>();
+            services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddHttpContextAccessor();
         }
     }
