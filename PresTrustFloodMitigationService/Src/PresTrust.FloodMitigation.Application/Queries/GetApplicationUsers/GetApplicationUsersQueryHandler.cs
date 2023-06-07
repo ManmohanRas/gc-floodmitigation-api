@@ -14,7 +14,7 @@
             (
             IMapper mapper,
             IOptions<SystemParameterConfiguration> systemParamOptions,
-            IdentityApiConnect identityApiConnect,
+            IIdentityApiConnect identityApiConnect,
             IApplicationUserRepository repoApplicationUser
             )
         {
