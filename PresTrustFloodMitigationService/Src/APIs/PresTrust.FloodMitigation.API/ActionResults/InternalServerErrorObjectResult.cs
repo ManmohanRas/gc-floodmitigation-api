@@ -1,11 +1,10 @@
-﻿namespace PresTrust.FloodMitigation.API.ActionResults
+﻿namespace PresTrust.FloodMitigation.API.ActionResults;
+
+public class InternalServerErrorObjectResult : ObjectResult
 {
-    public class InternalServerErrorObjectResult : ObjectResult
+    public InternalServerErrorObjectResult(object error)
+        : base(error)
     {
-        public InternalServerErrorObjectResult(object error)
-            : base(error)
-        {
-            StatusCode = StatusCodes.Status500InternalServerError;
-        }
+        StatusCode = StatusCodes.Status500InternalServerError;
     }
 }

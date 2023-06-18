@@ -1,6 +1,5 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
+
+public class GetPrimaryContactsByApplicationIdSqlCommand
 {
-    public class GetPrimaryContactsByApplicationIdSqlCommand
-    {
-    }
 }

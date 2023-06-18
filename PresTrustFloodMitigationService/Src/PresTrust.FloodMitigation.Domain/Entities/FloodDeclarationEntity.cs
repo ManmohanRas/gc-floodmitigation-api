@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace PresTrust.FloodMitigation.Domain.Entities;
 
-namespace PresTrust.FloodMitigation.Domain.Entities
+internal class FloodDeclarationEntity
 {
-    internal class FloodDeclarationEntity
-    {
-    }
 }

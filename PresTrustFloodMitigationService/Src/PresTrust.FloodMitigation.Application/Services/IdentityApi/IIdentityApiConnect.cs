@@ -1,9 +1,8 @@
-﻿namespace PresTrust.FloodMitigation.Application.Services.IdentityApi
+﻿namespace PresTrust.FloodMitigation.Application.Services.IdentityApi;
+
+public interface IIdentityApiConnect
 {
-    public interface IIdentityApiConnect
-    {
-        Task<TResponse> PostDataAsync<TResponse, TRequest>(string endPoint, JsonContent content);
-        Task<TResponse> PutDataAsync<TResponse, TRequest>(string endPoint, JsonContent content);
-        Task<TResponse> GetDataAsync<TResponse>(string endPoint);
-    }
+    Task<TResponse> PostDataAsync<TResponse, TRequest>(string endPoint, JsonContent content);
+    Task<TResponse> PutDataAsync<TResponse, TRequest>(string endPoint, JsonContent content);
+    Task<TResponse> GetDataAsync<TResponse>(string endPoint);
 }

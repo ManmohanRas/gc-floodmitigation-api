@@ -1,8 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Application.CommonViewModels
+﻿namespace PresTrust.FloodMitigation.Application.CommonViewModels;
+
+public class FloodApplicationUserViewModel
 {
-    public class FloodApplicationUserViewModel
-    {
-        public int Id { get; set; }
-        public bool IsPrimaryContact { get; set; }
-    }
+    public int Id { get; set; }
+    public bool IsPrimaryContact { get; set; }
 }

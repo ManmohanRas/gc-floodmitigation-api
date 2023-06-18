@@ -1,10 +1,9 @@
-﻿namespace PresTrust.FloodMitigation.API.DependencyInjection
+﻿namespace PresTrust.FloodMitigation.API.DependencyInjection;
+
+public class RegisterFluentValidator : IDependencyInjectionService
 {
-    public class RegisterFluentValidator : IDependencyInjectionService
+    public void Register(IServiceCollection services, IConfiguration config)
     {
-        public void Register(IServiceCollection services, IConfiguration config)
-        {
-            services.AddFluentValidationAutoValidation().AddValidatorsFromAssembly(Assembly.Load("PresTrust.FloodMitigation.Application"));
-        }
+        services.AddFluentValidationAutoValidation().AddValidatorsFromAssembly(Assembly.Load("PresTrust.FloodMitigation.Application"));
     }
 }

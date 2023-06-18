@@ -1,8 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Application.CommonViewModels
+﻿namespace PresTrust.FloodMitigation.Application.CommonViewModels;
+
+public class DocumentTypeViewModel
 {
-    public class DocumentTypeViewModel
-    {
-        public string DocumentType { get; set; }
-        public List<DocumentViewModel> Documents { get; set; }
-    }
+    public string DocumentType { get; set; }
+    public List<DocumentViewModel> Documents { get; set; }
 }

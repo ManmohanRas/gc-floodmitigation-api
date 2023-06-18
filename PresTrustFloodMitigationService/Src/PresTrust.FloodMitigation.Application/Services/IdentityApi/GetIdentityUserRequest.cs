@@ -1,8 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Application.Services.IdentityApi
+﻿namespace PresTrust.FloodMitigation.Application.Services.IdentityApi;
+
+public class GetIdentityUserRequest
 {
-    public class GetIdentityUserRequest
-    {
-        public string Program { get; set; }
-        public string Agency { get; set; }
-    }
+    public string Program { get; set; }
+    public string Agency { get; set; }
 }

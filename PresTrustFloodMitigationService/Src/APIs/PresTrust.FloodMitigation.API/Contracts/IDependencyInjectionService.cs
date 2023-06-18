@@ -1,7 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.API.Contracts
+﻿namespace PresTrust.FloodMitigation.API.Contracts;
+
+public interface IDependencyInjectionService
 {
-    public interface IDependencyInjectionService
-    {
-        void Register(IServiceCollection services, IConfiguration configuration);
-    }
+    void Register(IServiceCollection services, IConfiguration configuration);
 }

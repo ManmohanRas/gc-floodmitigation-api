@@ -1,27 +1,26 @@
-﻿namespace PresTrust.FloodMitigation.Application.Queries
+﻿namespace PresTrust.FloodMitigation.Application.Queries;
+
+public class GetTestQueryHandler : IRequestHandler<GetTestQuery, GetTestQueryViewModel>
 {
-    public class GetTestQueryHandler : IRequestHandler<GetTestQuery, GetTestQueryViewModel>
+    private readonly IMapper mapper;
+    private readonly ITestRepository repoTest;
+
+    public GetTestQueryHandler(
+        IMapper mapper,
+        ITestRepository repoTest
+    )
     {
-        private readonly IMapper mapper;
-        private readonly ITestRepository repoTest;
+        this.mapper = mapper;
+        this.repoTest = repoTest;
+    }
 
-        public GetTestQueryHandler(
-            IMapper mapper,
-            ITestRepository repoTest
-        )
-        {
-            this.mapper = mapper;
-            this.repoTest = repoTest;
-        }
+    public async Task<GetTestQueryViewModel> Handle(GetTestQuery request, CancellationToken cancellationToken)
+    {
+        GetTestQueryViewModel result = new();
 
-        public async Task<GetTestQueryViewModel> Handle(GetTestQuery request, CancellationToken cancellationToken)
-        {
-            GetTestQueryViewModel result = new();
+        var testEntity = await repoTest.GetTestAsync(request.Id);
+        result = mapper.Map<FloodTestEntity, GetTestQueryViewModel>(testEntity);
 
-            var testEntity = await repoTest.GetTestAsync(request.Id);
-            result = mapper.Map<FloodTestEntity, GetTestQueryViewModel>(testEntity);
-
-            return result;
-        }
+        return result;
     }
 }

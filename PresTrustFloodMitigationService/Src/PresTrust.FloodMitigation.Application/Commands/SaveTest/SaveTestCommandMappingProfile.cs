@@ -1,10 +1,9 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
+
+public class SaveTestCommandMappingProfile : Profile
 {
-    public class SaveTestCommandMappingProfile : Profile
+    public SaveTestCommandMappingProfile()
     {
-        public SaveTestCommandMappingProfile()
-        {
-            CreateMap<SaveTestCommand, FloodTestEntity>();
-        }
+        CreateMap<SaveTestCommand, FloodTestEntity>();
     }
 }

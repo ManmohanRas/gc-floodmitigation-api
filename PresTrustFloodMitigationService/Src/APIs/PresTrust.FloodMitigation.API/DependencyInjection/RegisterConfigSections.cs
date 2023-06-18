@@ -1,10 +1,9 @@
-﻿namespace PresTrust.FloodMitigation.API.DependencyInjection
+﻿namespace PresTrust.FloodMitigation.API.DependencyInjection;
+
+public class RegisterConfigSections : IDependencyInjectionService
 {
-    public class RegisterConfigSections : IDependencyInjectionService
+    public void Register(IServiceCollection services, IConfiguration config)
     {
-        public void Register(IServiceCollection services, IConfiguration config)
-        {
-            services.Configure<SystemParameterConfiguration>(config.GetSection(FloodMitigationDomainConstants.AppSettingKeys.SYSTEM_PARAMETER_SECTION));
-        }
+        services.Configure<SystemParameterConfiguration>(config.GetSection(FloodMitigationDomainConstants.AppSettingKeys.SYSTEM_PARAMETER_SECTION));
     }
 }

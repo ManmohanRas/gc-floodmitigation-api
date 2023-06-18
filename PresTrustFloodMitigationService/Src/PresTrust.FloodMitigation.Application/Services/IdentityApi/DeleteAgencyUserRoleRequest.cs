@@ -1,8 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Application.Services.IdentityApi
+﻿namespace PresTrust.FloodMitigation.Application.Services.IdentityApi;
+
+public class DeleteAgencyUserRoleRequest
 {
-    public class DeleteAgencyUserRoleRequest
-    {
-        public string Email { get; set; }
-        public IdentityUserClaim Claim { get; set; }
-    }
+    public string Email { get; set; }
+    public IdentityUserClaim Claim { get; set; }
 }

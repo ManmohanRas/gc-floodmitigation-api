@@ -1,10 +1,9 @@
-﻿namespace PresTrust.FloodMitigation.API.DependencyInjection
+﻿namespace PresTrust.FloodMitigation.API.DependencyInjection;
+
+public class RegisterAutoMapper : IDependencyInjectionService
 {
-    public class RegisterAutoMapper : IDependencyInjectionService
+    public void Register(IServiceCollection services, IConfiguration config)
     {
-        public void Register(IServiceCollection services, IConfiguration config)
-        {
-            services.AddAutoMapper(Assembly.Load("PresTrust.FloodMitigation.Application"));
-        }
+        services.AddAutoMapper(Assembly.Load("PresTrust.FloodMitigation.Application"));
     }
 }

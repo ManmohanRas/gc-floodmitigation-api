@@ -1,6 +1,5 @@
-﻿namespace PresTrust.FloodMitigation.Domain.Utils
+﻿namespace PresTrust.FloodMitigation.Domain.Utils;
+
+public class EnumUtils
 {
-    public class EnumUtils
-    {
-    }
 }

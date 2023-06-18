@@ -1,8 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Domain.Entities
+﻿namespace PresTrust.FloodMitigation.Domain.Entities;
+
+public class FloodTestEntity
 {
-    public class FloodTestEntity
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
 }

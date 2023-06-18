@@ -1,9 +1,8 @@
-﻿namespace PresTrust.FloodMitigation.Application.Services.IdentityApi
+﻿namespace PresTrust.FloodMitigation.Application.Services.IdentityApi;
+
+public class PutCountyUserRoleChangeRequest
 {
-    public class PutCountyUserRoleChangeRequest
-    {
-        public string Email { get; set; }
-        public string Role { get; set; }
-        public string NewRole { get; set; }
-    }
+    public string Email { get; set; }
+    public string Role { get; set; }
+    public string NewRole { get; set; }
 }

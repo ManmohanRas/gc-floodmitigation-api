@@ -1,8 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Application.Services.EmailApi
+﻿namespace PresTrust.FloodMitigation.Application.Services.EmailApi;
+
+public interface IEmailApiConnect
 {
-    public interface IEmailApiConnect
-    {
-        Task<TResponse> GetDataAsync<TResponse>(string endPoint);
-        Task<TResponse> PostDataAsync<TResponse, TRequest>(string endPoint, JsonContent content);
-    }
+    Task<TResponse> GetDataAsync<TResponse>(string endPoint);
+    Task<TResponse> PostDataAsync<TResponse, TRequest>(string endPoint, JsonContent content);
 }

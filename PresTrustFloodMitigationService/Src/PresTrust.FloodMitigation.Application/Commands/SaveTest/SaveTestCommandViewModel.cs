@@ -1,7 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
+
+public class SaveTestCommandViewModel
 {
-    public class SaveTestCommandViewModel
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

@@ -1,12 +1,11 @@
-﻿namespace PresTrust.FloodMitigation.Domain.Configurations
+﻿namespace PresTrust.FloodMitigation.Domain.Configurations;
+
+public class HttpClientPolicyConfiguration
 {
-    public class HttpClientPolicyConfiguration
-    {
-        public int RetryCount { get; set; }
-        public int RetryDelayInMs { get; set; }
-        public int RetryTimeoutInSeconds { get; set; }
-        public int BreakDurationInSeconds { get; set; }
-        public int MaxAttemptBeforeBreak { get; set; }
-        public int HandlerTimeoutInMinutes { get; set; }
-    }
+    public int RetryCount { get; set; }
+    public int RetryDelayInMs { get; set; }
+    public int RetryTimeoutInSeconds { get; set; }
+    public int BreakDurationInSeconds { get; set; }
+    public int MaxAttemptBeforeBreak { get; set; }
+    public int HandlerTimeoutInMinutes { get; set; }
 }

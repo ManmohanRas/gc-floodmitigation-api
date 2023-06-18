@@ -1,16 +1,15 @@
-﻿namespace PresTrust.FloodMitigation.Application.ApiExceptions
+﻿namespace PresTrust.FloodMitigation.Application.ApiExceptions;
+
+public class InvalidCredentialsException : Exception
 {
-    public class InvalidCredentialsException : Exception
-    {
-        public InvalidCredentialsException()
-        { }
+    public InvalidCredentialsException()
+    { }
 
-        public InvalidCredentialsException(string message)
-            : base(message)
-        { }
+    public InvalidCredentialsException(string message)
+        : base(message)
+    { }
 
-        public InvalidCredentialsException(string message, Exception innerException)
-            : base(message, innerException)
-        { }
-    }
+    public InvalidCredentialsException(string message, Exception innerException)
+        : base(message, innerException)
+    { }
 }

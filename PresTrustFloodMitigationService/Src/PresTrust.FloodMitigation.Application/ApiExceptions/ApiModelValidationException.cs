@@ -1,25 +1,24 @@
-﻿namespace PresTrust.FloodMitigation.Application.ApiExceptions
+﻿namespace PresTrust.FloodMitigation.Application.ApiExceptions;
+
+/// <summary>
+///     Api validation exception
+/// </summary>
+public class ApiModelValidationException : Exception
 {
+    public string[] Errors { get; private set; }
+
     /// <summary>
-    ///     Api validation exception
+    ///     ctor
     /// </summary>
-    public class ApiModelValidationException : Exception
+    public ApiModelValidationException()
+        : base("One or more validation failures have occurred.")
     {
-        public string[] Errors { get; private set; }
+        Errors = new string[] { };
+    }
 
-        /// <summary>
-        ///     ctor
-        /// </summary>
-        public ApiModelValidationException()
-            : base("One or more validation failures have occurred.")
-        {
-            Errors = new string[] { };
-        }
-
-        public ApiModelValidationException(string[] errors)
-            : this()
-        {
-            Errors = errors;
-        }
+    public ApiModelValidationException(string[] errors)
+        : this()
+    {
+        Errors = errors;
     }
 }

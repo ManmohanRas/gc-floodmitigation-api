@@ -1,7 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands.CreateApplication
+﻿namespace PresTrust.FloodMitigation.Application.Commands.CreateApplication;
+
+public class CreateApplicationCommandViewModel
 {
-    public class CreateApplicationCommandViewModel
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

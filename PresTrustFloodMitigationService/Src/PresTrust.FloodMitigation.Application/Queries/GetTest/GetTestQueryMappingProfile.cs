@@ -1,10 +1,9 @@
-﻿namespace PresTrust.FloodMitigation.Application.Queries
+﻿namespace PresTrust.FloodMitigation.Application.Queries;
+
+public class GetTestQueryMappingProfile : Profile
 {
-    public class GetTestQueryMappingProfile : Profile
+    public GetTestQueryMappingProfile()
     {
-        public GetTestQueryMappingProfile()
-        {
-            CreateMap<FloodTestEntity, GetTestQueryViewModel>();
-        }
+        CreateMap<FloodTestEntity, GetTestQueryViewModel>();
     }
 }

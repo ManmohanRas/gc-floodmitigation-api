@@ -1,10 +1,9 @@
-﻿namespace PresTrust.FloodMitigation.API.DependencyInjection
+﻿namespace PresTrust.FloodMitigation.API.DependencyInjection;
+
+public class RegisterSqlDbContexts : IDependencyInjectionService
 {
-    public class RegisterSqlDbContexts : IDependencyInjectionService
+    public void Register(IServiceCollection services, IConfiguration config)
     {
-        public void Register(IServiceCollection services, IConfiguration config)
-        {
-            services.AddSingleton<PresTrustSqlDbContext>();
-        }
+        services.AddSingleton<PresTrustSqlDbContext>();
     }
 }

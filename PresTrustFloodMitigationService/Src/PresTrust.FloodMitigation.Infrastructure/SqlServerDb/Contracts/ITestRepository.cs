@@ -1,8 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
+
+public interface ITestRepository
 {
-    public interface ITestRepository
-    {
-        Task<FloodTestEntity> GetTestAsync(int id);
-        Task<int> SaveTestAsync(FloodTestEntity test);
-    }
+    Task<FloodTestEntity> GetTestAsync(int id);
+    Task<int> SaveTestAsync(FloodTestEntity test);
 }

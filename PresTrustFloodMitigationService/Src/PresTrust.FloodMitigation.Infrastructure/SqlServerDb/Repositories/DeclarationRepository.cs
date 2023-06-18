@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories
+internal class DeclarationRepository
 {
-    internal class DeclarationRepository
-    {
-    }
 }

@@ -1,13 +1,12 @@
 ﻿
-namespace PresTrust.FloodMitigation.Domain.Constants
+namespace PresTrust.FloodMitigation.Domain.Constants;
+
+public partial class FloodMitigationDomainConstants
 {
-    public partial class FloodMitigationDomainConstants
+    /// <summary>
+    /// Class to hold constants for Navigation Item Title
+    /// </summary>
+    public static class RouterLinks
     {
-        /// <summary>
-        /// Class to hold constants for Navigation Item Title
-        /// </summary>
-        public static class RouterLinks
-        {
-        }
     }
 }

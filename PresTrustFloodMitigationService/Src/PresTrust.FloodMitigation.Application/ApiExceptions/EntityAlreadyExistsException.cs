@@ -1,16 +1,15 @@
-﻿namespace PresTrust.FloodMitigation.Application.ApiExceptions
+﻿namespace PresTrust.FloodMitigation.Application.ApiExceptions;
+
+public class EntityAlreadyExistsException : Exception
 {
-    public class EntityAlreadyExistsException : Exception
-    {
-        public EntityAlreadyExistsException()
-        { }
+    public EntityAlreadyExistsException()
+    { }
 
-        public EntityAlreadyExistsException(string message)
-            : base(message)
-        { }
+    public EntityAlreadyExistsException(string message)
+        : base(message)
+    { }
 
-        public EntityAlreadyExistsException(string message, Exception innerException)
-            : base(message, innerException)
-        { }
-    }
+    public EntityAlreadyExistsException(string message, Exception innerException)
+        : base(message, innerException)
+    { }
 }

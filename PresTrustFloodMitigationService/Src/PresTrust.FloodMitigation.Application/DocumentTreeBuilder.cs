@@ -1,6 +1,5 @@
-﻿namespace PresTrust.FloodMitigation.Application
+﻿namespace PresTrust.FloodMitigation.Application;
+
+public class DocumentTreeBuilder
 {
-    public class DocumentTreeBuilder
-    {
-    }
 }
