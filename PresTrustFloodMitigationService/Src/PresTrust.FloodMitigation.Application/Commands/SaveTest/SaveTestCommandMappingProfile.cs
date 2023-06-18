@@ -4,7 +4,7 @@
     {
         public SaveTestCommandMappingProfile()
         {
-            CreateMap<SaveTestCommand, FlmitigTestEntity>();
+            CreateMap<SaveTestCommand, FloodTestEntity>();
         }
     }
 }

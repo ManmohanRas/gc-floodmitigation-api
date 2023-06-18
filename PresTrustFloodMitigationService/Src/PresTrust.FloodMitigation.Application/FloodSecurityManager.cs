@@ -6,7 +6,7 @@
         EDIT = 2
     }
 
-    public class FlmitigSecurityManager
+    public class FloodSecurityManager
     {
     }
 }

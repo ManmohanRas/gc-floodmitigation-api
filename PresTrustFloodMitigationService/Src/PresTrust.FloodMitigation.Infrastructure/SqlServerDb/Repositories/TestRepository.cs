@@ -11,12 +11,12 @@
             this.systemParamConfig = systemParamConfig.Value;
         }
 
-        public async Task<FlmitigTestEntity> GetTestAsync(int id)
+        public async Task<FloodTestEntity> GetTestAsync(int id)
         {
-            FlmitigTestEntity result = default;
+            FloodTestEntity result = default;
             using var conn = context.CreateConnection();
             var sqlCommand = new GetTestSqlCommand();
-            var results = await conn.QueryAsync<FlmitigTestEntity>(sqlCommand.ToString(),
+            var results = await conn.QueryAsync<FloodTestEntity>(sqlCommand.ToString(),
                                 commandType: CommandType.Text,
                                 commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                                 param: new { @p_Id = id });
@@ -25,7 +25,7 @@
             return result;
         }
 
-        public async Task<int> SaveTestAsync(FlmitigTestEntity test)
+        public async Task<int> SaveTestAsync(FloodTestEntity test)
         {
             int id = default;
 

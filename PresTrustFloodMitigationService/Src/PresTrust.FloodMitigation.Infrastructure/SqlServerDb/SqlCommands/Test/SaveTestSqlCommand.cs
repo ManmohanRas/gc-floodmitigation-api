@@ -3,7 +3,7 @@
     public class SaveTestSqlCommand
     {
         private readonly string _sqlCommand =
-            @"INSERT INTO [Flmitig].[FlmitigTest]
+            @"INSERT INTO [Flood].[FloodTest]
                        ([Id]
                        ,[Name])
               VALUES

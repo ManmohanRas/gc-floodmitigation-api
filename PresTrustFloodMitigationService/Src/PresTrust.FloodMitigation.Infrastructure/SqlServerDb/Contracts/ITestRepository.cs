@@ -2,7 +2,7 @@
 {
     public interface ITestRepository
     {
-        Task<FlmitigTestEntity> GetTestAsync(int id);
-        Task<int> SaveTestAsync(FlmitigTestEntity test);
+        Task<FloodTestEntity> GetTestAsync(int id);
+        Task<int> SaveTestAsync(FloodTestEntity test);
     }
 }

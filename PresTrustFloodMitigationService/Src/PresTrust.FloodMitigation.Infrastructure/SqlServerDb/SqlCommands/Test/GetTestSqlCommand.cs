@@ -6,7 +6,7 @@
         //    @"SELECT
         //                [Id]
         //               ,[Name]
-        //      FROM      [Flmitig].[FlmitigTest]
+        //      FROM      [Flood].[FloodTest]
         //      WHERE     [Id] = @p_Id;";
         private readonly string _sqlCommand =
             @"SELECT

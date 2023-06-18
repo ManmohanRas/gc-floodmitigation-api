@@ -18,7 +18,7 @@
         {
             SaveTestCommandViewModel result = new();
 
-            var testEntity = mapper.Map<SaveTestCommand, FlmitigTestEntity>(request);
+            var testEntity = mapper.Map<SaveTestCommand, FloodTestEntity>(request);
             result.Id = await repoTest.SaveTestAsync(testEntity);
 
             return result;

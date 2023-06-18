@@ -4,7 +4,7 @@ using PresTrust.FloodMitigation.Application.CommonViewModels;
 namespace PresTrust.FloodMitigation.API.Controllers.v1
 {
     [Authorize()]
-    [Route("api/v1/flmitig")]
+    [Route("api/v1/flood")]
     [ApiController]
     public class FloodMitigationController : ApiBaseController
     {

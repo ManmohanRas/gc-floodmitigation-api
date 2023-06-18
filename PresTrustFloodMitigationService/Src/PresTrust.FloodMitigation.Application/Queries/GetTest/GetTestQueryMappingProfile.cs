@@ -4,7 +4,7 @@
     {
         public GetTestQueryMappingProfile()
         {
-            CreateMap<FlmitigTestEntity, GetTestQueryViewModel>();
+            CreateMap<FloodTestEntity, GetTestQueryViewModel>();
         }
     }
 }

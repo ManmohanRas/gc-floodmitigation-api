@@ -19,7 +19,7 @@
             GetTestQueryViewModel result = new();
 
             var testEntity = await repoTest.GetTestAsync(request.Id);
-            result = mapper.Map<FlmitigTestEntity, GetTestQueryViewModel>(testEntity);
+            result = mapper.Map<FloodTestEntity, GetTestQueryViewModel>(testEntity);
 
             return result;
         }
