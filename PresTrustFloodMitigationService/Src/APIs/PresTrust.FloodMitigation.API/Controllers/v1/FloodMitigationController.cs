@@ -1,7 +1,4 @@
-﻿using PresTrust.FloodMitigation.Application.Commands.CreateApplication;
-using PresTrust.FloodMitigation.Application.CommonViewModels;
-
-namespace PresTrust.FloodMitigation.API.Controllers.v1
+﻿namespace PresTrust.FloodMitigation.API.Controllers.v1
 {
     [Authorize()]
     [Route("api/v1/flmitig")]
