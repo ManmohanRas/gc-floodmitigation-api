@@ -46,6 +46,7 @@ global using PresTrust.FloodMitigation.Application.Commands;
 global using PresTrust.FloodMitigation.Application.Queries;
 global using PresTrust.FloodMitigation.Application.Services.EmailApi;
 global using PresTrust.FloodMitigation.Application.Services.IdentityApi;
+global using PresTrust.FloodMitigation.Application.CommonViewModels;
 
 //---------------------------------------------- PresTrust.FloodMitigation.Domain Namespaces ----------------------------------------------//
 //=========================================================================================================================================//

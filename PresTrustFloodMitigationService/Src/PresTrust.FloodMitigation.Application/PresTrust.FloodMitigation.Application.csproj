@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="DevExpress.Reporting.Core" Version="22.1.6" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
     <PackageReference Include="MediatR" Version="12.0.1" />
@@ -22,6 +23,13 @@
   <ItemGroup>
     <ProjectReference Include="..\PresTrust.FloodMitigation.Domain\PresTrust.FloodMitigation.Domain.csproj" />
     <ProjectReference Include="..\PresTrust.FloodMitigation.Infrastructure\PresTrust.FloodMitigation.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\NewFolder1\" />
+    <Folder Include="Commands\NewFolder2\" />
+    <Folder Include="Commands\NewFolder3\" />
+    <Folder Include="Commands\NewFolder\" />
   </ItemGroup>
 
 </Project>
