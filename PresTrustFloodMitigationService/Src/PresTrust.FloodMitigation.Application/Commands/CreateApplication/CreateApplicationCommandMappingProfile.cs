@@ -1,4 +1,4 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands.CreateApplication;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 /// <summary>
 /// This class defines the configuration using profiles.
@@ -8,5 +8,6 @@ public class CreateApplicationCommandMappingProfile: Profile
     public CreateApplicationCommandMappingProfile()
     {
         CreateMap<CreateApplicationCommand, FloodApplicationEntity>();
+        CreateMap<FloodApplicationEntity, CreateApplicationCommandViewModel>();
     }
 }

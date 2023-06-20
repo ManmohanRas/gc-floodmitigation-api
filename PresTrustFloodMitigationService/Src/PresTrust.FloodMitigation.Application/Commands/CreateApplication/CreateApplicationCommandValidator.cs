@@ -1,4 +1,4 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands.CreateApplication;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 /// <summary>
 /// create rules for attributes
