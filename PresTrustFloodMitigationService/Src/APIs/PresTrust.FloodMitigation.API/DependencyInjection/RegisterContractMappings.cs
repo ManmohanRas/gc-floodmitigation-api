@@ -9,7 +9,9 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<ITestRepository, TestRepository>();
         services.AddTransient<IApplicationRepository, ApplicationRepository>();
         services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
-        services.AddTransient<IPresTrustUserContext, PresTrustUserContext>();
+        services.AddTransient<IFeedbackRepository, FeedbackRepository>();
+        services.AddSingleton<IPresTrustUserContext, PresTrustUserContext>();
         services.AddHttpContextAccessor();
+
     }
-}
+}                                                                               

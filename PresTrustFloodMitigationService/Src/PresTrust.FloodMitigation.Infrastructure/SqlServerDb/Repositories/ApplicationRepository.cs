@@ -15,6 +15,11 @@ public class ApplicationRepository: IApplicationRepository
         this.systemParamConfig = systemParamConfigOptions.Value;
     }
 
+    public async Task<FlmitigApplicationEntity> GetApplicationAsync(int applicationId)
+    {
+        return new FlmitigApplicationEntity();
+    }
+
     public async Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application)
     {
         int id = default;
@@ -26,6 +31,7 @@ public class ApplicationRepository: IApplicationRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
+                @p_Id = application.AgencyId,
                 @p_Title = application.Title,
                 @p_AgencyId = application.AgencyId,
                 @p_ApplicationTypeId = application.ApplicationTypeId,
