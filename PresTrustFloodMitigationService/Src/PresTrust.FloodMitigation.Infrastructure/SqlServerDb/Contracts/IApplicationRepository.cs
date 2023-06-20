@@ -1,11 +1,18 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
+
+public interface IApplicationRepository
 {
-    public interface IApplicationRepository{
-        /// <summary>
-        /// Save Application
-        /// </summary>
-        /// <param name="application"></param>
-        /// <returns></returns>
-        Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application);
-    }
+    /// <summary>
+    /// Get Application by Id
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+    Task<FlmitigApplicationEntity> GetApplicationAsync(int applicationId);
+
+    /// <summary>
+    /// Save Application
+    /// </summary>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application);
 }
