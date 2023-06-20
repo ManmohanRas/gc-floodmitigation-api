@@ -1,13 +1,13 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
-public class ApplicationRepository : IApplicationRepository
+public class ApplicationRepository: IApplicationRepository
 {
     private readonly PresTrustSqlDbContext context;
     protected readonly SystemParameterConfiguration systemParamConfig;
 
     public ApplicationRepository
         (
-        PresTrustSqlDbContext context,
+        PresTrustSqlDbContext context, 
         IOptions<SystemParameterConfiguration> systemParamConfigOptions
         )
     {
@@ -32,6 +32,11 @@ public class ApplicationRepository : IApplicationRepository
             param: new
             {
                 @p_Id = application.AgencyId,
+                @p_Title = application.Title,
+                @p_AgencyId = application.AgencyId,
+                @p_ApplicationTypeId = application.ApplicationTypeId,
+                @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
+                @p_StatusId = application.StatusId
             });
 
         application.Id = id;
