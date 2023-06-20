@@ -2,7 +2,7 @@
 
 public class CreateApplicationCommandViewModel
 {
-    public int Id { get; set; } = 0;
+    public int Id { get; set; }
     public string Title { get; set; } = "";
     public int AgencyId { get; set; }
     public string ApplicationType { get; set; } = ApplicationTypeEnum.NONE.ToString();

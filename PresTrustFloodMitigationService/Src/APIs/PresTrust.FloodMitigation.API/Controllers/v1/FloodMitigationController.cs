@@ -1,59 +1,95 @@
-﻿using PresTrust.FloodMitigation.Application.Commands.CreateApplication;
-using PresTrust.FloodMitigation.Application.Commands.DeleteFeedback;
-using PresTrust.FloodMitigation.Application.Commands.MarkFeedbacksAsRead;
-using PresTrust.FloodMitigation.Application.Commands.SaveFeedback;
-using PresTrust.FloodMitigation.Application.CommonViewModels;
 
-﻿namespace PresTrust.FloodMitigation.API.Controllers.v1
+﻿namespace PresTrust.FloodMitigation.API.Controllers.v1;
+
+[Authorize()]
+[Route("api/v1/flmitig")]
+[ApiController]
+public class FloodMitigationController : ApiBaseController
 {
-    [Authorize()]
-    [Route("api/v1/flmitig")]
-    [ApiController]
-    public class FloodMitigationController : ApiBaseController
+    public FloodMitigationController(IMediator mediator) : base(mediator) {}
+
+    [HttpPost("saveTest")]
+    [ProducesResponseType(typeof(SaveTestCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<SaveTestCommandViewModel>> SaveTest([FromBody] SaveTestCommand command)
     {
-        public FloodMitigationController(IMediator mediator) : base(mediator) {}
+        return Single(await CommandAsync(command));
+    }
 
-        [HttpPost("saveTest")]
-        [ProducesResponseType(typeof(SaveTestCommandViewModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<SaveTestCommandViewModel>> SaveTest([FromBody] SaveTestCommand command)
-        {
-            return Single(await CommandAsync(command));
-        }
+    [HttpPost("getTest")]
+    [ProducesResponseType(typeof(GetTestQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetTestQueryViewModel>> GetTest([FromBody] GetTestQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
 
-        [HttpPost("getTest")]
-        [ProducesResponseType(typeof(GetTestQueryViewModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<GetTestQueryViewModel>> GetTest([FromBody] GetTestQuery query)
-        {
-            return Single(await QueryAsync(query));
-        }
+    [HttpPost("createApplication")]
+    [ProducesResponseType(typeof(CreateApplicationCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<CreateApplicationCommandViewModel>> CreateApplication([FromBody] CreateApplicationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 
-        [HttpPost("createApplication")]
-        [ProducesResponseType(typeof(CreateApplicationCommandViewModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<CreateApplicationCommandViewModel>> CreateApplication([FromBody] CreateApplicationCommand command)
-        {
-            return Single(await CommandAsync(command));
-        }
+    [HttpPost("getApplicationUsers")]
+    [ProducesResponseType(typeof(IEnumerable<FloodApplicationUserViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<FloodApplicationUserViewModel>>> GetApplicationUsers([FromBody] GetApplicationUsersQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
 
-        [HttpPost("getApplicationUsers")]
-        [ProducesResponseType(typeof(IEnumerable<FloodApplicationUserViewModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<IEnumerable<FloodApplicationUserViewModel>>> GetApplicationUsers([FromBody] GetApplicationUsersQuery query)
-        {
-            return Single(await QueryAsync(query));
-        }
+    [HttpPost("getComments")]
+    [ProducesResponseType(typeof(IEnumerable<GetCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        [HttpPost("getFeedbacks")]
+    public async Task<ActionResult<IEnumerable<GetCommentsQueryViewModel>>> GetComments([FromBody] GetCommentsQuery query)
+    {
+       return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveComment")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+    public async Task<ActionResult<int>> SaveComment([FromBody] SaveCommentCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("deleteComment")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteComment([FromBody] DeleteCommentCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("markCommentsAsRead")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> MarkCommentsAsRead([FromBody] MarkCommentsAsReadCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+[HttpPost("getFeedbacks")]
         [ProducesResponseType(typeof(IEnumerable<GetFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -92,6 +128,4 @@ using PresTrust.FloodMitigation.Application.CommonViewModels;
         {
             return Single(await CommandAsync(command));
         }
-
-    }
 }

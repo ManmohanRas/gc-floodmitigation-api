@@ -4,9 +4,9 @@ namespace PresTrust.FloodMitigation.Application
 {
     public class BaseHandler
     {
-        private readonly IApplicationRepository repoApplication;
+        private IApplicationRepository repoApplication;
 
-        BaseHandler(IApplicationRepository repoApplication)
+        public BaseHandler(IApplicationRepository repoApplication)
         {
             this.repoApplication = repoApplication;
         }
