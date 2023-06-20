@@ -1,5 +1,3 @@
-
-using PresTrust.FloodMitigation.Domain.Enums;
 ﻿namespace PresTrust.FloodMitigation.Domain.Entities;
 
 public class FloodApplicationEntity

@@ -28,6 +28,7 @@ global using Polly;
 
 //---------------------------------------------- PresTrust.FloodMitigation.Application Namespaces ----------------------------------------------//
 //==============================================================================================================================================//
+global using PresTrust.FloodMitigation.Application.ApiExceptions;
 global using PresTrust.FloodMitigation.Application.Http;
 global using PresTrust.FloodMitigation.Application.Services.EmailApi;
 global using PresTrust.FloodMitigation.Application.Services.IdentityApi;
@@ -39,6 +40,7 @@ global using PresTrust.FloodMitigation.Domain.Configurations;
 global using static PresTrust.FloodMitigation.Domain.Constants.FloodMitigationDomainConstants;
 global using PresTrust.FloodMitigation.Domain.Entities;
 global using PresTrust.FloodMitigation.Domain.Enums;
+global using PresTrust.FloodMitigation.Domain.Utils;
 
 //---------------------------------------------- PresTrust.FloodMitigation.Infrastructure Namespaces ----------------------------------------------//
 //=================================================================================================================================================//

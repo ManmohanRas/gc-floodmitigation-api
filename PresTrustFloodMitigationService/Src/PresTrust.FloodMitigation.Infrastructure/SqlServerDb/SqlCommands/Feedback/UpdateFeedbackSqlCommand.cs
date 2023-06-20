@@ -1,4 +1,4 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Feedback;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
 public class UpdateFeedbackSqlCommand
 {

@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Domain.Utils;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SaveFeedbackCommandValidator : AbstractValidator<SaveFeedbackCommand>
 {

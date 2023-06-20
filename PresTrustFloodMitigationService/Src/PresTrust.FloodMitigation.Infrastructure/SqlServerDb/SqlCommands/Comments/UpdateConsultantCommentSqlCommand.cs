@@ -1,4 +1,4 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Comments;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
 class UpdateConsultantCommentSqlCommand
 {

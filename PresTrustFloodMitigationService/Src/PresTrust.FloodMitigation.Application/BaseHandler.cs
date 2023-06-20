@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Application.ApiExceptions;
-
-namespace PresTrust.FloodMitigation.Application;
+﻿namespace PresTrust.FloodMitigation.Application;
 
 public class BaseHandler
 {

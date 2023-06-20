@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Application;
-
-namespace PresTrust.FloodMitigation.API.DependencyInjection;
+﻿namespace PresTrust.FloodMitigation.API.DependencyInjection;
 
 public class RegisterContractMappings : IDependencyInjectionService
 {

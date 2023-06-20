@@ -41,6 +41,7 @@ global using PresTrust.FloodMitigation.API.Infrastructure.Filters;
 
 //---------------------------------------------- PresTrust.FloodMitigation.Application Namespaces ----------------------------------------------//
 //==============================================================================================================================================//
+global using PresTrust.FloodMitigation.Application;
 global using PresTrust.FloodMitigation.Application.ApiExceptions;
 global using PresTrust.FloodMitigation.Application.Commands;
 global using PresTrust.FloodMitigation.Application.Queries;
