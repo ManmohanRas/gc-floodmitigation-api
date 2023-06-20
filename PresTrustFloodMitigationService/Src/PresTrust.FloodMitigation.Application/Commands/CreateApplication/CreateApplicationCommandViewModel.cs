@@ -1,7 +1,11 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands.CreateApplication
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
+
+public class CreateApplicationCommandViewModel
 {
-    public class CreateApplicationCommandViewModel
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; } = 0;
+    public string Title { get; set; } = "";
+    public int AgencyId { get; set; }
+    public string ApplicationType { get; set; } = ApplicationTypeEnum.NONE.ToString();
+    public string ApplicationSubType { get; set; } = ApplicationSubTypeEnum.NONE.ToString();
+    public string Status { get; set; } = ApplicationStatusEnum.NONE.ToString();
 }
