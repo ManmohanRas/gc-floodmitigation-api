@@ -1,4 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.API.DependencyInjection
+﻿using PresTrust.FloodMitigation.Application;
+
+namespace PresTrust.FloodMitigation.API.DependencyInjection
 {
     public class RegisterContractMappings : IDependencyInjectionService
     {
@@ -7,6 +9,8 @@
             services.AddTransient<ITestRepository, TestRepository>();
             services.AddTransient<IApplicationRepository, ApplicationRepository>();
             services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<IPresTrustUserContext, PresTrustUserContext>();
             services.AddHttpContextAccessor();
         }
     }

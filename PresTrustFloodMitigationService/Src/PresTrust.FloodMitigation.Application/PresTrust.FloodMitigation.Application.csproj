@@ -24,4 +24,11 @@
     <ProjectReference Include="..\PresTrust.FloodMitigation.Infrastructure\PresTrust.FloodMitigation.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\NewFolder1\" />
+    <Folder Include="Commands\NewFolder2\" />
+    <Folder Include="Commands\NewFolder3\" />
+    <Folder Include="Commands\NewFolder\" />
+  </ItemGroup>
+
 </Project>
