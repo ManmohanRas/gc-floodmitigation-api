@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Feedback;
-
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 public class FeedbackRepository : IFeedbackRepository
 {
     #region " Members ... "
