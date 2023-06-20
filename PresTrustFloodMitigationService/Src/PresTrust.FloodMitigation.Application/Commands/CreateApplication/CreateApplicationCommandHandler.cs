@@ -18,13 +18,10 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
     public async Task<CreateApplicationCommandViewModel> Handle(CreateApplicationCommand request, CancellationToken cancellationToken)
     {
         var reqApplication = mapper.Map<CreateApplicationCommand, FloodApplicationEntity>(request);
+        reqApplication.Status = ApplicationStatusEnum.DOI_DRAFT;
 
         reqApplication = await repoApplication.SaveAsync(reqApplication);
-
-        var result = new CreateApplicationCommandViewModel()
-        {
-            Id = reqApplication.Id,
-        };
+        var result = mapper.Map<FloodApplicationEntity, CreateApplicationCommandViewModel>(reqApplication);
 
         return result;
     }

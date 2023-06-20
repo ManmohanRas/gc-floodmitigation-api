@@ -1,38 +1,47 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+
+public class ApplicationRepository: IApplicationRepository
 {
-    public class ApplicationRepository: IApplicationRepository
+    private readonly PresTrustSqlDbContext context;
+    protected readonly SystemParameterConfiguration systemParamConfig;
+
+    public ApplicationRepository
+        (
+        PresTrustSqlDbContext context, 
+        IOptions<SystemParameterConfiguration> systemParamConfigOptions
+        )
     {
-        private readonly PresTrustSqlDbContext context;
-        protected readonly SystemParameterConfiguration systemParamConfig;
-
-        public ApplicationRepository
-            (
-            PresTrustSqlDbContext context, 
-            IOptions<SystemParameterConfiguration> systemParamConfigOptions
-            )
-        {
-            this.context = context;
-            this.systemParamConfig = systemParamConfigOptions.Value;
-        }
-
-        public async Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application)
-        {
-            int id = default;
-
-            using var conn = context.CreateConnection();
-            var sqlCommand = new CreateApplicationSqlCommand();
-            id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
-                commandType: CommandType.Text,
-                commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                param: new
-                {
-                    @p_Id = application.AgencyId,
-                });
-
-            application.Id = id;
-
-            return application;
-        }
-
+        this.context = context;
+        this.systemParamConfig = systemParamConfigOptions.Value;
     }
+
+    public async Task<FlmitigApplicationEntity> GetApplicationAsync(int applicationId)
+    {
+        return new FlmitigApplicationEntity();
+    }
+
+    public async Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application)
+    {
+        int id = default;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new CreateApplicationSqlCommand();
+        id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_Id = application.AgencyId,
+                @p_Title = application.Title,
+                @p_AgencyId = application.AgencyId,
+                @p_ApplicationTypeId = application.ApplicationTypeId,
+                @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
+                @p_StatusId = application.StatusId
+            });
+
+        application.Id = id;
+
+        return application;
+    }
+
 }

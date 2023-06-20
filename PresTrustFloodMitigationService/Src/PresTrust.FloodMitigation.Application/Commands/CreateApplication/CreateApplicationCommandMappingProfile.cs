@@ -8,5 +8,6 @@ public class CreateApplicationCommandMappingProfile: Profile
     public CreateApplicationCommandMappingProfile()
     {
         CreateMap<CreateApplicationCommand, FloodApplicationEntity>();
+        CreateMap<FloodApplicationEntity, CreateApplicationCommandViewModel>();
     }
 }

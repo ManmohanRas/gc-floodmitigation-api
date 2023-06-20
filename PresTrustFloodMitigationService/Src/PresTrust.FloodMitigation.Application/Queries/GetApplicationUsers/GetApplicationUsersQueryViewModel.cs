@@ -1,7 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application.Queries
+﻿namespace PresTrust.FloodMitigation.Application.Queries;
+
+public class GetApplicationUsersQueryViewModel
 {
-    public class GetApplicationUsersQueryViewModel
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

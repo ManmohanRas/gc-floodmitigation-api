@@ -5,5 +5,8 @@
 /// </summary>
 public class CreateApplicationCommand : IRequest<CreateApplicationCommandViewModel>
 {
+    public string Title { get; set; } = "";
     public int AgencyId { get; set; }
+    public string ApplicationType { get; set; }
+    public string ApplicationSubType { get; set; }
 }

@@ -1,3 +1,4 @@
+
 ﻿namespace PresTrust.FloodMitigation.API.Controllers.v1;
 
 [Authorize()]
@@ -88,5 +89,43 @@ public class FloodMitigationController : ApiBaseController
     {
         return Single(await CommandAsync(command));
     }
+[HttpPost("getFeedbacks")]
+        [ProducesResponseType(typeof(IEnumerable<GetFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<IEnumerable<GetFeedbacksQueryViewModel>>> getFeedbacks([FromBody] GetFeedbacksQuery query)
+        {
+            return Single(await QueryAsync(query));
+        }
 
+        [HttpPost("saveFeedback")]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<int>> SaveFeedback([FromBody] SaveFeedbackCommand command)
+        {
+            return Single(await CommandAsync(command));
+        }
+
+        [HttpPost("deleteFeedback")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<bool>> DeleteFeedback([FromBody] DeleteFeedbackCommand command)
+        {
+            return Single(await CommandAsync(command));
+        }
+
+        [HttpPost("markFeedbacksAsRead")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<bool>> MarkFeedbacksAsRead([FromBody] MarkFeedbacksAsReadCommand command)
+        {
+            return Single(await CommandAsync(command));
+        }
 }

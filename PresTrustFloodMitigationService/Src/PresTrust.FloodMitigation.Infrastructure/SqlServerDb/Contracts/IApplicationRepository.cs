@@ -3,6 +3,13 @@
 public interface IApplicationRepository
 {
     /// <summary>
+    /// Get Application by Id
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+    Task<FlmitigApplicationEntity> GetApplicationAsync(int applicationId);
+
+    /// <summary>
     /// Save Application
     /// </summary>
     /// <param name="application"></param>
