@@ -35,7 +35,8 @@ public class ApplicationRepository: IApplicationRepository
                 @p_AgencyId = application.AgencyId,
                 @p_ApplicationTypeId = application.ApplicationTypeId,
                 @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
-                @p_StatusId = application.StatusId
+                @p_StatusId = application.StatusId,
+                @p_LastUpdatedBy = application.LastUpdatedBy,
             });
 
         application.Id = id;

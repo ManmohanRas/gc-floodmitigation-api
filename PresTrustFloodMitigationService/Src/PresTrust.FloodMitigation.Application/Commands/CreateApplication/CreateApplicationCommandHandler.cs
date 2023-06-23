@@ -1,4 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using System.Security.Policy;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
 
 /// <summary>
 /// This class handles the command to update data and build response
@@ -6,20 +8,25 @@
 public class CreateApplicationCommandHandler : IRequestHandler<CreateApplicationCommand, CreateApplicationCommandViewModel>
 {
     private IMapper mapper;
+    private readonly IPresTrustUserContext userContext;
     private readonly IApplicationRepository repoApplication;
+
     public CreateApplicationCommandHandler(
         IMapper  mapper,
+        IPresTrustUserContext userContext,
         IApplicationRepository repoApplication
         ) 
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplication = repoApplication;
     }
+
     public async Task<CreateApplicationCommandViewModel> Handle(CreateApplicationCommand request, CancellationToken cancellationToken)
     {
         var reqApplication = mapper.Map<CreateApplicationCommand, FloodApplicationEntity>(request);
         reqApplication.Status = ApplicationStatusEnum.DOI_DRAFT;
-
+        reqApplication.LastUpdatedBy = userContext.Email;
         reqApplication = await repoApplication.SaveAsync(reqApplication);
         var result = mapper.Map<FloodApplicationEntity, CreateApplicationCommandViewModel>(reqApplication);
         return result;
