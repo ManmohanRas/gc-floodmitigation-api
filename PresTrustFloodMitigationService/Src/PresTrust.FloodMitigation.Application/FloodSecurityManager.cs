@@ -50,7 +50,7 @@ public class FloodSecurityManager
         adminNavigationItems = new List<NavigationItemEntity>();
         postApprovedNavigationItems = new List<NavigationItemEntity>();
 
-        if (userRole == UserRoleEnum.AGENCY_ADMIN)
+        if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
         {
             permission.CanCreateApplication = true;
         }
@@ -59,10 +59,10 @@ public class FloodSecurityManager
         {
             case ApplicationStatusEnum.NONE:
                 break;
-            case ApplicationStatusEnum.DOI_DRAFT:
+            case ApplicationStatusEnum.DECLARATION_OF_INTENT_DRAFT:
                 DeriveDOIDraftStatePermissions();
                 break;
-            case ApplicationStatusEnum.DOI_SUBMITTED:
+            case ApplicationStatusEnum.DECLARATION_OF_INTENT_SUBMITTED:
                 DeriveDOISubmittedStatePermissions();
                 break;
             case ApplicationStatusEnum.DRAFT:

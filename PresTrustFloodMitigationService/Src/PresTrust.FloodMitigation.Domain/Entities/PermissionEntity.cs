@@ -79,7 +79,7 @@ public class PermissionEntity
     public bool CanCloseApplication { get; set; } = false;
     public bool CanRejectApplication { get; set; } = false;
     public bool CanWithdrawApplication { get; set; } = false;
-    public bool CanReinitiate { get; set; } = false;
+    public bool CanReinitiateApplication { get; set; } = false;
 
     //---------------------------------------------------------------------//
     //  Application Details Permissions
