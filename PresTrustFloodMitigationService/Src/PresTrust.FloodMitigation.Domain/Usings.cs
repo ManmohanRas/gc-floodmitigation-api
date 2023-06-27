@@ -10,7 +10,7 @@ global using System.Reflection;
 global using System.Runtime.Serialization;
 global using System.Text;
 global using System.Threading.Tasks;
-
+global using System.Transactions;
 
 //---------------------------------------------- Package Namespaces ----------------------------------------------//
 //================================================================================================================//

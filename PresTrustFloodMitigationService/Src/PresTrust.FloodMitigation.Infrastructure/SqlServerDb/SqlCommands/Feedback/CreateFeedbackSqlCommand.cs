@@ -21,7 +21,7 @@ public class CreateFeedbackSqlCommand
    */
 
     private readonly string _sqlCommand =
-       @"INSERT INTO [Hist].[HistFeedback]
+       @"INSERT INTO [Flood].[FloodFeedback]
                    ([ApplicationId]
                    ,[SectionId]
                    ,[Feedback]

@@ -10,6 +10,10 @@ public class CreateApplicationSqlCommand
                ,[ApplicationTypeId]
                ,[ApplicationSubTypeId]
                ,[StatusId]
+               ,[ExpirationDate]
+               ,[CreatedByProgramAdmin]
+               ,[LastUpdatedBy]
+               ,[LastUpdatedOn]
                )
             VALUES
                (
@@ -18,6 +22,10 @@ public class CreateApplicationSqlCommand
                ,@p_ApplicationTypeId
                ,@p_ApplicationSubTypeId
                ,@p_StatusId
+               ,DATEADD(YEAR, 3, GETDATE())
+               ,@p_CreatedByProgramAdmin
+               ,@p_LastUpdatedBy
+               ,GetDate()
                );
              SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
