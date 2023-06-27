@@ -47,6 +47,22 @@ public class FloodMitigationController : ApiBaseController
         return Single(await QueryAsync(query));
     }
 
+    /// <summary>
+    /// Assign Application Users like Primary Contact, Applicant Contractor
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPost("assignApplicationUsers")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+    public async Task<ActionResult<Unit>> AssignApplicationUsers([FromBody] AssignApplicationUsersCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("getComments")]
     [ProducesResponseType(typeof(IEnumerable<GetCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

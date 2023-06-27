@@ -31,18 +31,21 @@ public class GetApplicationUsersQueryHandler : IRequestHandler<GetApplicationUse
         var usersResult = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
         var vmAgencyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<FloodApplicationUserViewModel>>(usersResult);
 
-        var primaryContacts = await repoApplicationUser.GetPrimaryContactsAsync(request.ApplicationId);
-        var vmPrimaryContacts = mapper.Map<IEnumerable<FloodApplicationUserEntity>, IEnumerable<FloodApplicationUserViewModel>>(primaryContacts);
+        var applicationUsers = await repoApplicationUser.GetApplicationUsersAsync(request.ApplicationId);
+        var vmApplicationUsers = mapper.Map<IEnumerable<FloodApplicationUserEntity>, IEnumerable<FloodApplicationUserViewModel>>(applicationUsers);
 
-        if (vmPrimaryContacts != null && vmPrimaryContacts.Count() > 0)
+        if (vmApplicationUsers != null && vmApplicationUsers.Count() > 0)
         {
-            foreach (var pc in vmPrimaryContacts)
+            foreach (var pc in vmApplicationUsers)
             {
                 foreach (var agencyUser in vmAgencyUsers)
                 {
-                    
-                        agencyUser.IsPrimaryContact = true;
+                    if (string.Compare(agencyUser.Email, pc.Email, true) == 0)
+                    {
                         agencyUser.Id = pc.Id;
+                        agencyUser.IsPrimaryContact =  pc.IsPrimaryContact;
+                        agencyUser.IsAlternateContact = pc.IsAlternateContact;
+                    }
                 }
             }
         }

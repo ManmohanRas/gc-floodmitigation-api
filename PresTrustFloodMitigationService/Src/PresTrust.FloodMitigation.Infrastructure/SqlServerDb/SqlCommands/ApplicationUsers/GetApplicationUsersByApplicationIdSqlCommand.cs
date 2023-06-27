@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class GetPrimaryContactsByApplicationIdSqlCommand
+public class GetApplicationUsersByApplicationIdSqlCommand
 {
     private readonly string _sqlCommand =
         @"      SELECT		 Id
@@ -13,9 +13,10 @@ public class GetPrimaryContactsByApplicationIdSqlCommand
 			                ,Title
 			                ,PhoneNumber
 			                ,IsPrimaryContact
+                            ,IsAlternateContact
                 FROM		[Flood].[FloodApplicationUser]
-                WHERE		ApplicationId = @p_ApplicationId AND ISNULL(IsPrimaryContact,0) = 1;";
-    public GetPrimaryContactsByApplicationIdSqlCommand() { }
+                WHERE		ApplicationId = @p_ApplicationId;";
+    public GetApplicationUsersByApplicationIdSqlCommand() { }
 
     public override string ToString()
     {
