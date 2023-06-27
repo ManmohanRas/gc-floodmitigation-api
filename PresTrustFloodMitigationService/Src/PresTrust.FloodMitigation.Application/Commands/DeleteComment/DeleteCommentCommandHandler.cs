@@ -26,10 +26,7 @@ public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand,
         var reqComment = mapper.Map<DeleteCommentCommand, FloodCommentsEntity>(request);
 
         // delete comment
-        if (reqComment.IsConsultantComment)
-            await repoComment.DeleteConsultantCommentAsync(reqComment);
-        else
-            await repoComment.DeleteCommentAsync(reqComment);
+        await repoComment.DeleteCommentAsync(reqComment);
 
         return true;
     }

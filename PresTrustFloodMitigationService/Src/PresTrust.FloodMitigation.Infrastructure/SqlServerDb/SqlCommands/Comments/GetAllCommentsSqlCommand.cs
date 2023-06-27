@@ -9,7 +9,7 @@ public class GetAllCommentsSqlCommand
                       ,[ApplicationId]
                       ,[LastUpdatedOn]
                       ,[LastUpdatedBy]
-                FROM [Hist].[HistComment] 
+                FROM [Flood].[FloodComment] 
                 WHERE [ApplicationId] = @p_ApplicationId;"
         ;
     public GetAllCommentsSqlCommand()

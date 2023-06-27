@@ -3,7 +3,7 @@
 class UpdateCommentSqlCommand
 {
     private readonly string _sqlCommand =
-       @"  UPDATE [Hist].[HistComment]
+       @"  UPDATE [Flood].[FloodComment]
                 SET Comment = @p_Comment
                     ,CommentTypeId = @p_CommentTypeId
                    ,LastUpdatedBy = @p_LastUpdatedBy
