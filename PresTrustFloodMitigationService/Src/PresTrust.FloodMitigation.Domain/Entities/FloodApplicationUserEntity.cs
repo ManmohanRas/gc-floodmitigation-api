@@ -12,6 +12,7 @@ public class FloodApplicationUserEntity
     public string Title { get; set; }
     public string PhoneNumber { get; set; }
     public bool IsPrimaryContact { get; set; }
+    public bool IsAlternateContact { get; set; }
     public string LastUpdatedBy { get; set; }
     public DateTime LastUpdatedOn { get; set; }
 }

@@ -1,7 +1,17 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
+﻿using PresTrust.FloodMitigation.Domain.Enums;
+
+namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
 
 public interface IApplicationRepository
 {
+    /// <summary>
+    /// Procedure to fetch applications
+    /// </summary>
+    /// <param name="agencyIds"></param>
+    /// <param name="isExternalUser"></param>
+    /// <returns>Returns application collection</returns>
+    Task<IEnumerable<FloodApplicationEntity>> GetApplicationsByAgenciesAsync(List<int> agencyIds, bool isExternalUser);
+
     /// <summary>
     /// Get Application by Id
     /// </summary>

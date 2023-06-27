@@ -50,7 +50,7 @@ public class FloodSecurityManager
         adminNavigationItems = new List<NavigationItemEntity>();
         postApprovedNavigationItems = new List<NavigationItemEntity>();
 
-        if (userRole == UserRoleEnum.AGENCY_ADMIN)
+        if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
         {
             permission.CanCreateApplication = true;
         }

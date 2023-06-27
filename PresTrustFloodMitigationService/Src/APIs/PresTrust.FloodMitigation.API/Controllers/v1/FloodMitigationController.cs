@@ -37,6 +37,16 @@ public class FloodMitigationController : ApiBaseController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("getApplications")]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetApplicationsQueryViewModel>>> GetApplicationUsers([FromBody] GetApplicationsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
     [HttpPost("getApplicationUsers")]
     [ProducesResponseType(typeof(IEnumerable<FloodApplicationUserViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -45,6 +55,22 @@ public class FloodMitigationController : ApiBaseController
     public async Task<ActionResult<IEnumerable<FloodApplicationUserViewModel>>> GetApplicationUsers([FromBody] GetApplicationUsersQuery query)
     {
         return Single(await QueryAsync(query));
+    }
+
+    /// <summary>
+    /// Assign Application Users like Primary Contact, Applicant Contractor
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPost("assignApplicationUsers")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+    public async Task<ActionResult<Unit>> AssignApplicationUsers([FromBody] AssignApplicationUsersCommand command)
+    {
+        return Single(await CommandAsync(command));
     }
 
     [HttpPost("getComments")]
