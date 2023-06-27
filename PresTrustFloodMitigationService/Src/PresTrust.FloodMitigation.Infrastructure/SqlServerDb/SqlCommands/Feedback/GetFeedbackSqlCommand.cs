@@ -20,7 +20,7 @@
 							  ,[MarkRead]
 							  ,[LastUpdatedBy]
 							  ,[LastUpdatedOn]
-				FROM		   [Hist].[HistFeedback]
+				FROM		  [Flood].[FloodFeedback]
 				WHERE		   ApplicationId = @p_ApplicationId
 							   AND CorrectionStatus = CASE WHEN @p_CorrectionStatus = '' THEN CorrectionStatus ELSE @p_CorrectionStatus END;";
 
