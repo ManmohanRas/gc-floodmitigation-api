@@ -11,6 +11,7 @@ public class CreateApplicationSqlCommand
                ,[ApplicationSubTypeId]
                ,[StatusId]
                ,[ExpirationDate]
+               ,[CreatedByProgramAdmin]
                ,[LastUpdatedBy]
                ,[LastUpdatedOn]
                )
@@ -22,6 +23,7 @@ public class CreateApplicationSqlCommand
                ,@p_ApplicationSubTypeId
                ,@p_StatusId
                ,DATEADD(YEAR, 3, GETDATE())
+               ,@p_CreatedByProgramAdmin
                ,@p_LastUpdatedBy
                ,GetDate()
                );

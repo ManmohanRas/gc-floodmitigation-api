@@ -59,10 +59,10 @@ public class FloodSecurityManager
         {
             case ApplicationStatusEnum.NONE:
                 break;
-            case ApplicationStatusEnum.DECLARATION_OF_INTENT_DRAFT:
+            case ApplicationStatusEnum.DOI_DRAFT:
                 DeriveDOIDraftStatePermissions();
                 break;
-            case ApplicationStatusEnum.DECLARATION_OF_INTENT_SUBMITTED:
+            case ApplicationStatusEnum.DOI_SUBMITTED:
                 DeriveDOISubmittedStatePermissions();
                 break;
             case ApplicationStatusEnum.DRAFT:

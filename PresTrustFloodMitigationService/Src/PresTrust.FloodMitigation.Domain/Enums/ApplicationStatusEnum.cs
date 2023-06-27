@@ -10,12 +10,12 @@ public enum ApplicationStatusEnum
     /// <summary>
     /// Application Status Type for DOI Draft
     /// </summary>
-    DECLARATION_OF_INTENT_DRAFT = 1,
+    DOI_DRAFT = 1,
 
     /// <summary>
     /// Application Status Type for DOI Submitted
     /// </summary>
-    DECLARATION_OF_INTENT_SUBMITTED = 2,
+    DOI_SUBMITTED = 2,
 
     /// <summary>
     /// Application Status Type for Draft

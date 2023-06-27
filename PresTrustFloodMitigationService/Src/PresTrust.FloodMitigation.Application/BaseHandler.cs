@@ -7,7 +7,7 @@ public class BaseHandler
     private PermissionEntity permission = default;
     private IApplicationRepository repoApplication;
 
-    public BaseHandler(IApplicationRepository repoApplication)
+    public BaseHandler(IApplicationRepository repoApplication = null)
     {
         this.repoApplication = repoApplication;
     }
@@ -164,10 +164,10 @@ public class BaseHandler
                 if (enumPermission == UserPermissionEnum.CREATE_APPLICATION)
                     isValidOperation = true;
                 break;
-            case ApplicationStatusEnum.DECLARATION_OF_INTENT_DRAFT:
+            case ApplicationStatusEnum.DOI_DRAFT:
                 isValidOperation = DOIDraftStatePermission(enumPermission);
                 break;
-            case ApplicationStatusEnum.DECLARATION_OF_INTENT_SUBMITTED:
+            case ApplicationStatusEnum.DOI_SUBMITTED:
                 isValidOperation = DOISubmittedStatePermission(enumPermission);
                 break;
             case ApplicationStatusEnum.DRAFT:

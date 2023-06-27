@@ -1,5 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-internal class GetApplicationsQueryValidator
+public class GetApplicationsQueryValidator
 {
 }

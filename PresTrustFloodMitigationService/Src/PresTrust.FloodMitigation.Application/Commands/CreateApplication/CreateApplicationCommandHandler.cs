@@ -27,7 +27,8 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
         AuthorizationCheck(request);
 
         var reqApplication = mapper.Map<CreateApplicationCommand, FloodApplicationEntity>(request);
-        reqApplication.Status = ApplicationStatusEnum.DECLARATION_OF_INTENT_DRAFT;
+        reqApplication.Status = ApplicationStatusEnum.DOI_DRAFT;
+        reqApplication.CreatedByProgramAdmin = userContext.Role == UserRoleEnum.PROGRAM_ADMIN;
         reqApplication.LastUpdatedBy = userContext.Email;
         reqApplication = await repoApplication.SaveAsync(reqApplication);
         

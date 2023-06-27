@@ -37,6 +37,16 @@ public class FloodMitigationController : ApiBaseController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("getApplications")]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetApplicationsQueryViewModel>>> GetApplicationUsers([FromBody] GetApplicationsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
     [HttpPost("getApplicationUsers")]
     [ProducesResponseType(typeof(IEnumerable<FloodApplicationUserViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
