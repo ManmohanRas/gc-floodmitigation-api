@@ -4,7 +4,8 @@ public class GetApplicationUsersQueryMappingProfile: Profile
 {
     public GetApplicationUsersQueryMappingProfile()
     {
-        CreateMap<IdentityApiUser, FloodApplicationUserViewModel>();
+        CreateMap<IdentityApiUser, FloodApplicationUserViewModel>()
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.UserRole));
 
         CreateMap<FloodApplicationUserEntity, FloodApplicationUserViewModel>();
     }
