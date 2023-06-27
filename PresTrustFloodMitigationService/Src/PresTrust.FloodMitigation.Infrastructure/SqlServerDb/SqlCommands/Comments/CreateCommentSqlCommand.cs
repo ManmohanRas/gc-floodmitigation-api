@@ -3,12 +3,11 @@
 public class CreateCommentSqlCommand
 {
     private readonly string _sqlCommand =
-        @"INSERT INTO [Hist].[HistComment]
+                    @"INSERT INTO [Flood].[FloodComment]
               (
                  Comment
                 ,CommentTypeId
                 ,ApplicationId
-                ,MarkRead
                 ,LastUpdatedBy
                 ,LastUpdatedOn
               )
@@ -16,7 +15,6 @@ public class CreateCommentSqlCommand
                 @p_Comment
                ,@p_CommentTypeId
                ,@p_ApplicationId
-               ,@p_MarkRead
                ,@p_LastUpdatedBy
                ,GetDate());
 

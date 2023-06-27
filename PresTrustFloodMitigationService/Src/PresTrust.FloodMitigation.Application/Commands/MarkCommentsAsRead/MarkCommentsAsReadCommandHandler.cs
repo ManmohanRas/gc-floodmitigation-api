@@ -19,7 +19,7 @@ public class MarkCommentsAsReadCommandHandler : IRequestHandler<MarkCommentsAsRe
     {
         if (userContext.Role == UserRoleEnum.PROGRAM_ADMIN)
         {
-            await repoComment.MarkConsultantCommentsAsReadAsync(request.CommentIds);
+          //  await repoComment.MarkConsultantCommentsAsReadAsync(request.CommentIds);
         }
         return true;
     }

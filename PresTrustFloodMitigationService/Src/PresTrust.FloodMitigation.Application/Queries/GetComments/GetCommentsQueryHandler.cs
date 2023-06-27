@@ -15,10 +15,8 @@ public class GetCommentsQueryHandler : IRequestHandler<GetCommentsQuery, IEnumer
     public async Task<IEnumerable<GetCommentsQueryViewModel>> Handle(GetCommentsQuery request, CancellationToken cancellationToken)
     {
         IEnumerable<FloodCommentsEntity> results = default;
-        if (request.IsConsultantComment)
-            results = await this.repoComment.GetAllConsultantCommentsAsync(request.ApplicationId);
-        else
-            results = await this.repoComment.GetAllCommentsAsync(request.ApplicationId);
+     
+        results = await this.repoComment.GetAllCommentsAsync(request.ApplicationId);
 
         var comments = mapper.Map<IEnumerable<FloodCommentsEntity>, IEnumerable<GetCommentsQueryViewModel>>(results);
 

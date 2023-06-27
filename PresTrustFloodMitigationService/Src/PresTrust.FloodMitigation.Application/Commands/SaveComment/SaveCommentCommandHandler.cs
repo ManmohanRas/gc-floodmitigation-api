@@ -28,15 +28,11 @@ public class SaveCommentCommandHandler : IRequestHandler<SaveCommentCommand, int
     {
         
         var reqComment = mapper.Map<SaveCommentCommand, FloodCommentsEntity>(request);
-        reqComment.LastUpdatedBy = userContext.Email;
+        
 
         // save comment
         FloodCommentsEntity comment = default;
-
-        if (reqComment.IsConsultantComment)
-            comment = await this.repoComment.SaveConsultantCommentAsync(reqComment);
-        else
-            comment = await this.repoComment.SaveAsync(reqComment);
+        comment = await this.repoComment.SaveAsync(reqComment);
 
         return comment.Id;
     }
