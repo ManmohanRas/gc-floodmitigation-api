@@ -18,9 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SqlServerDb\SqlCommands\Applications\" />
     <Folder Include="SqlServerDb\SqlCommands\Declaration\" />
-    <Folder Include="SqlServerDb\SqlCommands\NewFolder\" />
   </ItemGroup>
 
 </Project>

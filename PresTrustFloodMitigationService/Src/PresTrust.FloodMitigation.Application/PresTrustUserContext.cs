@@ -66,6 +66,7 @@ public sealed class PresTrustUserContext : IPresTrustUserContext
         userProfile.Role = UserRoleEnum.NONE;
 
         this.accessToken = accessor.HttpContext.GetTokenAsync("access_token").GetAwaiter().GetResult();
+
         //userProfile.Email = this.accessor.HttpContext.User.FindFirst(IdentityClaimTypes.EMAIL)?.Value;
         //userProfile.Name = this.accessor.HttpContext.User.FindFirst(IdentityClaimTypes.NAME)?.Value;
 
@@ -103,6 +104,7 @@ public sealed class PresTrustUserContext : IPresTrustUserContext
                     if (!string.IsNullOrEmpty(c.Value) && int.TryParse(c.Value, out number))
                     {
                         userProfile.AgencyIds.Add(number);
+                        userProfile.Role = UserRoleEnum.AGENCY_ADMIN;
                         agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_ADMIN });
                     }
 
@@ -111,6 +113,7 @@ public sealed class PresTrustUserContext : IPresTrustUserContext
                     if (!string.IsNullOrEmpty(c.Value) && int.TryParse(c.Value, out number))
                     {
                         userProfile.AgencyIds.Add(number);
+                        userProfile.Role = UserRoleEnum.AGENCY_EDITOR;
                         agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_EDITOR });
                     }
                     break;
@@ -118,6 +121,7 @@ public sealed class PresTrustUserContext : IPresTrustUserContext
                     if (!string.IsNullOrEmpty(c.Value) && int.TryParse(c.Value, out number))
                     {
                         userProfile.AgencyIds.Add(number);
+                        userProfile.Role = UserRoleEnum.AGENCY_SIGNATORY;
                         agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_SIGNATORY });
                     }
                     break;
@@ -125,6 +129,7 @@ public sealed class PresTrustUserContext : IPresTrustUserContext
                     if (!string.IsNullOrEmpty(c.Value) && int.TryParse(c.Value, out number))
                     {
                         userProfile.AgencyIds.Add(number);
+                        userProfile.Role = UserRoleEnum.AGENCY_READONLY;
                         agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_READONLY });
                     }
                     break;
