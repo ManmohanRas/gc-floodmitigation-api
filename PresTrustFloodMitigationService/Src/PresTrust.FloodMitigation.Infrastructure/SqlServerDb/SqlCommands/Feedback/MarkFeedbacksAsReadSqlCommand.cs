@@ -3,7 +3,7 @@
 internal class MarkFeedbacksAsReadSqlCommand
 {
     private readonly string _sqlCommand =
-       @"UPDATE		       [Hist].[HistFeedback]
+       @"UPDATE		       [Flood].[FloodFeedback]
              SET			   [MarkRead] = 1
              WHERE		       Id IN @p_FeedbackIds;";
 

@@ -1,6 +1,8 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using PresTrust.FloodMitigation.Application.Queries;
 
-public class SaveFeedbackCommandHandler
+namespace PresTrust.FloodMitigation.Application.Commands;
+
+public class SaveFeedbackCommandHandler : IRequestHandler<SaveFeedbackCommand, int>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -43,7 +45,6 @@ public class SaveFeedbackCommandHandler
         // get application details
         //var application = await GetIfApplicationExists(request.ApplicationId);
        
-
         var feedback = mapper.Map<SaveFeedbackCommand, FloodFeedbackEntity>(request);
         feedback.LastUpdatedBy = userContext.Email;
         feedback.CorrectionStatus = feedback.Section == ApplicationSectionEnum.NONE ? ApplicationCorrectionStatusEnum.NONE.ToString() : ApplicationCorrectionStatusEnum.PENDING.ToString();

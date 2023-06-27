@@ -1,5 +1,9 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-internal class RequestForApplicationCorrectionCommand
+/// <summary>
+/// This class represents api's command input model and returns the response object
+/// </summary>
+public class RequestForApplicationCorrectionCommand : IRequest<bool>
 {
+    public int ApplicationId { get; set; }
 }

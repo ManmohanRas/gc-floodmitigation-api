@@ -4,7 +4,7 @@ internal class DeleteFeedbackSqlCommand
 {
     private readonly string _sqlCommand =
        @"DELETE 
-              FROM [Hist].[HistFeedback]
+              FROM [Flood].[FloodFeedback]
               WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId;";
 
     public DeleteFeedbackSqlCommand() { }
