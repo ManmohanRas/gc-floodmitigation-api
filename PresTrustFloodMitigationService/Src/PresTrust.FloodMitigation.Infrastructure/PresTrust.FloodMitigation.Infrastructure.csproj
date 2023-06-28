@@ -8,11 +8,8 @@
 
   <ItemGroup>
     <Compile Remove="SqlServerDb\SqlCommands\Declaration\**" />
-    <Compile Remove="SqlServerDb\SqlCommands\NewFolder\**" />
     <EmbeddedResource Remove="SqlServerDb\SqlCommands\Declaration\**" />
-    <EmbeddedResource Remove="SqlServerDb\SqlCommands\NewFolder\**" />
     <None Remove="SqlServerDb\SqlCommands\Declaration\**" />
-    <None Remove="SqlServerDb\SqlCommands\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="SqlServerDb\SqlCommands\Applications\" />
-    <Folder Include="SqlServerDb\SqlCommands\Declaration\" />
   </ItemGroup>
 
 </Project>
