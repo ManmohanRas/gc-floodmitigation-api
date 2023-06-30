@@ -15,19 +15,19 @@ public class CommentRepository : ICommentRepository
         this.systemParamConfig = systemParamConfigOptions.Value;
     }
 
-    public async Task<IEnumerable<FloodCommentsEntity>> GetAllCommentsAsync(int applicationId)
+    public async Task<IEnumerable<FloodCommentEntity>> GetAllCommentsAsync(int applicationId)
     {
-        IEnumerable<FloodCommentsEntity> results;
+        IEnumerable<FloodCommentEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetAllCommentsSqlCommand();
-        results = await conn.QueryAsync<FloodCommentsEntity>(sqlCommand.ToString(),
+        results = await conn.QueryAsync<FloodCommentEntity>(sqlCommand.ToString(),
             commandType:CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new { @p_ApplicationId = applicationId });
         return results;
     }
 
-    public async Task<FloodCommentsEntity> SaveAsync(FloodCommentsEntity comment)
+    public async Task<FloodCommentEntity> SaveAsync(FloodCommentEntity comment)
     {
         if (comment.Id > 0)
             return await UpdateAsync(comment);
@@ -35,7 +35,7 @@ public class CommentRepository : ICommentRepository
             return await CreateAsync(comment);
     }
 
-    private async Task<FloodCommentsEntity> UpdateAsync(FloodCommentsEntity comment)
+    private async Task<FloodCommentEntity> UpdateAsync(FloodCommentEntity comment)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new UpdateCommentSqlCommand();
@@ -54,7 +54,7 @@ public class CommentRepository : ICommentRepository
 
         return comment;
     }
-    private async Task<FloodCommentsEntity> CreateAsync(FloodCommentsEntity comment)
+    private async Task<FloodCommentEntity> CreateAsync(FloodCommentEntity comment)
     {
         int id = default;
 
@@ -68,7 +68,6 @@ public class CommentRepository : ICommentRepository
                 @p_Comment = comment.Comment,
                 @p_CommentTypeId = comment.CommentTypeId,
                 @p_ApplicationId = comment.ApplicationId,
-                @p_MarkRead = comment.MarkRead,
                 @p_LastUpdatedBy = comment.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
             });
@@ -78,7 +77,7 @@ public class CommentRepository : ICommentRepository
         return comment;
     }
 
-    public async Task DeleteCommentAsync(FloodCommentsEntity comment)
+    public async Task DeleteCommentAsync(FloodCommentEntity comment)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new DeleteCommentSqlCommand();

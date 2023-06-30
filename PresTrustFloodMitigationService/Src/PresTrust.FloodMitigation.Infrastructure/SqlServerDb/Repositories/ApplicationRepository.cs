@@ -7,8 +7,7 @@ public class ApplicationRepository: IApplicationRepository
     private readonly PresTrustSqlDbContext context;
     protected readonly SystemParameterConfiguration systemParamConfig;
 
-    public ApplicationRepository
-        (
+    public ApplicationRepository (
         PresTrustSqlDbContext context, 
         IOptions<SystemParameterConfiguration> systemParamConfigOptions
         )
@@ -17,12 +16,6 @@ public class ApplicationRepository: IApplicationRepository
         this.systemParamConfig = systemParamConfigOptions.Value;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="agencyIds"></param>
-    /// <param name="isExternalUser"></param>
-    /// <returns></returns>
     public async Task<IEnumerable<FloodApplicationEntity>> GetApplicationsByAgenciesAsync(List<int> agencyIds, bool isExternalUser)
     {
         IEnumerable<FloodApplicationEntity> results = default;
@@ -51,8 +44,16 @@ public class ApplicationRepository: IApplicationRepository
 
     public async Task<FloodApplicationEntity> GetApplicationAsync(int applicationId)
     {
-        return new FloodApplicationEntity();
+        FloodApplicationEntity result = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetApplicationSqlCommand();
+        var results = await conn.QueryAsync<FloodApplicationEntity>(sqlCommand.ToString(),
+                            commandType: CommandType.Text,
+                            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                            param: new { @p_Id = applicationId });
+        result = results.FirstOrDefault();
 
+        return result;
     }
 
     public async Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application)
@@ -79,5 +80,4 @@ public class ApplicationRepository: IApplicationRepository
 
         return application;
     }
-
 }

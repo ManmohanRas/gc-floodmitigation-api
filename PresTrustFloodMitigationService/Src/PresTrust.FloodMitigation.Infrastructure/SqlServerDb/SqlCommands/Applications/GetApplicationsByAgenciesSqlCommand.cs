@@ -32,8 +32,8 @@ public class GetApplicationsByAgenciesSqlCommand
 					JOIN [AgencyCTE] A ON F.[AgencyId] = A.[AgencyId]
 					INNER JOIN @p_IdTableType tblAgencies
 								ON (tblAgencies.Id = F.AgencyId)
-					WHERE [IsActive] = 1
-					ORDER BY [ExpirationDate] ASC;
+					WHERE F.[IsActive] = 1
+					ORDER BY F.[ExpirationDate] ASC;
 			END
 			ELSE
 			BEGIN
@@ -62,8 +62,8 @@ public class GetApplicationsByAgenciesSqlCommand
 						F.[CreatedByProgramAdmin]
 					FROM [Flood].[FloodApplication] F
 					JOIN [AgencyCTE] A ON F.[AgencyId] = A.[AgencyId]
-					WHERE [IsActive] = 1
-					ORDER BY [ExpirationDate] ASC;
+					WHERE F.[IsActive] = 1
+					ORDER BY F.[ExpirationDate] ASC;
 			END;";
 
     public GetApplicationsByAgenciesSqlCommand() { }
