@@ -3,7 +3,7 @@
 /// <summary>
 /// This class handles the query to fetch data and build response
 /// </summary>
-public class GetApplicationUsersQueryHandler : IRequestHandler<GetApplicationUsersQuery, IEnumerable<FloodApplicationUserViewModel>>
+public class GetApplicationUsersQueryHandler : BaseHandler, IRequestHandler<GetApplicationUsersQuery, IEnumerable<FloodApplicationUserViewModel>>
 {
     private IMapper mapper;
     private readonly SystemParameterConfiguration systemParamOptions;
@@ -15,8 +15,9 @@ public class GetApplicationUsersQueryHandler : IRequestHandler<GetApplicationUse
         IMapper mapper,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IIdentityApiConnect identityApiConnect,
+        IApplicationRepository repoApplication,
         IApplicationUserRepository repoApplicationUser
-        )
+        ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.systemParamOptions = systemParamOptions.Value;
@@ -26,29 +27,40 @@ public class GetApplicationUsersQueryHandler : IRequestHandler<GetApplicationUse
 
     public async Task<IEnumerable<FloodApplicationUserViewModel>> Handle(GetApplicationUsersQuery request, CancellationToken cancellationToken)
     {
-        // get identity users by agency id
-        var endPoint = $"{systemParamOptions.IdentityApiSubDomain}/UserAdmin/users/pres-trust/flood/1401";
-        var usersResult = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
-        var vmAgencyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<FloodApplicationUserViewModel>>(usersResult);
+        // get application details
+        var application = await GetIfApplicationExists(request.ApplicationId);
 
-        var applicationUsers = await repoApplicationUser.GetApplicationUsersAsync(request.ApplicationId);
-        var vmApplicationUsers = mapper.Map<IEnumerable<FloodApplicationUserEntity>, IEnumerable<FloodApplicationUserViewModel>>(applicationUsers);
-
-        if (vmApplicationUsers != null && vmApplicationUsers.Count() > 0)
+        try
         {
-            foreach (var pc in vmApplicationUsers)
+            // get identity users by agency id
+            var endPoint = $"{systemParamOptions.IdentityApiSubDomain}/UserAdmin/users/pres-trust/flood/{application.AgencyId}";
+            var usersResult = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
+            var vmAgencyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<FloodApplicationUserViewModel>>(usersResult);
+
+            var applicationUsers = await repoApplicationUser.GetApplicationUsersAsync(request.ApplicationId);
+            var vmApplicationUsers = mapper.Map<IEnumerable<FloodApplicationUserEntity>, IEnumerable<FloodApplicationUserViewModel>>(applicationUsers);
+
+            if (vmApplicationUsers != null && vmApplicationUsers.Count() > 0)
             {
-                foreach (var agencyUser in vmAgencyUsers)
+                foreach (var pc in vmApplicationUsers)
                 {
-                    if (string.Compare(agencyUser.Email, pc.Email, true) == 0)
+                    foreach (var agencyUser in vmAgencyUsers)
                     {
-                        agencyUser.Id = pc.Id;
-                        agencyUser.IsPrimaryContact =  pc.IsPrimaryContact;
-                        agencyUser.IsAlternateContact = pc.IsAlternateContact;
+                        if (string.Compare(agencyUser.Email, pc.Email, true) == 0)
+                        {
+                            agencyUser.Id = pc.Id;
+                            agencyUser.IsPrimaryContact = pc.IsPrimaryContact;
+                            agencyUser.IsAlternateContact = pc.IsAlternateContact;
+                        }
                     }
                 }
             }
+            return vmAgencyUsers;
         }
-        return vmAgencyUsers;
+        catch (Exception ex)
+        {
+            return new List<FloodApplicationUserViewModel>();
+        }
+        
     }
 }
