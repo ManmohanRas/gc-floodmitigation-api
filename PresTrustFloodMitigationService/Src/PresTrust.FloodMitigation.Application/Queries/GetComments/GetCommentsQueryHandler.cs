@@ -14,11 +14,11 @@ public class GetCommentsQueryHandler : IRequestHandler<GetCommentsQuery, IEnumer
 
     public async Task<IEnumerable<GetCommentsQueryViewModel>> Handle(GetCommentsQuery request, CancellationToken cancellationToken)
     {
-        IEnumerable<FloodCommentsEntity> results = default;
+        IEnumerable<FloodCommentEntity> results = default;
      
         results = await this.repoComment.GetAllCommentsAsync(request.ApplicationId);
 
-        var comments = mapper.Map<IEnumerable<FloodCommentsEntity>, IEnumerable<GetCommentsQueryViewModel>>(results);
+        var comments = mapper.Map<IEnumerable<FloodCommentEntity>, IEnumerable<GetCommentsQueryViewModel>>(results);
 
         return comments;
     }

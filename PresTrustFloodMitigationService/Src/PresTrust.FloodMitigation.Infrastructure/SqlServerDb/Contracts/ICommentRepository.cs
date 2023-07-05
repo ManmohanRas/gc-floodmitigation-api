@@ -7,7 +7,7 @@ public interface ICommentRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Comments.</returns>
-    Task<IEnumerable<FloodCommentsEntity>> GetAllCommentsAsync(int applicationId);
+    Task<IEnumerable<FloodCommentEntity>> GetAllCommentsAsync(int applicationId);
 
    
     /// <summary>
@@ -15,11 +15,11 @@ public interface ICommentRepository
     /// </summary>
     /// <param name="comment"></param>
     /// <returns></returns>
-    Task<FloodCommentsEntity> SaveAsync(FloodCommentsEntity comment);
+    Task<FloodCommentEntity> SaveAsync(FloodCommentEntity comment);
     
     /// <summary>
     /// Delete Comment.
     /// </summary>
     /// <returns></returns>
-    Task DeleteCommentAsync(FloodCommentsEntity comment);
+    Task DeleteCommentAsync(FloodCommentEntity comment);
 }

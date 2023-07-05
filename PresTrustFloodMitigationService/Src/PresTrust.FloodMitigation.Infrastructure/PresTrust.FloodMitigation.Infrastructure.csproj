@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="SqlServerDb\SqlCommands\Applications\" />
+    <Folder Include="SqlServerDb\SqlCommands\Declaration\" />
   </ItemGroup>
 
 </Project>

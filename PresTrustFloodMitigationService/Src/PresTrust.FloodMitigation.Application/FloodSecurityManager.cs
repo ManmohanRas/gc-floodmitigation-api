@@ -93,7 +93,57 @@ public class FloodSecurityManager
 
     private void DeriveDOIDraftStatePermissions()
     {
-        throw new NotImplementedException();
+        switch (userRole)
+        {
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanSubmitDeclarationOfIntent = true;
+                permission.CanWithdrawApplication = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+
+                DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
+
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_EDITOR:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                permission.CanSubmitDeclarationOfIntent = false;
+                permission.CanWithdrawApplication = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+
+                DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
+
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_SIGNATORY:
+            case UserRoleEnum.AGENCY_READONLY:
+            case UserRoleEnum.PROGRAM_READONLY:
+            case UserRoleEnum.SYSTEM_ADMIN:
+                DeclarationOfIntent();
+
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+
+                break;
+            default:
+                break;
+        }
     }
 
     private void DeriveDOISubmittedStatePermissions()
@@ -134,5 +184,22 @@ public class FloodSecurityManager
     private void DeriveWithdrawnStatePermissions()
     {
         throw new NotImplementedException();
+    }
+
+    private void DeclarationOfIntent(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewDeclarationOfIntentSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.DECLARATION_OF_INTENT, RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW, SortOrder = 1, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditDeclarationOfIntentSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.DECLARATION_OF_INTENT, RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT, SortOrder = 1, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
     }
 }

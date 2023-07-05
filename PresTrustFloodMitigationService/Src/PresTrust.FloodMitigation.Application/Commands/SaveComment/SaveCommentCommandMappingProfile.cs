@@ -4,6 +4,6 @@ public class SaveCommentCommandMappingProfile : Profile
 {
     public SaveCommentCommandMappingProfile() 
     {
-        CreateMap<SaveCommentCommand, FloodCommentsEntity>();
+        CreateMap<SaveCommentCommand, FloodCommentEntity>();
     }
 }
