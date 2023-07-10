@@ -1,6 +1,4 @@
-﻿using System.Security;
-
-namespace PresTrust.FloodMitigation.Application.Queries;
+﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
 public class GetApplicationDetailsQueryHandler : BaseHandler, IRequestHandler<GetApplicationDetailsQuery, GetApplicationDetailsQueryViewModel>
 {

@@ -1,7 +1,7 @@
 ﻿namespace PresTrust.FloodMitigation.Domain.Enums;
 
 /// <summary>
-/// Historic Preservation User Permissions
+/// Flood Mitigation User Permissions
 /// </summary>
 public enum UserPermissionEnum
 {
