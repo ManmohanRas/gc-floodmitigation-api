@@ -81,9 +81,9 @@
                         commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                         param: new {
                             @p_AgencyId = agencyId,
-                            @p_Block = string.Format("%{0}%", block),
-                            @p_Lot = string.Format("%{0}%", lot),
-                            @p_Address = string.Format("%{0}%", address)
+                            @p_Block = string.Format("%{0}%", block ?? string.Empty),
+                            @p_Lot = string.Format("%{0}%", lot ?? string.Empty),
+                            @p_Address = string.Format("%{0}%", address ?? string.Empty)
                         });
 
             return results;

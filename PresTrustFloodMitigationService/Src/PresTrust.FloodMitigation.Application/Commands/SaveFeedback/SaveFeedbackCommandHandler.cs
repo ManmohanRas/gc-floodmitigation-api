@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Application.Queries;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SaveFeedbackCommandHandler : IRequestHandler<SaveFeedbackCommand, int>
 {
