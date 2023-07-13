@@ -27,7 +27,7 @@ public class GetDocumentsBySectionDetailsQueryHandler : BaseHandler, IRequestHan
 
         List<DocumentTypeViewModel>? documentsTree = default;
 
-        if (documents != null)
+        if (documents.Count() > 0)
         {
             var docBuilder = new DocumentTreeBuilder(documents);
             documentsTree = docBuilder.DocumentsTree;
