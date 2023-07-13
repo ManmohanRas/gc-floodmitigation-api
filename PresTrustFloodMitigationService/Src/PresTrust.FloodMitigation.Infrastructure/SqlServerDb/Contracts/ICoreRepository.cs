@@ -19,4 +19,13 @@ public interface ICoreRepository
     /// <param name="pamsPin"></param>
     /// <returns></returns>
     Task<bool> IsValidPamsPinAsync(string pamsPin);
+    /// <summary>
+    /// Procedure to get list of Parcels
+    /// </summary>
+    /// <param name="agencyId"></param>
+    /// <param name="block"></param>
+    /// <param name="lot"></param>
+    /// <param name="address"></param>
+    /// <returns></returns>
+    Task<IEnumerable<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address);
 }

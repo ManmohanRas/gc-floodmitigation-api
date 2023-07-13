@@ -70,5 +70,23 @@
 
             return result;
         }
+
+        public async Task<IEnumerable<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address)
+        {
+            IEnumerable<FloodParcelEntity> results = default;
+            using var conn = context.CreateConnection();
+            var sqlCommand = new GetFloodParcelsByFilterSqlCommand();
+            results = await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
+                        commandType: CommandType.Text,
+                        commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                        param: new {
+                            @p_AgencyId = agencyId,
+                            @p_Block = string.Format("%{0}%", block ?? string.Empty),
+                            @p_Lot = string.Format("%{0}%", lot ?? string.Empty),
+                            @p_Address = string.Format("%{0}%", address ?? string.Empty)
+                        });
+
+            return results;
+        }
     }
 }

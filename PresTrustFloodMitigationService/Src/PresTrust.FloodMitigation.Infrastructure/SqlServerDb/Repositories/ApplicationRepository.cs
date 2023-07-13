@@ -1,4 +1,5 @@
-﻿using PresTrust.FloodMitigation.Domain.Enums;
+﻿using Dapper;
+using PresTrust.FloodMitigation.Domain.Enums;
 
 namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
@@ -79,5 +80,27 @@ public class ApplicationRepository: IApplicationRepository
         application.Id = id;
 
         return application;
+    }
+
+    public async Task<bool> SaveStatusLogAsync(FloodApplicationStatusLogEntity applicationStatusLog)
+    {
+        bool result = false;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new CreateApplicationStatusLogSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationStatusLog.ApplicationId,
+                @p_StatusId = applicationStatusLog.StatusId,
+                @p_StatusDate = applicationStatusLog.StatusDate,
+                @p_Notes = applicationStatusLog.Notes,
+                @p_LastUpdatedBy = applicationStatusLog.LastUpdatedBy,
+            });
+
+        result = true;
+        return result;
     }
 }

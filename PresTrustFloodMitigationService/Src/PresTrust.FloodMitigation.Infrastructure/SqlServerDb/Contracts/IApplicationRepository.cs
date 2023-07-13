@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Domain.Enums;
-
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
 
 public interface IApplicationRepository
 {
@@ -25,4 +23,11 @@ public interface IApplicationRepository
     /// <param name="application"></param>
     /// <returns></returns>
     Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application);
+
+    /// <summary>
+    /// Save Application Status Log
+    /// </summary>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    Task<bool> SaveStatusLogAsync(FloodApplicationStatusLogEntity applicationStatusLog);
 }

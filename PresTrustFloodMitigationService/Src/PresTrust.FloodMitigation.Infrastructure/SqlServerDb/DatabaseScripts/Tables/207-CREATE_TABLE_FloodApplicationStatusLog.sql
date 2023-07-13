@@ -2,7 +2,7 @@
 IF OBJECT_ID('[Flood].[FloodApplicationStatusLog]') IS NOT NULL
 BEGIN
 	-- Drop Constraints
-	ALTER TABLE [Flood].[FloodApplicationStatusLog] DROP CONSTRAINT IF EXISTS  [FK_ApplicationId_FloodApplicationStatusLog];
+	--ALTER TABLE [Flood].[FloodApplicationStatusLog] DROP CONSTRAINT IF EXISTS  [FK_ApplicationId_FloodApplicationStatusLog];
 	
 	ALTER TABLE [Flood].[FloodApplicationStatusLog] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodApplicationStatusLog];
 
@@ -31,8 +31,8 @@ CONSTRAINT [PK_FloodApplicationStatusLog_Id] PRIMARY KEY CLUSTERED
 GO
 
 -- Create Constraints
-ALTER TABLE [Flood].[FloodApplicationStatusLog] ADD CONSTRAINT [FK_ApplicationId_FloodApplicationStatusLog]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
-GO 
+--ALTER TABLE [Flood].[FloodApplicationStatusLog] ADD CONSTRAINT [FK_ApplicationId_FloodApplicationStatusLog]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
+--GO 
 
 ALTER TABLE [Flood].[FloodApplicationStatusLog] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodApplicationStatusLog]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
 GO  
