@@ -1,4 +1,4 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Documents;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
 public class SaveDocumentSqlCommand
 {

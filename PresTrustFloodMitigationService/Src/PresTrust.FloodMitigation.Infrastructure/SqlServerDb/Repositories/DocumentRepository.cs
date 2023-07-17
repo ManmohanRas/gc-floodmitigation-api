@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Documents;
-
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
 public class DocumentRepository: IDocumentRepository
 {
