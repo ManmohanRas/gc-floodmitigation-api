@@ -7,15 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="SqlServerDb\SqlCommands\Declaration\**" />
-    <Compile Remove="SqlServerDb\SqlCommands\NewFolder\**" />
-    <EmbeddedResource Remove="SqlServerDb\SqlCommands\Declaration\**" />
-    <EmbeddedResource Remove="SqlServerDb\SqlCommands\NewFolder\**" />
-    <None Remove="SqlServerDb\SqlCommands\Declaration\**" />
-    <None Remove="SqlServerDb\SqlCommands\NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
@@ -24,10 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PresTrust.FloodMitigation.Domain\PresTrust.FloodMitigation.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="SqlServerDb\SqlCommands\Declaration\" />
   </ItemGroup>
 
 </Project>

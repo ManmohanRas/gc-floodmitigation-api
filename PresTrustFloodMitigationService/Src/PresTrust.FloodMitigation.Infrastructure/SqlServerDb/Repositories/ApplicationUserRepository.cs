@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.ApplicationUsers;
-
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
 public class ApplicationUserRepository: IApplicationUserRepository
 {
@@ -43,13 +41,11 @@ public class ApplicationUserRepository: IApplicationUserRepository
     /// <returns></returns>
     public async Task SaveAsync(List<FloodApplicationUserEntity> applicationUsers)
     {
+        using var conn = context.CreateConnection();
         foreach (var user in applicationUsers)
         {
-            int id = default;
-
-            using var conn = context.CreateConnection();
             var sqlCommand = new CreateApplicationUserSqlCommand();
-            id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
+            await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
                 commandType: CommandType.Text,
                 commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                 param: new
@@ -66,8 +62,6 @@ public class ApplicationUserRepository: IApplicationUserRepository
                     @p_IsAlternateContact = user.IsAlternateContact,
                     @p_LastUpdatedBy = user.LastUpdatedBy
                 });
-
-            user.Id = id;
         }
     }
 
