@@ -1,4 +1,5 @@
-﻿using PresTrust.FloodMitigation.Domain.Enums;
+﻿using Dapper;
+using PresTrust.FloodMitigation.Domain.Enums;
 
 namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
@@ -58,26 +59,69 @@ public class ApplicationRepository: IApplicationRepository
 
     public async Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application)
     {
-        int id = default;
+        using var conn = context.CreateConnection();
+        if(application.Id == 0)
+        {
+            int id = default;
+
+            var sqlCommand = new CreateApplicationSqlCommand();
+            id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
+                commandType: CommandType.Text,
+                commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                param: new
+                {
+                    @p_Title = application.Title,
+                    @p_AgencyId = application.AgencyId,
+                    @p_ApplicationTypeId = application.ApplicationTypeId,
+                    @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
+                    @p_StatusId = application.StatusId,
+                    @p_CreatedByProgramAdmin = application.CreatedByProgramAdmin,
+                    @p_LastUpdatedBy = application.LastUpdatedBy,
+                });
+
+            application.Id = id;
+        }
+        else if (application.Id > 0)
+        {
+            var sqlCommand = new UpdateApplicationSqlCommand();
+            await conn.ExecuteAsync(sqlCommand.ToString(),
+                commandType: CommandType.Text,
+                commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                param: new
+                {
+                    @p_ApplicationId = application.Id,
+                    @p_Title = application.Title,
+                    @p_AgencyId = application.AgencyId,
+                    @p_ApplicationTypeId = application.ApplicationTypeId,
+                    @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
+                    @p_StatusId = application.StatusId,
+                    @p_CreatedByProgramAdmin = application.CreatedByProgramAdmin,
+                    @p_LastUpdatedBy = application.LastUpdatedBy,
+                });
+        }
+
+        return application;
+    }
+
+    public async Task<bool> SaveStatusLogAsync(FloodApplicationStatusLogEntity applicationStatusLog)
+    {
+        bool result = false;
 
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreateApplicationSqlCommand();
-        id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
+        var sqlCommand = new CreateApplicationStatusLogSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
-                @p_Title = application.Title,
-                @p_AgencyId = application.AgencyId,
-                @p_ApplicationTypeId = application.ApplicationTypeId,
-                @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
-                @p_StatusId = application.StatusId,
-                @p_CreatedByProgramAdmin = application.CreatedByProgramAdmin,
-                @p_LastUpdatedBy = application.LastUpdatedBy,
+                @p_ApplicationId = applicationStatusLog.ApplicationId,
+                @p_StatusId = applicationStatusLog.StatusId,
+                @p_StatusDate = applicationStatusLog.StatusDate,
+                @p_Notes = applicationStatusLog.Notes,
+                @p_LastUpdatedBy = applicationStatusLog.LastUpdatedBy,
             });
 
-        application.Id = id;
-
-        return application;
+        result = true;
+        return result;
     }
 }

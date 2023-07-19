@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace PresTrust.FloodMitigation.Domain.Entities;
+﻿namespace PresTrust.FloodMitigation.Domain.Entities;
 
 public class FloodApplicationEntity
 {

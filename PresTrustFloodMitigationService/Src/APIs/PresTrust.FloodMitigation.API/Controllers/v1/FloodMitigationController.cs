@@ -9,26 +9,6 @@ public class FloodMitigationController : ApiBaseController
 {
     public FloodMitigationController(IMediator mediator) : base(mediator) { }
 
-    [HttpPost("saveTest")]
-    [ProducesResponseType(typeof(SaveTestCommandViewModel), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<SaveTestCommandViewModel>> SaveTest([FromBody] SaveTestCommand command)
-    {
-        return Single(await CommandAsync(command));
-    }
-
-    [HttpPost("getTest")]
-    [ProducesResponseType(typeof(GetTestQueryViewModel), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetTestQueryViewModel>> GetTest([FromBody] GetTestQuery query)
-    {
-        return Single(await QueryAsync(query));
-    }
-
     [HttpPost("createApplication")]
     [ProducesResponseType(typeof(CreateApplicationCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -55,6 +35,26 @@ public class FloodMitigationController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<GetApplicationDetailsQueryViewModel>> GetApplicationDetails([FromBody] GetApplicationDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("getFloodParcelsByFilter")]
+    [ProducesResponseType(typeof(IEnumerable<GetFloodParcelsByFilterQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetFloodParcelsByFilterQueryViewModel>>> GetFloodParcelsByFilter([FromBody] GetFloodParcelsByFilterQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("getApplicationProperties")]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationPropertiesQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetApplicationPropertiesQueryViewModel>>> GetApplicationProperties([FromBody] GetApplicationPropertiesQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -193,6 +193,16 @@ public class FloodMitigationController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveSignatoryDetails([FromBody] SaveSignatoryCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("saveDeclaration")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> SaveDeclaration([FromBody] SaveDeclarationCommand command)
     {
         return Single(await CommandAsync(command));
     }

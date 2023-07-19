@@ -30,6 +30,7 @@ INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VA
 INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (22, 1);
 INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (22, 3);
 INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (22, 4);
+INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (22, 6);
 
 --admin
 INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (23, 1);
