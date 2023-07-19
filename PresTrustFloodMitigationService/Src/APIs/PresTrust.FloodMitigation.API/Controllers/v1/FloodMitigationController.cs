@@ -172,12 +172,12 @@ public class FloodMitigationController : ApiBaseController
     /// </summary>
     /// <param name="query"></param>
     /// <returns></returns>
-    [HttpPost("getSignatory")]
+    [HttpPost("getSignatoryDetails")]
     [ProducesResponseType(typeof(GetSignatoryQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetSignatoryQueryViewModel>> GetSignatureDetails([FromBody] GetSignatoryQuery query)
+    public async Task<ActionResult<GetSignatoryQueryViewModel>> GetSignatoryDetails([FromBody] GetSignatoryQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -187,12 +187,12 @@ public class FloodMitigationController : ApiBaseController
     /// </summary>
     /// <param name="command"> Query Command.</param>
     /// <returns> Returns Signature Reponse.</returns>
-    [HttpPost("saveSignatory")]
+    [HttpPost("saveSignatoryDetails")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveSignature([FromBody] SaveSignatoryCommand command)
+    public async Task<ActionResult<int>> SaveSignatoryDetails([FromBody] SaveSignatoryCommand command)
     {
         return Single(await CommandAsync(command));
     }

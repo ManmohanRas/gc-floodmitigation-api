@@ -9,7 +9,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddSingleton<ICoreRepository, CoreRepository>();
         services.AddTransient<IApplicationRepository, ApplicationRepository>();
         services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
-        services.AddTransient<ISignatureRepository, SignatoryRepository>();
+        services.AddTransient<ISignatoryRepository, SignatoryRepository>();
         services.AddTransient<IFeedbackRepository, FeedbackRepository>();
         services.AddTransient<ICommentRepository, CommentRepository>();
         services.AddHttpContextAccessor();

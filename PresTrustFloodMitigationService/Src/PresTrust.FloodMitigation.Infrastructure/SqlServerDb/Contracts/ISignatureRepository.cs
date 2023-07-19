@@ -1,17 +1,17 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
 
-public interface ISignatureRepository
+public interface ISignatoryRepository
 {
     /// <summary>
     /// Get Signature.
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    Task<FloodSignatoryEntity> GetSignatureAsync(int applicationId);
+    Task<FloodSignatoryEntity> GetSignatoryAsync(int applicationId);
     /// <summary>
     /// Save Signature.
     /// </summary>
-    /// <param name="floodSignature"></param>
+    /// <param name="floodSignatory"></param>
     /// <returns></returns>
-    Task<FloodSignatoryEntity> SaveAsync(FloodSignatoryEntity floodSignature);
+    Task<FloodSignatoryEntity> SaveAsync(FloodSignatoryEntity floodSignatory);
 }

@@ -6,7 +6,7 @@ public class SaveSignatoryCommandHandler : IRequestHandler<SaveSignatoryCommand,
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IFeedbackRepository repoFeedback;
-    private ISignatureRepository repoSignature;
+    private ISignatoryRepository repoSignatory;
 
     public SaveSignatoryCommandHandler
     (
@@ -14,7 +14,7 @@ public class SaveSignatoryCommandHandler : IRequestHandler<SaveSignatoryCommand,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        ISignatureRepository repoSignature,
+        ISignatoryRepository repoSignatory,
         IFeedbackRepository repoFeedback
     ) 
     {
@@ -22,7 +22,7 @@ public class SaveSignatoryCommandHandler : IRequestHandler<SaveSignatoryCommand,
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
-        this.repoSignature = repoSignature;
+        this.repoSignatory = repoSignatory;
         this.repoFeedback = repoFeedback;
         
     }
@@ -35,18 +35,18 @@ public class SaveSignatoryCommandHandler : IRequestHandler<SaveSignatoryCommand,
     /// <returns></returns>
     public async Task<int> Handle(SaveSignatoryCommand request, CancellationToken cancellationToken)
     {
-        int signatureId = 0;
+        int signatoryId = 0;
 
         // map command object to the FloodSignatoryEntity
-        var reqSignature = mapper.Map<SaveSignatoryCommand, FloodSignatoryEntity>(request);
+        var reqSignatory = mapper.Map<SaveSignatoryCommand, FloodSignatoryEntity>(request);
 
-        var signature = await repoSignature.SaveAsync(reqSignature);
-        if (signature != null)
+        var signatory = await repoSignatory.SaveAsync(reqSignatory);
+        if (signatory != null)
         {
-            signatureId = signature.Id;
+            signatoryId = signatory.Id;
         }
        
 
-        return signatureId;
+        return signatoryId;
     }
 }

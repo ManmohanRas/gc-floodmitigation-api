@@ -2,7 +2,7 @@
 
 namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
-public class SignatoryRepository : ISignatureRepository
+public class SignatoryRepository : ISignatoryRepository
 {
     #region " Members ... "
 
@@ -29,11 +29,11 @@ public class SignatoryRepository : ISignatureRepository
 
 
     /// <summary>
-    ///  Procedure to fetch signature details by Id.
+    ///  Procedure to fetch Signatory details by Id.
     /// </summary>
     /// <param name="applicationId"> Id.</param>
-    /// <returns> Returns HistSignature Entity.</returns>
-    public async Task<FloodSignatoryEntity> GetSignatureAsync(int applicationId)
+    /// <returns> Returns FloodSignatory Entity.</returns>
+    public async Task<FloodSignatoryEntity> GetSignatoryAsync(int applicationId)
         {
             FloodSignatoryEntity result = default;
             using var conn = context.CreateConnection();
@@ -51,24 +51,24 @@ public class SignatoryRepository : ISignatureRepository
     }
 
     /// <summary>
-    /// Save Signature.
+    /// Save Signatory.
     /// </summary>
-    /// <param name="histSignature"></param>
+    /// <param name="floodSignatory"></param>
     /// <returns></returns>
-    public async Task<FloodSignatoryEntity> SaveAsync(FloodSignatoryEntity floodSignature)
+    public async Task<FloodSignatoryEntity> SaveAsync(FloodSignatoryEntity floodSignatory)
     {
-        if (floodSignature.Id > 0)
-            return await UpdateAsync(floodSignature);
+        if (floodSignatory.Id > 0)
+            return await UpdateAsync(floodSignatory);
         else
-            return await CreateAsync(floodSignature);
+            return await CreateAsync(floodSignatory);
     }
 
     /// <summary>
     ///
     /// </summary>
-    /// <param name="histSignature"></param>
+    /// <param name="floodSignatory"></param>
     /// <returns></returns>
-    private async Task<FloodSignatoryEntity> CreateAsync(FloodSignatoryEntity floodSignature)
+    private async Task<FloodSignatoryEntity> CreateAsync(FloodSignatoryEntity floodSignatory)
     {
         int id = default;
 
@@ -79,24 +79,24 @@ public class SignatoryRepository : ISignatureRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
-                @p_ApplicationId = floodSignature.ApplicationId,
-                @p_Designation = floodSignature.Designation,
-                @p_Title = floodSignature.Title,
-                @p_SignedOn = floodSignature.SignatureOn,
-                @p_LastUpdatedBy = floodSignature.LastUpdatedBy,
+                @p_ApplicationId = floodSignatory.ApplicationId,
+                @p_Designation = floodSignatory.Designation,
+                @p_Title = floodSignatory.Title,
+                @p_SignedOn = floodSignatory.SignatureOn,
+                @p_LastUpdatedBy = floodSignatory.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
             });
 
-        floodSignature.Id = id;
+        floodSignatory.Id = id;
 
-        return floodSignature;
+        return floodSignatory;
     }
     /// <summary>
     ///
     /// </summary>
-    /// <param name="histSignature"></param>
+    /// <param name="floodSignatory"></param>
     /// <returns></returns>
-    private async Task<FloodSignatoryEntity> UpdateAsync(FloodSignatoryEntity floodSignature)
+    private async Task<FloodSignatoryEntity> UpdateAsync(FloodSignatoryEntity floodSignatory)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new UpdateSignatorySqlCommand();
@@ -105,16 +105,16 @@ public class SignatoryRepository : ISignatureRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
-                @p_Id = floodSignature.Id,
-                @p_ApplicationId = floodSignature.ApplicationId,
-                @p_Designation = floodSignature.Designation,
-                @p_Title = floodSignature.Title,
-                @p_SignedOn = floodSignature.SignatureOn,
-                @p_LastUpdatedBy = floodSignature.LastUpdatedBy,
+                @p_Id = floodSignatory.Id,
+                @p_ApplicationId = floodSignatory.ApplicationId,
+                @p_Designation = floodSignatory.Designation,
+                @p_Title = floodSignatory.Title,
+                @p_SignedOn = floodSignatory.SignatureOn,
+                @p_LastUpdatedBy = floodSignatory.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
             });
 
-        return floodSignature;
+        return floodSignatory;
     }
 
 }
