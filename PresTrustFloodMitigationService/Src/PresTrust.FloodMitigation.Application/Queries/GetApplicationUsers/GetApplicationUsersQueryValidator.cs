@@ -1,11 +1,8 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
 /// <summary>
-/// This class validates query input
+/// create rules for attributes
 /// </summary>
-/// <remarks>
-/// Returns BadRequest Response if any failures occured
-/// </remarks>
 public class GetApplicationUsersQueryValidator: AbstractValidator<GetApplicationUsersQuery>
 {
     public GetApplicationUsersQueryValidator()

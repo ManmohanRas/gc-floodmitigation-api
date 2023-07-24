@@ -85,6 +85,16 @@ public class FloodMitigationController : ApiBaseController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("saveDeclaration")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> SaveDeclaration([FromBody] SaveDeclarationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("getComments")]
     [ProducesResponseType(typeof(IEnumerable<GetCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -167,6 +177,37 @@ public class FloodMitigationController : ApiBaseController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("getDocumentDetails")]
+    [ProducesResponseType(typeof(IEnumerable<DocumentTypeViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<DocumentTypeViewModel>>> GetDocumentDetails([FromBody] GetDocumentsBySectionDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveDocument")]
+    [ProducesResponseType(typeof(SaveDocumentDetailsCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<SaveDocumentDetailsCommandViewModel>> SaveDocument([FromBody] SaveDocumentDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("deleteDocument")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteDocument([FromBody] DeleteDocumentCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+
     /// <summary>
     /// Get Signature Details
     /// </summary>
@@ -193,16 +234,6 @@ public class FloodMitigationController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveSignatoryDetails([FromBody] SaveSignatoryCommand command)
-    {
-        return Single(await CommandAsync(command));
-    }
-
-    [HttpPost("saveDeclaration")]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> SaveDeclaration([FromBody] SaveDeclarationCommand command)
     {
         return Single(await CommandAsync(command));
     }
