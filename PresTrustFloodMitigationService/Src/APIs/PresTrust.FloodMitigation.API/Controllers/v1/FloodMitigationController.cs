@@ -1,5 +1,3 @@
-using PresTrust.FloodMitigation.Application.Commands;
-
 namespace PresTrust.FloodMitigation.API.Controllers.v1;
 
 [Authorize()]
@@ -79,7 +77,6 @@ public class FloodMitigationController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-
     public async Task<ActionResult<Unit>> AssignApplicationUsers([FromBody] AssignApplicationUsersCommand command)
     {
         return Single(await CommandAsync(command));
@@ -100,7 +97,6 @@ public class FloodMitigationController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-
     public async Task<ActionResult<IEnumerable<GetCommentsQueryViewModel>>> GetComments([FromBody] GetCommentsQuery query)
     {
         return Single(await QueryAsync(query));
@@ -111,7 +107,6 @@ public class FloodMitigationController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-
     public async Task<ActionResult<int>> SaveComment([FromBody] SaveCommentCommand command)
     {
         return Single(await CommandAsync(command));
@@ -206,7 +201,6 @@ public class FloodMitigationController : ApiBaseController
     {
         return Single(await CommandAsync(command));
     }
-
 
     /// <summary>
     /// Get Signature Details
