@@ -1,6 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Domain.Entities;
+﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class FloodParcelEntity
+public class GetApplicationPropertiesQueryViewModel
 {
     public string PamsPin { get; set; }
     public bool IsLocked { get; set; }

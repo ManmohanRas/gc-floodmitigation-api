@@ -1,20 +1,20 @@
-IF OBJECT_ID('[Flood].[FloodParcel]') IS NOT NULL
+IF OBJECT_ID('[Flood].[FloodParcelAudit]') IS NOT NULL
 BEGIN
 	-- Drop Constraints
-	ALTER TABLE [Flood].[FloodParcel] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodParcel];
+	ALTER TABLE [Flood].[FloodParcelAudit] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodParcelAudit];
 
-	ALTER TABLE [Flood].[FloodParcel] DROP CONSTRAINT IF EXISTS  [DF_IsActive_FloodParcel];
+	ALTER TABLE [Flood].[FloodParcelAudit] DROP CONSTRAINT IF EXISTS  [DF_IsActive_FloodParcelAudit];
 
 END;
 GO
 
 -- Drop Table
-DROP TABLE IF EXISTS [Flood].[FloodParcel]
+DROP TABLE IF EXISTS [Flood].[FloodParcelAudit]
 GO
 
 -- Create Table
-CREATE TABLE [Flood].[FloodParcel](
-	[Id]						[integer] 			IDENTITY(1,1)		NOT NULL,
+CREATE TABLE [Flood].[FloodParcelAudit](
+	[Id]						[integer] 								NOT NULL,
 	[PamsPin]					[nvarchar](76)							NOT NULL,
 	[AgencyID]					[nvarchar](8)							NULL,
 	[Block]						[nvarchar](20)							NULL,
@@ -39,7 +39,7 @@ CREATE TABLE [Flood].[FloodParcel](
 	[LastUpdatedOn]				[DateTime]								NOT NULL,
 	[IsActive]					[bit]									NOT NULL,
 	
-CONSTRAINT [PK_FloodParcel_Id] PRIMARY KEY CLUSTERED 
+CONSTRAINT [PK_FloodParcelAudit_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
@@ -47,8 +47,8 @@ CONSTRAINT [PK_FloodParcel_Id] PRIMARY KEY CLUSTERED
 
 GO
 
-ALTER TABLE [Flood].[FloodParcel] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodParcel]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+ALTER TABLE [Flood].[FloodParcelAudit] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodParcelAudit]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
 GO  
 
-ALTER TABLE [Flood].[FloodParcel] WITH NOCHECK ADD  CONSTRAINT [DF_IsActive_FloodParcel]  DEFAULT (1) FOR [IsActive]
+ALTER TABLE [Flood].[FloodParcelAudit] WITH NOCHECK ADD  CONSTRAINT [DF_IsActive_FloodParcelAudit]  DEFAULT (1) FOR [IsActive]
 GO  
