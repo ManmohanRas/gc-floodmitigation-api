@@ -10,7 +10,6 @@ public class FloodSecurityManager
 {
     private UserRoleEnum userRole = default;
     private ApplicationStatusEnum applicationStatus = default;
-    private ApplicationStatusEnum previousApplicationStatus = default;
     private PermissionEntity permission = default;
     private List<NavigationItemEntity> navigationItems = default;
     private List<NavigationItemEntity> adminNavigationItems = default;
@@ -22,16 +21,6 @@ public class FloodSecurityManager
     {
         this.userRole = userRole;
         this.applicationStatus = applicationStatus;
-        this.corrections = corrections ?? new List<FloodFeedbackEntity>();
-
-        ConfigurePermissions();
-    }
-
-    public FloodSecurityManager(UserRoleEnum userRole, ApplicationStatusEnum applicationStatus, ApplicationStatusEnum previousApplicationStatus, List<FloodFeedbackEntity> corrections = null)
-    {
-        this.userRole = userRole;
-        this.applicationStatus = applicationStatus;
-        this.previousApplicationStatus = previousApplicationStatus;
         this.corrections = corrections ?? new List<FloodFeedbackEntity>();
 
         ConfigurePermissions();

@@ -124,4 +124,21 @@ public class ApplicationRepository: IApplicationRepository
         result = true;
         return result;
     }
+
+    public async Task<FloodApplicationEntity> SaveApplicationWorkflowStatusAsync(FloodApplicationEntity application)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new UpdateApplicationWorkflowStatusSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = application.Id,
+                @p_StatusId = application.StatusId,
+                @p_LastUpdatedBy = application.LastUpdatedBy,
+            });
+
+        return application;
+    }
 }
