@@ -1,3 +1,5 @@
+using PresTrust.FloodMitigation.Domain.Entities;
+
 namespace PresTrust.FloodMitigation.API.Controllers.v1;
 
 [Authorize()]
@@ -228,6 +230,31 @@ public class FloodMitigationController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveSignatoryDetails([FromBody] SaveSignatoryCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    /// <summary>
+    /// Get Finance Details
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getApplicationFinanceDetails")]
+    [ProducesResponseType(typeof(GetApplicationFinanceDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetApplicationFinanceDetailsQueryViewModel>> GetApplicationFinnceDetails([FromBody] GetApplicationFinanceDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveApplicationFinance")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveApplicationFinance([FromBody] SaveApplicationFinanceCommand  command)
     {
         return Single(await CommandAsync(command));
     }
