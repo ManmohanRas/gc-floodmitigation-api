@@ -30,4 +30,11 @@ public interface IApplicationRepository
     /// <param name="application"></param>
     /// <returns></returns>
     Task<bool> SaveStatusLogAsync(FloodApplicationStatusLogEntity applicationStatusLog);
+
+    /// <summary>
+    /// Save Application Workflow Status
+    /// </summary>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    Task<FloodApplicationEntity> SaveApplicationWorkflowStatusAsync(FloodApplicationEntity application);
 }
