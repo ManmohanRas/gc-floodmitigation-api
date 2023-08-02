@@ -3,6 +3,8 @@
 public class FloodParcelEntity
 {
     public string PamsPin { get; set; }
+    public bool IsLocked { get; set; }
+    public bool AlreadyExists { get; set; }
     public string PropertyAddress { get; set; }
     public string TargetArea { get; set; }
     public string Block { get; set; }

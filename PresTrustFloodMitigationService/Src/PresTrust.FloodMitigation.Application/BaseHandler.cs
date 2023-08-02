@@ -1,12 +1,14 @@
-﻿namespace PresTrust.FloodMitigation.Application;
+﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+
+namespace PresTrust.FloodMitigation.Application;
 
 public class BaseHandler
 {
     private PermissionEntity permission = default;
-    private IApplicationRepository repoApplication;
+    private readonly IApplicationRepository repoApplication;
 
     public BaseHandler(IApplicationRepository repoApplication = null)
-    {
+    { 
         this.repoApplication = repoApplication;
     }
 

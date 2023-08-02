@@ -7,10 +7,13 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IPresTrustUserContext, PresTrustUserContext>();
         services.AddTransient<ICoreRepository, CoreRepository>();
         services.AddTransient<IApplicationRepository, ApplicationRepository>();
+        services.AddTransient<IApplicationParcelRepository, ApplicationParcelRepository>();
         services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
+        services.AddTransient<ISignatoryRepository, SignatoryRepository>();
         services.AddTransient<IFeedbackRepository, FeedbackRepository>();
         services.AddTransient<ICommentRepository, CommentRepository>();
         services.AddTransient<IOverviewDetailsRepository, OverviewDetailsRepository>();
+        services.AddTransient<IDocumentRepository, DocumentRepository>();
         services.AddHttpContextAccessor();
     }
 }                                                                               

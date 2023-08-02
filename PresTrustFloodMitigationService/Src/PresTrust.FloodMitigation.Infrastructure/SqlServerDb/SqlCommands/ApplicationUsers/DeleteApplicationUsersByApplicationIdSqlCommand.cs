@@ -1,4 +1,4 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.ApplicationUsers;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
 public class DeleteApplicationUsersByApplicationIdSqlCommand
 {

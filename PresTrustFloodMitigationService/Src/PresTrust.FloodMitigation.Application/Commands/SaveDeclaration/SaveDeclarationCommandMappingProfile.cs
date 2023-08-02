@@ -1,5 +1,10 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-internal class SaveDeclarationCommandMappingProfile
+public class SaveDeclarationCommandMappingProfile : Profile
 {
+    public SaveDeclarationCommandMappingProfile()
+    {
+        CreateMap<SaveDeclarationCommand, FloodApplicationEntity>();
+        CreateMap<FloodApplicationUserViewModel, FloodApplicationUserEntity>();
+    }
 }

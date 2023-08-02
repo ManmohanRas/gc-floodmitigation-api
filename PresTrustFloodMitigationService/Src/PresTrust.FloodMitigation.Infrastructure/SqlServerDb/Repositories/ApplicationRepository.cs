@@ -59,25 +59,46 @@ public class ApplicationRepository: IApplicationRepository
 
     public async Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application)
     {
-        int id = default;
-
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreateApplicationSqlCommand();
-        id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
-            commandType: CommandType.Text,
-            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-            param: new
-            {
-                @p_Title = application.Title,
-                @p_AgencyId = application.AgencyId,
-                @p_ApplicationTypeId = application.ApplicationTypeId,
-                @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
-                @p_StatusId = application.StatusId,
-                @p_CreatedByProgramAdmin = application.CreatedByProgramAdmin,
-                @p_LastUpdatedBy = application.LastUpdatedBy,
-            });
+        if(application.Id == 0)
+        {
+            int id = default;
 
-        application.Id = id;
+            var sqlCommand = new CreateApplicationSqlCommand();
+            id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
+                commandType: CommandType.Text,
+                commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                param: new
+                {
+                    @p_Title = application.Title,
+                    @p_AgencyId = application.AgencyId,
+                    @p_ApplicationTypeId = application.ApplicationTypeId,
+                    @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
+                    @p_StatusId = application.StatusId,
+                    @p_CreatedByProgramAdmin = application.CreatedByProgramAdmin,
+                    @p_LastUpdatedBy = application.LastUpdatedBy,
+                });
+
+            application.Id = id;
+        }
+        else if (application.Id > 0)
+        {
+            var sqlCommand = new UpdateApplicationSqlCommand();
+            await conn.ExecuteAsync(sqlCommand.ToString(),
+                commandType: CommandType.Text,
+                commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                param: new
+                {
+                    @p_ApplicationId = application.Id,
+                    @p_Title = application.Title,
+                    @p_AgencyId = application.AgencyId,
+                    @p_ApplicationTypeId = application.ApplicationTypeId,
+                    @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
+                    @p_StatusId = application.StatusId,
+                    @p_CreatedByProgramAdmin = application.CreatedByProgramAdmin,
+                    @p_LastUpdatedBy = application.LastUpdatedBy,
+                });
+        }
 
         return application;
     }
