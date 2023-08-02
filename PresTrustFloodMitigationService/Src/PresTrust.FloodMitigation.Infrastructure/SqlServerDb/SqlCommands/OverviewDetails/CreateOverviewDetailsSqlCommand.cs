@@ -1,0 +1,72 @@
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
+
+public class CreateOverviewDetailsSqlCommand
+{
+    private readonly string _sqlCommand =
+               @"INSERT INTO [Flood].[FloodOverview]
+                    (
+                         ApplicationId
+                        ,FactorHomes
+                        ,FactorContiguousHomes
+                        ,NatlDisaster
+                        ,NatlDisasterId
+                        ,NatlDisasterName
+                        ,NatlDisasterYear
+                        ,NatlDisasterMonth
+                        ,LOI
+                        ,LOIStatus
+                        ,LOIApprovedDate
+                        ,FEMA_OR_NJDEP_Applied
+                        ,FEMAApplied
+                        ,FEMAStatus
+                        ,FEMAApprovedDate
+                        ,FEMADenialReason
+                        ,GreenAcresApplied
+                        ,GreenAcresStatus
+                        ,GreenAcresApprovedDate
+                        ,BlueAcresApplied
+                        ,BlueAcresStatus
+                        ,BlueAcresApprovedDate
+                        ,FundingAgenciesApplied
+                        ,LastUpdatedBy
+                        ,LastUpdatedOn
+)
+    VALUES(             
+                 @p_ApplicationId
+                ,@p_FactorHomes
+                ,@p_FactorContiguousHomes
+                ,@p_NatlDisaster
+                ,@p_NatlDisasterId
+                ,@p_NatlDisasterName
+                ,@p_NatlDisasterYear
+                ,@p_NatlDisasterMonth
+                ,@p_LOI
+                ,@p_LOIStatus
+                ,@p_LOIApprovedDate
+                ,@p_FEMA_OR_NJDEP_Applied
+                ,@p_FEMAApplied
+                ,@p_FEMAStatus
+                ,@p_FEMAApprovedDate
+                ,@p_FEMADenialReason
+                ,@p_GreenAcresApplied
+                ,@p_GreenAcresStatus
+                ,@p_GreenAcresApprovedDate
+                ,@p_BlueAcresApplied
+                ,@p_BlueAcresStatus
+                ,@p_BlueAcresApprovedDate
+                ,@p_FundingAgenciesApplied
+                ,@p_LastUpdatedBy
+               ,GetDate());
+ 
+        SELECT CAST( SCOPE_IDENTITY() AS INT);";
+
+    public CreateOverviewDetailsSqlCommand()
+    {
+    }
+
+    public override string ToString()
+    {
+        return _sqlCommand;
+    }
+
+}

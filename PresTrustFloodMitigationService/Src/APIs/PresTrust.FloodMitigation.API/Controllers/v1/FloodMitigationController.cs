@@ -154,4 +154,26 @@ public class FloodMitigationController : ApiBaseController
     {
         return Single(await CommandAsync(command));
     }
+
+    [HttpPost("getOverviewDetails")]
+    [ProducesResponseType(typeof(GetOverviewDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+    public async Task<ActionResult<GetOverviewDetailsQueryViewModel>> GetOverviewDetails([FromBody] GetOverviewDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveOverviewDetails")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+    public async Task<ActionResult<int>> saveOverviewDetails([FromBody] SaveOverviewDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
