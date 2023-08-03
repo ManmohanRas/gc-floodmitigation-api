@@ -91,6 +91,7 @@ public class FloodSecurityManager
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
 
+                // Declaration Of Intent
                 DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
 
                 this.defaultNavigationItem = new NavigationItemEntity()
@@ -107,6 +108,7 @@ public class FloodSecurityManager
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
 
+                // Declaration Of Intent
                 DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
 
                 this.defaultNavigationItem = new NavigationItemEntity()
@@ -120,6 +122,7 @@ public class FloodSecurityManager
             case UserRoleEnum.AGENCY_READONLY:
             case UserRoleEnum.PROGRAM_READONLY:
             case UserRoleEnum.SYSTEM_ADMIN:
+                // Declaration Of Intent
                 DeclarationOfIntent();
 
                 this.defaultNavigationItem = new NavigationItemEntity()
@@ -172,7 +175,52 @@ public class FloodSecurityManager
 
     private void DeriveWithdrawnStatePermissions()
     {
-        throw new NotImplementedException();
+        switch (userRole)
+        {
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanReinitiateApplication = true;
+
+                // Declaration Of Intent
+                DeclarationOfIntent();
+
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_EDITOR:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_SIGNATORY:
+            case UserRoleEnum.AGENCY_READONLY:
+            case UserRoleEnum.PROGRAM_READONLY:
+            case UserRoleEnum.SYSTEM_ADMIN:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+
+                break;
+            default:
+                break;
+        }
     }
 
     private void DeclarationOfIntent(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)

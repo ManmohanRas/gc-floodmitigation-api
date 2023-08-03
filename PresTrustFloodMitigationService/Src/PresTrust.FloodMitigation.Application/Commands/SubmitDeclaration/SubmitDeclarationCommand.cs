@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SubmitDeclarationCommand : IRequest<bool>
+public class SubmitDeclarationCommand : IRequest<SubmitDeclarationCommandViewModel>
 {
     public int ApplicationId { get; set; }
 }

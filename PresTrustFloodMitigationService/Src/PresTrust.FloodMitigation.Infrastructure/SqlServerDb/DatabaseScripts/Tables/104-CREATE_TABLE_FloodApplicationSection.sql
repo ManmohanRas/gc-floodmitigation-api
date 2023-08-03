@@ -1,7 +1,6 @@
-
+-- Drop Constraints
 IF OBJECT_ID('[Flood].[FloodApplicationSection]') IS NOT NULL
 BEGIN
-	-- Drop Constraint
 	ALTER TABLE [Flood].[FloodApplicationSection] DROP CONSTRAINT IF EXISTS  [DF_FloodApplicationSection_Description]
 END
 GO
@@ -25,7 +24,4 @@ GO
 
 -- Create Constraint
 ALTER TABLE [Flood].[FloodApplicationSection] WITH NOCHECK ADD  CONSTRAINT [DF_FloodApplicationSection_Description]  DEFAULT ('') FOR [Description]
-GO 
-
- 
-
+GO

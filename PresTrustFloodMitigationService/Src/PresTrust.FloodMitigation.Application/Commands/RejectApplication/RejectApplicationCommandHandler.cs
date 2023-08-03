@@ -1,5 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<RejectApplicationCommand, bool>
+public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<RejectApplicationCommand, Unit>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -26,7 +26,7 @@ public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<Reje
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<bool> Handle(RejectApplicationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(RejectApplicationCommand request, CancellationToken cancellationToken)
     {
         bool result = false;
 
@@ -55,9 +55,8 @@ public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<Reje
             //change properties statuses to rejected in future
 
             scope.Complete();
-            result = true;
         }
 
-        return result;
+        return Unit.Value;
     }
 }

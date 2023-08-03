@@ -240,43 +240,41 @@ public class FloodMitigationWorkflowController : ApiBaseController
     public FloodMitigationWorkflowController(IMediator mediator) : base(mediator) { }
 
     [HttpPost("submitDeclaration")]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SubmitDeclarationCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> SubmitDeclaration([FromBody] SubmitDeclarationCommand command)
+    public async Task<ActionResult<SubmitDeclarationCommandViewModel>> SubmitDeclaration([FromBody] SubmitDeclarationCommand command)
     {
         return Single(await CommandAsync(command));
     }
-
 
     [HttpPost("submitApplication")]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SubmitApplicationCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> SubmitApplication([FromBody] SubmitApplicationCommand command)
-    {
-        return Single(await CommandAsync(command));
-    }
-
-
-    [HttpPost("withdrawApplication")]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> WithdrawApplication([FromBody] WithdrawApplicationCommand command)
+    public async Task<ActionResult<SubmitApplicationCommandViewModel>> SubmitApplication([FromBody] SubmitApplicationCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
     [HttpPost("rejectApplication")]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> RejectApplication([FromBody] RejectApplicationCommand command)
+    public async Task<ActionResult<Unit>> RejectApplication([FromBody] RejectApplicationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("withdrawApplication")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> WithdrawApplication([FromBody] WithdrawApplicationCommand command)
     {
         return Single(await CommandAsync(command));
     }
