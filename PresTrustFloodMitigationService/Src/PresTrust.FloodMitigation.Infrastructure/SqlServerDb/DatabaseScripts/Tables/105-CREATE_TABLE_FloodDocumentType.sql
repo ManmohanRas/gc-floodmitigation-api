@@ -1,7 +1,6 @@
-
+-- Drop Constraints
 IF OBJECT_ID('[Flood].[FloodDocumentType]') IS NOT NULL
 BEGIN
-	-- Drop Constraint
 	ALTER TABLE [Flood].[FloodDocumentType] DROP CONSTRAINT IF EXISTS  [FK_SectionId_FloodDocumentType]
 END
 GO
@@ -26,10 +25,4 @@ GO
 
 -- Create Constraints
 ALTER TABLE [Flood].[FloodDocumentType] ADD CONSTRAINT [FK_SectionId_FloodDocumentType]  FOREIGN KEY (SectionId) REFERENCES [Flood].FloodApplicationSection(Id);
-GO 
- 
-
-
- 
-  
-
+GO

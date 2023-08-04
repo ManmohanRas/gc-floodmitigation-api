@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
 namespace PresTrust.FloodMitigation.Application.Commands;
-public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<WithdrawApplicationCommand, bool>
+public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<WithdrawApplicationCommand, Unit>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -28,10 +28,8 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<bool> Handle(WithdrawApplicationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(WithdrawApplicationCommand request, CancellationToken cancellationToken)
     {
-        bool result = false;
-
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
 
@@ -57,9 +55,8 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
             //change properties statuses to withdrawn in future
 
             scope.Complete();
-            result = true;
         }
 
-        return result;
+        return Unit.Value;
     }
 }

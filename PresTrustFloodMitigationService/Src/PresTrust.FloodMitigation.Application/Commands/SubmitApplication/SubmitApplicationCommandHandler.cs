@@ -1,5 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<SubmitApplicationCommand, bool>
+public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<SubmitApplicationCommand, SubmitApplicationCommandViewModel>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -26,9 +26,9 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<bool> Handle(SubmitApplicationCommand request, CancellationToken cancellationToken)
+    public async Task<SubmitApplicationCommandViewModel> Handle(SubmitApplicationCommand request, CancellationToken cancellationToken)
     {
-        bool result = false;
+        SubmitApplicationCommandViewModel result = new ();
 
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
@@ -55,7 +55,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
             //change properties statuses to submitted in future
 
             scope.Complete();
-            result = true;
+            result.IsSuccess = true;
         }
 
         return result;
