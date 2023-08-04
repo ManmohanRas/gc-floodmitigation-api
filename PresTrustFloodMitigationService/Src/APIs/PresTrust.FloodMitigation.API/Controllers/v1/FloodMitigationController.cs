@@ -256,6 +256,28 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
+
+    [HttpPost("deleteFundingSource")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteFundingSource([FromBody] DeleteFundingSourceCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+
+
+    [HttpPost("ReCalculateFinanceLineItems")]
+    [ProducesResponseType(typeof(ReCalculateFinanceLineItemsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ReCalculateFinanceLineItemsQueryViewModel>> ReCalculateFinanceLineItems([FromBody] ReCalculateFinanceLineItemsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController

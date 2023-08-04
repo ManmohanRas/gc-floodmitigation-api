@@ -9,5 +9,6 @@ public class SaveApplicationFinanceCommandMappingProfile: Profile
     {
         CreateMap<SaveApplicationFinanceCommand, FloodApplicationFinanceEntity> ();
         CreateMap<FloodFundingSourceViewModel, FloodFundingSourceEntity>();
+        CreateMap<FloodFinanceLineItemViewModel, FloodParcelFinanceEntity>();
     }
 }

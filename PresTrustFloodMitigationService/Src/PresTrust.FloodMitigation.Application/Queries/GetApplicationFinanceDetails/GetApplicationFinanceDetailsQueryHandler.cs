@@ -2,46 +2,53 @@
 /// <summary>
 /// This class handles the query to fetch data and build response
 /// </summary>
-public class GetApplicationFinanceDetailsQueryHandler : IRequestHandler<GetApplicationFinanceDetailsQuery, GetApplicationFinanceDetailsQueryViewModel>
+public class GetApplicationFinanceDetailsQueryHandler : BaseHandler, IRequestHandler<GetApplicationFinanceDetailsQuery, GetApplicationFinanceDetailsQueryViewModel>
 {
     private IMapper mapper;
-    private readonly SystemParameterConfiguration systemParamOptions;
-    private readonly IPresTrustUserContext userContext;
     private readonly IFinanceRepository repoFinance;
     private readonly IFundingSourceRepoitory repoFundingSource;
- 
+    private readonly IFinanceLineItemRepository repoFinanceLineItem;
+    private readonly IApplicationRepository repoApplication;
+
 
     public GetApplicationFinanceDetailsQueryHandler(
         IMapper mapper,
-        IPresTrustUserContext userContext,
-        IOptions<SystemParameterConfiguration> systemParamOptions,
         IFinanceRepository repoFinance,
-        IFundingSourceRepoitory repoFundingSource
-        )
+        IFundingSourceRepoitory repoFundingSource,
+        IFinanceLineItemRepository repoFinanceLineItem,
+        IApplicationRepository repoApplication
+        ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
-        this.userContext = userContext;
-        this.systemParamOptions = systemParamOptions.Value;
         this.repoFinance = repoFinance;
         this.repoFundingSource = repoFundingSource;
+        this.repoFinanceLineItem = repoFinanceLineItem;
+        this.repoApplication = repoApplication;
     }
     public async Task<GetApplicationFinanceDetailsQueryViewModel> Handle(GetApplicationFinanceDetailsQuery request, CancellationToken cancellationToken)
     {
-        var reqFinance = await repoFinance.GetFinanceAsync(request.ApplicationId);
+        // get application details
+        var application = await GetIfApplicationExists(request.ApplicationId);
+
+        var reqFinance = await repoFinance.GetFinanceAsync(application.Id);
+        reqFinance = reqFinance ?? new FloodApplicationFinanceEntity() { ApplicationId = application.Id };
 
         var finance = mapper.Map<FloodApplicationFinanceEntity,GetApplicationFinanceDetailsQueryViewModel>(reqFinance);
 
-        finance = finance ?? new GetApplicationFinanceDetailsQueryViewModel() { ApplicationId = request.ApplicationId };
+        //get funding sources
+        var fundingSources = await repoFundingSource.GetFundingSourcesAsync(application.Id);
 
-        var fundingSources = await repoFundingSource.GetFundingSourcesAsync(request.ApplicationId);
+        //get finance line items
+        var parcelFinance = await repoFinanceLineItem.GetFinanceLineItemsAsync(application.Id);
 
         var result = new GetApplicationFinanceDetailsQueryViewModel()
-        {
-            ApplicationId = request.ApplicationId,
-            MatchPercent = finance.MatchPercent,
-            FundingSources = mapper.Map<IEnumerable<FloodFundingSourceEntity>, IEnumerable<FloodFundingSourceViewModel>>(fundingSources),
-            FinanceLineItems = new List<FloodFinanceLineItemViewModel>() { }
-        };
+            {
+                ApplicationId = application.Id,
+                Id = finance.Id,
+                MatchPercent = finance.MatchPercent,
+                FundingSources = mapper.Map<IEnumerable<FloodFundingSourceEntity>, IEnumerable<FloodFundingSourceViewModel>>(fundingSources),
+                FinanceLineItems = mapper.Map<IEnumerable<FloodParcelFinanceEntity>, IEnumerable<FloodFinanceLineItemViewModel>>(parcelFinance)
+            };
 
         return result;
     }
