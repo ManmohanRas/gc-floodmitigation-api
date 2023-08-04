@@ -69,9 +69,6 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
                 var feedbacksReqForCorrections = application.Feedbacks.Where(f => f.RequestForCorrection == true && string.Compare(f.CorrectionStatus, ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString(), true) == 0).ToList();
                 securityMgr = new FloodSecurityManager(userContext.Role, application.Status, feedbacksReqForCorrections);
                 break;
-            case ApplicationStatusEnum.REJECTED:
-                securityMgr = new FloodSecurityManager(userContext.Role, application.Status, application.PrevStatus);
-                break;
             default:
                 securityMgr = new FloodSecurityManager(userContext.Role, application.Status);
                 break;

@@ -1,4 +1,3 @@
-
 -- Drop Table
 DROP TABLE IF EXISTS [Flood].[FloodApplicationSubType]
 GO
