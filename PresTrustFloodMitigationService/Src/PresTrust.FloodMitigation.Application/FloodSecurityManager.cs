@@ -87,13 +87,17 @@ public class FloodSecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
+                permission.CanSubmitDeclarationOfIntent = true;
+                permission.CanWithdrawApplication = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
                 // Declaration Of Intent
-                DeclarationOfIntent();
+                DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
                     Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
                     SortOrder = 1
                 };
                 break;
@@ -153,6 +157,9 @@ public class FloodSecurityManager
                 permission.CanViewFeedback = true;
                 permission.CanEditFeedback = true;
                 permission.CanDeleteFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
                 // Declaration Of Intent
                 DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
@@ -170,6 +177,9 @@ public class FloodSecurityManager
                 permission.CanViewFeedback = true;
                 permission.CanEditFeedback = true;
                 permission.CanDeleteFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
                 // Declaration Of Intent
                 DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item

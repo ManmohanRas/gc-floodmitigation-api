@@ -249,6 +249,16 @@ public class FloodMitigationWorkflowController : ApiBaseController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("approveDeclaration")]
+    [ProducesResponseType(typeof(ApproveDeclarationCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ApproveDeclarationCommandViewModel>> ApproveDeclaration([FromBody] ApproveDeclarationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("submitApplication")]
     [ProducesResponseType(typeof(SubmitApplicationCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
