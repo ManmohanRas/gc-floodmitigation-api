@@ -84,16 +84,31 @@ public class FloodSecurityManager
     {
         switch (userRole)
         {
-            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
                 permission.CanSubmitDeclarationOfIntent = true;
                 permission.CanWithdrawApplication = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
-
                 // Declaration Of Intent
                 DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
-
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+                permission.CanSubmitDeclarationOfIntent = true;
+                permission.CanWithdrawApplication = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                // Declaration Of Intent
+                DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
                     Title = NavigationItemTitles.DECLARATION_OF_INTENT,
@@ -102,15 +117,11 @@ public class FloodSecurityManager
                 };
                 break;
             case UserRoleEnum.AGENCY_EDITOR:
-            case UserRoleEnum.PROGRAM_EDITOR:
-                permission.CanSubmitDeclarationOfIntent = false;
-                permission.CanWithdrawApplication = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
-
                 // Declaration Of Intent
                 DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
-
+                // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
                     Title = NavigationItemTitles.DECLARATION_OF_INTENT,
@@ -118,107 +129,399 @@ public class FloodSecurityManager
                     SortOrder = 1
                 };
                 break;
-            case UserRoleEnum.AGENCY_SIGNATORY:
-            case UserRoleEnum.AGENCY_READONLY:
-            case UserRoleEnum.PROGRAM_READONLY:
-            case UserRoleEnum.SYSTEM_ADMIN:
+            default:
                 // Declaration Of Intent
                 DeclarationOfIntent();
-
+                // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
                     Title = NavigationItemTitles.DECLARATION_OF_INTENT,
                     RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
                     SortOrder = 1
                 };
-
-                break;
-            default:
                 break;
         }
     }
 
     private void DeriveDOISubmittedStatePermissions()
     {
-        throw new NotImplementedException();
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanApproveDeclarationOfIntent = true;
+                permission.CanRejectApplication = true;
+                permission.CanRequestForAnApplicationCorrection = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                permission.CanViewFeedback = true;
+                permission.CanEditFeedback = true;
+                permission.CanDeleteFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
+                // Declaration Of Intent
+                DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                permission.CanRequestForAnApplicationCorrection = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                permission.CanViewFeedback = true;
+                permission.CanEditFeedback = true;
+                permission.CanDeleteFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
+                // Declaration Of Intent
+                DeclarationOfIntent(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+                permission.CanRespondToTheRequestForAnApplicationCorrection = true;
+                permission.CanViewFeedback = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveDraftStatePermissions()
     {
-        throw new NotImplementedException();
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanReinitiateApplication = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+            default:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveSubmittedStatePermissions()
     {
-        throw new NotImplementedException();
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanReinitiateApplication = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+            default:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveInReviewStatePermissions()
     {
-        throw new NotImplementedException();
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanReinitiateApplication = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+            default:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveActiveStatePermissions()
     {
-        throw new NotImplementedException();
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanReinitiateApplication = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+            default:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveClosedStatePermissions()
     {
-        throw new NotImplementedException();
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanReinitiateApplication = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+            default:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveRejectedStatePermissions()
     {
-        throw new NotImplementedException();
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanReinitiateApplication = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+            default:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveWithdrawnStatePermissions()
     {
         switch (userRole)
         {
-            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
                 permission.CanReinitiateApplication = true;
-
                 // Declaration Of Intent
                 DeclarationOfIntent();
-
+                // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
                     Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
                     SortOrder = 1
                 };
                 break;
-            case UserRoleEnum.AGENCY_EDITOR:
             case UserRoleEnum.PROGRAM_EDITOR:
                 // Declaration Of Intent
                 DeclarationOfIntent();
-
+                // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
                     Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
                     SortOrder = 1
                 };
                 break;
-            case UserRoleEnum.AGENCY_SIGNATORY:
-            case UserRoleEnum.AGENCY_READONLY:
-            case UserRoleEnum.PROGRAM_READONLY:
-            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+            default:
                 // Declaration Of Intent
                 DeclarationOfIntent();
-
+                // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
                     Title = NavigationItemTitles.DECLARATION_OF_INTENT,
                     RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
                     SortOrder = 1
                 };
-
-                break;
-            default:
                 break;
         }
     }
