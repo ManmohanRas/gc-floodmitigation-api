@@ -14,7 +14,7 @@ GO
 -- Create Table
 CREATE TABLE [Flood].[FloodApplicationParcel](
 	[ApplicationId]					[integer]						NOT NULL,
-	[PamsPin]						[nvarchar](76)					NOT NULL,
+	[PamsPin]						[varchar](76)					NOT NULL,
 	[IsLocked]						[bit]							NOT NULL)
 GO
 

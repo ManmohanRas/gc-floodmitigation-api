@@ -3,18 +3,19 @@
 public class GetFloodParcelsByFilterSqlCommand
 {
     private readonly string _sqlCommand =
-            @"  SELECT		TOP 20		[PAMS_PIN] AS [PamsPin],
-										[PropertyLocation] AS [PropertyAddress],
+            @"  SELECT		TOP 50		[PamsPin],
+										CONCAT([StreetNo], ' ', [StreetAddress]) AS [PropertyAddress],
 										NULL AS [TargetArea],
 										[Block],
 										[Lot],
 										[QualificationCode] AS [QCode],
 										[OwnersName] AS [LandOwner]
-				FROM					[Core].[Parcels]
-				WHERE					[MunicipalID] = @p_AgencyId AND
+				FROM					[Flood].[FloodParcel]
+				WHERE					[AgencyID] = @p_AgencyId AND
+										[PamsPin] NOT IN @p_ExistingPamsPins AND
 										(@p_Block = '' OR [Block] like @p_Block) AND
 										(@p_Lot = '' OR [Lot] like @p_Lot) AND
-										(@p_Address = '' OR [PropertyLocation] like @p_Address);";
+										(@p_Address = ''  OR CONCAT([StreetNo], ' ', [StreetAddress]) like @p_Address);";
 
     public GetFloodParcelsByFilterSqlCommand() { }
 
