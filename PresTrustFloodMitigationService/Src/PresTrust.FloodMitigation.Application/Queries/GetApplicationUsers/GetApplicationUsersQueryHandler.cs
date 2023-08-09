@@ -33,7 +33,7 @@ public class GetApplicationUsersQueryHandler : BaseHandler, IRequestHandler<GetA
         try
         {
             // get identity users by agency id
-            var endPoint = $"{systemParamOptions.IdentityApiSubDomain}/UserAdmin/users/pres-trust/flood/{application.AgencyId}";
+            var endPoint = $"{systemParamOptions.IdentityApiSubDomain}/UserAdmin/users/pres-trust/flood/{request.AgencyId ?? application.AgencyId}";
             var usersResult = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
             var vmAgencyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<FloodApplicationUserViewModel>>(usersResult);
 

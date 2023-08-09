@@ -6,5 +6,5 @@
 public class GetApplicationUsersQuery: IRequest<IEnumerable<FloodApplicationUserViewModel>>
 {
     public int ApplicationId { get; set; }
-
+    public int? AgencyId { get; set; }
 }
