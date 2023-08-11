@@ -7,12 +7,12 @@ public interface IFinanceLineItemRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Finance line items.</returns>
-    Task<IEnumerable<FloodParcelFinanceEntity>> GetFinanceLineItemsAsync(int applicationId);
+    Task<IEnumerable<FloodFinanceLineItemEntity>> GetFinanceLineItemsAsync(int applicationId);
 
     /// <summary>
     /// Save Finance line item.
     /// </summary>
     /// <param name="financeLineItem"></param>
     /// <returns></returns>
-    Task<FloodParcelFinanceEntity> SaveAsync(FloodParcelFinanceEntity financeLineItem);
+    Task<FloodFinanceLineItemEntity> SaveAsync(FloodFinanceLineItemEntity financeLineItem);
 }

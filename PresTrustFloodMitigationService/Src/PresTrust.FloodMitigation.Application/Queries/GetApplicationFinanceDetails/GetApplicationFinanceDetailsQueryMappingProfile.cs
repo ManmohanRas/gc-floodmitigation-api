@@ -6,6 +6,6 @@ public class GetApplicationFinanceDetailsQueryMappingProfile: Profile
     {
         CreateMap<FloodApplicationFinanceEntity, GetApplicationFinanceDetailsQueryViewModel>();
         CreateMap<FloodFundingSourceEntity, FloodFundingSourceViewModel>();
-        CreateMap<FloodParcelFinanceEntity, FloodFinanceLineItemViewModel>();
+        CreateMap<FloodFinanceLineItemEntity, FloodFinanceLineItemViewModel>();
     }
 }

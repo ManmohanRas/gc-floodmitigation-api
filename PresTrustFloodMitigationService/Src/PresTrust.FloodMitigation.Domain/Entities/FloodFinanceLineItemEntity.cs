@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Domain.Entities;
 
-public class FloodParcelFinanceEntity
+public class FloodFinanceLineItemEntity
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }

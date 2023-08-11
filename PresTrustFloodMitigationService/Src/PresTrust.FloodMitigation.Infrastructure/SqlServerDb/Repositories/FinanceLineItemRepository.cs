@@ -25,12 +25,12 @@ public class FinanceLineItemRepository: IFinanceLineItemRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns inance line items.</returns>
-    public async Task<IEnumerable<FloodParcelFinanceEntity>> GetFinanceLineItemsAsync(int applicationId)
+    public async Task<IEnumerable<FloodFinanceLineItemEntity>> GetFinanceLineItemsAsync(int applicationId)
     {
-        IEnumerable<FloodParcelFinanceEntity> results;
+        IEnumerable<FloodFinanceLineItemEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetFinanceLineItemsByApplicationIdSqlCommand();
-        results = await conn.QueryAsync<FloodParcelFinanceEntity>(sqlCommand.ToString(),
+        results = await conn.QueryAsync<FloodFinanceLineItemEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new { @p_ApplicationId = applicationId });
@@ -43,7 +43,7 @@ public class FinanceLineItemRepository: IFinanceLineItemRepository
     /// </summary>
     /// <param name="financeLineItem"></param>
     /// <returns></returns>
-    public async Task<FloodParcelFinanceEntity> SaveAsync(FloodParcelFinanceEntity financeLineItem)
+    public async Task<FloodFinanceLineItemEntity> SaveAsync(FloodFinanceLineItemEntity financeLineItem)
     {
         if (financeLineItem.Id > 0)
             return await UpdateAsync(financeLineItem);
@@ -57,7 +57,7 @@ public class FinanceLineItemRepository: IFinanceLineItemRepository
     /// </summary>
     /// <param name="financeLineItem"></param>
     /// <returns></returns>
-    private async Task<FloodParcelFinanceEntity> CreateAsync(FloodParcelFinanceEntity financeLineItem)
+    private async Task<FloodFinanceLineItemEntity> CreateAsync(FloodFinanceLineItemEntity financeLineItem)
     {
         int id = default;
 
@@ -86,7 +86,7 @@ public class FinanceLineItemRepository: IFinanceLineItemRepository
     /// </summary>
     /// <param name="financeLineItem"></param>
     /// <returns></returns>
-    private async Task<FloodParcelFinanceEntity> UpdateAsync(FloodParcelFinanceEntity financeLineItem)
+    private async Task<FloodFinanceLineItemEntity> UpdateAsync(FloodFinanceLineItemEntity financeLineItem)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new UpdateFinanceLineItemSqlCommand();

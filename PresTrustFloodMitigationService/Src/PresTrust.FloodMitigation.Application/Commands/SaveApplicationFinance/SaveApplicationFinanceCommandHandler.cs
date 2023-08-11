@@ -80,7 +80,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
     {
         foreach (var lineItem in financeLinteItems)
         {
-            var entity = mapper.Map<FloodFinanceLineItemViewModel, FloodParcelFinanceEntity>(lineItem);
+            var entity = mapper.Map<FloodFinanceLineItemViewModel, FloodFinanceLineItemEntity>(lineItem);
 
             await repoFinanceLineItem.SaveAsync(entity);
 

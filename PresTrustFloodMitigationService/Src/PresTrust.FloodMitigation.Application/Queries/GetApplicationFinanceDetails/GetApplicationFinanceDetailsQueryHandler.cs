@@ -47,7 +47,7 @@ public class GetApplicationFinanceDetailsQueryHandler : BaseHandler, IRequestHan
                 Id = finance.Id,
                 MatchPercent = finance.MatchPercent,
                 FundingSources = mapper.Map<IEnumerable<FloodFundingSourceEntity>, IEnumerable<FloodFundingSourceViewModel>>(fundingSources),
-                FinanceLineItems = mapper.Map<IEnumerable<FloodParcelFinanceEntity>, IEnumerable<FloodFinanceLineItemViewModel>>(parcelFinance)
+                FinanceLineItems = mapper.Map<IEnumerable<FloodFinanceLineItemEntity>, IEnumerable<FloodFinanceLineItemViewModel>>(parcelFinance)
             };
 
         return result;
