@@ -8,4 +8,5 @@ public class GetFloodParcelsByFilterQuery : IRequest<IEnumerable<GetFloodParcels
         public string? Block { get; set; }
         public string? Lot { get; set; }
         public string? Address { get; set; }
+        public List<string>? ExistingPamsPins { get; set; }
 }

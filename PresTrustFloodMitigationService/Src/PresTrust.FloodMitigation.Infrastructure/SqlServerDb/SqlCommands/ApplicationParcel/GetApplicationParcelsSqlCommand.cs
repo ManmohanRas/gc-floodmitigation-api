@@ -19,14 +19,14 @@ public class GetApplicationParcelsSqlCommand
 					AP.[PamsPin],
 					AP.[IsLocked],
 					AP.[AlreadyExists],
-					CP.[PropertyLocation] AS [PropertyAddress],
+					CONCAT(CP.[StreetNo], ' ', CP.[StreetAddress]) AS [PropertyAddress],
 					NULL AS [TargetArea],
 					CP.[Block],
 					CP.[Lot],
 					CP.[QualificationCode] AS [QCode],
 					CP.[OwnersName] AS [LandOwner]
 				FROM		[ApplicationParcelCTE] AP
-				JOIN		[Core].[Parcels] CP ON AP.PamsPin = CP.PAMS_PIN;";
+				JOIN		[Flood].[FloodParcel] CP ON AP.PamsPin = CP.PamsPin;";
 
     public GetApplicationParcelsSqlCommand() { }
 
