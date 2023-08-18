@@ -13,6 +13,8 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IFeedbackRepository, FeedbackRepository>();
         services.AddTransient<ICommentRepository, CommentRepository>();
         services.AddTransient<IDocumentRepository, DocumentRepository>();
+        services.AddTransient<ITechDetailsRepository, TechDetailsRepository>();
         services.AddHttpContextAccessor();
+
     }
 }                                                                               

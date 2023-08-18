@@ -1,0 +1,7 @@
+﻿namespace PresTrust.FloodMitigation.Application.Queries;
+
+public class GetTechDetailsQuery : IRequest<GetTechDetailsQueryViewModel> 
+{
+    public int ApplicationId { get; set; }
+
+}
