@@ -321,6 +321,32 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
+
+    /// <summary>
+    /// Get Tech Details
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getTechDetails")]
+    [ProducesResponseType(typeof(GetTechDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetTechDetailsQueryViewModel>> GetTech([FromBody] GetTechDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    /// <summary>
+    /// Save Tech Details.
+    /// </summary>
+    /// <param name="command"> Query Command.</param>
+    /// <returns> Returns Signature Reponse.</returns>
+    [HttpPost("saveTechDetails")]
+    public async Task<ActionResult<int>> SaveTechDetails([FromBody] SaveTechDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController
