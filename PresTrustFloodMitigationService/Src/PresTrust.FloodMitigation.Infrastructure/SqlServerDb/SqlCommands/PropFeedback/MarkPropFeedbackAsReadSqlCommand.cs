@@ -1,13 +1,13 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class MarkFeedbacksAsReadSqlCommand
+public class MarkPropFeedbackAsReadSqlCommand
 {
     private readonly string _sqlCommand =
-       @"UPDATE		       [Flood].[FloodFeedback]
+      @"UPDATE		       [Flood].[ParcelFeedback]
              SET			   [MarkRead] = 1
              WHERE		       Id IN @p_FeedbackIds;";
 
-    public MarkFeedbacksAsReadSqlCommand() { }
+    public MarkPropFeedbackAsReadSqlCommand() { }
 
     public override string ToString()
     {

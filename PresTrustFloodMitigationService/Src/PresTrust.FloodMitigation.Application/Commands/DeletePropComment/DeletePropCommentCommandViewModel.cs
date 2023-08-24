@@ -1,5 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class RequestForApplicationCorrectionCommandViewModel
+public class DeletePropCommentCommandViewModel
 {
+
 }

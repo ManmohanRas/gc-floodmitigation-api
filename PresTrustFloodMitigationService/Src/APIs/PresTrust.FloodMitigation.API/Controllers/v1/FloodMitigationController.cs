@@ -174,6 +174,26 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("getPropFeedbacks")]
+    [ProducesResponseType(typeof(IEnumerable<GetPropFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetPropFeedbacksQueryViewModel>>> getPropFeedbacks([FromBody] GetPropFeedbacksQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("savePropFeedback")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> savePropFeedback([FromBody] SavePropFeedbackCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("getDocumentDetails")]
     [ProducesResponseType(typeof(IEnumerable<DocumentTypeViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

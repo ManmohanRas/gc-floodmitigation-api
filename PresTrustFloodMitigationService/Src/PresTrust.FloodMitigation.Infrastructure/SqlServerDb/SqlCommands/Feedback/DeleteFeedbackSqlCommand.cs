@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-internal class DeleteFeedbackSqlCommand
+public class DeleteFeedbackSqlCommand
 {
     private readonly string _sqlCommand =
        @"DELETE 
