@@ -377,6 +377,20 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
+
+    /// Get Tech Details
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("reCalculateParcelFinance")]
+    [ProducesResponseType(typeof(ReCalculateParcelFinanceQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ReCalculateParcelFinanceQueryViewModel>> ReCalculateParcelFinance([FromBody] ReCalculateParcelFinanceQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController

@@ -7,7 +7,7 @@ public class GetParcelFinanceSqlCommand
 							   ,PF.[ApplicationId]
                                ,PF.[PamsPin]
                                ,FAFLI.[ValueEstimate]
-							   ,ISNULL([EstimatePurchasePrice], FAFLI.[ValueEstimate])
+							   ,ISNULL(PF.[EstimatePurchasePrice], FAFLI.[ValueEstimate]) AS EstimatePurchasePrice
 							   ,FAF.[MatchPercent]
                                ,PF.[AdditionalSoftCostEstimate]
                                ,PF.[AppraisedValue]

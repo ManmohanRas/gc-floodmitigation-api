@@ -12,6 +12,7 @@ public class FloodParcelFinanceEntity
     public decimal SoftEstimate { get; set; }
     public decimal AdditionalSoftCostEstimate { get; set; }
     public decimal SoftEstimateTotal { get; set; }
+    public decimal TotalEncumbresedFunds { get; set; }
     public decimal AppraisedValue { get; set; }
     public decimal AMV { get; set; }
     public decimal TotalFEMABenifits { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetParcelFinanceQueryViewModel
+public class ReCalculateParcelFinanceQuery: IRequest<ReCalculateParcelFinanceQueryViewModel>
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
