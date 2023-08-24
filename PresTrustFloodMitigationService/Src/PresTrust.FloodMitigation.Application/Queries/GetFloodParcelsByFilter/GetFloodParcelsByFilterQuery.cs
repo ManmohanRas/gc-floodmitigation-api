@@ -1,5 +1,7 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
-
+/// <summary>
+/// This class represents api's query input model and returns the response object
+/// </summary>
 public class GetFloodParcelsByFilterQuery : IRequest<IEnumerable<GetFloodParcelsByFilterQueryViewModel>>
 {
         public int AgencyId { get; set; }

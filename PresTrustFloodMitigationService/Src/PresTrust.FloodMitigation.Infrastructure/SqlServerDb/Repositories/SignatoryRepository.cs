@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
-
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
 public class SignatoryRepository : ISignatoryRepository
 {
@@ -83,8 +81,7 @@ public class SignatoryRepository : ISignatoryRepository
                 @p_Designation = floodSignatory.Designation,
                 @p_Title = floodSignatory.Title,
                 @p_SignedOn = floodSignatory.SignatureOn,
-                @p_LastUpdatedBy = floodSignatory.LastUpdatedBy,
-                @p_LastUpdatedOn = DateTime.Now
+                @p_LastUpdatedBy = floodSignatory.LastUpdatedBy
             });
 
         floodSignatory.Id = id;
