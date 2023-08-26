@@ -88,7 +88,6 @@ public class FloodSecurityManager
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
                 permission.CanSubmitDeclarationOfIntent = true;
-                permission.CanWithdrawApplication = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 // Declaration Of Intent
@@ -103,7 +102,6 @@ public class FloodSecurityManager
                 break;
             case UserRoleEnum.AGENCY_ADMIN:
                 permission.CanSubmitDeclarationOfIntent = true;
-                permission.CanWithdrawApplication = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 // Declaration Of Intent
@@ -224,38 +222,103 @@ public class FloodSecurityManager
         {
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
-                permission.CanReinitiateApplication = true;
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
             case UserRoleEnum.PROGRAM_EDITOR:
+                permission.CanSubmitApplication = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
                 // Declaration Of Intent
                 DeclarationOfIntent();
+                //Roles
+                Roles(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Overview
+                Overview(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Project Area
+                ProjectArea(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    Title = NavigationItemTitles.ROLES,
+                    RouterLink = RouterLinks.ROLES_EDIT,
                     SortOrder = 1
                 };
                 break;
             case UserRoleEnum.AGENCY_ADMIN:
-            case UserRoleEnum.AGENCY_EDITOR:
-            default:
+                permission.CanSubmitApplication = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
                 // Declaration Of Intent
                 DeclarationOfIntent();
+                //Roles
+                Roles(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Overview
+                Overview(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Project Area
+                ProjectArea(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    Title = NavigationItemTitles.ROLES,
+                    RouterLink = RouterLinks.ROLES_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_EDITOR:
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Overview
+                Overview(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Project Area
+                ProjectArea(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.ROLES,
+                    RouterLink = RouterLinks.ROLES_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles();
+                //Overview
+                Overview();
+                //Project Area
+                ProjectArea();
+                //Finance
+                Finance();
+                //Signatory
+                Signatory();
+                //Other Documents
+                OtherDocuments();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = NavigationItemTitles.ROLES,
+                    RouterLink = RouterLinks.ROLES_VIEW,
                     SortOrder = 1
                 };
                 break;
@@ -264,266 +327,26 @@ public class FloodSecurityManager
 
     private void DeriveSubmittedStatePermissions()
     {
-        switch (userRole)
-        {
-            case UserRoleEnum.SYSTEM_ADMIN:
-            case UserRoleEnum.PROGRAM_ADMIN:
-                permission.CanReinitiateApplication = true;
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.PROGRAM_EDITOR:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.AGENCY_ADMIN:
-            case UserRoleEnum.AGENCY_EDITOR:
-            default:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
-                    SortOrder = 1
-                };
-                break;
-        }
     }
 
     private void DeriveInReviewStatePermissions()
     {
-        switch (userRole)
-        {
-            case UserRoleEnum.SYSTEM_ADMIN:
-            case UserRoleEnum.PROGRAM_ADMIN:
-                permission.CanReinitiateApplication = true;
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.PROGRAM_EDITOR:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.AGENCY_ADMIN:
-            case UserRoleEnum.AGENCY_EDITOR:
-            default:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
-                    SortOrder = 1
-                };
-                break;
-        }
     }
 
     private void DeriveActiveStatePermissions()
     {
-        switch (userRole)
-        {
-            case UserRoleEnum.SYSTEM_ADMIN:
-            case UserRoleEnum.PROGRAM_ADMIN:
-                permission.CanReinitiateApplication = true;
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.PROGRAM_EDITOR:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.AGENCY_ADMIN:
-            case UserRoleEnum.AGENCY_EDITOR:
-            default:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
-                    SortOrder = 1
-                };
-                break;
-        }
     }
 
     private void DeriveClosedStatePermissions()
     {
-        switch (userRole)
-        {
-            case UserRoleEnum.SYSTEM_ADMIN:
-            case UserRoleEnum.PROGRAM_ADMIN:
-                permission.CanReinitiateApplication = true;
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.PROGRAM_EDITOR:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.AGENCY_ADMIN:
-            case UserRoleEnum.AGENCY_EDITOR:
-            default:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
-                    SortOrder = 1
-                };
-                break;
-        }
     }
 
     private void DeriveRejectedStatePermissions()
     {
-        switch (userRole)
-        {
-            case UserRoleEnum.SYSTEM_ADMIN:
-            case UserRoleEnum.PROGRAM_ADMIN:
-                permission.CanReinitiateApplication = true;
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.PROGRAM_EDITOR:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.AGENCY_ADMIN:
-            case UserRoleEnum.AGENCY_EDITOR:
-            default:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
-                    SortOrder = 1
-                };
-                break;
-        }
     }
 
     private void DeriveWithdrawnStatePermissions()
     {
-        switch (userRole)
-        {
-            case UserRoleEnum.SYSTEM_ADMIN:
-            case UserRoleEnum.PROGRAM_ADMIN:
-                permission.CanReinitiateApplication = true;
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.PROGRAM_EDITOR:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            case UserRoleEnum.AGENCY_ADMIN:
-            case UserRoleEnum.AGENCY_EDITOR:
-            default:
-                // Declaration Of Intent
-                DeclarationOfIntent();
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
-                    SortOrder = 1
-                };
-                break;
-        }
     }
 
     private void DeclarationOfIntent(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
@@ -537,6 +360,108 @@ public class FloodSecurityManager
             case ViewOrEdit.EDIT:
                 permission.CanEditDeclarationOfIntentSection = true;
                 navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.DECLARATION_OF_INTENT, RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT, SortOrder = 1, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void Roles(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewRolesSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.ROLES, RouterLink = RouterLinks.ROLES_VIEW, SortOrder = 2, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditRolesSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.ROLES, RouterLink = RouterLinks.ROLES_EDIT, SortOrder = 2, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void Overview(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewOverviewSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.OVERVIEW, RouterLink = RouterLinks.OVERVIEW_VIEW, SortOrder = 3, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditOverviewSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.OVERVIEW, RouterLink = RouterLinks.OVERVIEW_EDIT, SortOrder = 3, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void ProjectArea(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewProjectAreaSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.PROJECT_AREA, RouterLink = RouterLinks.PROJECT_AREA_VIEW, SortOrder = 4, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditProjectAreaSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.PROJECT_AREA, RouterLink = RouterLinks.PROJECT_AREA_EDIT, SortOrder = 4, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void Finance(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewFinanceSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.FINANCE, RouterLink = RouterLinks.FINANCE_VIEW, SortOrder = 5, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditFinanceSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.FINANCE, RouterLink = RouterLinks.FINANCE_EDIT, SortOrder = 5, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void Signatory(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewSignatorySection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.SIGNATORY, RouterLink = RouterLinks.SIGNATORY_VIEW, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditSignatorySection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.SIGNATORY, RouterLink = RouterLinks.SIGNATORY_EDIT, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OtherDocuments(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewOtherDocsSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.OTHER_DOCUMENTS, RouterLink = RouterLinks.OTHER_DOCUMENTS_VIEW, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditOtherDocsSection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.OTHER_DOCUMENTS, RouterLink = RouterLinks.OTHER_DOCUMENTS_EDIT, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
