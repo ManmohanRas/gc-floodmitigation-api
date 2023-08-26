@@ -10,12 +10,21 @@
     <Compile Remove="Commands\NewFolder1\**" />
     <Compile Remove="Commands\NewFolder2\**" />
     <Compile Remove="Commands\NewFolder3\**" />
+    <Compile Remove="Commands\NewFolder4\**" />
+    <Compile Remove="Commands\NewFolder5\**" />
+    <Compile Remove="Commands\NewFolder\**" />
     <EmbeddedResource Remove="Commands\NewFolder1\**" />
     <EmbeddedResource Remove="Commands\NewFolder2\**" />
     <EmbeddedResource Remove="Commands\NewFolder3\**" />
+    <EmbeddedResource Remove="Commands\NewFolder4\**" />
+    <EmbeddedResource Remove="Commands\NewFolder5\**" />
+    <EmbeddedResource Remove="Commands\NewFolder\**" />
     <None Remove="Commands\NewFolder1\**" />
     <None Remove="Commands\NewFolder2\**" />
     <None Remove="Commands\NewFolder3\**" />
+    <None Remove="Commands\NewFolder4\**" />
+    <None Remove="Commands\NewFolder5\**" />
+    <None Remove="Commands\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,15 +44,6 @@
   <ItemGroup>
     <ProjectReference Include="..\PresTrust.FloodMitigation.Domain\PresTrust.FloodMitigation.Domain.csproj" />
     <ProjectReference Include="..\PresTrust.FloodMitigation.Infrastructure\PresTrust.FloodMitigation.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\NewFolder1\" />
-    <Folder Include="Commands\NewFolder2\" />
-    <Folder Include="Commands\NewFolder3\" />
-    <Folder Include="Commands\NewFolder4\" />
-    <Folder Include="Commands\NewFolder5\" />
-    <Folder Include="Commands\NewFolder\" />
   </ItemGroup>
 
 </Project>

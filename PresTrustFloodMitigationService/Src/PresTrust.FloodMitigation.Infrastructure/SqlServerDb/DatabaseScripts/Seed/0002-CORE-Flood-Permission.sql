@@ -1,3 +1,4 @@
+DELETE FROM [Core].[Permission] WHERE [Id] IN (9, 10, 11, 12);
 
 SET IDENTITY_INSERT [Core].[Permission] ON
 
