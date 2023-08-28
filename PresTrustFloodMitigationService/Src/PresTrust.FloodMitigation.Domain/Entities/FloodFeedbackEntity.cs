@@ -22,5 +22,4 @@ public class FloodFeedbackEntity
             this.SectionId = (int)value;
         }
     }
-
 }

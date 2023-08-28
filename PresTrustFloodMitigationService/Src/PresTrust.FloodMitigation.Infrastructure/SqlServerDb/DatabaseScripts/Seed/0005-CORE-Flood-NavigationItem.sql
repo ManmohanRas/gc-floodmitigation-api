@@ -1,3 +1,5 @@
+DELETE FROM [Core].[NavigationItem] WHERE [Id] IN (19,20,21,22,23,24,25,26);
+
 SET IDENTITY_INSERT [Core].[NavigationItem] ON
 
 INSERT INTO [Core].[NavigationItem]
@@ -27,7 +29,7 @@ INSERT INTO [Core].[NavigationItem]
 ) 
 VALUES 
 (
-	20, 0, 'Applications','flood/applications', 'flaticon-squares-4', 3,0, 2, 1
+	20, 0, 'Manage Project Areas','flood/applications', 'flaticon-squares-4', 3,0, 2, 1
 );
 GO
 
