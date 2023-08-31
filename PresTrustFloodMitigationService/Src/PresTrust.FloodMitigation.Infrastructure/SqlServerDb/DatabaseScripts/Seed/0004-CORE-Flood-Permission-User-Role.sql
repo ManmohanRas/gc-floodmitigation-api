@@ -1,3 +1,7 @@
+-- delete previous records
+DELETE FROM [Core].[PermissionUserRole] WHERE PermissionId IN (9, 10, 11, 12);
+
+
 -- manage_program
 INSERT INTO [core].[PermissionUserRole]([PermissionId], [UserRoleId]) VALUES (9, 1);
 INSERT INTO [core].[PermissionUserRole]([PermissionId], [UserRoleId]) VALUES (9, 3);
