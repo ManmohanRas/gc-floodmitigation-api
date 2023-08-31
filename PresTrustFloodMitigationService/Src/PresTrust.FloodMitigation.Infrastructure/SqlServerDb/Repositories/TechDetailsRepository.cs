@@ -111,7 +111,7 @@ public class TechDetailsRepository : ITechDetailsRepository
                 @p_TenPercent = floodTechDetails.TenPercent,
                 @p_TwoPercent = floodTechDetails.TwoPercent,
                 @p_OnePercent = floodTechDetails.OnePercent,
-                @p_PointOnePercent = floodTechDetails.PointonwPercent,
+                @p_PointOnePercent = floodTechDetails.PointOnePercent,
                 @p_LastUpdatedBy = floodTechDetails.LastUpdatedBy
             });
 
@@ -133,6 +133,7 @@ public class TechDetailsRepository : ITechDetailsRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
+                @p_Id = floodTechDetails.Id,
                 @p_ApplicationId = floodTechDetails.ApplicationId,
                 @p_PamsPin = floodTechDetails.Pamspin,
                 @p_FEMASevereRepetitiveLossList = floodTechDetails.FEMASevereRepetitiveLossList,
@@ -166,7 +167,8 @@ public class TechDetailsRepository : ITechDetailsRepository
                 @p_TenPercent = floodTechDetails.TenPercent,
                 @p_TwoPercent = floodTechDetails.TwoPercent,
                 @p_OnePercent = floodTechDetails.OnePercent,
-                @p_PointOnePercent = floodTechDetails.PointonwPercent,
+                @p_PointOnePercent = floodTechDetails.PointOnePercent,
+                @p_LastUpdatedBy = floodTechDetails.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
             });
 
