@@ -288,4 +288,24 @@ public class FloodMitigationWorkflowController : ApiBaseController
     {
         return Single(await CommandAsync(command));
     }
+
+    [HttpPost("getSoftcostDetails")]
+    [ProducesResponseType(typeof(GetSoftcostDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType ((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetSoftcostDetailsQueryViewModel>> GetSoftcostDetails([FromBody] GetSoftcostDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveSoftcost")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> saveSoftcost([FromBody] SaveSoftcostCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
