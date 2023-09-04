@@ -19,6 +19,10 @@ public class GetSoftcostDetailsQueryHandler : IRequestHandler<GetSoftcostDetails
 
         var softCosts = mapper.Map<IEnumerable<FloodParcelSoftcostEntity>, IEnumerable<FloodParcelSoftcostViewModel>>(softCostLineItems);
 
+        foreach (var item in softCosts)
+        {
+            item.SoftcostTotal = item.PaymentAmount * item.CostShare;
+        }
         var result = new GetSoftcostDetailsQueryViewModel()
         {
             ApplicationId = request.ApplicationId,

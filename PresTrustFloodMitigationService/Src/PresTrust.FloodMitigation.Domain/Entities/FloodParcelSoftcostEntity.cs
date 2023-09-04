@@ -9,6 +9,8 @@ public class FloodParcelSoftcostEntity
         public string? VendorName { get; set; }
         public decimal InvoiceAmount { get; set; }
         public decimal PaymentAmount { get; set; }
+        public decimal CostShare { get; set; }
+        public decimal SoftcostTotal { get; set; }
         public string? LastUpdatedBy { get; set; }
         public DateTime LastUpdatedOn { get; set; }
 }

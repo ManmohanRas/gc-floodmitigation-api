@@ -3,5 +3,5 @@
 public class GetSoftcostDetailsQuery : IRequest<GetSoftcostDetailsQueryViewModel>
 {   
     public int ApplicationId { get; set; }
-    public string PamsPin { get; set; }
+    public string? PamsPin { get; set; }
 }
