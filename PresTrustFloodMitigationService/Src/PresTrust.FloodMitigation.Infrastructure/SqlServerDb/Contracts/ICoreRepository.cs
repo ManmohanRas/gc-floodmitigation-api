@@ -27,5 +27,5 @@ public interface ICoreRepository
     /// <param name="lot"></param>
     /// <param name="address"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address);
+    Task<IEnumerable<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address, List<string> existingPamsPins);
 }

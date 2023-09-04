@@ -71,7 +71,7 @@
             return result;
         }
 
-        public async Task<IEnumerable<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address)
+        public async Task<IEnumerable<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address, List<string> existingPamsPins)
         {
             IEnumerable<FloodParcelEntity> results = default;
             using var conn = context.CreateConnection();
@@ -81,6 +81,7 @@
                         commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                         param: new {
                             @p_AgencyId = agencyId,
+                            @p_ExistingPamsPins = existingPamsPins,
                             @p_Block = string.Format("%{0}%", block ?? string.Empty),
                             @p_Lot = string.Format("%{0}%", lot ?? string.Empty),
                             @p_Address = string.Format("%{0}%", address ?? string.Empty)

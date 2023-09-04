@@ -9,9 +9,9 @@ public interface ISignatoryRepository
     /// <returns></returns>
     Task<FloodSignatoryEntity> GetSignatoryAsync(int applicationId);
     /// <summary>
-    /// Save Signature.
+    /// Save TechDetails.
     /// </summary>
-    /// <param name="floodSignatory"></param>
+    /// <param name="floodTechDetails"></param>
     /// <returns></returns>
     Task<FloodSignatoryEntity> SaveAsync(FloodSignatoryEntity floodSignatory);
 }
