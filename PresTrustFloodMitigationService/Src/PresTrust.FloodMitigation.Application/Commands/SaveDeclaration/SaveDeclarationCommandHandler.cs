@@ -1,4 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using DevExpress.CodeParser;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDeclarationCommand, bool>
 {
@@ -6,6 +8,7 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
+    private readonly IFloodParcelRepository repoParcel;
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IApplicationUserRepository repoApplicationUser;
     public SaveDeclarationCommandHandler (
@@ -13,6 +16,7 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
+        IFloodParcelRepository repoParcel,
         IApplicationParcelRepository repoApplicationParcel,
         IApplicationUserRepository repoApplicationUser
         ) : base (repoApplication)
@@ -21,6 +25,7 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
+        this.repoParcel = repoParcel;
         this.repoApplicationParcel = repoApplicationParcel;
         this.repoApplicationUser = repoApplicationUser;
     }
@@ -37,10 +42,22 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
         application.AgencyId = reqApp.AgencyId;
         application.ApplicationSubTypeId = reqApp.ApplicationSubTypeId;
 
+        //check for new parcels
+        var newParcels = request.Parcels.Where(o => o.IsNewProperty).Select(o => new FloodParcelEntity()
+        {
+            PamsPin = o.PamsPin,
+            AgencyId = request.AgencyId,
+            Block = o.Block,
+            Lot = o.Lot,
+            QCode = o.QCode,
+            PropertyAddress = o.PropertyAddress,
+            LandOwner = o.LandOwner
+        }).ToList();
+
         //update application parcels
-        var reqAppParcels = request.PamsPins.Select(o => new FloodApplicationParcelEntity() {
+        var reqAppParcels = request.Parcels.Select(o => new FloodApplicationParcelEntity() {
             ApplicationId = application.Id,
-            PamsPin = o,
+            PamsPin = o.PamsPin,
             IsLocked = false
         }).ToList();
 
@@ -55,6 +72,10 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoApplication.SaveAsync(application);
+            if(newParcels.Count > 0)
+            {
+                await repoParcel.SaveAsync(newParcels);
+            }
             await repoApplicationParcel.DeleteApplicationParcelsByApplicationIdAsync(application.Id);
             await repoApplicationParcel.SaveAsync(reqAppParcels);
             await repoApplicationUser.DeleteApplicationUsersByApplicationIdAsync(application.Id);

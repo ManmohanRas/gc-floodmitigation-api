@@ -14,6 +14,8 @@ public class FloodApplicationEntity
     public string LastUpdatedBy { get; set; }
     public DateTime LastUpdatedOn { get; set; }
     public bool IsActive { get; set; }
+    public int? NoOfHomes { get; set; }
+    public int? NoOfContiguousHomes { get; set; }
     public string AgencyJSON { get; set; }
     public string CommentsJSON { get; set; }
     public string FeedbacksJSON { get; set; }
