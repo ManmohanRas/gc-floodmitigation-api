@@ -1,4 +1,4 @@
-TRUNCATE TABLE Flood.FloodParcel;
+TRUNCATE TABLE [Flood].[FloodParcel];
 
 WITH CoreParcelCTE AS
 (
@@ -32,7 +32,7 @@ WITH CoreParcelCTE AS
 		FROM		[Core].[Parcels]
 	) CoreParcels
 )
-INSERT INTO Flood.FloodParcel
+INSERT INTO [Flood].[FloodParcel]
 (
 	PamsPin,
 	AgencyID,

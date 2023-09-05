@@ -10,12 +10,21 @@
     <Compile Remove="Commands\NewFolder1\**" />
     <Compile Remove="Commands\NewFolder2\**" />
     <Compile Remove="Commands\NewFolder3\**" />
+    <Compile Remove="Commands\NewFolder4\**" />
+    <Compile Remove="Commands\NewFolder5\**" />
+    <Compile Remove="Commands\NewFolder\**" />
     <EmbeddedResource Remove="Commands\NewFolder1\**" />
     <EmbeddedResource Remove="Commands\NewFolder2\**" />
     <EmbeddedResource Remove="Commands\NewFolder3\**" />
+    <EmbeddedResource Remove="Commands\NewFolder4\**" />
+    <EmbeddedResource Remove="Commands\NewFolder5\**" />
+    <EmbeddedResource Remove="Commands\NewFolder\**" />
     <None Remove="Commands\NewFolder1\**" />
     <None Remove="Commands\NewFolder2\**" />
     <None Remove="Commands\NewFolder3\**" />
+    <None Remove="Commands\NewFolder4\**" />
+    <None Remove="Commands\NewFolder5\**" />
+    <None Remove="Commands\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>

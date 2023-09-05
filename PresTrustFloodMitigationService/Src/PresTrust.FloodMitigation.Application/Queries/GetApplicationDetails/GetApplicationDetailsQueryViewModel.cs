@@ -14,6 +14,8 @@ public class GetApplicationDetailsQueryViewModel
     public string Status { get; set; }
     public string PrevStatus { get; set; }
     public bool CreatedByProgramAdmin { get; set; }
+    public int? NoOfHomes { get; set; }
+    public int? NoOfContiguousHomes { get; set; }
     public FloodAgencyEntity Agency { get; set;}
     public IEnumerable<FloodCommentEntity> Comments { get; set;}
     public IEnumerable<FloodFeedbackEntity> Feedbacks { get; set;}

@@ -16,7 +16,7 @@ public class SaveDeclarationCommandValidator : AbstractValidator<SaveDeclaration
              .NotEmpty().WithMessage("Not a valid application type");
         RuleFor(command => command.ApplicationSubType)
              .NotEmpty().WithMessage("Not a valid application sub type");
-        RuleFor(command => command.PamsPins)
+        RuleFor(command => command.Parcels)
              .Must(o => o.Count > 0).WithMessage("Atleast one property must be added");
         RuleFor(command => command.ApplicationUsers)
              .Must(o => o.Count > 0).WithMessage("Atleast one application user must be added");

@@ -35,7 +35,8 @@ public class GetApplicationSqlCommand
 									WITHOUT_ARRAY_WRAPPER) AS [AgencyJSON]
 					FROM		[Core].[View_AgencyEntities_FLOOD]
 			) FLOOD_AGENCY ON FLOOD_APPLICATION.[AgencyId] = FLOOD_AGENCY.[AgencyId])
-			SELECT		A.[Id],
+			SELECT		TOP 1
+						A.[Id],
 						A.[AgencyId],
 						AG.[AgencyName],
 						A.[Title],
@@ -46,12 +47,15 @@ public class GetApplicationSqlCommand
 						ISNULL(ASL.[StatusId], 0) AS [PrevStatusId],
 						A.[CreatedByProgramAdmin],
 						AG.[AgencyJSON],
+						AO.[NoOfHomes],
+						AO.[NoOfContiguousHomes],
 						C.[CommentsJSON],
 						F.[FeedbacksJSON],
 						A.[LastUpdatedOn]
 			FROM		[Flood].[FloodApplication] A
-			LEFT JOIN	[Flood].[FloodApplicationStatusLog] ASL ON A.Id = ASL.ApplicationId
+			LEFT JOIN	[Flood].[FloodApplicationStatusLog] ASL ON ASL.StatusId != A.StatusId AND A.Id = ASL.ApplicationId
 			JOIN		[AgencyCTE] AG ON A.[AgencyId] = AG.[AgencyId]
+			LEFT JOIN	[Flood].[FloodOverview] AO ON A.Id = AO.ApplicationId
 			LEFT JOIN	(SELECT		[ApplicationId],
 									CONCAT('[', STRING_AGG([CommentJSON], ','), ']') AS [CommentsJSON]
 						FROM		(SELECT		[ApplicationId],
@@ -81,7 +85,8 @@ public class GetApplicationSqlCommand
 									FROM		[Flood].[FloodFeedback]
 									WHERE		[ApplicationId] = @p_Id) FLOOD_FEEDBACK
 						GROUP BY	[ApplicationId]) F ON A.Id = F.ApplicationId
-			WHERE		A.[Id]=@p_Id AND A.[IsActive] = 1;";
+			WHERE		A.[Id]=@p_Id AND A.[IsActive] = 1
+			ORDER BY ASL.LastUpdatedOn DESC;";
 
     public GetApplicationSqlCommand() { }
 

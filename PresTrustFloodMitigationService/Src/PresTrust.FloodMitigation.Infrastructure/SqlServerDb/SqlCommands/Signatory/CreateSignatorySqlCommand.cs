@@ -22,7 +22,7 @@ public class CreateSignatorySqlCommand
 							,@p_SignedOn
 							,1
 							,@p_LastUpdatedBy  
-							,@p_LastUpdatedOn	
+							,GETDATE()	
 						);
 
 				  SELECT CAST( SCOPE_IDENTITY() AS INT);";
