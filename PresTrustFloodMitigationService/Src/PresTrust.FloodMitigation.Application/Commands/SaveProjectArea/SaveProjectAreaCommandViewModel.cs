@@ -1,6 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application.Queries;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class GetApplicationDetailsQueryViewModel
+public class SaveProjectAreaCommandViewModel
 {
     public int Id { get; set; }
     public int AgencyId { get; set; }
@@ -14,11 +14,9 @@ public class GetApplicationDetailsQueryViewModel
     public string Status { get; set; }
     public string PrevStatus { get; set; }
     public bool CreatedByProgramAdmin { get; set; }
-    public int? NoOfHomes { get; set; }
-    public int? NoOfContiguousHomes { get; set; }
-    public FloodAgencyEntity Agency { get; set;}
-    public IEnumerable<FloodCommentEntity> Comments { get; set;}
-    public IEnumerable<FloodFeedbackEntity> Feedbacks { get; set;}
+    public FloodAgencyEntity Agency { get; set; }
+    public IEnumerable<FloodCommentEntity> Comments { get; set; }
+    public IEnumerable<FloodFeedbackEntity> Feedbacks { get; set; }
     public PermissionEntity Permission { get; set; } = new PermissionEntity();
     public IEnumerable<NavigationItemEntity> NavigationItems { get; set; } = new List<NavigationItemEntity>();
     public IEnumerable<NavigationItemEntity> AdminNavigationItems { get; set; } = new List<NavigationItemEntity>();

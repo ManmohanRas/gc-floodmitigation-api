@@ -9,9 +9,6 @@ public class UpdateApplicationSqlCommand
                         [AgencyId] = @p_AgencyId,
                         [ApplicationTypeId] = @p_ApplicationTypeId,
                         [ApplicationSubTypeId] = @p_ApplicationSubTypeId,
-                        [StatusId] = @p_StatusId,
-                        [ExpirationDate] = DATEADD(YEAR, 3, GETDATE()),
-                        [CreatedByProgramAdmin] = @p_CreatedByProgramAdmin,
                         [LastUpdatedBy] = @p_LastUpdatedBy,
                         [LastUpdatedOn] = GetDate()
                WHERE    [Id] = @p_ApplicationId;";
