@@ -18,8 +18,8 @@ CREATE TABLE [Flood].[FloodOverview](
 	[Id]									[integer] 		IDENTITY(1,1)	NOT NULL,
 	[ApplicationId]							[integer]						NOT NULL,
 
-	[FactorHomes]							[integer]						NOT NULL,
-	[FactorContiguousHomes]					[integer]						NOT NULL,
+	[NoOfHomes]								[integer]						NULL,
+	[NoOfContiguousHomes]					[integer]						NULL,
 
 	[NatlDisaster]							[bit]							DEFAULT 0,
 	[NatlDisasterId]						[int]							NULL	,	 
