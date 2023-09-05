@@ -4,8 +4,8 @@ public class UpdateOverviewDetailsSqlCommand
 {
     private readonly string _sqlCommand =
         @" UPDATE [Flood].[FloodOverview] 
-            SET FactorHomes = @p_FactorHomes
-                ,FactorContiguousHomes = @p_FactorContiguousHomes
+            SET NoOfHomes = @p_NoOfHomes
+                ,NoOfContiguousHomes = @p_NoOfContiguousHomes
                 ,NatlDisaster = @p_NatlDisaster
                 ,NatlDisasterId = @p_NatlDisasterId
                 ,NatlDisasterName = @p_NatlDisasterName

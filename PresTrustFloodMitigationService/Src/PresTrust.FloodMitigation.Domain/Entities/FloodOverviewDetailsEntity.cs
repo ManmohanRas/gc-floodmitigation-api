@@ -4,8 +4,8 @@ public class FloodOverviewDetailsEntity
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public int FactorHomes { get; set; }
-    public int FactorContiguousHomes { get; set; }
+    public int? NoOfHomes { get; set; }
+    public int? NoOfContiguousHomes { get; set; }
     public bool NatlDisaster { get; set; }
     public int NatlDisasterId { get; set; }
     public string? NatlDisasterName { get; set;}

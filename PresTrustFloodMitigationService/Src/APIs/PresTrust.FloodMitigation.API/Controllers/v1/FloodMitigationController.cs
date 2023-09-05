@@ -16,7 +16,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
-
+    
     [HttpPost("getApplications")]
     [ProducesResponseType(typeof(IEnumerable<GetApplicationsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -191,7 +191,19 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     public async Task<ActionResult<int>> saveOverviewDetails([FromBody] SaveOverviewDetailsCommand command)
     {
         return Single(await CommandAsync(command));
-    }  
+    }
+
+
+    [HttpPost("saveProjectArea")]
+    [ProducesResponseType(typeof(SaveProjectAreaCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<SaveProjectAreaCommandViewModel>> SaveProjectArea([FromBody] SaveProjectAreaCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
 
     [HttpPost("getDocumentDetails")]
     [ProducesResponseType(typeof(IEnumerable<DocumentTypeViewModel>), (int)HttpStatusCode.OK)]
@@ -254,6 +266,19 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     }
 
     /// <summary>
+    /// Get Parcel Finance
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getParcelFinance")]
+    [ProducesResponseType(typeof(GetParcelFinanceQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetParcelFinanceQueryViewModel>> GetParcelFinance([FromBody] GetParcelFinanceQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
     /// Get Finance Details
     /// </summary>
     /// <param name="query"></param>
@@ -323,6 +348,19 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     }
 
     /// <summary>
+    /// Save Parcel Finance.
+    /// </summary>
+    /// <param name="command"> Query Command.</param>
+    /// <returns> Returns Signature Reponse.</returns>
+    [HttpPost("saveParcelFinance")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveParcelFinance([FromBody] SaveParcelFinanceCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
     /// Get Tech Details
     /// </summary>
     /// <param name="query"></param>
@@ -343,9 +381,27 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     /// <param name="command"> Query Command.</param>
     /// <returns> Returns Signature Reponse.</returns>
     [HttpPost("saveTechDetails")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveTechDetails([FromBody] SaveTechDetailsCommand command)
     {
         return Single(await CommandAsync(command));
+    }
+
+    /// Get Tech Details
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("reCalculateParcelFinance")]
+    [ProducesResponseType(typeof(ReCalculateParcelFinanceQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ReCalculateParcelFinanceQueryViewModel>> ReCalculateParcelFinance([FromBody] ReCalculateParcelFinanceQuery query)
+    {
+        return Single(await QueryAsync(query));
     }
 }
 
@@ -399,6 +455,26 @@ public class FloodMitigationWorkflowController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<Unit>> WithdrawApplication([FromBody] WithdrawApplicationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getSoftcostDetails")]
+    [ProducesResponseType(typeof(GetSoftcostDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType ((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetSoftcostDetailsQueryViewModel>> GetSoftcostDetails([FromBody] GetSoftcostDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveSoftcost")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> saveSoftcost([FromBody] SaveSoftcostCommand command)
     {
         return Single(await CommandAsync(command));
     }

@@ -5,8 +5,8 @@ public class GetOverviewDetailsSqlCommand
     private readonly String _sqlCommand =
             @" SELECT [Id]
                         ,[ApplicationId]
-                        ,[FactorHomes]
-                        ,[FactorContiguousHomes]
+                        ,[NoOfHomes]
+                        ,[NoOfContiguousHomes]
                         ,[NatlDisaster]
                         ,[NatlDisasterId]
                         ,[NatlDisasterName]

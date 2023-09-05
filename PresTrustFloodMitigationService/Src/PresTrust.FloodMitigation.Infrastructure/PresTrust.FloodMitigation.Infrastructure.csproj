@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="SqlServerDb\SqlCommands\Declaration\**" />
+    <Compile Remove="SqlServerDb\SqlCommands\Softcost\GetSoftcostLineItemsSqlCommand-old.cs\**" />
     <EmbeddedResource Remove="SqlServerDb\SqlCommands\Declaration\**" />
+    <EmbeddedResource Remove="SqlServerDb\SqlCommands\Softcost\GetSoftcostLineItemsSqlCommand-old.cs\**" />
     <None Remove="SqlServerDb\SqlCommands\Declaration\**" />
+    <None Remove="SqlServerDb\SqlCommands\Softcost\GetSoftcostLineItemsSqlCommand-old.cs\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,5 +24,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PresTrust.FloodMitigation.Domain\PresTrust.FloodMitigation.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SqlServerDb\SqlCommands\Softcost\GetSoftcostLineItemsSqlCommand-old.cs\" />
   </ItemGroup>
 </Project>

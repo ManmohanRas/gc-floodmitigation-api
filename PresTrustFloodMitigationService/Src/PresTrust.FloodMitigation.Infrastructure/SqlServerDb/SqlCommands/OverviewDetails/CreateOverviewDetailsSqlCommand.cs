@@ -6,8 +6,8 @@ public class CreateOverviewDetailsSqlCommand
                @"INSERT INTO [Flood].[FloodOverview]
                     (
                          ApplicationId
-                        ,FactorHomes
-                        ,FactorContiguousHomes
+                        ,NoOfHomes
+                        ,NoOfContiguousHomes
                         ,NatlDisaster
                         ,NatlDisasterId
                         ,NatlDisasterName
@@ -33,8 +33,8 @@ public class CreateOverviewDetailsSqlCommand
 )
     VALUES(             
                  @p_ApplicationId
-                ,@p_FactorHomes
-                ,@p_FactorContiguousHomes
+                ,@p_NoOfHomes
+                ,@p_NoOfContiguousHomes
                 ,@p_NatlDisaster
                 ,@p_NatlDisasterId
                 ,@p_NatlDisasterName

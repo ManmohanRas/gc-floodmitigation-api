@@ -48,8 +48,8 @@ public class OverviewDetailsRepository : IOverviewDetailsRepository
             param: new
             {
                 @p_Id = overviewDetails.Id,
-                @p_FactorHomes = overviewDetails.FactorHomes,
-                @p_FactorContiguousHomes = overviewDetails.FactorContiguousHomes,
+                @p_NoOfHomes = overviewDetails.NoOfHomes,
+                @p_NoOfContiguousHomes = overviewDetails.NoOfContiguousHomes,
                 @p_ApplicationId = overviewDetails.ApplicationId,
                 @p_NatlDisaster = overviewDetails.NatlDisaster,
                 @p_NatlDisasterId = overviewDetails.NatlDisasterId,
@@ -89,8 +89,8 @@ public class OverviewDetailsRepository : IOverviewDetailsRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
-                @p_FactorHomes = overviewDetails.FactorHomes,
-                @p_FactorContiguousHomes = overviewDetails.FactorContiguousHomes,
+                @p_NoOfHomes = overviewDetails.NoOfHomes,
+                @p_NoOfContiguousHomes = overviewDetails.NoOfContiguousHomes,
                 @p_ApplicationId = overviewDetails.ApplicationId,
                 @p_NatlDisaster = overviewDetails.NatlDisaster,
                 @p_NatlDisasterId = overviewDetails.NatlDisasterId,

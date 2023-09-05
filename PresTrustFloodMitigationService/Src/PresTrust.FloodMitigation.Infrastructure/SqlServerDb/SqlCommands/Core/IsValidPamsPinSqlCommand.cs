@@ -4,7 +4,7 @@ public class IsValidPamsPinSqlCommand
 {
     private readonly string _sqlCommand =
             @"  SELECT	COUNT(*) 
-					FROM	CORE.Parcels
+					FROM	[CORE].[Parcels]
 					WHERE	[PAMS_PIN] = @p_PamsPin;";
 
     public IsValidPamsPinSqlCommand() { }
