@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class ResponseToRequestForApplicationCorrectionCommand
+public class ResponseToRequestForPropertyCorrectionCommand
 {
 
     private readonly string _sqlCommand =
@@ -12,7 +12,7 @@ public class ResponseToRequestForApplicationCorrectionCommand
                                AND ISNULL(RequestForCorrection,0) = 1 
                                AND ISNULL(CorrectionStatus,'') = 'REQUEST_SENT';";
 
-    public ResponseToRequestForApplicationCorrectionCommand() { }
+    public ResponseToRequestForPropertyCorrectionCommand() { }
 
     public override string ToString()
     {

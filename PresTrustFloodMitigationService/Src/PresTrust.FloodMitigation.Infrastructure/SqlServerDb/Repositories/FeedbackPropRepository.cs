@@ -156,10 +156,10 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    public async Task RequestForApplicationCorrectionAsync(int applicationId)
+    public async Task RequestForPropertyCorrectionAsync(int applicationId)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new RequestForApplicationCorrectionCommand();
+        var sqlCommand = new RequestForPropertyCorrectionCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -176,10 +176,10 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// <param name="applicationId"></param>
     /// <param name="sectionId"></param>
     /// <returns></returns>
-    public async Task ResponseToRequestForApplicationCorrectionAsync(int applicationId, int sectionId)
+    public async Task ResponseToRequestForPropertyCorrectionAsync(int applicationId, int sectionId)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new ResponseToRequestForApplicationCorrectionCommand();
+        var sqlCommand = new ResponseToRequestForPropertyCorrectionCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,

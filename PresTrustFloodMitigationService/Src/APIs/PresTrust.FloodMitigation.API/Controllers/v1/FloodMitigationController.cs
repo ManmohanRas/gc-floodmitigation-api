@@ -132,6 +132,46 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("getPropComments")]
+    [ProducesResponseType(typeof(IEnumerable<GetCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetPropCommentsQueryViewModel>>> GetPropComments([FromBody] GetPropCommentsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("savePropComment")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SavePropComment([FromBody] SavePropCommentCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("deletePropComment")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeletePropComment([FromBody] DeletePropCommentCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("markPropCommentsAsRead")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> MarkPropCommentsAsRead([FromBody] MarkPropFeedbackAsReadCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("getFeedbacks")]
     [ProducesResponseType(typeof(IEnumerable<GetFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -172,22 +212,32 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("requestForApplicationCorrection")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> RequestForApplicationCorrectionCommand([FromBody] RequestForApplicationCorrectionCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("responseToRequestForApplicationCorrectionCommand")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> ResponseToRequestForApplicationCorrectionCommand([FromBody] ResponseToRequestForApplicationCorrectionCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("getPropFeedbacks")]
     [ProducesResponseType(typeof(IEnumerable<GetPropFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<IEnumerable<GetPropFeedbacksQueryViewModel>>> getPropFeedbacks([FromBody] GetPropFeedbacksQuery query)
-    {
-        return Single(await QueryAsync(query));
-    }
-
-    [HttpPost("getOverviewDetails")]
-    [ProducesResponseType(typeof(GetOverviewDetailsQueryViewModel), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetOverviewDetailsQueryViewModel>> GetOverviewDetails([FromBody] GetOverviewDetailsQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -201,6 +251,58 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
+
+
+    [HttpPost("deletePropFeedback")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeletePropFeedback([FromBody] DeletePropFeedbackCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("markPropFeedbacksAsRead")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> MarkPropFeedbacksAsRead([FromBody] MarkPropFeedbackAsReadCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("requestForPropertyCorrection")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> RequestForPropertyCorrectionCommand([FromBody] RequestForPropertyCorrectionCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("responseToRequestForPropertyCorrectionCommand")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> ResponseToRequestForPropertyCorrectionCommand([FromBody] ResponseToRequestForPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getOverviewDetails")]
+    [ProducesResponseType(typeof(GetOverviewDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetOverviewDetailsQueryViewModel>> GetOverviewDetails([FromBody] GetOverviewDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
 
     [HttpPost("saveOverviewDetails")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
