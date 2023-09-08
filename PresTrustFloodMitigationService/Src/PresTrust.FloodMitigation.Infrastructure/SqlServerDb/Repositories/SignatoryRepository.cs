@@ -80,7 +80,7 @@ public class SignatoryRepository : ISignatoryRepository
                 @p_ApplicationId = floodSignatory.ApplicationId,
                 @p_Designation = floodSignatory.Designation,
                 @p_Title = floodSignatory.Title,
-                @p_SignedOn = floodSignatory.SignatureOn,
+                @p_SignedOn = floodSignatory.SignedOn,
                 @p_LastUpdatedBy = floodSignatory.LastUpdatedBy
             });
 
@@ -106,7 +106,7 @@ public class SignatoryRepository : ISignatoryRepository
                 @p_ApplicationId = floodSignatory.ApplicationId,
                 @p_Designation = floodSignatory.Designation,
                 @p_Title = floodSignatory.Title,
-                @p_SignedOn = floodSignatory.SignatureOn,
+                @p_SignedOn = floodSignatory.SignedOn,
                 @p_LastUpdatedBy = floodSignatory.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
             });

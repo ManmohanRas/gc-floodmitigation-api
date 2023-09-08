@@ -45,7 +45,6 @@ public class SaveSignatoryCommandHandler : IRequestHandler<SaveSignatoryCommand,
         {
             signatoryId = signatory.Id;
         }
-       
 
         return signatoryId;
     }
