@@ -9,7 +9,10 @@ public class UpdateParcelFinanceSqlCommand
                               ,[AppraisedValue] = @p_AppraisedValue
                               ,[AMV] = @p_AMV
                               ,[TotalFEMABenifits] = @p_TotalFEMABenifits
-                              ,[HomeOwnerDOBAffidavit] = @p_HomeOwnerDOBAffidavit
+                              ,[DOBAffidavitType] = @p_DOBAffidavitType
+                              ,[DOBAffidavitAmt] = @p_DOBAffidavitAmt
+                              ,[HardCostFMPAmt] = @p_HardCostFMPAmt
+                              ,[SoftCostFMPAmt] = @p_SoftCostFMPAmt
                               ,[AppraisersFee] = @p_AppraisersFee
                               ,[SurveyorsFee] = @p_SurveyorsFee
 			                  ,[LastUpdatedBy] = @p_LastUpdatedBy

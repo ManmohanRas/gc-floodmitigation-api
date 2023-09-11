@@ -12,7 +12,7 @@ public class GetFinanceLineItemsByApplicationIdSqlCommand
                  FROM [Flood].[FloodApplicationParcel] FAP 
                  LEFT JOIN [Flood].[FloodApplicationFinanceLineItems] FLI ON (FAP.ApplicationId = FLI.ApplicationId AND FAP.PamsPin = FLI.PamsPin) 
                  WHERE FAP.ApplicationId = @p_applicationId) 
-                SELECT FP.PropertyLocation
+                SELECT CONCAT (FP.StreetNo, ' ',  FP.StreetAddress) AS PropertyLocation
                ,CTE.[Id]
                ,CTE.[ApplicationId]
                ,CTE.[PamsPin]
@@ -20,7 +20,7 @@ public class GetFinanceLineItemsByApplicationIdSqlCommand
                ,CTE.[ValueEstimate]
                 FROM 
                 FloodApplicationParcelCTE CTE
-                JOIN [Flood].[FloodParcel] FP ON (CTE.PamsPin = FP.PAMS_PIN);";
+                JOIN [Flood].[FloodParcel] FP ON (CTE.PamsPin = FP.PamsPin);";
     public GetFinanceLineItemsByApplicationIdSqlCommand()
     {
     }
