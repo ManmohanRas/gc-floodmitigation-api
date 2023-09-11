@@ -95,7 +95,7 @@ public class SaveSignatoryCommandHandler : BaseHandler, IRequestHandler<SaveSign
                 IsApplicantFlow = true
             }); ;
 
-        if (reqSignature.SignatureOn == null)
+        if (reqSignature.SignedOn == null)
             brokenRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = reqSignature.ApplicationId,
