@@ -420,6 +420,20 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
+
+    /// Get Broken rules
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getBrokenRules")]
+    [ProducesResponseType(typeof(IEnumerable<GetBrokenRulesQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetBrokenRulesQueryViewModel>>> GetBrokenRules([FromBody] GetBrokenRulesQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController

@@ -20,7 +20,7 @@ public class GetFinanceLineItemsByApplicationIdSqlCommand
                ,CTE.[ValueEstimate]
                 FROM 
                 FloodApplicationParcelCTE CTE
-                JOIN [Flood].[FloodParcel] FP ON (CTE.PamsPin = FP.PAMS_PIN);";
+                JOIN [Flood].[FloodParcel] FP ON (CTE.PamsPin = FP.PamsPin);";
     public GetFinanceLineItemsByApplicationIdSqlCommand()
     {
     }
