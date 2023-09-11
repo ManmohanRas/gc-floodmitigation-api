@@ -8,13 +8,12 @@
 /// </remarks>
 public class RequestForApplicationCorrectionCommandValidator : AbstractValidator<RequestForApplicationCorrectionCommand>
 {
-        /// <summary>
-        /// create rules for attributes
-        /// </summary>
-        public RequestForApplicationCorrectionCommandValidator()
-        {
-            RuleFor(command => command.ApplicationId)
-               .GreaterThan(0).WithMessage("Not a valid Application Id");
-        }
-    
+    /// <summary>
+    /// create rules for attributes
+    /// </summary>
+    public RequestForApplicationCorrectionCommandValidator()
+    {
+        RuleFor(command => command.ApplicationId)
+           .GreaterThan(0).WithMessage("Not a valid Application Id");
+    }
 }

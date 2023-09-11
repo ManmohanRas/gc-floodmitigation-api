@@ -1,6 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class RequestForApplicationCorrectionCommandViewModel
+internal class RequestForPropertyCorrectionCommandMappingProfile
 {
-
 }

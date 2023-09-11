@@ -1,4 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+﻿using PresTrust.FloodMitigation.Domain.Enums;
+
+namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 public class FeedbackRepository : IFeedbackRepository
 {
     #region " Members ... "
@@ -129,16 +131,55 @@ public class FeedbackRepository : IFeedbackRepository
                 @p_ApplicationId = feedback.ApplicationId,
             });
     }
-        public async Task MarkFeedbacksAsReadAsync(List<int> feedbackIds)
-    {
-        using var conn = context.CreateConnection();
-        var sqlCommand = new MarkFeedbacksAsReadSqlCommand();
-        await conn.ExecuteAsync(sqlCommand.ToString(),
+     public async Task MarkFeedbacksAsReadAsync(List<int> feedbackIds)
+     {
+            using var conn = context.CreateConnection();
+            var sqlCommand = new MarkFeedbacksAsReadSqlCommand();
+            await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
                 @p_FeedbackIds = feedbackIds
+            });
+     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+    public async Task RequestForApplicationCorrectionAsync(int applicationId)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new RequestForPropertyCorrectionCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationId,
+                @p_CorrectionStatus = ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString(),
+            });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <param name="sectionId"></param>
+    /// <returns></returns>
+    public async Task ResponseToRequestForApplicationCorrectionAsync(int applicationId, int sectionId)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new ResponseToRequestForPropertyCorrectionCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationId,
+                @p_SectionId = sectionId,
+                @p_CorrectionStatus = ApplicationCorrectionStatusEnum.RESPONSE_RECEIVED.ToString(),
             });
     }
 }

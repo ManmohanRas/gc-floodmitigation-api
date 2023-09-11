@@ -68,7 +68,6 @@ public class SaveSignatoryCommandHandler : BaseHandler, IRequestHandler<SaveSign
 
         }
 
-
         return signatoryId;
     }
 
