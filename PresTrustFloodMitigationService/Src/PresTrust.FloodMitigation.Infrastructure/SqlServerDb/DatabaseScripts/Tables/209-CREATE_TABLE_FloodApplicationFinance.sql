@@ -1,4 +1,3 @@
- 
 IF OBJECT_ID('[Flood].[FloodApplicationFinance]') IS NOT NULL
 BEGIN
 	-- Drop Constraints

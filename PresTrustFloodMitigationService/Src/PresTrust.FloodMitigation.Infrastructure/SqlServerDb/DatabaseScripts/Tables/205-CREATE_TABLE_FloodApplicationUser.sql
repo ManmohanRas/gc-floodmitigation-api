@@ -1,5 +1,3 @@
- 
-
 IF OBJECT_ID('[Flood].[FloodApplicationUser]') IS NOT NULL
 BEGIN
 	-- Drop Constraints

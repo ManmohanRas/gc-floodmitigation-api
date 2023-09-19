@@ -1,20 +1,20 @@
  
-IF OBJECT_ID('[Flood].[FloodOverview]') IS NOT NULL
+IF OBJECT_ID('[Flood].[FloodApplicationOverview]') IS NOT NULL
 BEGIN
 	-- Drop Constraints
-	ALTER TABLE [Flood].[FloodOverview] DROP CONSTRAINT IF EXISTS  [FK_ApplicationId_FloodOverview];
+	ALTER TABLE [Flood].[FloodApplicationOverview] DROP CONSTRAINT IF EXISTS  [FK_ApplicationId_FloodApplicationOverview];
 	
-	ALTER TABLE [Flood].[FloodOverview] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodOverview];
+	ALTER TABLE [Flood].[FloodApplicationOverview] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodApplicationOverview];
 
 END;
 GO
   
 -- Drop Table
-DROP TABLE IF EXISTS [Flood].[FloodOverview]
+DROP TABLE IF EXISTS [Flood].[FloodApplicationOverview]
 GO
 
 -- Create Table
-CREATE TABLE [Flood].[FloodOverview](
+CREATE TABLE [Flood].[FloodApplicationOverview](
 	[Id]									[integer] 		IDENTITY(1,1)	NOT NULL,
 	[ApplicationId]							[integer]						NOT NULL,
 
@@ -52,7 +52,7 @@ CREATE TABLE [Flood].[FloodOverview](
 	[LastUpdatedOn]							[DateTime]						NOT NULL,
 	
 	
-CONSTRAINT [PK_FloodOverview_Id] PRIMARY KEY CLUSTERED 
+CONSTRAINT [PK_FloodApplicationOverview_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
@@ -61,10 +61,10 @@ CONSTRAINT [PK_FloodOverview_Id] PRIMARY KEY CLUSTERED
 GO
 
 -- Create Constraints
-ALTER TABLE [Flood].[FloodOverview] ADD CONSTRAINT [FK_ApplicationId_FloodOverview]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
+ALTER TABLE [Flood].[FloodApplicationOverview] ADD CONSTRAINT [FK_ApplicationId_FloodApplicationOverview]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
 GO 
 
-ALTER TABLE [Flood].[FloodOverview] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodOverview]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+ALTER TABLE [Flood].[FloodApplicationOverview] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodApplicationOverview]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
 GO  
 
   
