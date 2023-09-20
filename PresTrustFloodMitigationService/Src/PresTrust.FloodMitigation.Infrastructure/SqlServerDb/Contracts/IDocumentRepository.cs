@@ -22,4 +22,14 @@ public interface IDocumentRepository
     /// <param name="id"></param>
     /// <returns></returns>
     Task DeleteDocumentAsync(int id);
+
+    Task<FloodDocumentEntity> UpdateDocumentCheckListItemsAsync(FloodDocumentEntity doc);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+
+    Task<IEnumerable<FloodDocumentEntity>> GetDocumentCheckListAsync(int applicationId, bool hasCOEDocument);
 }
