@@ -326,32 +326,32 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getDocumentDetails")]
-    [ProducesResponseType(typeof(IEnumerable<DocumentTypeViewModel>), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationDocuments")]
+    [ProducesResponseType(typeof(IEnumerable<ApplicationDocumentTypeViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<DocumentTypeViewModel>>> GetDocumentDetails([FromBody] GetDocumentsBySectionDetailsQuery query)
+    public async Task<ActionResult<IEnumerable<ApplicationDocumentTypeViewModel>>> GetApplicationDocuments([FromBody] GetApplicationDocumentsBySectionQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("saveDocument")]
-    [ProducesResponseType(typeof(SaveDocumentDetailsCommandViewModel), (int)HttpStatusCode.OK)]
+    [HttpPost("saveApplicationDocument")]
+    [ProducesResponseType(typeof(SaveApplicationDocumentCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<SaveDocumentDetailsCommandViewModel>> SaveDocument([FromBody] SaveDocumentDetailsCommand command)
+    public async Task<ActionResult<SaveApplicationDocumentCommandViewModel>> SaveApplicationDocument([FromBody] SaveApplicationDocumentCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("deleteDocument")]
+    [HttpPost("deleteApplicationDocument")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeleteDocument([FromBody] DeleteDocumentCommand command)
+    public async Task<ActionResult<bool>> DeleteApplicationDocument([FromBody] DeleteApplicationDocumentCommand command)
     {
         return Single(await CommandAsync(command));
     }

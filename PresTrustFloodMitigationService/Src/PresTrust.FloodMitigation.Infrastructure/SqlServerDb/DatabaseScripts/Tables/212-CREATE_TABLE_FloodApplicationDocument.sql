@@ -41,7 +41,7 @@ CONSTRAINT [PK_FloodApplicationDocument_Id] PRIMARY KEY CLUSTERED
 GO
 
 -- Create Constraint
-ALTER TABLE [Flood].[FloodApplicationDocument] ADD CONSTRAINT FK_DocumentTypeId_FloodApplicationDocument  FOREIGN KEY (DocumentTypeId) REFERENCES [Flood].FloodDocumentType(Id);
+ALTER TABLE [Flood].[FloodApplicationDocument] ADD CONSTRAINT FK_DocumentTypeId_FloodApplicationDocument  FOREIGN KEY (DocumentTypeId) REFERENCES [Flood].FloodApplicationDocumentType(Id);
 GO 
 
 ALTER TABLE [Flood].[FloodApplicationDocument] ADD CONSTRAINT FK_ApplicationId_FloodApplicationDocument  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
