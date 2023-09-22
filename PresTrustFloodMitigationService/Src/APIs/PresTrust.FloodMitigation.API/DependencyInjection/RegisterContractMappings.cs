@@ -12,7 +12,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<ISignatoryRepository, SignatoryRepository>();
         services.AddTransient<IApplicationFeedbackRepository, ApplicationFeedbackRepository>();
         services.AddTransient<IApplicationCommentRepository, ApplicationCommentRepository>();
-        services.AddTransient<IOverviewDetailsRepository, OverviewDetailsRepository>();
+        services.AddTransient<IApplicationOverviewRepository, ApplicationOverviewRepository>();
         services.AddTransient<IApplicationDocumentRepository, ApplicationDocumentRepository>();
         services.AddTransient<IFeedbackPropRepository, FeedbackPropRepository>();
         services.AddTransient<IParcelFinanceRepository, ParcelFinanceRepository>();

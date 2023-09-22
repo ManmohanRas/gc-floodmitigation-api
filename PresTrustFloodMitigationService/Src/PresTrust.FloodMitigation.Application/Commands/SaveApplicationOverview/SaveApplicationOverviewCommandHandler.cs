@@ -1,15 +1,15 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveOverviewDetailsCommandHandler : IRequestHandler<SaveOverviewDetailsCommand, int>
+public class SaveApplicationOverviewCommandHandler : IRequestHandler<SaveApplicationOverviewCommand, int>
 {
     private readonly IMapper mapper;
-    private readonly IOverviewDetailsRepository repoOverviewDetails;
+    private readonly IApplicationOverviewRepository repoOverviewDetails;
     private readonly IPresTrustUserContext userContext;
 
-    public SaveOverviewDetailsCommandHandler
+    public SaveApplicationOverviewCommandHandler
         (
         IMapper mapper,
-        IOverviewDetailsRepository repoOverviewDetails,
+        IApplicationOverviewRepository repoOverviewDetails,
         IPresTrustUserContext userContext
         )
     {
@@ -17,13 +17,13 @@ public class SaveOverviewDetailsCommandHandler : IRequestHandler<SaveOverviewDet
         this.repoOverviewDetails = repoOverviewDetails;
         this.userContext = userContext;
     }
-    public async Task<int> Handle(SaveOverviewDetailsCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(SaveApplicationOverviewCommand request, CancellationToken cancellationToken)
     {
-        var reqOverviewDetails = mapper.Map<SaveOverviewDetailsCommand,FloodOverviewDetailsEntity>(request);
+        var reqOverviewDetails = mapper.Map<SaveApplicationOverviewCommand,FloodApplicationOverviewEntity>(request);
 
         reqOverviewDetails.LastUpdatedBy = userContext.Email;
       
-        FloodOverviewDetailsEntity overviewDetails = default;
+        FloodApplicationOverviewEntity overviewDetails = default;
 
         overviewDetails = await repoOverviewDetails.SaveAsync(reqOverviewDetails);
 

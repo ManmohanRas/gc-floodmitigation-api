@@ -295,12 +295,12 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getOverviewDetails")]
-    [ProducesResponseType(typeof(GetOverviewDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationOverviewDetails")]
+    [ProducesResponseType(typeof(GetApplicationOverviewQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetOverviewDetailsQueryViewModel>> GetOverviewDetails([FromBody] GetOverviewDetailsQuery query)
+    public async Task<ActionResult<GetApplicationOverviewQueryViewModel>> GetApplicationOverviewDetails([FromBody] GetApplicationOverviewQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -311,7 +311,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveOverviewDetails([FromBody] SaveOverviewDetailsCommand command)
+    public async Task<ActionResult<int>> SaveOverviewDetails([FromBody] SaveApplicationOverviewCommand command)
     {
         return Single(await CommandAsync(command));
     }

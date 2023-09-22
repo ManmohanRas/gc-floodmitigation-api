@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetOverviewDetailsQuery : IRequest<GetOverviewDetailsQueryViewModel>
+public class GetApplicationOverviewQuery : IRequest<GetApplicationOverviewQueryViewModel>
 {
     public int ApplicationId { get; set; }
 }

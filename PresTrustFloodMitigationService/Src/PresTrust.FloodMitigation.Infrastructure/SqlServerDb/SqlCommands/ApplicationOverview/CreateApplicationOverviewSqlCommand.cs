@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class CreateOverviewDetailsSqlCommand
+public class CreateApplicationOverviewSqlCommand
 {
     private readonly string _sqlCommand =
                @"INSERT INTO [Flood].[FloodOverview]
@@ -60,7 +60,7 @@ public class CreateOverviewDetailsSqlCommand
  
         SELECT CAST( SCOPE_IDENTITY() AS INT);";
 
-    public CreateOverviewDetailsSqlCommand()
+    public CreateApplicationOverviewSqlCommand()
     {
     }
 

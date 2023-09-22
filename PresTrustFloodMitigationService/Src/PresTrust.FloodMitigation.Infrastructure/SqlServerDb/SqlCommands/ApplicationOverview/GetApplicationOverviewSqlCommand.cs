@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class GetOverviewDetailsSqlCommand
+public class GetApplicationOverviewSqlCommand
 {
     private readonly String _sqlCommand =
             @" SELECT [Id]
@@ -32,7 +32,7 @@ public class GetOverviewDetailsSqlCommand
                     FROM [Flood].[FloodOverview]
                     WHERE [ApplicationId] = @p_ApplicationId;"
                  ;
-    public GetOverviewDetailsSqlCommand()
+    public GetApplicationOverviewSqlCommand()
     {
     }
 

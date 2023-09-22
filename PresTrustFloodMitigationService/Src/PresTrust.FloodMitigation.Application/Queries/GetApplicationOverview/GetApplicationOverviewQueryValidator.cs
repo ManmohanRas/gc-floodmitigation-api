@@ -1,8 +1,8 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetOverviewDetailsQueryValidator : AbstractValidator<GetOverviewDetailsQuery>
+public class GetApplicationOverviewQueryValidator : AbstractValidator<GetApplicationOverviewQuery>
 {
-    public GetOverviewDetailsQueryValidator()
+    public GetApplicationOverviewQueryValidator()
     {
         RuleFor(query => query.ApplicationId)
                 .Cascade(CascadeMode.Stop)

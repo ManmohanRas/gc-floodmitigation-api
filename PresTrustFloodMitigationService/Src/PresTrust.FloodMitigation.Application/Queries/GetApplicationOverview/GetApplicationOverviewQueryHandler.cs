@@ -1,13 +1,13 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetOverviewDetailsQueryHandler : IRequestHandler<GetOverviewDetailsQuery, GetOverviewDetailsQueryViewModel>
+public class GetApplicationOverviewQueryHandler : IRequestHandler<GetApplicationOverviewQuery, GetApplicationOverviewQueryViewModel>
 {
     private readonly IMapper mapper;
-    private readonly IOverviewDetailsRepository repoOverviewDetails;
+    private readonly IApplicationOverviewRepository repoOverviewDetails;
     private readonly IFundingAgencyRepository repoFundingAgency;
-    public GetOverviewDetailsQueryHandler(
+    public GetApplicationOverviewQueryHandler(
              IMapper mapper,
-             IOverviewDetailsRepository repoOverviewDetails,
+             IApplicationOverviewRepository repoOverviewDetails,
              IFundingAgencyRepository repoFundingAgency)
     {
         this.mapper = mapper;
@@ -15,13 +15,13 @@ public class GetOverviewDetailsQueryHandler : IRequestHandler<GetOverviewDetails
         this.repoFundingAgency = repoFundingAgency;
     }
 
-    public async Task<GetOverviewDetailsQueryViewModel> Handle(GetOverviewDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<GetApplicationOverviewQueryViewModel> Handle(GetApplicationOverviewQuery request, CancellationToken cancellationToken)
     {
-        FloodOverviewDetailsEntity results = default;
+        FloodApplicationOverviewEntity results = default;
 
         results = await this.repoOverviewDetails.GetOverviewDetailsAsync(request.ApplicationId);
 
-        var overviewDetails = mapper.Map<FloodOverviewDetailsEntity, GetOverviewDetailsQueryViewModel>(results);
+        var overviewDetails = mapper.Map<FloodApplicationOverviewEntity, GetApplicationOverviewQueryViewModel>(results);
 
         var fundingAgencies = await repoFundingAgency.GetFundingAgencies(request.ApplicationId);
 

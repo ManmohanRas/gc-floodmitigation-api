@@ -1,11 +1,11 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
-public class OverviewDetailsRepository : IOverviewDetailsRepository
+public class ApplicationOverviewRepository : IApplicationOverviewRepository
 {
     private readonly PresTrustSqlDbContext context;
     protected readonly SystemParameterConfiguration systemParamConfig;
 
-    public OverviewDetailsRepository
+    public ApplicationOverviewRepository
        (
        PresTrustSqlDbContext context,
        IOptions<SystemParameterConfiguration> systemParamConfigOptions
@@ -15,22 +15,22 @@ public class OverviewDetailsRepository : IOverviewDetailsRepository
         this.systemParamConfig = systemParamConfigOptions.Value;
     }
 
-    public async Task<FloodOverviewDetailsEntity> GetOverviewDetailsAsync(int applicationId)
+    public async Task<FloodApplicationOverviewEntity> GetOverviewDetailsAsync(int applicationId)
     {
-        FloodOverviewDetailsEntity? result = default;
+        FloodApplicationOverviewEntity? result = default;
         using var conn = context.CreateConnection();
-        var sqlCommand = new GetOverviewDetailsSqlCommand();
-        var results = await conn.QueryAsync<FloodOverviewDetailsEntity>(sqlCommand.ToString(),
+        var sqlCommand = new GetApplicationOverviewSqlCommand();
+        var results = await conn.QueryAsync<FloodApplicationOverviewEntity>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new { @p_ApplicationId = applicationId });
 
-        result = results.FirstOrDefault() ?? new FloodOverviewDetailsEntity();
+        result = results.FirstOrDefault() ?? new FloodApplicationOverviewEntity();
 
-        return result ?? new FloodOverviewDetailsEntity();
+        return result ?? new FloodApplicationOverviewEntity();
     }
 
-    public async Task<FloodOverviewDetailsEntity> SaveAsync(FloodOverviewDetailsEntity overviewDetails)
+    public async Task<FloodApplicationOverviewEntity> SaveAsync(FloodApplicationOverviewEntity overviewDetails)
     {
         if (overviewDetails.Id > 0)
             return await UpdateAsync(overviewDetails);
@@ -38,10 +38,10 @@ public class OverviewDetailsRepository : IOverviewDetailsRepository
             return await CreateAsync(overviewDetails);
     }
 
-    private async Task<FloodOverviewDetailsEntity> UpdateAsync(FloodOverviewDetailsEntity overviewDetails)
+    private async Task<FloodApplicationOverviewEntity> UpdateAsync(FloodApplicationOverviewEntity overviewDetails)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdateOverviewDetailsSqlCommand();
+        var sqlCommand = new UpdateApplicationOverviewSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -78,12 +78,12 @@ public class OverviewDetailsRepository : IOverviewDetailsRepository
         return overviewDetails;
     }
 
-    private async Task<FloodOverviewDetailsEntity> CreateAsync(FloodOverviewDetailsEntity overviewDetails)
+    private async Task<FloodApplicationOverviewEntity> CreateAsync(FloodApplicationOverviewEntity overviewDetails)
     {
         int id = default;
 
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreateOverviewDetailsSqlCommand();
+        var sqlCommand = new CreateApplicationOverviewSqlCommand();
         id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,

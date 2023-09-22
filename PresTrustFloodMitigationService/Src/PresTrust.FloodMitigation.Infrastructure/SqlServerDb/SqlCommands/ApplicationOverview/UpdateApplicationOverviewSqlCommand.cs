@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class UpdateOverviewDetailsSqlCommand
+public class UpdateApplicationOverviewSqlCommand
 {
     private readonly string _sqlCommand =
         @" UPDATE [Flood].[FloodOverview] 
@@ -31,7 +31,7 @@ public class UpdateOverviewDetailsSqlCommand
                 WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId;
         ";
 
-    public UpdateOverviewDetailsSqlCommand()
+    public UpdateApplicationOverviewSqlCommand()
     {
 
     }
