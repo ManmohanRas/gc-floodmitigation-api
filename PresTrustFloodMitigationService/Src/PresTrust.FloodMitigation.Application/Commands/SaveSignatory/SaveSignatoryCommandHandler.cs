@@ -7,7 +7,7 @@ public class SaveSignatoryCommandHandler : BaseHandler, IRequestHandler<SaveSign
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IFeedbackRepository repoFeedback;
+    private readonly IApplicationFeedbackRepository repoFeedback;
     private ISignatoryRepository repoSignatory;
     private readonly IBrokenRuleRepository repoBrokenRules;
 
@@ -19,7 +19,7 @@ public class SaveSignatoryCommandHandler : BaseHandler, IRequestHandler<SaveSign
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         ISignatoryRepository repoSignatory,
-        IFeedbackRepository repoFeedback,
+        IApplicationFeedbackRepository repoFeedback,
         IBrokenRuleRepository repoBrokenRules
     ) : base(repoApplication: repoApplication)
     {

@@ -9,7 +9,7 @@ public class RequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestH
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IFeedbackRepository repoFeedback;
+    private readonly IApplicationFeedbackRepository repoFeedback;
     private readonly IEmailManager repoEmailManager;
 
     /// <summary>
@@ -27,7 +27,7 @@ public class RequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestH
            IPresTrustUserContext userContext,
            IOptions<SystemParameterConfiguration> systemParamOptions,
            IApplicationRepository repoApplication,
-           IFeedbackRepository repoFeedback
+           IApplicationFeedbackRepository repoFeedback
        )
     {
         this.mapper = mapper;

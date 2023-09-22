@@ -15,8 +15,8 @@ public class SaveProjectAreaCommandViewModel
     public string PrevStatus { get; set; }
     public bool CreatedByProgramAdmin { get; set; }
     public FloodAgencyEntity Agency { get; set; }
-    public IEnumerable<FloodCommentEntity> Comments { get; set; }
-    public IEnumerable<FloodFeedbackEntity> Feedbacks { get; set; }
+    public IEnumerable<FloodApplicationCommentEntity> Comments { get; set; }
+    public IEnumerable<FloodApplicationFeedbackEntity> Feedbacks { get; set; }
     public PermissionEntity Permission { get; set; } = new PermissionEntity();
     public IEnumerable<NavigationItemEntity> NavigationItems { get; set; } = new List<NavigationItemEntity>();
     public IEnumerable<NavigationItemEntity> AdminNavigationItems { get; set; } = new List<NavigationItemEntity>();

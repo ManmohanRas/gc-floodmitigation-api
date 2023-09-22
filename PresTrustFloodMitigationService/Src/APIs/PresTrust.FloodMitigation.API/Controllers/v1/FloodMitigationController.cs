@@ -94,48 +94,48 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getComments")]
-    [ProducesResponseType(typeof(IEnumerable<GetCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationComments")]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<GetCommentsQueryViewModel>>> GetComments([FromBody] GetCommentsQuery query)
+    public async Task<ActionResult<IEnumerable<GetApplicationCommentsQueryViewModel>>> GetApplicationComments([FromBody] GetApplicationCommentsQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("saveComment")]
+    [HttpPost("saveApplicationComment")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveComment([FromBody] SaveCommentCommand command)
+    public async Task<ActionResult<int>> SaveApplicationComment([FromBody] SaveApplicationCommentCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("deleteComment")]
+    [HttpPost("deleteApplicationComment")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeleteComment([FromBody] DeleteCommentCommand command)
+    public async Task<ActionResult<bool>> DeleteApplicationComment([FromBody] DeleteApplicationCommentCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("markCommentsAsRead")]
+    [HttpPost("markApplicationCommentsAsRead")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> MarkCommentsAsRead([FromBody] MarkCommentsAsReadCommand command)
+    public async Task<ActionResult<bool>> MarkApplicationCommentsAsRead([FromBody] MarkApplicationCommentsAsReadCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
     [HttpPost("getPropComments")]
-    [ProducesResponseType(typeof(IEnumerable<GetCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -174,42 +174,42 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getFeedbacks")]
-    [ProducesResponseType(typeof(IEnumerable<GetFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationFeedbacks")]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<GetFeedbacksQueryViewModel>>> getFeedbacks([FromBody] GetFeedbacksQuery query)
+    public async Task<ActionResult<IEnumerable<GetApplicationFeedbacksQueryViewModel>>> getApplicationFeedbacks([FromBody] GetApplicationFeedbacksQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("saveFeedback")]
+    [HttpPost("saveApplicationFeedback")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveFeedback([FromBody] SaveFeedbackCommand command)
+    public async Task<ActionResult<int>> SaveApplicationFeedback([FromBody] SaveApplicationFeedbackCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("deleteFeedback")]
+    [HttpPost("deleteApplicationFeedback")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeleteFeedback([FromBody] DeleteFeedbackCommand command)
+    public async Task<ActionResult<bool>> DeleteApplicationFeedback([FromBody] DeleteApplicationFeedbackCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("markFeedbacksAsRead")]
+    [HttpPost("markApplicationFeedbacksAsRead")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> MarkFeedbacksAsRead([FromBody] MarkFeedbacksAsReadCommand command)
+    public async Task<ActionResult<bool>> MarkApplicationFeedbacksAsRead([FromBody] MarkApplicationFeedbacksAsReadCommand command)
     {
         return Single(await CommandAsync(command));
     }

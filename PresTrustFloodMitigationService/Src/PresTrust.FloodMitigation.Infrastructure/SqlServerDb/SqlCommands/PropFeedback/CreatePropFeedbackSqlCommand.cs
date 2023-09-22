@@ -22,7 +22,7 @@ public class CreatePropFeedbackSqlCommand
    */
 
     private readonly string _sqlCommand =
-       @"INSERT INTO [Flood].[FloodFeedback]
+       @"INSERT INTO [Flood].[FloodApplicationFeedback]
                    ([ApplicationId]
                    ,[Pamspin]
                    ,[SectionId]

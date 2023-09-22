@@ -9,7 +9,7 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IFeedbackRepository repoFeedback;
+    private readonly IApplicationFeedbackRepository repoFeedback;
 
     /// <summary>
     /// 
@@ -25,7 +25,7 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IFeedbackRepository repoFeedback
+        IApplicationFeedbackRepository repoFeedback
     ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
@@ -60,7 +60,7 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
             // If reponse's description/feedback is not empty
             if (!string.IsNullOrEmpty(request.Feedback))
             {
-                var feedback = new FloodFeedbackEntity()
+                var feedback = new FloodApplicationFeedbackEntity()
                 {
                     Id = 0,
                     ApplicationId = application.Id,

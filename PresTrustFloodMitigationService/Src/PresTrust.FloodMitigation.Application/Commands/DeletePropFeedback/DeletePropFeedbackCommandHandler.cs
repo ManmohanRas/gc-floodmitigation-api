@@ -46,7 +46,7 @@ public class DeletePropFeedbackCommandHandler : BaseHandler, IRequestHandler<Del
 
         //do authcheck for property also -- after property profile is complete
 
-        // map command object to the FloodFeedbackEntity
+        // map command object to the FloodApplicationFeedbackEntity
         var reqFeedback = mapper.Map<DeletePropFeedbackCommand, FloodPropFeedbackEntity>(request);
 
         // delete feedback
