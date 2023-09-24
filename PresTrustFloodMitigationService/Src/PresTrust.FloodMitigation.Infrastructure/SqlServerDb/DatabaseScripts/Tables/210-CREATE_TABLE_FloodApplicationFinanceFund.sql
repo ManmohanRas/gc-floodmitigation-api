@@ -40,7 +40,7 @@ GO
 ALTER TABLE [Flood].[FloodApplicationFinanceFund] ADD CONSTRAINT [FK_ApplicationId_FloodApplicationFinanceFund]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
 GO
 
-ALTER TABLE [Flood].[FloodApplicationFinanceFund] ADD CONSTRAINT [FK_FundingSourceTypeId_FloodApplicationFinanceFund]  FOREIGN KEY (FundingSourceTypeId) REFERENCES [Flood].FloodFundingSourceType(Id);
+ALTER TABLE [Flood].[FloodApplicationFinanceFund] ADD CONSTRAINT [FK_FundingSourceTypeId_FloodApplicationFinanceFund]  FOREIGN KEY (FundingSourceTypeId) REFERENCES [Flood].FloodApplicationFundingSourceType(Id);
 GO
 
 ALTER TABLE [Flood].[FloodApplicationFinanceFund] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodApplicationFinanceFund]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
