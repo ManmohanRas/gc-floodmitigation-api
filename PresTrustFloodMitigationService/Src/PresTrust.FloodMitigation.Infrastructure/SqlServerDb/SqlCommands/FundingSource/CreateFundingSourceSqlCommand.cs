@@ -3,7 +3,7 @@
 public class CreateFundingSourceSqlCommand
 {
     private readonly string _sqlCommand =
-         @"INSERT INTO [Flood].[FloodFinanceFund]
+         @"INSERT INTO [Flood].[FloodApplicationFinanceFund]
 						(
 							 ApplicationId
 							,FundingSourceTypeId
