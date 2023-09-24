@@ -1,5 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveFundingAgencyCommandViewModel
+public class DeleteApplicationFundingAgencyCommandViewModel
 {
 }

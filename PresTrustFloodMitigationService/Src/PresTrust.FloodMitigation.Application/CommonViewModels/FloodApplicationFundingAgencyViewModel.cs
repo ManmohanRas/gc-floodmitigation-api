@@ -1,6 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.CommonViewModels;
 
-public class SaveFundingAgencyCommand: IRequest<int>
+public class FloodApplicationFundingAgencyViewModel
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }

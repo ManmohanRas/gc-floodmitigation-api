@@ -20,7 +20,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IFinanceRepository, FinanceRepository>();
         services.AddTransient<IFundingSourceRepoitory, FundingSourceRepoitory>();
         services.AddTransient<IFinanceLineItemRepository, FinanceLineItemRepository>();
-        services.AddTransient<IFundingAgencyRepository, FundingAgencyRepository>();
+        services.AddTransient<IApplicationFundingAgencyRepository, ApplicationFundingAgencyRepository>();
         services.AddTransient<ITechDetailsRepository, TechDetailsRepository>();
         services.AddTransient<IFloodParcelRepository, FloodParcelRepository>();
         services.AddTransient<ICommentPropRepository, CommentPropRepository>();

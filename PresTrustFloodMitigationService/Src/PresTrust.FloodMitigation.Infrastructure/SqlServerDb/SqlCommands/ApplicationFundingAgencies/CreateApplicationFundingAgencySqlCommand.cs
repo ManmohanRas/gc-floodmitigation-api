@@ -1,9 +1,9 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class CreateFundingAgencySqlCommand
+public class CreateApplicationFundingAgencySqlCommand
 {
     private readonly string _sqlCommand =
-       @"INSERT INTO [Flood].[FloodFundingAgency]
+       @"INSERT INTO [Flood].[FloodApplicationFundingAgency]
                    ([ApplicationId]
                    ,[FundingAgencyName]
                    ,[CurrentStatus]
@@ -16,7 +16,7 @@ public class CreateFundingAgencySqlCommand
 
            SELECT CAST( SCOPE_IDENTITY() AS INT);";
 
-    public CreateFundingAgencySqlCommand() { }
+    public CreateApplicationFundingAgencySqlCommand() { }
 
     public override string ToString()
     {

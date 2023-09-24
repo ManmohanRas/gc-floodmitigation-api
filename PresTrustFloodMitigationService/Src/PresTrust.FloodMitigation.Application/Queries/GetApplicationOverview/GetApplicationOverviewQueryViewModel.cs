@@ -28,6 +28,6 @@ public class GetApplicationOverviewQueryViewModel
     public bool FundingAgenciesApplied { get; set; }
     public string LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedOn { get; set; }
-    public IEnumerable<FloodFundingAgencyViewModel>? FundingAgencies { get; set; }
+    public IEnumerable<FloodApplicationFundingAgencyViewModel>? FundingAgencies { get; set; }
 
 }

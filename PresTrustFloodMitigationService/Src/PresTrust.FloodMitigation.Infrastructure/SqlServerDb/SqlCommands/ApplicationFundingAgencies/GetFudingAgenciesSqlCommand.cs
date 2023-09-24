@@ -8,7 +8,7 @@ public class GetFudingAgenciesSqlCommand
 							  ,[FundingAgencyName]
                               ,[CurrentStatus]
                               ,[DateOfApproval]
-				FROM		   [Flood].[FloodFundingAgency]
+				FROM		   [Flood].[FloodApplicationFundingAgency]
 				WHERE		   ApplicationId = @p_ApplicationId;";
 
     public GetFudingAgenciesSqlCommand() { }

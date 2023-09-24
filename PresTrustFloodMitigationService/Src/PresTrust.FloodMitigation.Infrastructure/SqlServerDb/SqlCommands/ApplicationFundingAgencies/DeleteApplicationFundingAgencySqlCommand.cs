@@ -1,12 +1,12 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class DeleteFundingAgencySqlCommand
+public class DeleteApplicationFundingAgencySqlCommand
 {
     private readonly string _sqlCommand =
-       @"    DELETE		 [Flood].[FloodFundingAgency]
+       @"    DELETE		 [Flood].[FloodApplicationFundingAgency]
              WHERE		 Id = @p_Id AND ApplicationId = @p_ApplicationId;";
 
-    public DeleteFundingAgencySqlCommand() { }
+    public DeleteApplicationFundingAgencySqlCommand() { }
 
     public override string ToString()
     {

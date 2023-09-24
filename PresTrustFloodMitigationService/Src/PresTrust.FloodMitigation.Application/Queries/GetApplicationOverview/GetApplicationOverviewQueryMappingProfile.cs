@@ -5,6 +5,6 @@ public class GetApplicationOverviewQueryMappingProfile : Profile
     public GetApplicationOverviewQueryMappingProfile() 
     {
         CreateMap<FloodApplicationOverviewEntity, GetApplicationOverviewQueryViewModel>();
-        CreateMap<FloodFundingAgencyEntity, FloodFundingAgencyViewModel>();
+        CreateMap<FloodApplicationFundingAgencyEntity, FloodApplicationFundingAgencyViewModel>();
     }
 }

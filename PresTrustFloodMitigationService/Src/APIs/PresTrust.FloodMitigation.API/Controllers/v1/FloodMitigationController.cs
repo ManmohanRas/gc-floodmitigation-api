@@ -414,26 +414,22 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    /// Save Funding Agency.
-    /// </summary>
-    /// <param name="command"> Query Command.</param>
-    /// <returns> Returns Funding Agency Reponse.</returns>
-    [HttpPost("saveFundingAgency")]
+    [HttpPost("saveApplicationFundingAgency")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveFundingAgency([FromBody] SaveFundingAgencyCommand command)
+    public async Task<ActionResult<int>> SaveApplicationFundingAgency([FromBody] SaveApplicationFundingAgencyCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("deleteFundingAgency")]
+    [HttpPost("deleteApplicationFundingAgency")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeleteFundingAgency([FromBody] DeleteFundingAgencyCommand command)
+    public async Task<ActionResult<bool>> DeleteApplicationFundingAgency([FromBody] DeleteApplicationFundingAgencyCommand command)
     {
         return Single(await CommandAsync(command));
     }

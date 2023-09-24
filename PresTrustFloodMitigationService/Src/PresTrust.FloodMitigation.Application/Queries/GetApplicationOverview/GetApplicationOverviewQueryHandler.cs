@@ -4,11 +4,11 @@ public class GetApplicationOverviewQueryHandler : IRequestHandler<GetApplication
 {
     private readonly IMapper mapper;
     private readonly IApplicationOverviewRepository repoOverviewDetails;
-    private readonly IFundingAgencyRepository repoFundingAgency;
+    private readonly IApplicationFundingAgencyRepository repoFundingAgency;
     public GetApplicationOverviewQueryHandler(
              IMapper mapper,
              IApplicationOverviewRepository repoOverviewDetails,
-             IFundingAgencyRepository repoFundingAgency)
+             IApplicationFundingAgencyRepository repoFundingAgency)
     {
         this.mapper = mapper;
         this.repoOverviewDetails = repoOverviewDetails;
@@ -25,7 +25,7 @@ public class GetApplicationOverviewQueryHandler : IRequestHandler<GetApplication
 
         var fundingAgencies = await repoFundingAgency.GetFundingAgencies(request.ApplicationId);
 
-        overviewDetails.FundingAgencies = mapper.Map<IEnumerable<FloodFundingAgencyEntity>, IEnumerable<FloodFundingAgencyViewModel>>(fundingAgencies);
+        overviewDetails.FundingAgencies = mapper.Map<IEnumerable<FloodApplicationFundingAgencyEntity>, IEnumerable<FloodApplicationFundingAgencyViewModel>>(fundingAgencies);
 
         return overviewDetails;
     }

@@ -1,8 +1,8 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class DeleteFundingAgencyCommandValidator: AbstractValidator<DeleteFundingAgencyCommand>
+public class DeleteApplicationFundingAgencyCommandValidator: AbstractValidator<DeleteApplicationFundingAgencyCommand>
 {
-    public DeleteFundingAgencyCommandValidator()
+    public DeleteApplicationFundingAgencyCommandValidator()
     {
         RuleFor(command => command.ApplicationId)
             .GreaterThan(0)

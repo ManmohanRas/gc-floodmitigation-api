@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
-public class FundingAgencyRepository: IFundingAgencyRepository
+public class ApplicationFundingAgencyRepository: IApplicationFundingAgencyRepository
 {
     #region " Members ... "
 
@@ -16,7 +16,7 @@ public class FundingAgencyRepository: IFundingAgencyRepository
     /// </summary>
     /// <param name="context"></param>
     /// <param name="systemParamConfigOptions"></param>
-    public FundingAgencyRepository(PresTrustSqlDbContext context, IOptions<SystemParameterConfiguration> systemParamConfigOptions)
+    public ApplicationFundingAgencyRepository(PresTrustSqlDbContext context, IOptions<SystemParameterConfiguration> systemParamConfigOptions)
     {
         this.context = context;
         systemParamConfig = systemParamConfigOptions.Value;
@@ -29,12 +29,12 @@ public class FundingAgencyRepository: IFundingAgencyRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<FloodFundingAgencyEntity>> GetFundingAgencies(int applicationId)
+    public async Task<IEnumerable<FloodApplicationFundingAgencyEntity>> GetFundingAgencies(int applicationId)
     {
-        IEnumerable<FloodFundingAgencyEntity> results;
+        IEnumerable<FloodApplicationFundingAgencyEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetFudingAgenciesSqlCommand();
-        results = await conn.QueryAsync<FloodFundingAgencyEntity>(sqlCommand.ToString(),
+        results = await conn.QueryAsync<FloodApplicationFundingAgencyEntity>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new { @p_ApplicationId = applicationId });
@@ -47,7 +47,7 @@ public class FundingAgencyRepository: IFundingAgencyRepository
     /// </summary>
     /// <param name="fundingAgency"></param>
     /// <returns></returns>
-    public async Task<FloodFundingAgencyEntity> SaveAsync(FloodFundingAgencyEntity fundingAgency)
+    public async Task<FloodApplicationFundingAgencyEntity> SaveAsync(FloodApplicationFundingAgencyEntity fundingAgency)
     {
         if (fundingAgency.Id > 0)
             return await UpdateAsync(fundingAgency);
@@ -60,12 +60,12 @@ public class FundingAgencyRepository: IFundingAgencyRepository
     /// </summary>
     /// <param name="fundingAgency"></param>
     /// <returns></returns>
-    private async Task<FloodFundingAgencyEntity> CreateAsync(FloodFundingAgencyEntity fundingAgency)
+    private async Task<FloodApplicationFundingAgencyEntity> CreateAsync(FloodApplicationFundingAgencyEntity fundingAgency)
     {
         int id = default;
 
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreateFundingAgencySqlCommand();
+        var sqlCommand = new CreateApplicationFundingAgencySqlCommand();
         id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -87,10 +87,10 @@ public class FundingAgencyRepository: IFundingAgencyRepository
     /// </summary>
     /// <param name="fundingAgency"></param>
     /// <returns></returns>
-    private async Task<FloodFundingAgencyEntity> UpdateAsync(FloodFundingAgencyEntity fundingAgency)
+    private async Task<FloodApplicationFundingAgencyEntity> UpdateAsync(FloodApplicationFundingAgencyEntity fundingAgency)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdateFundingAgencySqlCommand();
+        var sqlCommand = new UpdateApplicationFundingAgencySqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -111,10 +111,10 @@ public class FundingAgencyRepository: IFundingAgencyRepository
     /// </summary>
     /// <param name="fundingAgency"></param>
     /// <returns></returns>
-    public async Task DeleteAsync(FloodFundingAgencyEntity fundingAgency)
+    public async Task DeleteAsync(FloodApplicationFundingAgencyEntity fundingAgency)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new DeleteFundingAgencySqlCommand();
+        var sqlCommand = new DeleteApplicationFundingAgencySqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
