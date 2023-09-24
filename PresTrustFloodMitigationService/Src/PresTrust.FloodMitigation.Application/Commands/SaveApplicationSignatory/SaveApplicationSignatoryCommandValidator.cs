@@ -1,8 +1,8 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveSignatoryCommandValidator : AbstractValidator<SaveSignatoryCommand>
+public class SaveApplicationSignatoryCommandValidator : AbstractValidator<SaveApplicationSignatoryCommand>
 {
-    public SaveSignatoryCommandValidator()
+    public SaveApplicationSignatoryCommandValidator()
     {
         RuleFor(query => query.ApplicationId)
                 .GreaterThan(0)

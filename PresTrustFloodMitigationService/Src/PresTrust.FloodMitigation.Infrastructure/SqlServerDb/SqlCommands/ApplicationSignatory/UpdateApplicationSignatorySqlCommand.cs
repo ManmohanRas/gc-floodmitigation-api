@@ -1,9 +1,9 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-internal class UpdateSignatorySqlCommand
+internal class UpdateApplicationSignatorySqlCommand
 {
     private readonly string _sqlCommand =
-      @" UPDATE [Flood].[FloodSignature]
+      @" UPDATE [Flood].[FloodApplicationSignatory]
                SET  ApplicationId = @p_ApplicationId
                    ,Designation   = @p_Designation
                    ,Title         = @p_Title
@@ -12,7 +12,7 @@ internal class UpdateSignatorySqlCommand
                    ,LastUpdatedOn = @p_LastUpdatedOn
              WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId";
 
-    public UpdateSignatorySqlCommand()
+    public UpdateApplicationSignatorySqlCommand()
     {
     }
 

@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class GetSignatorySqlCommand
+public class GetApplicationSignatorySqlCommand
 {
     private readonly string _sqlCommand =
         @"  SELECT   [Id]
@@ -10,11 +10,11 @@ public class GetSignatorySqlCommand
                     ,[SignedOn]
                     ,[LastUpdatedBy]
                     ,[LastUpdatedOn]
-            FROM [Flood].[FloodSignature]
+            FROM [Flood].[FloodApplicationSignatory]
             WHERE ApplicationId = @p_ApplicationId";
 
 
-    public GetSignatorySqlCommand()
+    public GetApplicationSignatorySqlCommand()
     {
     }
 

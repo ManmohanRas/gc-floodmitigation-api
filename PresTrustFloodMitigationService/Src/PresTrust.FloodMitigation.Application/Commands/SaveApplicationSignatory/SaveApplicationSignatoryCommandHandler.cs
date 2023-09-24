@@ -1,24 +1,24 @@
 ﻿using static System.Formats.Asn1.AsnWriter;
 
 namespace PresTrust.FloodMitigation.Application.Commands;
-public class SaveSignatoryCommandHandler : BaseHandler, IRequestHandler<SaveSignatoryCommand, int>
+public class SaveApplicationSignatoryCommandHandler : BaseHandler, IRequestHandler<SaveApplicationSignatoryCommand, int>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationFeedbackRepository repoFeedback;
-    private ISignatoryRepository repoSignatory;
+    private IApplicationSignatoryRepository repoSignatory;
     private readonly IBrokenRuleRepository repoBrokenRules;
 
 
-    public SaveSignatoryCommandHandler
+    public SaveApplicationSignatoryCommandHandler
     (
         IMapper mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        ISignatoryRepository repoSignatory,
+        IApplicationSignatoryRepository repoSignatory,
         IApplicationFeedbackRepository repoFeedback,
         IBrokenRuleRepository repoBrokenRules
     ) : base(repoApplication: repoApplication)
@@ -38,15 +38,15 @@ public class SaveSignatoryCommandHandler : BaseHandler, IRequestHandler<SaveSign
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<int> Handle(SaveSignatoryCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(SaveApplicationSignatoryCommand request, CancellationToken cancellationToken)
     {
         int signatoryId = 0;
 
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 
-        // map command object to the FloodSignatoryEntity
-        var reqSignatory = mapper.Map<SaveSignatoryCommand, FloodSignatoryEntity>(request);
+        // map command object to the FloodApplicationSignatoryEntity
+        var reqSignatory = mapper.Map<SaveApplicationSignatoryCommand, FloodApplicationSignatoryEntity>(request);
 
         // Check Broken Rules
         var brokenRules = ReturnBrokenRulesIfAny(reqSignatory);
@@ -71,36 +71,36 @@ public class SaveSignatoryCommandHandler : BaseHandler, IRequestHandler<SaveSign
         return signatoryId;
     }
 
-    private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodSignatoryEntity reqSignature)
+    private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationSignatoryEntity reqSignatory)
     {
         int sectionId = (int)ApplicationSectionEnum.SIGNATORY;
         List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
         // add based on the empty check conditions
-        if (string.IsNullOrEmpty(reqSignature.Designation))
+        if (string.IsNullOrEmpty(reqSignatory.Designation))
             brokenRules.Add(new FloodBrokenRuleEntity()
             {
-                ApplicationId = reqSignature.ApplicationId,
+                ApplicationId = reqSignatory.ApplicationId,
                 SectionId = sectionId,
-                Message = "Designation required field on Signature tab have not been filled.",
+                Message = "Designation required field on Signatory tab have not been filled.",
                 IsApplicantFlow = true
             }); ;
 
-        if (string.IsNullOrEmpty(reqSignature.Title))
+        if (string.IsNullOrEmpty(reqSignatory.Title))
             brokenRules.Add(new FloodBrokenRuleEntity()
             {
-                ApplicationId = reqSignature.ApplicationId,
+                ApplicationId = reqSignatory.ApplicationId,
                 SectionId = sectionId,
-                Message = "Title required field on Signature tab have not been filled.",
+                Message = "Title required field on Signatory tab have not been filled.",
                 IsApplicantFlow = true
             }); ;
 
-        if (reqSignature.SignedOn == null)
+        if (reqSignatory.SignedOn == null)
             brokenRules.Add(new FloodBrokenRuleEntity()
             {
-                ApplicationId = reqSignature.ApplicationId,
+                ApplicationId = reqSignatory.ApplicationId,
                 SectionId = sectionId,
-                Message = "Date required field on Signature tab have not been filled.",
+                Message = "Date required field on Signatory tab have not been filled.",
                 IsApplicantFlow = true
             }); ;
 

@@ -1,11 +1,11 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetSignatoryQueryValidator : AbstractValidator<GetSignatoryQuery>
+public class GetApplicationSignatoryQueryValidator : AbstractValidator<GetApplicationSignatoryQuery>
 {
     /// <summary>
     /// create rules for attributes
     /// </summary>
-    public GetSignatoryQueryValidator()
+    public GetApplicationSignatoryQueryValidator()
     {
         RuleFor(query => query.ApplicationId)
            .GreaterThan(0).WithMessage("Not a valid Application Id");

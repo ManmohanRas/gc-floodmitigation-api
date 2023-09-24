@@ -1,15 +1,15 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class CreateSignatorySqlCommand
+public class CreateApplicationSignatorySqlCommand
 {
     private readonly string _sqlCommand =
-                 @"INSERT INTO [Flood].[FloodSignature]
+                 @"INSERT INTO [Flood].[FloodApplicationSignatory]
 						(
 							 ApplicationId
 							,Designation
 							,Title	
 							,SignedOn
-							,SignatureType
+							,SignatoryType
 							,LastUpdatedBy  
 							,LastUpdatedOn	
 						)
@@ -28,7 +28,7 @@ public class CreateSignatorySqlCommand
 				  SELECT CAST( SCOPE_IDENTITY() AS INT);";
 
 
-    public CreateSignatorySqlCommand()
+    public CreateApplicationSignatorySqlCommand()
     {
     }
 

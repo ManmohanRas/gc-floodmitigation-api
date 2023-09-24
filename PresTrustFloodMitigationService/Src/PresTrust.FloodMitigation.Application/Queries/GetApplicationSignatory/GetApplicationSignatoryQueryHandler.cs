@@ -3,16 +3,16 @@
 /// <summary>
 /// This class handles the query to fetch data and build response
 /// </summary>
-public class GetSignatoryQueryHandler : BaseHandler, IRequestHandler<GetSignatoryQuery, GetSignatoryQueryViewModel>
+public class GetApplicationSignatoryQueryHandler : BaseHandler, IRequestHandler<GetApplicationSignatoryQuery, GetApplicationSignatoryQueryViewModel>
 {
     private IMapper mapper;
     private readonly IApplicationRepository repoApplication;
-    private ISignatoryRepository repoSignatory;
+    private IApplicationSignatoryRepository repoSignatory;
 
-    public GetSignatoryQueryHandler(
+    public GetApplicationSignatoryQueryHandler(
         IMapper mapper,
         IApplicationRepository repoApplication,
-        ISignatoryRepository repoSignatory
+        IApplicationSignatoryRepository repoSignatory
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
@@ -20,18 +20,18 @@ public class GetSignatoryQueryHandler : BaseHandler, IRequestHandler<GetSignator
         this.repoSignatory = repoSignatory;
     }
 
-    public async Task<GetSignatoryQueryViewModel> Handle(GetSignatoryQuery request, CancellationToken cancellationToken)
+    public async Task<GetApplicationSignatoryQueryViewModel> Handle(GetApplicationSignatoryQuery request, CancellationToken cancellationToken)
     {
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 
-        // get signature details
+        // get signatory details
         var signatory = await this.repoSignatory.GetSignatoryAsync(request.ApplicationId);
-        signatory = signatory ?? new FloodSignatoryEntity()
+        signatory = signatory ?? new FloodApplicationSignatoryEntity()
         {
             ApplicationId = application.Id
         };
-        var result = mapper.Map<FloodSignatoryEntity, GetSignatoryQueryViewModel>(signatory);
+        var result = mapper.Map<FloodApplicationSignatoryEntity, GetApplicationSignatoryQueryViewModel>(signatory);
 
         return result;  
     }

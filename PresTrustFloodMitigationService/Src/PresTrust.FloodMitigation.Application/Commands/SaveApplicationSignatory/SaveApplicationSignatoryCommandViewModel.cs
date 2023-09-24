@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveSignatoryCommandViewModel
+public class SaveApplicationSignatoryCommandViewModel
 {
 
 }

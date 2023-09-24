@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveSignatoryCommand : IRequest<int>
+public class SaveApplicationSignatoryCommand : IRequest<int>
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }

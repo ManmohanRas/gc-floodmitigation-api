@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetSignatoryQueryViewModel
+public class GetApplicationSignatoryQueryViewModel
 {
     public int Id { get; set; } = 0;
     public int ApplicationId { get; set; } = 0;

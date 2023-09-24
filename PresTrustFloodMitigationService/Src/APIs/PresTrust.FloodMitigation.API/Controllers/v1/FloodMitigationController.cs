@@ -356,32 +356,22 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    /// <summary>
-    /// Get Signature Details
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
-    [HttpPost("getSignatoryDetails")]
-    [ProducesResponseType(typeof(GetSignatoryQueryViewModel), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationSignatoryDetails")]
+    [ProducesResponseType(typeof(GetApplicationSignatoryQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetSignatoryQueryViewModel>> GetSignatoryDetails([FromBody] GetSignatoryQuery query)
+    public async Task<ActionResult<GetApplicationSignatoryQueryViewModel>> GetApplicationSignatoryDetails([FromBody] GetApplicationSignatoryQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    /// <summary>
-    /// Save Signature Details.
-    /// </summary>
-    /// <param name="command"> Query Command.</param>
-    /// <returns> Returns Signature Reponse.</returns>
-    [HttpPost("saveSignatoryDetails")]
+    [HttpPost("saveApplicationSignatoryDetails")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveSignatoryDetails([FromBody] SaveSignatoryCommand command)
+    public async Task<ActionResult<int>> SaveApplicationSignatoryDetails([FromBody] SaveApplicationSignatoryCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -468,11 +458,6 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
-    /// <summary>
-    /// Save Parcel Finance.
-    /// </summary>
-    /// <param name="command"> Query Command.</param>
-    /// <returns> Returns Signature Reponse.</returns>
     [HttpPost("saveParcelFinance")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -482,10 +467,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
-    /// Get Tech Details
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
+
     [HttpPost("getTechDetails")]
     [ProducesResponseType(typeof(GetTechDetailsQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -496,11 +478,6 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
-    /// <summary>
-    /// Save Tech Details.
-    /// </summary>
-    /// <param name="command"> Query Command.</param>
-    /// <returns> Returns Signature Reponse.</returns>
     [HttpPost("saveTechDetails")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -511,10 +488,6 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    /// Get Tech Details
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
     [HttpPost("reCalculateParcelFinance")]
     [ProducesResponseType(typeof(ReCalculateParcelFinanceQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
