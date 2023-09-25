@@ -3,7 +3,7 @@
 public class UpdateApplicationOverviewSqlCommand
 {
     private readonly string _sqlCommand =
-        @" UPDATE [Flood].[FloodOverview] 
+        @" UPDATE [Flood].[FloodApplicationOverview] 
             SET NoOfHomes = @p_NoOfHomes
                 ,NoOfContiguousHomes = @p_NoOfContiguousHomes
                 ,NatlDisaster = @p_NatlDisaster

@@ -3,7 +3,7 @@
 public class CreateApplicationOverviewSqlCommand
 {
     private readonly string _sqlCommand =
-               @"INSERT INTO [Flood].[FloodOverview]
+               @"INSERT INTO [Flood].[FloodApplicationOverview]
                     (
                          ApplicationId
                         ,NoOfHomes

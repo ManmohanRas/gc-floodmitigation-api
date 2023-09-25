@@ -29,7 +29,7 @@ public class GetApplicationOverviewSqlCommand
                         ,[FundingAgenciesApplied]
                         ,[LastUpdatedBy]
                         ,[LastUpdatedOn]
-                    FROM [Flood].[FloodOverview]
+                    FROM [Flood].[FloodApplicationOverview]
                     WHERE [ApplicationId] = @p_ApplicationId;"
                  ;
     public GetApplicationOverviewSqlCommand()
