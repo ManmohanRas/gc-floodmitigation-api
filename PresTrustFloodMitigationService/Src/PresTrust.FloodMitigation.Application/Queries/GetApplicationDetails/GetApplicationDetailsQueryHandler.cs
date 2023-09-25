@@ -8,8 +8,8 @@ public class GetApplicationDetailsQueryHandler : BaseHandler, IRequestHandler<Ge
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly ICoreRepository repoCore;
     private readonly IApplicationRepository repoApplication;
-    private readonly ICommentRepository repoComment;
-    private readonly IFeedbackRepository repoFeedback;
+    private readonly IApplicationCommentRepository repoComment;
+    private readonly IApplicationFeedbackRepository repoFeedback;
 
     public GetApplicationDetailsQueryHandler(
         IMapper mapper,
@@ -17,8 +17,8 @@ public class GetApplicationDetailsQueryHandler : BaseHandler, IRequestHandler<Ge
         IOptions<SystemParameterConfiguration> systemParamOptions,
         ICoreRepository repoCore,
         IApplicationRepository repoApplication,
-        ICommentRepository repoComment,
-        IFeedbackRepository repoFeedback
+        IApplicationCommentRepository repoComment,
+        IApplicationFeedbackRepository repoFeedback
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;

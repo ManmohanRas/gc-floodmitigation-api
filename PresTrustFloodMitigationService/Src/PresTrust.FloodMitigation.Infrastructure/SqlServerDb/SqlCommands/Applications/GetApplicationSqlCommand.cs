@@ -66,7 +66,7 @@ public class GetApplicationSqlCommand
 															[LastUpdatedOn]
 													FOR JSON PATH,
 													WITHOUT_ARRAY_WRAPPER) AS [CommentJSON]
-									FROM		[Flood].[FloodComment]
+									FROM		[Flood].[FloodApplicationComment]
 									WHERE		[ApplicationId] = @p_Id AND [CommentTypeId] IN (2)) FLOOD_COMMENT
 						GROUP BY	[ApplicationId]) C ON A.Id = C.ApplicationId
 			LEFT JOIN	(SELECT		[ApplicationId],
@@ -82,7 +82,7 @@ public class GetApplicationSqlCommand
 															[LastUpdatedOn]
 													FOR JSON PATH,
 													WITHOUT_ARRAY_WRAPPER) AS [FeedbackJSON]
-									FROM		[Flood].[FloodFeedback]
+									FROM		[Flood].[FloodApplicationFeedback]
 									WHERE		[ApplicationId] = @p_Id) FLOOD_FEEDBACK
 						GROUP BY	[ApplicationId]) F ON A.Id = F.ApplicationId
 			WHERE		A.[Id]=@p_Id AND A.[IsActive] = 1

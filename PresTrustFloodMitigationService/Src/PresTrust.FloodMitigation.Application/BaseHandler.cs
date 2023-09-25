@@ -27,7 +27,7 @@ public class BaseHandler
         return application;
     }
 
-    public void IsAuthorizedOperation(UserRoleEnum userRole, FloodApplicationEntity application, UserPermissionEnum operation, List<FloodFeedbackEntity> corrections = null)
+    public void IsAuthorizedOperation(UserRoleEnum userRole, FloodApplicationEntity application, UserPermissionEnum operation, List<FloodApplicationFeedbackEntity> corrections = null)
     {
         var securityMgr = new FloodSecurityManager(userRole, application.Status, corrections);
         permission = securityMgr.Permission;
