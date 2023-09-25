@@ -12,7 +12,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationParcelRepository repoApplicationParcel;
-    private readonly IOverviewDetailsRepository repoOverview;
+    private readonly IApplicationOverviewRepository repoOverview;
 
     public SaveProjectAreaCommandHandler(
         IMapper mapper,
@@ -20,7 +20,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         IApplicationParcelRepository repoApplicationParcel,
-        IOverviewDetailsRepository repoOverview
+        IApplicationOverviewRepository repoOverview
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
@@ -49,7 +49,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         }).ToList();
 
         // update overview
-        var reqAppOverview = await repoOverview.GetOverviewDetailsAsync(application.Id) ?? new FloodOverviewDetailsEntity()
+        var reqAppOverview = await repoOverview.GetOverviewDetailsAsync(application.Id) ?? new FloodApplicationOverviewEntity()
         {
             ApplicationId = application.Id
         };

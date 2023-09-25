@@ -21,7 +21,7 @@ public class GetTechDetailsQueryHandler : BaseHandler, IRequestHandler<GetTechDe
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 
-        // get signature details
+        // get tech details
         var Tech = await repoTech.GetTechAsync(request.ApplicationId);
         Tech = Tech ?? new FloodTechDetailsEntity()
         {

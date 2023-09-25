@@ -63,19 +63,19 @@ public class FloodApplicationEntity
         }
     }
 
-    public IEnumerable<FloodCommentEntity> Comments
+    public IEnumerable<FloodApplicationCommentEntity> Comments
     {
         get
         {
-            return this.CommentsJSON == null ? new List<FloodCommentEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodCommentEntity>>(this.CommentsJSON);
+            return this.CommentsJSON == null ? new List<FloodApplicationCommentEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodApplicationCommentEntity>>(this.CommentsJSON);
         }
     }
 
-    public IEnumerable<FloodFeedbackEntity> Feedbacks
+    public IEnumerable<FloodApplicationFeedbackEntity> Feedbacks
     {
         get
         {
-            return this.FeedbacksJSON == null ? new List<FloodFeedbackEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodFeedbackEntity>>(this.FeedbacksJSON);
+            return this.FeedbacksJSON == null ? new List<FloodApplicationFeedbackEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodApplicationFeedbackEntity>>(this.FeedbacksJSON);
         }
     }
 }
