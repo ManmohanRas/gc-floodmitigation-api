@@ -3,11 +3,10 @@
 public class RequestForApplicationCorrectionCommand
 {
     private readonly string _sqlCommand =
-           @"UPDATE		       [Flood].[ParcelFeedback]
+          @"UPDATE		       [Flood].[FloodFeedback]
              SET			   [CorrectionStatus] = @p_CorrectionStatus
 			                  ,[LastUpdatedOn] = GETDATE()
              WHERE		       ApplicationId = @p_ApplicationId 
-                               Pamspin = @_Pamspin
                                AND ISNULL(RequestForCorrection,0) = 1 
                                AND ISNULL(CorrectionStatus, '') = 'PENDING';";
 

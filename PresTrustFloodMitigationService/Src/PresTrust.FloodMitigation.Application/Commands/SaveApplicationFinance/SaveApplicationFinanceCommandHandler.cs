@@ -12,6 +12,8 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
     private readonly IFundingSourceRepoitory repoFundingSource;
     private readonly IFinanceLineItemRepository repoFinanceLineItem;
     private readonly IApplicationRepository repoApplication;
+    private readonly IBrokenRuleRepository repoBrokenRules;
+
 
 
     public SaveApplicationFinanceCommandHandler(
@@ -21,7 +23,8 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         IFinanceRepository repoFinance,
         IFundingSourceRepoitory repoFundingSource,
         IFinanceLineItemRepository repoFinanceLineItem,
-        IApplicationRepository repoApplication
+        IApplicationRepository repoApplication,
+        IBrokenRuleRepository repoBrokenRules
         ) : base(repoApplication: repoApplication)
     {
         this.mapper =   mapper;
@@ -31,6 +34,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         this.repoFundingSource = repoFundingSource;
         this.repoFinanceLineItem = repoFinanceLineItem;
         this.repoApplication = repoApplication;
+        this.repoBrokenRules = repoBrokenRules;
     }
     public async Task<int> Handle(SaveApplicationFinanceCommand request, CancellationToken cancellationToken)
     {
@@ -45,6 +49,9 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         var reqFundingSource = new List<FloodFundingSourceViewModel>(request.FundingSources ?? new List<FloodFundingSourceViewModel>());
         var reqFinanceLineItems = new List<FloodFinanceLineItemViewModel>(request.FinanceLineItems ?? new List<FloodFinanceLineItemViewModel>());
 
+        // returns broken rules  
+        var brokenRules = ReturnBrokenRulesIfAny(application, request);
+
         // save grant, grant worksheet items, grant matching funds and broken rules if any
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
@@ -57,6 +64,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
             {
                 financeId = reqFinance.Id;
             }
+            await repoBrokenRules.SaveBrokenRules(await brokenRules);
 
             scope.Complete();
 
@@ -85,5 +93,36 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
             await repoFinanceLineItem.SaveAsync(entity);
 
         }
+    }
+
+    /// <summary>
+    /// Return broken rules in case of any business rule failure
+    /// </summary>
+    /// <param name="application"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    private Task<List<FloodBrokenRuleEntity>> ReturnBrokenRulesIfAny(FloodApplicationEntity application, SaveApplicationFinanceCommand request)
+    {
+        List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+        int sectionId = (int)ApplicationSectionEnum.FINANCE;
+
+
+        var priority = request.FinanceLineItems.Where(f => (string.IsNullOrEmpty(f.Priority))).FirstOrDefault();
+
+        if (application.Status == ApplicationStatusEnum.SUBMITTED)
+        {
+            if (priority != null)
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "Priority is empty.",
+                    IsApplicantFlow = true
+                });
+            }
+        }
+
+        return Task.FromResult(brokenRules);
     }
 }

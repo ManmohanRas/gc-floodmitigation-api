@@ -11,7 +11,10 @@ public class CreateParcelFinanceSqlCommad
                    ,[AppraisedValue]
                    ,[AMV]
                    ,[TotalFEMABenifits]
-                   ,[HomeOwnerDOBAffidavit]
+                   ,[DOBAffidavitType]
+                   ,[DOBAffidavitAmt]
+                   ,[HardCostFMPAmt]
+                   ,[SoftCostFMPAmt]
                    ,[AppraisersFee]
                    ,[SurveyorsFee]
                    ,[LastUpdatedBy]
@@ -24,7 +27,10 @@ public class CreateParcelFinanceSqlCommad
                    ,@p_AppraisedValue
                    ,@p_AMV
                    ,@p_TotalFEMABenifits
-                   ,@p_HomeOwnerDOBAffidavit
+                   ,@p_DOBAffidavitType
+                   ,@p_DOBAffidavitAmt
+                   ,@p_HardCostFMPAmt
+                   ,@p_SoftCostFMPAmt
                    ,@p_AppraisersFee
                    ,@p_SurveyorsFee
                    ,@p_LastUpdatedBy

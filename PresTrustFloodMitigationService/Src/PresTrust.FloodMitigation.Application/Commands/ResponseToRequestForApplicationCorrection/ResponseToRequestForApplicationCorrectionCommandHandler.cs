@@ -9,7 +9,7 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IFeedbackPropRepository repoFeedback;
+    private readonly IFeedbackRepository repoFeedback;
 
     /// <summary>
     /// 
@@ -20,13 +20,13 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
     /// <param name="repoApplication"></param>
     /// <param name="repoFeedback"></param>
     public ResponseToRequestForApplicationCorrectionCommandHandler
-        (
-            IMapper mapper,
-            IPresTrustUserContext userContext,
-            IOptions<SystemParameterConfiguration> systemParamOptions,
-            IApplicationRepository repoApplication,
-            IFeedbackPropRepository repoFeedback
-        ) : base(repoApplication: repoApplication)
+    (
+        IMapper mapper,
+        IPresTrustUserContext userContext,
+        IOptions<SystemParameterConfiguration> systemParamOptions,
+        IApplicationRepository repoApplication,
+        IFeedbackRepository repoFeedback
+    ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
@@ -34,7 +34,6 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
         this.repoApplication = repoApplication;
         this.repoFeedback = repoFeedback;
     }
-
     /// <summary>
     ///
     /// </summary>
@@ -48,8 +47,7 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
         AuthorizationCheck(application);
 
         // get feedback where the status is "Request Sent"
-        var corrections = await repoFeedback.GetPropFeedbackAsync(application.Id, Pamspin: ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString());
-
+        var corrections = await repoFeedback.GetFeedbacksAsync(application.Id, correctionStatus: ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString());
         // update feedback status as response received and send email to an applicant
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
@@ -62,7 +60,7 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
             // If reponse's description/feedback is not empty
             if (!string.IsNullOrEmpty(request.Feedback))
             {
-                var feedback = new FloodPropFeedbackEntity()
+                var feedback = new FloodFeedbackEntity()
                 {
                     Id = 0,
                     ApplicationId = application.Id,
@@ -73,13 +71,12 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
                     LastUpdatedBy = userContext.Name
                 };
 
-                await repoFeedback.SavePropFeedbackAsync(feedback);
+                await repoFeedback.SaveAsync(feedback);
             }
 
             // TODO: Email
             scope.Complete();
         };
-
         return true;
     }
 
@@ -92,5 +89,4 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
         userContext.DeriveRole(application.AgencyId);
         IsAuthorizedOperation(userRole: userContext.Role, application: application, operation: UserPermissionEnum.RESPOND_TO_THE_REQUEST_FOR_AN_APPLICATION_CORRECTION);
     }
-
 }

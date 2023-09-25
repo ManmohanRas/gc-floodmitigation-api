@@ -23,4 +23,12 @@ public interface IFeedbackRepository
     Task DeleteAsync(FloodFeedbackEntity feedback);
 
     Task MarkFeedbacksAsReadAsync(List<int> FeedbackIds);
+    Task RequestForApplicationCorrectionAsync(int applicationId);
+    /// <summary>
+    /// Response to request for application correction
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <param name="sectionId"></param>
+    /// <returns></returns>
+    Task ResponseToRequestForApplicationCorrectionAsync(int applicationId, int sectionId);
 }

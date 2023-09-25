@@ -7,7 +7,7 @@ public class GetSignatorySqlCommand
                     ,[ApplicationId]
                     ,[Designation]
                     ,[Title]
-                    ,[SignedOn]						AS SignatureOn
+                    ,[SignedOn]
                     ,[LastUpdatedBy]
                     ,[LastUpdatedOn]
             FROM [Flood].[FloodSignature]
