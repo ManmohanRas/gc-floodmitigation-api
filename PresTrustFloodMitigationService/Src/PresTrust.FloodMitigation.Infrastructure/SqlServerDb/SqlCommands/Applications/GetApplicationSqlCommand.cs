@@ -55,7 +55,7 @@ public class GetApplicationSqlCommand
 			FROM		[Flood].[FloodApplication] A
 			LEFT JOIN	[Flood].[FloodApplicationStatusLog] ASL ON ASL.StatusId != A.StatusId AND A.Id = ASL.ApplicationId
 			JOIN		[AgencyCTE] AG ON A.[AgencyId] = AG.[AgencyId]
-			LEFT JOIN	[Flood].[FloodOverview] AO ON A.Id = AO.ApplicationId
+			LEFT JOIN	[Flood].[FloodApplicationOverview] AO ON A.Id = AO.ApplicationId
 			LEFT JOIN	(SELECT		[ApplicationId],
 									CONCAT('[', STRING_AGG([CommentJSON], ','), ']') AS [CommentsJSON]
 						FROM		(SELECT		[ApplicationId],
