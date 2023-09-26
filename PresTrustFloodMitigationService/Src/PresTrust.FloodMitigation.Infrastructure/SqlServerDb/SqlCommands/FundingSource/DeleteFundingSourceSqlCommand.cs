@@ -4,7 +4,7 @@ public class DeleteFundingSourceSqlCommand
 {
     private readonly string _sqlCommand =
             @"  DELETE 
-                FROM	[Flood].[FloodFinanceFund]
+                FROM	[Flood].[FloodApplicationFinanceFund]
                 WHERE   Id = @p_Id AND ApplicationId = @p_ApplicationId;";
 
     public DeleteFundingSourceSqlCommand()

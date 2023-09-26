@@ -12,8 +12,8 @@ public class GetFundingSourcesByApplicationIdSqlCommad
                     END AS Title
 	               ,FF.Amount
 	               ,FF.AwardDate
-                    FROM [Flood].[FloodFundingSourceType] FS
-                    LEFT JOIN [Flood].[FloodFinanceFund] FF  ON (FF.ApplicationId = @p_ApplicationId AND FS.Id = FF.FundingSourceTypeId);";
+                    FROM [Flood].[FloodApplicationFundingSourceType] FS
+                    LEFT JOIN [Flood].[FloodApplicationFinanceFund] FF  ON (FF.ApplicationId = @p_ApplicationId AND FS.Id = FF.FundingSourceTypeId);";
     public GetFundingSourcesByApplicationIdSqlCommad()
     {
     }

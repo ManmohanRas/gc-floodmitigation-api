@@ -21,7 +21,7 @@ public class UpdatePropFeedbackSqlCommand
   */
 
     private readonly string _sqlCommand =
-       @"UPDATE		       [Flood].[FloodFeedback]
+       @"UPDATE		       [Flood].[FloodApplicationFeedback]
              SET			   [Feedback] = @p_Feedback
 			                  ,[RequestForCorrection] = @p_RequestForCorrection
 			                  ,[LastUpdatedBy] = @p_LastUpdatedBy

@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class ResponseToRequestForApplicationCorrectionCommandMappingProfile : Profile
+public class ResponseToRequestForApplicationCorrectionCommandMappingProfile
 {
     public ResponseToRequestForApplicationCorrectionCommandMappingProfile()
     {

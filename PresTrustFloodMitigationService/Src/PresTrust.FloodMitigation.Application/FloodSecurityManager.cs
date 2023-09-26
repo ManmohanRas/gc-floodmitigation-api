@@ -15,13 +15,13 @@ public class FloodSecurityManager
     private List<NavigationItemEntity> adminNavigationItems = default;
     private List<NavigationItemEntity> postApprovedNavigationItems = default;
     private NavigationItemEntity defaultNavigationItem = default;
-    private List<FloodFeedbackEntity> corrections = new List<FloodFeedbackEntity>();
+    private List<FloodApplicationFeedbackEntity> corrections = new List<FloodApplicationFeedbackEntity>();
 
-    public FloodSecurityManager(UserRoleEnum userRole, ApplicationStatusEnum applicationStatus, List<FloodFeedbackEntity> corrections = null)
+    public FloodSecurityManager(UserRoleEnum userRole, ApplicationStatusEnum applicationStatus, List<FloodApplicationFeedbackEntity> corrections = null)
     {
         this.userRole = userRole;
         this.applicationStatus = applicationStatus;
-        this.corrections = corrections ?? new List<FloodFeedbackEntity>();
+        this.corrections = corrections ?? new List<FloodApplicationFeedbackEntity>();
 
         ConfigurePermissions();
     }
