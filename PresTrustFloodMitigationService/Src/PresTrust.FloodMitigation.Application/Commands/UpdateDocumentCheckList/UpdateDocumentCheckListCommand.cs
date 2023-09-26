@@ -11,6 +11,6 @@ namespace PresTrust.FloodMitigation.Application.Commands
     public class UpdateDocumentCheckListCommand : IRequest<Unit>
     {
         public int ApplicationId { get; set; }
-        public IEnumerable<DocumentViewModel> Documents { get; set; }
+        public IEnumerable<ApplicationDocumentViewModel> Documents { get; set; }
     }
 }

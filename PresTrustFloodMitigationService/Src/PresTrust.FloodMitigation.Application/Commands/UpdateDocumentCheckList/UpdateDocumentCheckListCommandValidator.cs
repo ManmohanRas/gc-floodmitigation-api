@@ -44,7 +44,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         public bool ValidDocumentType(string docType)
         {
             bool result = false;
-            Enum.TryParse(value: docType, ignoreCase: true, out DocumentTypeEnum enumDocType);
+            Enum.TryParse(value: docType, ignoreCase: true, out ApplicationDocumentTypeEnum enumDocType);
 
             if (enumDocType > 0)
                 result = true;
@@ -69,7 +69,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         }
     }
 
-    public class DocumentValidator : AbstractValidator<DocumentViewModel>
+    public class DocumentValidator : AbstractValidator<ApplicationDocumentViewModel>
     {
         public DocumentValidator()
         {
@@ -94,7 +94,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         public bool ValidDocumentType(string docType)
         {
             bool result = false;
-            Enum.TryParse(value: docType, ignoreCase: true, out DocumentTypeEnum enumDocType);
+            Enum.TryParse(value: docType, ignoreCase: true, out ApplicationDocumentTypeEnum enumDocType);
 
             if (enumDocType > 0)
                 result = true;

@@ -23,7 +23,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         private readonly IPresTrustUserContext userContext;
         private readonly SystemParameterConfiguration systemParamOptions;
         private readonly IApplicationRepository repoApplication;
-        private readonly IDocumentRepository repoDocument;
+        private readonly IApplicationDocumentRepository repoDocument;
         //private readonly ISiteRepository repoSite;
         // private readonly IBrokenRuleRepository repoBrokenRules;
 
@@ -34,7 +34,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
             IPresTrustUserContext userContext,
             IOptions<SystemParameterConfiguration> systemParamOptions,
             IApplicationRepository repoApplication,
-            IDocumentRepository repoDocument
+            IApplicationDocumentRepository repoDocument
             //ISiteRepository repoSite,
             // IBrokenRuleRepository repoBrokenRules
         ) : base(repoApplication: repoApplication)
@@ -63,7 +63,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
             var viewmodelDocuments = request.Documents.Where(doc => string.Compare(doc.RowStatus, "U", ignoreCase: true) == 0).ToList();
 
             // map command object to the HistDocumentEntity
-            var entityDocuments = mapper.Map<IEnumerable<DocumentViewModel>, IEnumerable<FloodDocumentEntity>>(viewmodelDocuments);
+            var entityDocuments = mapper.Map<IEnumerable<ApplicationDocumentViewModel>, IEnumerable<FloodApplicationDocumentEntity>>(viewmodelDocuments);
 
             // returns broken rules  
             // var brokenRules = ReturnBrokenRulesIfAny(application, request);

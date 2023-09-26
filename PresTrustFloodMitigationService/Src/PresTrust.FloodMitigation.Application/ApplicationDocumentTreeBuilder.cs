@@ -96,8 +96,8 @@ public class ApplicationDocumentTreeBuilder
                     Section = item.Section.ToString(),
                     DocumentType = item.DocumentType.ToString(),
                     Documents = d.Select(o => {
-                        return mapper.Map<FloodDocumentEntity, DocumentViewModel>(o);
-                    }).ToList() ?? new List<DocumentViewModel>()
+                        return mapper.Map<FloodApplicationDocumentEntity, ApplicationDocumentViewModel>(o);
+                    }).ToList() ?? new List<ApplicationDocumentViewModel>()
                 };
             }).ToList() ?? new List<DocumentCheckListDocTypeViewModel>()
         }).ToList() ?? new List<DocumentCheckListSectionViewModel>();

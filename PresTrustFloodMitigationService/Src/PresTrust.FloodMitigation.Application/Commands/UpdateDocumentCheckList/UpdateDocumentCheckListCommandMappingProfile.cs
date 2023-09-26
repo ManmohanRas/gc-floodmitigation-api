@@ -16,7 +16,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         /// </summary>
         public UpdateDocumentCheckListCommandMappingProfile()
         {
-            CreateMap<DocumentViewModel, FloodDocumentEntity>()
+            CreateMap<ApplicationDocumentViewModel, FloodApplicationDocumentEntity>()
               .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => MapDocumentType(src.DocumentType)));
         }
 
@@ -25,9 +25,9 @@ namespace PresTrust.FloodMitigation.Application.Commands
         /// </summary>
         /// <param name="docType"></param>
         /// <returns></returns>
-        public DocumentTypeEnum MapDocumentType(string docType)
+        public ApplicationDocumentTypeEnum MapDocumentType(string docType)
         {
-            Enum.TryParse(value: docType, ignoreCase: true, out DocumentTypeEnum histDocType);
+            Enum.TryParse(value: docType, ignoreCase: true, out ApplicationDocumentTypeEnum histDocType);
             return histDocType;
         }
     }

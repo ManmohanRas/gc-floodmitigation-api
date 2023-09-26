@@ -7,13 +7,13 @@ namespace PresTrust.FloodMitigation.Application.Queries
         private readonly IMapper mapper;
         private readonly IApplicationRepository repoApplication;
         //private readonly ISiteRepository repoSite;
-        private readonly IDocumentRepository repoDocuments;
+        private readonly IApplicationDocumentRepository repoDocuments;
 
         public GetDocumentCheckListQueryHandler
         (
             IMapper mapper,
             IApplicationRepository repoApplication,
-            IDocumentRepository repoDocuments
+            IApplicationDocumentRepository repoDocuments
         ) : base(repoApplication: repoApplication)
         {
             this.mapper = mapper;
@@ -52,7 +52,7 @@ namespace PresTrust.FloodMitigation.Application.Queries
             var documents = await repoDocuments.GetDocumentCheckListAsync(request.ApplicationId, hasCOEDocument);
 
             // build checklist view model
-            var docBuilder = new DocumentTreeBuilder(documents, buildChecklist: true);
+            var docBuilder = new ApplicationDocumentTreeBuilder(documents, buildChecklist: true);
             return docBuilder.DocumentCheckListItems;
         }
     }

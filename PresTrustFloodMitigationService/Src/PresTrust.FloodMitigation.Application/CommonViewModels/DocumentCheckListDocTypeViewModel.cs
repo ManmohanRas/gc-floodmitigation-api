@@ -12,6 +12,6 @@ namespace PresTrust.FloodMitigation.Application.CommonViewModels
         public int ApplicationId { get; set; }
         public string Section { get; set; }
         public string DocumentType { get; set; }
-        public List<DocumentViewModel> Documents { get; set; }
+        public List<ApplicationDocumentViewModel> Documents { get; set; }
     }
 }

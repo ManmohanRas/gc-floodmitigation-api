@@ -88,12 +88,12 @@ public class ApplicationDocumentRepository: IApplicationDocumentRepository
             param: new { @p_Id = id });
     }
 
-    public async Task<IEnumerable<FloodDocumentEntity>> GetDocumentCheckListAsync(int applicationId, bool hasCOEDocument)
+    public async Task<IEnumerable<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId, bool hasCOEDocument)
     {
-        IEnumerable<FloodDocumentEntity> results = default;
+        IEnumerable<FloodApplicationDocumentEntity> results = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetDocumentCheckListSqlCommand(hasCOEDocument);
-        results = await conn.QueryAsync<FloodDocumentEntity>(sqlCommand.ToString(),
+        results = await conn.QueryAsync<FloodApplicationDocumentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new { @p_ApplicationId = applicationId });
@@ -101,7 +101,7 @@ public class ApplicationDocumentRepository: IApplicationDocumentRepository
         return results;
     }
 
-    public async Task<FloodDocumentEntity> UpdateDocumentCheckListItemsAsync(FloodDocumentEntity doc)
+    public async Task<FloodApplicationDocumentEntity> UpdateDocumentCheckListItemsAsync(FloodApplicationDocumentEntity doc)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new UpdateDocumentCheckListItemsSqlCommand();
