@@ -8,6 +8,8 @@ public class ApplicationDocumentTreeBuilder
     private IEnumerable<FloodApplicationDocumentEntity> documents = default;
     private MapperConfiguration _autoMapperConfig;
 
+    private List<DocumentCheckListSectionViewModel> documentCheckListItems = default;
+
 
     #endregion
 
@@ -24,14 +26,25 @@ public class ApplicationDocumentTreeBuilder
             cfg.CreateMap<FloodApplicationDocumentEntity, ApplicationDocumentViewModel>()
             .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => src.DocumentType.ToString()));
         });
-        
-           BuildDocuments();
+
+        if (buildChecklist == true)
+        {
+            BuildDocumentCheckListTree();
+        }
+        else
+        {
+            BuildDocuments();
+        }
     }
 
     #endregion
 
-    public List<ApplicationDocumentTypeViewModel> DocumentsTree { get => documentsTree; }
+    #region " Public Properties ..."
 
+    public List<ApplicationDocumentTypeViewModel> DocumentsTree { get => documentsTree; }
+    public List<DocumentCheckListSectionViewModel> DocumentCheckListItems { get => documentCheckListItems; }
+
+    #endregion
     private void BuildDocuments()
     {
         if (!documents.Any())
@@ -65,5 +78,63 @@ public class ApplicationDocumentTreeBuilder
         }
     }
 
+    private void BuildDocumentCheckListTree()
+    {
+        if (!documents.Any())
+            return;
+
+        var mapper = _autoMapperConfig.CreateMapper();
+        documentCheckListItems = documents.OrderBy(s => s.SectionId).Where(s => s.Id > 0).GroupBy(s => s.Section).Select(s => new DocumentCheckListSectionViewModel()
+        {
+            Section = SetSectionTitle(s.Key),
+            DocumentCheckListDocTypeItems = s.GroupBy(d => d.DocumentType).Select(d => {
+                var item = d.FirstOrDefault();
+                return new DocumentCheckListDocTypeViewModel()
+                {
+                    Id = item.Id,
+                    ApplicationId = item.ApplicationId,
+                    Section = item.Section.ToString(),
+                    DocumentType = item.DocumentType.ToString(),
+                    Documents = d.Select(o => {
+                        return mapper.Map<FloodApplicationDocumentEntity, ApplicationDocumentViewModel>(o);
+                    }).ToList() ?? new List<ApplicationDocumentViewModel>()
+                };
+            }).ToList() ?? new List<DocumentCheckListDocTypeViewModel>()
+        }).ToList() ?? new List<DocumentCheckListSectionViewModel>();
+        if (documentCheckListItems.Count > 0)
+            documentCheckListItems = documentCheckListItems.Where(o => !string.IsNullOrWhiteSpace(o.Section)).ToList();
+    }
+
+    private string SetSectionTitle(ApplicationSectionEnum enumSection)
+    {
+        string title = string.Empty;
+        switch (enumSection)
+        {
+            case ApplicationSectionEnum.DECLARATION_OF_INTENT:
+                title = "Declaration Of Intent";
+                break;
+            case ApplicationSectionEnum.ROLES:
+                title = "Roles";
+                break;
+            case ApplicationSectionEnum.OVERVIEW:
+                title = "Overview";
+                break;
+            case ApplicationSectionEnum.PROJECT_AREA:
+                title = "Project Area";
+                break;
+            case ApplicationSectionEnum.OTHER_DOCUMENTS:
+                title = "Other Documents";
+                break;
+            case ApplicationSectionEnum.FINANCE:
+                title = "Finance";
+                break;
+            case ApplicationSectionEnum.SIGNATORY:
+                title = "Signatory";
+                break;
+        }
+        return title;
+    }
+
     #endregion
+
 }

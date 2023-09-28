@@ -494,6 +494,31 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
+    [HttpPost("getDocumentChecklist")]
+    [ProducesResponseType(typeof(IEnumerable<DocumentCheckListSectionViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<DocumentCheckListSectionViewModel>>> GetDocumentChecklist([FromBody] GetDocumentCheckListQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    /// <summary>
+    /// Save Document Checklist. 
+    /// </summary>
+    /// <param name="command"> Query Command.</param>
+    /// <returns> Returns Document Checklist Reponse.</returns>
+    [HttpPost("saveDocumentCheckList")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> SaveDocumentCheckList([FromBody] UpdateDocumentCheckListCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     /// Get Broken rules
     /// </summary>
     /// <param name="query"></param>
@@ -507,7 +532,6 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
-
 
     [HttpPost("getSoftcostDetails")]
     [ProducesResponseType(typeof(GetSoftcostDetailsQueryViewModel), (int)HttpStatusCode.OK)]
