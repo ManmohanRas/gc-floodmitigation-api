@@ -40,11 +40,11 @@ public class SavePropCommentCommandHandler : BaseHandler, IRequestHandler<SavePr
         AuthorizationCheck(application);
 
         // map command object to the HistCommentsEntity
-        var reqComment = mapper.Map<SavePropCommentCommand, FloodPropCommentEntity>(request);
+        var reqComment = mapper.Map<SavePropCommentCommand, FloodPropertyCommentEntity>(request);
         reqComment.LastUpdatedBy = userContext.Email;
 
         // save comment
-        FloodPropCommentEntity comment = default;
+        FloodPropertyCommentEntity comment = default;
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {

@@ -4,6 +4,6 @@ public class GetPropCommentsQueryMappingProfile: Profile
 {
     public GetPropCommentsQueryMappingProfile()
     {
-        CreateMap<FloodPropCommentEntity, GetPropCommentsQueryViewModel>();
+        CreateMap<FloodPropertyCommentEntity, GetPropCommentsQueryViewModel>();
     }
 }

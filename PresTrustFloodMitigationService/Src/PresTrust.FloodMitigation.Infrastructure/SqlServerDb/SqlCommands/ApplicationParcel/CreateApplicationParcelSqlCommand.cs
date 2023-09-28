@@ -7,12 +7,14 @@ public class CreateApplicationParcelSqlCommand
 			    (
                     [ApplicationId],
                     [PamsPin],
+                    [StatusId],
                     [IsLocked]
 			    )
                 VALUES
                     (
                     @p_ApplicationId,
                     @p_PamsPin,
+                    @p_StatusId,
                     @p_IsLocked
                 );";
 
