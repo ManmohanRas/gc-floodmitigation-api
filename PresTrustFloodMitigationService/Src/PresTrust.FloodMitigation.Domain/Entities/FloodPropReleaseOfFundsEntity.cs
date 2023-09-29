@@ -3,7 +3,7 @@ public class FloodPropReleaseOfFundsEntity
 {
     public int Id { get; set; } = 0;
     public int ApplicationId { get; set; }
-    public int Pamspin { get; set; }
+    public string? Pamspin { get; set; }
     public string ProjectAreaName { get; set; } = "";
     public string Property { get; set; } = "";
     public string ReimburesedHradCost { get; set; } = "";

@@ -8,4 +8,10 @@ public interface IPropReleaseOfFundsRepository
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Grant.</returns>
     Task<FloodPropReleaseOfFundsEntity> GetReleaseOfFundsAsync(int applicationId, int Pamspin);
+    /// <summary>
+    /// Save Tech.
+    /// </summary>
+    /// <param name="FloodTech"></param>
+    /// <returns></returns>
+    Task<FloodPropReleaseOfFundsEntity> SaveRofAsync(FloodPropReleaseOfFundsEntity FloodTech);
 }
