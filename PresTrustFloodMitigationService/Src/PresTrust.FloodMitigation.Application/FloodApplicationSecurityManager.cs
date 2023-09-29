@@ -6,7 +6,7 @@ public enum ViewOrEdit
     EDIT = 2
 }
 
-public class FloodSecurityManager
+public class FloodApplicationSecurityManager
 {
     private UserRoleEnum userRole = default;
     private ApplicationStatusEnum applicationStatus = default;
@@ -17,7 +17,7 @@ public class FloodSecurityManager
     private NavigationItemEntity defaultNavigationItem = default;
     private List<FloodApplicationFeedbackEntity> corrections = new List<FloodApplicationFeedbackEntity>();
 
-    public FloodSecurityManager(UserRoleEnum userRole, ApplicationStatusEnum applicationStatus, List<FloodApplicationFeedbackEntity> corrections = null)
+    public FloodApplicationSecurityManager(UserRoleEnum userRole, ApplicationStatusEnum applicationStatus, List<FloodApplicationFeedbackEntity> corrections = null)
     {
         this.userRole = userRole;
         this.applicationStatus = applicationStatus;

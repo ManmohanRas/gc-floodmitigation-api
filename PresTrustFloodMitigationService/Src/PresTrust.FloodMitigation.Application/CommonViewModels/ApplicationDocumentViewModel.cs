@@ -14,4 +14,5 @@ public class ApplicationDocumentViewModel
     public bool HardCopy { get; set; }
     public bool Approved { get; set; }
     public string ReviewComment { get; set; }
+    public string RowStatus { get; set; }
 }

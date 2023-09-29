@@ -27,6 +27,7 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
                 {
                     @p_ApplicationId = applicationParcel.ApplicationId,
                     @p_PamsPin = applicationParcel.PamsPin,
+                    @p_StatusId = applicationParcel.StatusId,
                     @p_IsLocked = applicationParcel.IsLocked
                 });
         }

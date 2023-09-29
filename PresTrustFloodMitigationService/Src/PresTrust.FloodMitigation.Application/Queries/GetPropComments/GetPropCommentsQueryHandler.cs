@@ -12,10 +12,10 @@ public class GetPropCommentsQueryHandler : IRequestHandler<GetPropCommentsQuery,
     }
     public async Task<IEnumerable<GetPropCommentsQueryViewModel>> Handle(GetPropCommentsQuery request, CancellationToken cancellationToken)
     {
-        IEnumerable<FloodPropCommentEntity> results = default;
+        IEnumerable<FloodPropertyCommentEntity> results = default;
         results = await this.repoComment.GetCommentsAsync(request.ApplicationId, request.Pamspin);
 
-        var comments = mapper.Map<IEnumerable<FloodPropCommentEntity>, IEnumerable<GetPropCommentsQueryViewModel>>(results);
+        var comments = mapper.Map<IEnumerable<FloodPropertyCommentEntity>, IEnumerable<GetPropCommentsQueryViewModel>>(results);
 
         return comments;
     }

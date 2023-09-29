@@ -4,6 +4,6 @@ public class SavePropCommentCommandMappingProfile : Profile
 {
     public SavePropCommentCommandMappingProfile()
     {
-        CreateMap<SaveApplicationCommentCommand, FloodPropCommentEntity>();
+        CreateMap<SaveApplicationCommentCommand, FloodPropertyCommentEntity>();
     }
 }

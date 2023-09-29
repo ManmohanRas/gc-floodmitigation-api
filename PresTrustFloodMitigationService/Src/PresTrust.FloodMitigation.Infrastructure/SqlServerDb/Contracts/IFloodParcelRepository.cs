@@ -8,4 +8,6 @@ public interface IFloodParcelRepository
     /// <param name="parcels"></param>
     /// <returns></returns>
     Task SaveAsync(List<FloodParcelEntity> parcels);
+
+    Task<FloodParcelEntity> GetParcelAsync(int applicationId, string pamsPin);
 }
