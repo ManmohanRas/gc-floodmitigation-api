@@ -1,6 +1,4 @@
-﻿using DevExpress.CodeParser;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDeclarationCommand, bool>
 {

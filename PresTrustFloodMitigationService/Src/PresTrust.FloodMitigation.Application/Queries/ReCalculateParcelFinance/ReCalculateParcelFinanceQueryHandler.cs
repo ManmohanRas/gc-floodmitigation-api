@@ -1,6 +1,4 @@
-﻿using DevExpress.CodeParser;
-
-namespace PresTrust.FloodMitigation.Application.Queries;
+﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
 public class ReCalculateParcelFinanceQueryHandler : IRequestHandler<ReCalculateParcelFinanceQuery, ReCalculateParcelFinanceQueryViewModel>
 {
