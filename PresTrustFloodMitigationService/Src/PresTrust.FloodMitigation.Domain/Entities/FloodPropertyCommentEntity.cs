@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Domain.Entities
 {
-   public class FloodPropCommentEntity
+   public class FloodPropertyCommentEntity
     {
         public int Id { get; set; }
         public int ApplicationId { get; set; }

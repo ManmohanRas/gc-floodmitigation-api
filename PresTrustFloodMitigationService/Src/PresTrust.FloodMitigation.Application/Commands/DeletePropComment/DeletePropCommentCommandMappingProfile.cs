@@ -4,6 +4,6 @@ public class DeletePropCommentCommandMappingProfile: Profile
 {
     public DeletePropCommentCommandMappingProfile()
     {
-        CreateMap<DeletePropCommentCommand, FloodPropCommentEntity>();
+        CreateMap<DeletePropCommentCommand, FloodPropertyCommentEntity>();
     }
 }

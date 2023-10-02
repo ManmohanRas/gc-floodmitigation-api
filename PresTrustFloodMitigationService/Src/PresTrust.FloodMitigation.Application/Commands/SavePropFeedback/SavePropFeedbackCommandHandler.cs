@@ -43,7 +43,7 @@ public class SavePropFeedbackCommandHandler : IRequestHandler<SavePropFeedbackCo
         // get application details
         //var application = await GetIfApplicationExists(request.ApplicationId);
 
-        var feedback = mapper.Map<SavePropFeedbackCommand, FloodPropFeedbackEntity>(request);
+        var feedback = mapper.Map<SavePropFeedbackCommand, FloodPropertyFeedbackEntity>(request);
         feedback.LastUpdatedBy = userContext.Email;
         feedback.CorrectionStatus = feedback.Section == ApplicationSectionEnum.NONE ? ApplicationCorrectionStatusEnum.NONE.ToString() : ApplicationCorrectionStatusEnum.PENDING.ToString();
         feedback = await repoFeedback.SavePropFeedbackAsync(feedback);

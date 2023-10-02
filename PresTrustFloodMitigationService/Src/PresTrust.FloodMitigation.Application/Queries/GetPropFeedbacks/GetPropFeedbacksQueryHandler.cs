@@ -28,7 +28,7 @@ public class GetPropFeedbacksQueryHandler: IRequestHandler<GetPropFeedbacksQuery
         var feedbacks = await repoFeedback.GetPropFeedbackAsync(request.ApplicationId, request.Pamspin);
 
         // map command object to the GetPropFeedbacksQueryViewModel
-        var result = mapper.Map<IEnumerable<FloodPropFeedbackEntity>, IEnumerable<GetPropFeedbacksQueryViewModel>>(feedbacks);
+        var result = mapper.Map<IEnumerable<FloodPropertyFeedbackEntity>, IEnumerable<GetPropFeedbacksQueryViewModel>>(feedbacks);
         return result;
     }
 }

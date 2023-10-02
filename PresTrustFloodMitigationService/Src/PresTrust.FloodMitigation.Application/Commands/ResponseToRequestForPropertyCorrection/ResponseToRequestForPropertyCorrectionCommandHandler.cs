@@ -62,7 +62,7 @@ public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler,
             // If reponse's description/feedback is not empty
             if (!string.IsNullOrEmpty(request.Feedback))
             {
-                var feedback = new FloodPropFeedbackEntity()
+                var feedback = new FloodPropertyFeedbackEntity()
                 {
                     Id = 0,
                     ApplicationId = application.Id,

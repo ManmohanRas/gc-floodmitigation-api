@@ -1,0 +1,24 @@
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Documents
+{
+    public class UpdateDocumentCheckListItemsSqlCommand
+	{
+		private readonly string _sqlCommand =
+          @" UPDATE [Flood].[FloodDocument]
+				SET  [Title] = @p_Title
+					,[Description] = @p_Description
+					,[UseInReport] = @p_UseInReport
+					,[HardCopy] = @p_HardCopy
+					,[Approved] = @p_Approved
+					,[ReviewComment] = @p_ReviewComment
+					,[LastUpdatedOn] = GETDATE()
+					,[LastUpdatedBy] = @p_LastUpdatedBy
+				WHERE Id = @p_Id;";
+
+		public UpdateDocumentCheckListItemsSqlCommand() { }
+
+		public override string ToString()
+		{
+			return _sqlCommand;
+		}
+	}
+}

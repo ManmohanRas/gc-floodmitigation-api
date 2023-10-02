@@ -37,4 +37,21 @@ public class FloodParcelRepository : IFloodParcelRepository
                 });
         }
     }
+
+    public async Task<FloodParcelEntity> GetParcelAsync(int applicationId, string pamsPin)
+    {
+        FloodParcelEntity result = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetParcelSqlCommand();
+        var results = await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
+                            commandType: CommandType.Text,
+                            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                            param: new {
+                                @p_ApplicationId = applicationId,
+                                @p_PamsPin = pamsPin
+                            });
+        result = results.FirstOrDefault();
+
+        return result;
+    }
 }

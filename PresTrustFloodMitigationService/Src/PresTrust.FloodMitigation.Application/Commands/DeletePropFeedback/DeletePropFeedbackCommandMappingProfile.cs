@@ -4,6 +4,6 @@ public class DeletePropFeedbackCommandMappingProfile : Profile
 {
     public DeletePropFeedbackCommandMappingProfile()
     {
-        CreateMap<DeleteApplicationFeedbackCommand, FloodPropFeedbackEntity>();
+        CreateMap<DeleteApplicationFeedbackCommand, FloodPropertyFeedbackEntity>();
     }
 }

@@ -7,6 +7,7 @@ public class GetApplicationParcelsSqlCommand
 					SELECT
 						ApplicationId,
 						PamsPin,
+						StatusId,
 						IsLocked,
 						CASE WHEN OtherPamsPin IS NULL THEN 0 ELSE 1 END AS AlreadyExists
 					FROM
@@ -17,6 +18,7 @@ public class GetApplicationParcelsSqlCommand
 				)
 				SELECT
 					AP.[PamsPin],
+					AP.[StatusId],
 					AP.[IsLocked],
 					AP.[AlreadyExists],
 					CONCAT(CP.[StreetNo], ' ', CP.[StreetAddress]) AS [PropertyAddress],

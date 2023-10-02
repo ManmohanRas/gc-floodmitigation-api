@@ -10,6 +10,7 @@ public class FloodApplicationEntity
     public int ApplicationSubTypeId { get; set; }
     public DateTime ExpirationDate { get; set; }
     public int StatusId { get; set; }
+    public int PrevStatusId { get; set; }
     public bool CreatedByProgramAdmin { get; set; }
     public string LastUpdatedBy { get; set; }
     public DateTime LastUpdatedOn { get; set; }
@@ -53,6 +54,17 @@ public class FloodApplicationEntity
         set
         {
             this.StatusId = (int)value;
+        }
+    }
+    public PropertyStatusEnum PrevStatus
+    {
+        get
+        {
+            return (PropertyStatusEnum)PrevStatusId;
+        }
+        set
+        {
+            this.PrevStatusId = (int)value;
         }
     }
 
