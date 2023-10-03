@@ -94,48 +94,48 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getComments")]
-    [ProducesResponseType(typeof(IEnumerable<GetCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationComments")]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<GetCommentsQueryViewModel>>> GetComments([FromBody] GetCommentsQuery query)
+    public async Task<ActionResult<IEnumerable<GetApplicationCommentsQueryViewModel>>> GetApplicationComments([FromBody] GetApplicationCommentsQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("saveComment")]
+    [HttpPost("saveApplicationComment")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveComment([FromBody] SaveCommentCommand command)
+    public async Task<ActionResult<int>> SaveApplicationComment([FromBody] SaveApplicationCommentCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("deleteComment")]
+    [HttpPost("deleteApplicationComment")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeleteComment([FromBody] DeleteCommentCommand command)
+    public async Task<ActionResult<bool>> DeleteApplicationComment([FromBody] DeleteApplicationCommentCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("markCommentsAsRead")]
+    [HttpPost("markApplicationCommentsAsRead")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> MarkCommentsAsRead([FromBody] MarkCommentsAsReadCommand command)
+    public async Task<ActionResult<bool>> MarkApplicationCommentsAsRead([FromBody] MarkApplicationCommentsAsReadCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
     [HttpPost("getPropComments")]
-    [ProducesResponseType(typeof(IEnumerable<GetCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -174,42 +174,42 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getFeedbacks")]
-    [ProducesResponseType(typeof(IEnumerable<GetFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationFeedbacks")]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<GetFeedbacksQueryViewModel>>> getFeedbacks([FromBody] GetFeedbacksQuery query)
+    public async Task<ActionResult<IEnumerable<GetApplicationFeedbacksQueryViewModel>>> getApplicationFeedbacks([FromBody] GetApplicationFeedbacksQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("saveFeedback")]
+    [HttpPost("saveApplicationFeedback")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveFeedback([FromBody] SaveFeedbackCommand command)
+    public async Task<ActionResult<int>> SaveApplicationFeedback([FromBody] SaveApplicationFeedbackCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("deleteFeedback")]
+    [HttpPost("deleteApplicationFeedback")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeleteFeedback([FromBody] DeleteFeedbackCommand command)
+    public async Task<ActionResult<bool>> DeleteApplicationFeedback([FromBody] DeleteApplicationFeedbackCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("markFeedbacksAsRead")]
+    [HttpPost("markApplicationFeedbacksAsRead")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> MarkFeedbacksAsRead([FromBody] MarkFeedbacksAsReadCommand command)
+    public async Task<ActionResult<bool>> MarkApplicationFeedbacksAsRead([FromBody] MarkApplicationFeedbacksAsReadCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -295,12 +295,12 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getOverviewDetails")]
-    [ProducesResponseType(typeof(GetOverviewDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationOverviewDetails")]
+    [ProducesResponseType(typeof(GetApplicationOverviewQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetOverviewDetailsQueryViewModel>> GetOverviewDetails([FromBody] GetOverviewDetailsQuery query)
+    public async Task<ActionResult<GetApplicationOverviewQueryViewModel>> GetApplicationOverviewDetails([FromBody] GetApplicationOverviewQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -311,7 +311,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveOverviewDetails([FromBody] SaveOverviewDetailsCommand command)
+    public async Task<ActionResult<int>> SaveOverviewDetails([FromBody] SaveApplicationOverviewCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -326,62 +326,52 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getDocumentDetails")]
-    [ProducesResponseType(typeof(IEnumerable<DocumentTypeViewModel>), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationDocuments")]
+    [ProducesResponseType(typeof(IEnumerable<ApplicationDocumentTypeViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<DocumentTypeViewModel>>> GetDocumentDetails([FromBody] GetDocumentsBySectionDetailsQuery query)
+    public async Task<ActionResult<IEnumerable<ApplicationDocumentTypeViewModel>>> GetApplicationDocuments([FromBody] GetApplicationDocumentsBySectionQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("saveDocument")]
-    [ProducesResponseType(typeof(SaveDocumentDetailsCommandViewModel), (int)HttpStatusCode.OK)]
+    [HttpPost("saveApplicationDocument")]
+    [ProducesResponseType(typeof(SaveApplicationDocumentCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<SaveDocumentDetailsCommandViewModel>> SaveDocument([FromBody] SaveDocumentDetailsCommand command)
+    public async Task<ActionResult<SaveApplicationDocumentCommandViewModel>> SaveApplicationDocument([FromBody] SaveApplicationDocumentCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("deleteDocument")]
+    [HttpPost("deleteApplicationDocument")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeleteDocument([FromBody] DeleteDocumentCommand command)
+    public async Task<ActionResult<bool>> DeleteApplicationDocument([FromBody] DeleteApplicationDocumentCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    /// <summary>
-    /// Get Signature Details
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
-    [HttpPost("getSignatoryDetails")]
-    [ProducesResponseType(typeof(GetSignatoryQueryViewModel), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationSignatoryDetails")]
+    [ProducesResponseType(typeof(GetApplicationSignatoryQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetSignatoryQueryViewModel>> GetSignatoryDetails([FromBody] GetSignatoryQuery query)
+    public async Task<ActionResult<GetApplicationSignatoryQueryViewModel>> GetApplicationSignatoryDetails([FromBody] GetApplicationSignatoryQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    /// <summary>
-    /// Save Signature Details.
-    /// </summary>
-    /// <param name="command"> Query Command.</param>
-    /// <returns> Returns Signature Reponse.</returns>
-    [HttpPost("saveSignatoryDetails")]
+    [HttpPost("saveApplicationSignatoryDetails")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveSignatoryDetails([FromBody] SaveSignatoryCommand command)
+    public async Task<ActionResult<int>> SaveApplicationSignatoryDetails([FromBody] SaveApplicationSignatoryCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -424,26 +414,22 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    /// Save Funding Agency.
-    /// </summary>
-    /// <param name="command"> Query Command.</param>
-    /// <returns> Returns Funding Agency Reponse.</returns>
-    [HttpPost("saveFundingAgency")]
+    [HttpPost("saveApplicationFundingAgency")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveFundingAgency([FromBody] SaveFundingAgencyCommand command)
+    public async Task<ActionResult<int>> SaveApplicationFundingAgency([FromBody] SaveApplicationFundingAgencyCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("deleteFundingAgency")]
+    [HttpPost("deleteApplicationFundingAgency")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeleteFundingAgency([FromBody] DeleteFundingAgencyCommand command)
+    public async Task<ActionResult<bool>> DeleteApplicationFundingAgency([FromBody] DeleteApplicationFundingAgencyCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -468,11 +454,6 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
-    /// <summary>
-    /// Save Parcel Finance.
-    /// </summary>
-    /// <param name="command"> Query Command.</param>
-    /// <returns> Returns Signature Reponse.</returns>
     [HttpPost("saveParcelFinance")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -482,10 +463,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
-    /// Get Tech Details
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
+
     [HttpPost("getTechDetails")]
     [ProducesResponseType(typeof(GetTechDetailsQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -496,11 +474,6 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
-    /// <summary>
-    /// Save Tech Details.
-    /// </summary>
-    /// <param name="command"> Query Command.</param>
-    /// <returns> Returns Signature Reponse.</returns>
     [HttpPost("saveTechDetails")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -511,10 +484,6 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    /// Get Tech Details
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
     [HttpPost("reCalculateParcelFinance")]
     [ProducesResponseType(typeof(ReCalculateParcelFinanceQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -523,6 +492,31 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     public async Task<ActionResult<ReCalculateParcelFinanceQueryViewModel>> ReCalculateParcelFinance([FromBody] ReCalculateParcelFinanceQuery query)
     {
         return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("getDocumentChecklist")]
+    [ProducesResponseType(typeof(IEnumerable<DocumentCheckListSectionViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<DocumentCheckListSectionViewModel>>> GetDocumentChecklist([FromBody] GetDocumentCheckListQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    /// <summary>
+    /// Save Document Checklist. 
+    /// </summary>
+    /// <param name="command"> Query Command.</param>
+    /// <returns> Returns Document Checklist Reponse.</returns>
+    [HttpPost("saveDocumentCheckList")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> SaveDocumentCheckList([FromBody] UpdateDocumentCheckListCommand command)
+    {
+        return Single(await CommandAsync(command));
     }
 
     /// Get Broken rules
@@ -535,6 +529,66 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<IEnumerable<GetBrokenRulesQueryViewModel>>> GetBrokenRules([FromBody] GetBrokenRulesQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("getSoftcostDetails")]
+    [ProducesResponseType(typeof(GetSoftcostDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetSoftcostDetailsQueryViewModel>> GetSoftcostDetails([FromBody] GetSoftcostDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveSoftcost")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> saveSoftcost([FromBody] SaveSoftcostCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getContacts")]
+    [ProducesResponseType(typeof(IEnumerable<GetContactsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetContactsQueryViewModel>>> GetContacts([FromBody] GetContactsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveContact")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveContact([FromBody] SaveContactCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("deleteContact")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteContact([FromBody] DeleteContactCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getPropertyDetails")]
+    [ProducesResponseType(typeof(GetPropertyDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetPropertyDetailsQueryViewModel>> GetPropertyDetails([FromBody] GetPropertyDetailsQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -590,56 +644,6 @@ public class FloodMitigationWorkflowController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<Unit>> WithdrawApplication([FromBody] WithdrawApplicationCommand command)
-    {
-        return Single(await CommandAsync(command));
-    }
-
-    [HttpPost("getSoftcostDetails")]
-    [ProducesResponseType(typeof(GetSoftcostDetailsQueryViewModel), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType ((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetSoftcostDetailsQueryViewModel>> GetSoftcostDetails([FromBody] GetSoftcostDetailsQuery query)
-    {
-        return Single(await QueryAsync(query));
-    }
-
-    [HttpPost("saveSoftcost")]
-    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<Unit>> saveSoftcost([FromBody] SaveSoftcostCommand command)
-    {
-        return Single(await CommandAsync(command));
-    }
-
-    [HttpPost("getContacts")]
-    [ProducesResponseType(typeof(IEnumerable<GetContactsQueryViewModel>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<GetContactsQueryViewModel>>> GetContacts([FromBody] GetContactsQuery query)
-    {
-        return Single(await QueryAsync(query));
-    }
-
-    [HttpPost("saveContact")]
-    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveContact([FromBody] SaveContactCommand command)
-    {
-        return Single(await CommandAsync(command));
-    }
-
-    [HttpPost("deleteContact")]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeleteContact([FromBody] DeleteContactCommand command)
     {
         return Single(await CommandAsync(command));
     }

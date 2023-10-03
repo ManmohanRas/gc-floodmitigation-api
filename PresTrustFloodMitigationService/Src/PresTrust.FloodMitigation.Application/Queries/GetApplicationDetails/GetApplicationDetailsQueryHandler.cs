@@ -8,8 +8,8 @@ public class GetApplicationDetailsQueryHandler : BaseHandler, IRequestHandler<Ge
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly ICoreRepository repoCore;
     private readonly IApplicationRepository repoApplication;
-    private readonly ICommentRepository repoComment;
-    private readonly IFeedbackRepository repoFeedback;
+    private readonly IApplicationCommentRepository repoComment;
+    private readonly IApplicationFeedbackRepository repoFeedback;
 
     public GetApplicationDetailsQueryHandler(
         IMapper mapper,
@@ -17,8 +17,8 @@ public class GetApplicationDetailsQueryHandler : BaseHandler, IRequestHandler<Ge
         IOptions<SystemParameterConfiguration> systemParamOptions,
         ICoreRepository repoCore,
         IApplicationRepository repoApplication,
-        ICommentRepository repoComment,
-        IFeedbackRepository repoFeedback
+        IApplicationCommentRepository repoComment,
+        IApplicationFeedbackRepository repoFeedback
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
@@ -43,7 +43,7 @@ public class GetApplicationDetailsQueryHandler : BaseHandler, IRequestHandler<Ge
         var result = mapper.Map<FloodApplicationEntity, GetApplicationDetailsQueryViewModel>(application);
 
         // apply security
-        FloodSecurityManager securityMgr = default;
+        FloodApplicationSecurityManager securityMgr = default;
         // derive user's role for a given agency
         userContext.DeriveRole(application.AgencyId);
         // derive navigation items & permissions
@@ -54,10 +54,10 @@ public class GetApplicationDetailsQueryHandler : BaseHandler, IRequestHandler<Ge
             case ApplicationStatusEnum.IN_REVIEW:
             case ApplicationStatusEnum.ACTIVE:
                 var feedbacksReqForCorrections = application.Feedbacks.Where(f => f.RequestForCorrection == true && string.Compare(f.CorrectionStatus, ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString(), true) == 0).ToList();
-                securityMgr = new FloodSecurityManager(userContext.Role, application.Status, feedbacksReqForCorrections);
+                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, feedbacksReqForCorrections);
                 break;
             default:
-                securityMgr = new FloodSecurityManager(userContext.Role, application.Status);
+                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status);
                 break;
         }
 

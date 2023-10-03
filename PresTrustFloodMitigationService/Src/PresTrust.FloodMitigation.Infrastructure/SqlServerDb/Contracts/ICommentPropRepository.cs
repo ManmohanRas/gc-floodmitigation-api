@@ -7,16 +7,16 @@ public interface ICommentPropRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Comments.</returns>
-    Task<IEnumerable<FloodPropCommentEntity>> GetCommentsAsync(int applicationId, string Pamspin);
+    Task<IEnumerable<FloodPropertyCommentEntity>> GetCommentsAsync(int applicationId, string Pamspin);
     /// <summary>
     /// Save Comment.
     /// </summary>
     /// <param name="comment"></param>
     /// <returns></returns>
-    Task<FloodPropCommentEntity> SaveCommentsAsync(FloodPropCommentEntity comment);
+    Task<FloodPropertyCommentEntity> SaveCommentsAsync(FloodPropertyCommentEntity comment);
     /// <summary>
     /// Delete Comment.
     /// </summary>
     /// <returns></returns>
-    Task DeleteCommentAsync(FloodPropCommentEntity comment);
+    Task DeleteCommentAsync(FloodPropertyCommentEntity comment);
 }

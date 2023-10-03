@@ -10,6 +10,7 @@ public class FloodApplicationEntity
     public int ApplicationSubTypeId { get; set; }
     public DateTime ExpirationDate { get; set; }
     public int StatusId { get; set; }
+    public int PrevStatusId { get; set; }
     public bool CreatedByProgramAdmin { get; set; }
     public string LastUpdatedBy { get; set; }
     public DateTime LastUpdatedOn { get; set; }
@@ -55,6 +56,17 @@ public class FloodApplicationEntity
             this.StatusId = (int)value;
         }
     }
+    public PropertyStatusEnum PrevStatus
+    {
+        get
+        {
+            return (PropertyStatusEnum)PrevStatusId;
+        }
+        set
+        {
+            this.PrevStatusId = (int)value;
+        }
+    }
 
     public FloodAgencyEntity Agency {
         get
@@ -63,19 +75,19 @@ public class FloodApplicationEntity
         }
     }
 
-    public IEnumerable<FloodCommentEntity> Comments
+    public IEnumerable<FloodApplicationCommentEntity> Comments
     {
         get
         {
-            return this.CommentsJSON == null ? new List<FloodCommentEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodCommentEntity>>(this.CommentsJSON);
+            return this.CommentsJSON == null ? new List<FloodApplicationCommentEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodApplicationCommentEntity>>(this.CommentsJSON);
         }
     }
 
-    public IEnumerable<FloodFeedbackEntity> Feedbacks
+    public IEnumerable<FloodApplicationFeedbackEntity> Feedbacks
     {
         get
         {
-            return this.FeedbacksJSON == null ? new List<FloodFeedbackEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodFeedbackEntity>>(this.FeedbacksJSON);
+            return this.FeedbacksJSON == null ? new List<FloodApplicationFeedbackEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodApplicationFeedbackEntity>>(this.FeedbacksJSON);
         }
     }
 }

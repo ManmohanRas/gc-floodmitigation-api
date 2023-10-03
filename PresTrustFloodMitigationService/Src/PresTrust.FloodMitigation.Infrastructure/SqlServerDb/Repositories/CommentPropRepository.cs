@@ -29,12 +29,12 @@ public class CommentPropRepository : ICommentPropRepository
     /// </summary>
     /// <param name="applicationId"> Id.</param>
     /// <returns> Returns Comments Entity.</returns>
-    public async Task<IEnumerable<FloodPropCommentEntity>> GetCommentsAsync(int applicationId, string Pamspin)
+    public async Task<IEnumerable<FloodPropertyCommentEntity>> GetCommentsAsync(int applicationId, string Pamspin)
     {
-        IEnumerable<FloodPropCommentEntity> results;
+        IEnumerable<FloodPropertyCommentEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetPropCommentsSqlCommend();
-        results = await conn.QueryAsync<FloodPropCommentEntity>(sqlCommand.ToString(),
+        results = await conn.QueryAsync<FloodPropertyCommentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new { @p_ApplicationId = applicationId });
@@ -47,7 +47,7 @@ public class CommentPropRepository : ICommentPropRepository
     /// </summary>
     /// <param name="comment"></param>
     /// <returns></returns>
-    public async Task<FloodPropCommentEntity> SaveCommentsAsync(FloodPropCommentEntity comment)
+    public async Task<FloodPropertyCommentEntity> SaveCommentsAsync(FloodPropertyCommentEntity comment)
     {
         if (comment.Id > 0)
             return await UpdateAsync(comment);
@@ -59,7 +59,7 @@ public class CommentPropRepository : ICommentPropRepository
     /// </summary>
     /// <param name="dclrOfIntent"></param>
     /// <returns></returns>
-    private async Task<FloodPropCommentEntity> CreateAsync(FloodPropCommentEntity comment)
+    private async Task<FloodPropertyCommentEntity> CreateAsync(FloodPropertyCommentEntity comment)
     {
         int id = default;
 
@@ -88,7 +88,7 @@ public class CommentPropRepository : ICommentPropRepository
     /// </summary>
     /// <param name="comment"></param>
     /// <returns></returns>
-    private async Task<FloodPropCommentEntity> UpdateAsync(FloodPropCommentEntity comment)
+    private async Task<FloodPropertyCommentEntity> UpdateAsync(FloodPropertyCommentEntity comment)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new UpdatePropCommentSqlCommand();
@@ -114,7 +114,7 @@ public class CommentPropRepository : ICommentPropRepository
     /// </summary>
     /// <param name="comment"></param>
     /// <returns></returns>
-    public async Task DeleteCommentAsync(FloodPropCommentEntity comment)
+    public async Task DeleteCommentAsync(FloodPropertyCommentEntity comment)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new DeletePropCommentSqlCommand();

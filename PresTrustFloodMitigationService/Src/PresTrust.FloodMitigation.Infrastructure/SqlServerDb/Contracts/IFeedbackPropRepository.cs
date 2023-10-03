@@ -9,19 +9,19 @@ public interface IFeedbackPropRepository
     /// <param name="applicationId"></param>
     /// <param name="correctionStatus"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodPropFeedbackEntity>> GetPropFeedbackAsync(int applicationId, string Pamspin);
+    Task<IEnumerable<FloodPropertyFeedbackEntity>> GetPropFeedbackAsync(int applicationId, string Pamspin);
     // <summary>
     /// Save Feedback.
     /// </summary>
     /// <param name="feedback"></param>
     /// <returns>Returns Feedback.</returns>
-    Task<FloodPropFeedbackEntity> SavePropFeedbackAsync(FloodPropFeedbackEntity feedback);
+    Task<FloodPropertyFeedbackEntity> SavePropFeedbackAsync(FloodPropertyFeedbackEntity feedback);
     /// <summary>
     /// Delete Feedback
     /// </summary>
     /// <param name="feedback"></param>
     /// <returns></returns>
-    Task DeletePropFeedbackAsync(FloodPropFeedbackEntity feedback);
+    Task DeletePropFeedbackAsync(FloodPropertyFeedbackEntity feedback);
 
     Task MarkPropFeedbackAsReadAsync(List<int> FeedbackIds);
     Task RequestForPropertyCorrectionAsync(int applicationId);

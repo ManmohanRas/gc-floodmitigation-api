@@ -3,7 +3,7 @@
 public class UpdateFundingSourceSqlCommand
 {
     private readonly string _sqlCommand =
-            @" UPDATE [Flood].[FloodFinanceFund]
+            @" UPDATE [Flood].[FloodApplicationFinanceFund]
                    SET [Title] =  @p_Title
                       ,[Amount] = @p_Amount
                       ,[AwardDate] = @p_AwardDate

@@ -2,14 +2,71 @@
 
 public class FloodParcelEntity
 {
+    public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
     public int AgencyId { get; set; }
     public string Block { get; set; }
     public string Lot { get; set; }
     public string QCode { get; set; }
+    public string Latitude { get; set; }
+    public string Longitude { get; set; }
+    public string StreetNo { get; set; }
+    public string StreetAddress { get; set; }
     public string PropertyAddress { get; set; }
+    public decimal Acreage { get; set; }
     public string LandOwner { get; set; }
+    public string OwnersAddress1 { get; set; }
+    public string OwnersAddress2 { get; set; }
+    public string OwnersCity { get; set; }
+    public string OwnersState { get; set; }
+    public string OwnersZipcode { get; set; }
+    public int SquareFootage { get; set; }
+    public int YearOfConstruction { get; set; }
     public string TargetArea { get; set; }
-    public bool AlreadyExists { get; set; }
+    public bool IsFLAP { get; set; }
+    public DateTime DateOfFLAP { get; set; }
+    public int StatusId { get; set; }
+    public int PrevStatusId { get; set; }
     public bool IsLocked { get; set; }
+    public bool AlreadyExists { get; set; }
+    public string CommentsJSON { get; set; }
+    public string FeedbacksJSON { get; set; }
+    public PropertyStatusEnum Status
+    {
+        get
+        {
+            return (PropertyStatusEnum)StatusId;
+        }
+        set
+        {
+            this.StatusId = (int)value;
+        }
+    }
+    public PropertyStatusEnum PrevStatus
+    {
+        get
+        {
+            return (PropertyStatusEnum)PrevStatusId;
+        }
+        set
+        {
+            this.PrevStatusId = (int)value;
+        }
+    }
+
+    public IEnumerable<FloodPropertyCommentEntity> Comments
+    {
+        get
+        {
+            return this.CommentsJSON == null ? new List<FloodPropertyCommentEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodPropertyCommentEntity>>(this.CommentsJSON);
+        }
+    }
+
+    public IEnumerable<FloodPropertyFeedbackEntity> Feedbacks
+    {
+        get
+        {
+            return this.FeedbacksJSON == null ? new List<FloodPropertyFeedbackEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodPropertyFeedbackEntity>>(this.FeedbacksJSON);
+        }
+    }
 }

@@ -23,7 +23,7 @@ public class DeletePropCommentCommandHandler : IRequestHandler<DeletePropComment
     public async Task<bool> Handle(DeletePropCommentCommand request, CancellationToken cancellationToken)
     {
         // map command object to the HistCommentsEntity
-        var reqComment = mapper.Map<DeletePropCommentCommand, FloodPropCommentEntity>(request);
+        var reqComment = mapper.Map<DeletePropCommentCommand, FloodPropertyCommentEntity>(request);
 
         // delete comment
         await repoComment.DeleteCommentAsync(reqComment);

@@ -1,6 +1,4 @@
-﻿using DevExpress.CodeParser;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDeclarationCommand, bool>
 {
@@ -51,13 +49,14 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
             Lot = o.Lot,
             QCode = o.QCode,
             PropertyAddress = o.PropertyAddress,
-            LandOwner = o.LandOwner
+            LandOwner = o.LandOwner,
         }).ToList();
 
         //update application parcels
         var reqAppParcels = request.Parcels.Select(o => new FloodApplicationParcelEntity() {
             ApplicationId = application.Id,
             PamsPin = o.PamsPin,
+            Status = PropertyStatusEnum.NONE,
             IsLocked = false
         }).ToList();
 

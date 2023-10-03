@@ -32,12 +32,12 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// <param name="applicationId"></param>
     /// <param name="correctionStatus"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<FloodPropFeedbackEntity>> GetPropFeedbackAsync(int applicationId, string correctionStatus)
+    public async Task<IEnumerable<FloodPropertyFeedbackEntity>> GetPropFeedbackAsync(int applicationId, string correctionStatus)
     {
-        IEnumerable<FloodPropFeedbackEntity> results = default;
+        IEnumerable<FloodPropertyFeedbackEntity> results = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetPropFeedbackSqlCommand();
-        results = await conn.QueryAsync<FloodPropFeedbackEntity>(sqlCommand.ToString(),
+        results = await conn.QueryAsync<FloodPropertyFeedbackEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new { @p_ApplicationId = applicationId, @p_CorrectionStatus = correctionStatus });
@@ -50,7 +50,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// </summary>
     /// <param name="feedback"></param>
     /// <returns></returns>
-    public async Task<FloodPropFeedbackEntity> SavePropFeedbackAsync(FloodPropFeedbackEntity feedback)
+    public async Task<FloodPropertyFeedbackEntity> SavePropFeedbackAsync(FloodPropertyFeedbackEntity feedback)
     {
         if (feedback.Id > 0)
             return await UpdateAsync(feedback);
@@ -63,7 +63,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// </summary>
     /// <param name="feedback"></param>
     /// <returns></returns>
-    private async Task<FloodPropFeedbackEntity> CreateAsync(FloodPropFeedbackEntity feedback)
+    private async Task<FloodPropertyFeedbackEntity> CreateAsync(FloodPropertyFeedbackEntity feedback)
     {
         int id = default;
 
@@ -94,7 +94,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// </summary>
     /// <param name="feedback"></param>
     /// <returns></returns>
-    private async Task<FloodPropFeedbackEntity> UpdateAsync(FloodPropFeedbackEntity feedback)
+    private async Task<FloodPropertyFeedbackEntity> UpdateAsync(FloodPropertyFeedbackEntity feedback)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new UpdatePropFeedbackSqlCommand();
@@ -122,7 +122,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// </summary>
     /// <param name="feedback"></param>
     /// <returns></returns>
-    public async Task DeletePropFeedbackAsync(FloodPropFeedbackEntity feedback)
+    public async Task DeletePropFeedbackAsync(FloodPropertyFeedbackEntity feedback)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new DeletePropFeedbackSqlCommand();
