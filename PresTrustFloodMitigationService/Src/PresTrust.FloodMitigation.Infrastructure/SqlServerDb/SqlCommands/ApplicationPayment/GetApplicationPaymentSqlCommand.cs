@@ -2,7 +2,7 @@
 
 public class GetApplicationPaymentSqlCommand
 {
-    private readonly string   =
+    private readonly string _sqlCommand =
                 @"  SELECT   [Id]
                             ,[ApplicationId]
                             ,[CAFNumber]
