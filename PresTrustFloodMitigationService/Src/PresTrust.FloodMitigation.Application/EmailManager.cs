@@ -89,3 +89,7 @@ public class EmailManager : IEmailManager
         }
     }
 }
+
+// https://stackoverflow.com/questions/69926026/authenticating-net-console-applications-with-net-core-web-api
+
+//https://stackoverflow.com/questions/63699424/identityserver4-using-apikey-or-basic-authentication-directly-to-api
