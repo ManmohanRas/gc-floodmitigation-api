@@ -1,8 +1,4 @@
-﻿using DevExpress.XtraPrinting.Native;
-using DevExpress.XtraRichEdit.Commands;
-using static Dapper.SqlMapper;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 /// <summary>
 /// This class handles the command to update data and build response
 /// </summary>

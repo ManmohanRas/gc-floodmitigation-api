@@ -1,29 +1,25 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<SubmitDeclarationCommand, SubmitDeclarationCommandViewModel>
+﻿using Microsoft.AspNetCore.Builder;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
+public class ReinitiateApplicationCommandHandler : BaseHandler, IRequestHandler<ReinitiateApplicationCommand, Unit>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IEmailTemplateRepository repoEmailTemplate;
-    private readonly IEmailManager repoEmailManager;
 
-    public SubmitDeclarationCommandHandler
+    public ReinitiateApplicationCommandHandler
     (
         IMapper mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
-        IApplicationRepository repoApplication,
-        IEmailTemplateRepository repoEmailTemplate,
-        IEmailManager repoEmailManager
+        IApplicationRepository repoApplication
     ) : base(repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
-        this.repoApplication = repoApplication;
-        this.repoEmailTemplate = repoEmailTemplate;
-        this.repoEmailManager = repoEmailManager;
+        this.repoApplication = repoApplication;        
     }
 
     /// <summary>
@@ -32,17 +28,15 @@ public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<Subm
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<SubmitDeclarationCommandViewModel> Handle(SubmitDeclarationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ReinitiateApplicationCommand request, CancellationToken cancellationToken)
     {
-        SubmitDeclarationCommandViewModel result = new ();
-
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
 
         //update application
         if (application != null)
         {
-            application.StatusId = (int)ApplicationStatusEnum.DOI_SUBMITTED;
+            application.StatusId = application.PrevStatusId;
             application.LastUpdatedBy = userContext.Email;
         }
 
@@ -58,18 +52,11 @@ public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<Subm
                 LastUpdatedBy = application.LastUpdatedBy
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to DOI_SUBMITTED in future
+            //reinitiate properties statuses in future
 
-            //Send Email
-            var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_DRAFT_TO_DOI_SUBMITTED.ToString());
-            if (template != null)
-            {
-                await repoEmailManager.SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, agencyId: application.AgencyId);
-            }
             scope.Complete();
-            result.IsSuccess = true;
         }
 
-        return result;
+        return Unit.Value;
     }
 }

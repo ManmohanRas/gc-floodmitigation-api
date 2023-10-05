@@ -628,6 +628,36 @@ public class FloodMitigationWorkflowController : ApiBaseController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("reviewApplication")]
+    [ProducesResponseType(typeof(ReviewApplicationCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ReviewApplicationCommandViewModel>> ReviewApplication([FromBody] ReviewApplicationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+    
+    [HttpPost("activateApplication")]
+    [ProducesResponseType(typeof(ActivateApplicationCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ActivateApplicationCommandViewModel>> ActivateApplication([FromBody] ActivateApplicationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+    
+    [HttpPost("closeApplication")]
+    [ProducesResponseType(typeof(CloseApplicationCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<CloseApplicationCommandViewModel>> CloseApplication([FromBody] CloseApplicationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("rejectApplication")]
     [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -644,6 +674,16 @@ public class FloodMitigationWorkflowController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<Unit>> WithdrawApplication([FromBody] WithdrawApplicationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("reinitiateApplication")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> ReinitiateApplication([FromBody] ReinitiateApplicationCommand command)
     {
         return Single(await CommandAsync(command));
     }

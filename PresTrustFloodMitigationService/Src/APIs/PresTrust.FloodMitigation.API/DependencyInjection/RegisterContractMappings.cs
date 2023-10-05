@@ -1,4 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.API.DependencyInjection;
+﻿using PresTrust.FloodMitigation.Application;
+
+namespace PresTrust.FloodMitigation.API.DependencyInjection;
 
 public class RegisterContractMappings : IDependencyInjectionService
 {
@@ -26,6 +28,8 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<ICommentPropRepository, CommentPropRepository>();
         services.AddTransient<IBrokenRuleRepository, BrokenRuleRepository>();
         services.AddTransient<IContactRepository, ContactRepository>();
+        services.AddTransient<IEmailTemplateRepository, EmailTemplateRepository>();
+        services.AddTransient<IEmailManager, EmailManager>();
         services.AddHttpContextAccessor();
     }
 }                                                                               
