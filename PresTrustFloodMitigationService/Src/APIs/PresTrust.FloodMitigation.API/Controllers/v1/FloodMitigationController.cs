@@ -484,6 +484,26 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("getReleaseOfFunds")]
+    [ProducesResponseType(typeof(GetPropReleaseOfFundsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetPropReleaseOfFundsQueryViewModel>> GetReleaseOfFunds([FromBody] GetPropReleaseOfFundsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveReleaseOfFunds")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveReleaseOfFunds([FromBody] SavePropReleaseOfFundsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("reCalculateParcelFinance")]
     [ProducesResponseType(typeof(ReCalculateParcelFinanceQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

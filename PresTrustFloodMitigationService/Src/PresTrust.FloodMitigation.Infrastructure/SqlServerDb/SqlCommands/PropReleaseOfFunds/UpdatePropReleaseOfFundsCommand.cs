@@ -3,7 +3,7 @@
 public class UpdatePropReleaseOfFundsCommand
 {
     private readonly string _sqlCommand =
-     @"UPDATE [Flood].[FloodParcelTech]
+     @"UPDATE [Flood].[FloodParcelPayment]
 						SET
 							[ApplicationId] = @p_ApplicationId,
 							[PamsPin] = @p_PamsPin,

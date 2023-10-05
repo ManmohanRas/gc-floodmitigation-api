@@ -25,7 +25,7 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
     }
 
     #endregion
-    public async Task<FloodPropReleaseOfFundsEntity> GetReleaseOfFundsAsync(int applicationId, int Pamspin)
+    public async Task<FloodPropReleaseOfFundsEntity> GetReleaseOfFundsAsync(int applicationId, string Pamspin)
     {
         FloodPropReleaseOfFundsEntity result = default;
         using var conn = context.CreateConnection();
@@ -35,7 +35,8 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new
                             {
-                                @p_ApplicationId = applicationId
+                                @p_ApplicationId = applicationId,
+                                @p_PamsPin = Pamspin
                             });
 
         result = results.FirstOrDefault();
@@ -63,7 +64,7 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
     private async Task<FloodPropReleaseOfFundsEntity> SaveAsync(FloodPropReleaseOfFundsEntity floodPropReleaseOfFunds)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreateTechDetailsSqlCommand();
+        var sqlCommand = new CreatePropReleaseSqlCommand();
         var id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -100,7 +101,7 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
     private async Task<FloodPropReleaseOfFundsEntity> UpdateAsync(FloodPropReleaseOfFundsEntity floodPropReleaseOfFunds)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdateTechDetailsSqlCommand();
+        var sqlCommand = new UpdatePropReleaseOfFundsCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,

@@ -7,7 +7,7 @@ public interface IPropReleaseOfFundsRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Grant.</returns>
-    Task<FloodPropReleaseOfFundsEntity> GetReleaseOfFundsAsync(int applicationId, int Pamspin);
+    Task<FloodPropReleaseOfFundsEntity> GetReleaseOfFundsAsync(int applicationId, string Pamspin);
     /// <summary>
     /// Save Tech.
     /// </summary>
