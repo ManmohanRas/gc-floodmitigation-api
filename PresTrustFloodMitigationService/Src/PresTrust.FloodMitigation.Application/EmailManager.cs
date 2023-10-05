@@ -20,17 +20,18 @@ public class EmailManager : IEmailManager
               IIdentityApiConnect identityApiConnect
         )
     {
+        this.mapper = mapper;
         this.emailApiConnect = emailApiConnect;
         this.systemParamOptions = systemParamOptions.Value;
         this.userContext = userContext;
         this.identityApiConnect = identityApiConnect;
     }
 
-    private async Task<Tuple<List<string>,List<string>>> GetPrimaryContact(int applicationId, int agencyId)
+    private Task<Tuple<List<string>,List<string>>> GetPrimaryContact(int applicationId, int agencyId)
     {            
-        List<string> primaryContactNames = new List<string>();
-        List<string> primaryContactEmails = new List<string>();
-        return new Tuple<List<string>, List<string>>(primaryContactNames, primaryContactEmails);
+        List<string> primaryContactNames = new List<string>() {"MG", "Manmohan", "Sai Charan" };
+        List<string> primaryContactEmails = new List<string>() {"mgthirumalesh@rightanglesol.com", "manmohan@rightanglesol.com", "saicharan@rightanglesol.com"};
+        return Task.FromResult(new Tuple<List<string>, List<string>>(primaryContactNames, primaryContactEmails));
     }
 
     public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, int agencyId = default)
