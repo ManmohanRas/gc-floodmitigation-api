@@ -592,6 +592,26 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
+
+    [HttpPost("getReleaseOfFunds")]
+    [ProducesResponseType(typeof(GetApplicationReleaseOfFundsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetApplicationReleaseOfFundsQueryViewModel>> GetReleaseOfFunds([FromBody] GetApplicationReleaseOfFundsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveReleaseOfFunds")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveReleaseOfFunds([FromBody] SaveApplicationReleaseOfFundsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController

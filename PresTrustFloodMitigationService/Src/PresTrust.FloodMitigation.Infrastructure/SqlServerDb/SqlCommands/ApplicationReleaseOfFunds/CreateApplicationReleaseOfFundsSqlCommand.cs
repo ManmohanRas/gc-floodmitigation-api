@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class CreateApplicationPaymentSqlCommand
+public class CreateApplicationReleaseOfFundsSqlCommand
 {
     private readonly string _sqlCommand =
         @"  INSERT INTO [Flood].[FloodApplicationPayment]
@@ -18,7 +18,7 @@ public class CreateApplicationPaymentSqlCommand
 
                 SELECT CAST( SCOPE_IDENTITY() AS INT);";
 
-    public CreateApplicationPaymentSqlCommand()
+    public CreateApplicationReleaseOfFundsSqlCommand()
     {
     }
 

@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class GetApplicationPaymentSqlCommand
+public class GetApplicationReleaseOfFundsSqlCommand
 {
     private readonly string _sqlCommand =
                 @"  SELECT   [Id]
@@ -12,7 +12,7 @@ public class GetApplicationPaymentSqlCommand
                     FROM     [Flood].[FloodApplicationPayment]
                     WHERE  [ApplicationId] = @p_ApplicationId;";
 
-    public GetApplicationPaymentSqlCommand()
+    public GetApplicationReleaseOfFundsSqlCommand()
     {
     }
 

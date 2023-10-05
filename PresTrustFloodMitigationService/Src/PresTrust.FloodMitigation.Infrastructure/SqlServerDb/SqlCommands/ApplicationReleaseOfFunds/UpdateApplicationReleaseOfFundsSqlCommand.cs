@@ -1,9 +1,9 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class UpdateApplicationPaymentSqlCommand
+public class UpdateApplicationReleaseOfFundsSqlCommand
 {
     private readonly string _sqlCommand =
-      @" UPDATE [Flood].[FloodApplicationSignatory]
+      @" UPDATE [Flood].[FloodApplicationPayment]
                SET  ApplicationId = @p_ApplicationId
                    ,CAFNumber   =   @p_CAFNumber
                    ,CAFClosed   =   @p_CAFClosed
@@ -11,7 +11,7 @@ public class UpdateApplicationPaymentSqlCommand
                    ,LastUpdatedOn = @p_LastUpdatedOn
              WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId";
 
-    public UpdateApplicationPaymentSqlCommand()
+    public UpdateApplicationReleaseOfFundsSqlCommand()
     {
     }
 
