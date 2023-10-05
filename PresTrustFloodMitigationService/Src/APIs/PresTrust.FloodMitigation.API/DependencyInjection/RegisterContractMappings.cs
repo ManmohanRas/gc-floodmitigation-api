@@ -28,6 +28,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<ICommentPropRepository, CommentPropRepository>();
         services.AddTransient<IBrokenRuleRepository, BrokenRuleRepository>();
         services.AddTransient<IContactRepository, ContactRepository>();
+        services.AddTransient<IPropReleaseOfFundsRepository, PropReleaseOfFundsRepository>();
         services.AddTransient<IEmailTemplateRepository, EmailTemplateRepository>();
         services.AddTransient<IEmailManager, EmailManager>();
         services.AddTransient<IApplicationReleaseOfFundsRepository, ApplicationReleaseOfFundsRepository>();

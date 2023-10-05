@@ -10,10 +10,10 @@ public class GetContactsSqlCommand
                    ,[Email]
                    ,[MainNumber]
                    ,[AlternateNumber]
-                   ,[SelContact]
+                   ,[SelectContact]
                    ,[LastUpdatedOn]
                    ,[LastUpdatedBy]
-                FROM [Flood].[FloodComment] 
+                FROM [Flood].[FloodContacts] 
                 WHERE [ApplicationId] = @p_ApplicationId;"
         ;
     public GetContactsSqlCommand()
