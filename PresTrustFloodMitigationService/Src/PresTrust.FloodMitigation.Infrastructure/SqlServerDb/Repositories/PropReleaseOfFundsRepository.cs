@@ -48,12 +48,12 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
     /// </summary>
     /// <param name="floodPropReleaseOfFunds"></param>
     /// <returns></returns>
-    public async Task<FloodPropReleaseOfFundsEntity> SaveRofAsync(FloodPropReleaseOfFundsEntity floodPropReleaseOfFunds)
+    public async Task<FloodPropReleaseOfFundsEntity> SaveAsync(FloodPropReleaseOfFundsEntity floodPropReleaseOfFunds)
     {
         if (floodPropReleaseOfFunds.Id > 0)
             return await UpdateAsync(floodPropReleaseOfFunds);
         else
-            return await SaveAsync(floodPropReleaseOfFunds);
+            return await CreateAsync(floodPropReleaseOfFunds);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
     /// </summary>
     /// <param name="floodPropReleaseOfFunds"></param>
     /// <returns></returns>
-    private async Task<FloodPropReleaseOfFundsEntity> SaveAsync(FloodPropReleaseOfFundsEntity floodPropReleaseOfFunds)
+    private async Task<FloodPropReleaseOfFundsEntity> CreateAsync(FloodPropReleaseOfFundsEntity floodPropReleaseOfFunds)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new CreatePropReleaseSqlCommand();
@@ -70,24 +70,16 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
-                @p_ApplicationId = floodPropReleaseOfFunds.ApplicationId,
-                @p_PamsPin = floodPropReleaseOfFunds.Pamspin,
-                @P_ProjectAreaName = floodPropReleaseOfFunds.ProjectAreaName,
-                @_Property = floodPropReleaseOfFunds.Property,
-                @_ReimburesedHradCost = floodPropReleaseOfFunds.ReimburesedHradCost,
-                @_ReimburesedSoftCost = floodPropReleaseOfFunds.ReimburesedSoftCost,
-                @_ReimburesedHradSoftCost  = floodPropReleaseOfFunds.ReimburesedHradSoftCost,
-                @_CAFNumber = floodPropReleaseOfFunds.CAFNumber,
-                @_FinalCost = floodPropReleaseOfFunds.FinalCost,
-                @_PaymentMode = floodPropReleaseOfFunds.PaymentMode,
-                @_BalanceAmount = floodPropReleaseOfFunds.BalanceAmount,
-                @_ReimbureseType = floodPropReleaseOfFunds.ReimbureseType,
-                @_ReimbureseAmount = floodPropReleaseOfFunds.ReimbureseAmount,
-                @_PaymentType = floodPropReleaseOfFunds.PaymentType,
-                @_DateTransfareNeeded = floodPropReleaseOfFunds.DateTransfareNeeded,
-                @_PaymentStatus = floodPropReleaseOfFunds.PaymentStatus,
-                @_LastUpdatedBy = floodPropReleaseOfFunds.LastUpdatedBy
-});
+                @P_ApplicationId = floodPropReleaseOfFunds.ApplicationId,
+                @P_PamsPin = floodPropReleaseOfFunds.PamsPin,
+                @P_HardCostPaymentTypeId = floodPropReleaseOfFunds.HardCostPaymentTypeId,
+                @P_HardCostPaymentDate = floodPropReleaseOfFunds.HardCostPaymentDate,
+                @P_HardCostPaymentStatusId = floodPropReleaseOfFunds.HardCostPaymentStatusId,
+                @P_SoftCostPaymentTypeId = floodPropReleaseOfFunds.SoftCostPaymentTypeId,
+                @P_SoftCostPaymentDate = floodPropReleaseOfFunds.SoftCostPaymentDate,
+                @P_SoftCostPaymentStatusId = floodPropReleaseOfFunds.SoftCostPaymentStatusId,
+                @P_LastUpdatedBy = floodPropReleaseOfFunds.LastUpdatedBy
+            });
         floodPropReleaseOfFunds.Id = id;
 
         return floodPropReleaseOfFunds;
@@ -107,23 +99,15 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
-                @p_ApplicationId = floodPropReleaseOfFunds.ApplicationId,
-                @p_PamsPin = floodPropReleaseOfFunds.Pamspin,
-                @P_ProjectAreaName = floodPropReleaseOfFunds.ProjectAreaName,
-                @_Property = floodPropReleaseOfFunds.Property,
-                @_ReimburesedHradCost = floodPropReleaseOfFunds.ReimburesedHradCost,
-                @_ReimburesedSoftCost = floodPropReleaseOfFunds.ReimburesedSoftCost,
-                @_ReimburesedHradSoftCost = floodPropReleaseOfFunds.ReimburesedHradSoftCost,
-                @_CAFNumber = floodPropReleaseOfFunds.CAFNumber,
-                @_FinalCost = floodPropReleaseOfFunds.FinalCost,
-                @_PaymentMode = floodPropReleaseOfFunds.PaymentMode,
-                @_BalanceAmount = floodPropReleaseOfFunds.BalanceAmount,
-                @_ReimbureseType = floodPropReleaseOfFunds.ReimbureseType,
-                @_ReimbureseAmount = floodPropReleaseOfFunds.ReimbureseAmount,
-                @_PaymentType = floodPropReleaseOfFunds.PaymentType,
-                @_DateTransfareNeeded = floodPropReleaseOfFunds.DateTransfareNeeded,
-                @_PaymentStatus = floodPropReleaseOfFunds.PaymentStatus,
-                @_LastUpdatedBy = floodPropReleaseOfFunds.LastUpdatedBy,
+                @P_ApplicationId = floodPropReleaseOfFunds.ApplicationId,
+                @P_PamsPin = floodPropReleaseOfFunds.PamsPin,
+                @P_HardCostPaymentTypeId = floodPropReleaseOfFunds.HardCostPaymentTypeId,
+                @P_HardCostPaymentDate = floodPropReleaseOfFunds.HardCostPaymentDate,
+                @P_HardCostPaymentStatusId = floodPropReleaseOfFunds.HardCostPaymentStatusId,
+                @P_SoftCostPaymentTypeId = floodPropReleaseOfFunds.SoftCostPaymentTypeId,
+                @P_SoftCostPaymentDate = floodPropReleaseOfFunds.SoftCostPaymentDate,
+                @P_SoftCostPaymentStatusId = floodPropReleaseOfFunds.SoftCostPaymentStatusId,
+                @P_LastUpdatedBy = floodPropReleaseOfFunds.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
             });
         return floodPropReleaseOfFunds;

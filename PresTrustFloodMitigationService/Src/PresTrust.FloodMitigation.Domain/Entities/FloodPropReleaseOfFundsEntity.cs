@@ -2,23 +2,62 @@
 public class FloodPropReleaseOfFundsEntity
 {
     public int Id { get; set; } = 0;
-    public int ApplicationId { get; set; }
-    public string? Pamspin { get; set; }
-    public string ProjectAreaName { get; set; } = "";
-    public string Property { get; set; } = "";
-    public string ReimburesedHradCost { get; set; } = "";
-    public string ReimburesedSoftCost { get; set; } = "";
-    public string ReimburesedHradSoftCost { get; set; } = "";
+    public int ApplicationId { get; set; } = 0;
+    public string PamsPin { get; set; } = "";
     public string CAFNumber { get; set; } = "";
-    public string FinalCost { get; set; } = "";
-    public string PaymentMode { get; set; } = "";
-    public string BalanceAmount { get; set; } = "";
-    public string ReimbureseType { get; set; } = "";
-    public string ReimbureseAmount { get; set; } = "";
-    public string PaymentType { get; set; } = "";
-    public DateTime? DateTransfareNeeded { get; set; }
-    public string PaymentStatus { get; set; } = "";
+    public int HardCostPaymentTypeId { get; set; }
+    public DateTime HardCostPaymentDate { get; set; }
+    public int HardCostPaymentStatusId { get; set; }
+    public int SoftCostPaymentTypeId { get; set; }
+    public DateTime SoftCostPaymentDate { get; set; }
+    public int SoftCostPaymentStatusId { get; set; }
+    public decimal HardCostFMPAmt { get; set; }
+    public decimal SoftCostFMPAmt { get; set; }
     public string LastUpdatedBy { get; set; } = "";
-    public DateTime LastUpdatedOn { get; set; }
 
+    public PaymentStatusEnum HardCostPaymentStatus
+    {
+        get
+        {
+            return (PaymentStatusEnum)HardCostPaymentStatusId;
+        }
+        set
+        {
+            this.HardCostPaymentStatusId = (int)value;
+        }
+    }
+    public PaymentStatusEnum SoftCostPaymentStatus
+    {
+        get
+        {
+            return (PaymentStatusEnum)SoftCostPaymentStatusId;
+        }
+        set
+        {
+            this.SoftCostPaymentStatusId = (int)value;
+        }
+    }
+
+    public PaymentTypeEnum HardCostPaymentType
+    {
+        get
+        {
+            return (PaymentTypeEnum)HardCostPaymentTypeId;
+        }
+        set
+        {
+            this.HardCostPaymentTypeId = (int)value;
+        }
+    }
+    public PaymentTypeEnum SoftCostPaymentType
+    {
+        get
+        {
+            return (PaymentTypeEnum)SoftCostPaymentTypeId;
+        }
+        set
+        {
+            this.SoftCostPaymentTypeId = (int)value;
+        }
+    }
 }
