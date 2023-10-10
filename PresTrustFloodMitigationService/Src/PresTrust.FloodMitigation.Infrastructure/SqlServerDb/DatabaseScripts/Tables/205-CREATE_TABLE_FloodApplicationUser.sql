@@ -59,4 +59,4 @@ ALTER TABLE [Flood].[FloodApplicationUser] WITH NOCHECK ADD  CONSTRAINT [DF_Last
 GO
 
 ALTER TABLE [Flood].[FloodApplicationUser] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodApplicationUser]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
-GO  
+GO

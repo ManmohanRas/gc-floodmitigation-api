@@ -2,8 +2,6 @@ IF OBJECT_ID('[Flood].[FloodApplicationFundingAgency]') IS NOT NULL
 BEGIN
 	-- Drop Constraints
 	ALTER TABLE [Flood].[FloodApplicationFundingAgency] DROP CONSTRAINT IF EXISTS  FK_ApplicationId_FloodApplicationFundingAgency;
-
-	
 END;
 GO
 

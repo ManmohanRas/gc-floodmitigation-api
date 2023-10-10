@@ -3,9 +3,9 @@ BEGIN
 	-- Drop Constraints
 	ALTER TABLE [Flood].[FloodParcelPayment] DROP CONSTRAINT IF EXISTS  [FK_ApplicationId_FloodParcelPayment];
 
-	ALTER TABLE [Flood].[FloodParcelPayment] DROP CONSTRAINT IF EXISTS  [FK_HardCostPaymentStatus_FloodParcelPayment];
+	ALTER TABLE [Flood].[FloodParcelPayment] DROP CONSTRAINT IF EXISTS  [FK_HardCostPaymentStatusId_FloodParcelPayment];
 
-	ALTER TABLE [Flood].[FloodParcelPayment] DROP CONSTRAINT IF EXISTS  [FK_SoftCostPaymentStatus_FloodParcelPayment];
+	ALTER TABLE [Flood].[FloodParcelPayment] DROP CONSTRAINT IF EXISTS  [FK_SoftCostPaymentStatusId_FloodParcelPayment];
 
 	ALTER TABLE [Flood].[FloodParcelPayment] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodParcelPayment];
 
@@ -24,10 +24,10 @@ CREATE TABLE [Flood].[FloodParcelPayment](
 [PamsPin]					            [varchar](76)							  NOT NULL,
 [HardCostPaymentTypeId]                 [integer]                                 NULL    ,
 [HardCostPaymentDate]                   [dateTime]                                NULL    ,
-[HardCostPaymentStatus]                 [bit]                                     NOT NULL,
+[HardCostPaymentStatusId]               [bit]                                     NOT NULL,
 [SoftCostPaymentTypeId]                 [integer]                                 NULL    ,
 [SoftCostPaymentDate]                   [dateTime]                                NULL    ,
-[SoftCostPaymentStatus]                 [bit]                                     NOT NULL,
+[SoftCostPaymentStatusId]               [bit]                                     NOT NULL,
 [LastUpdatedBy]							[varchar](128)					          NULL	  ,
 [LastUpdatedOn]							[dateTime]						          NULL	  ,
 CONSTRAINT [PK_FloodParcelPayment_Id] PRIMARY KEY CLUSTERED 
@@ -42,10 +42,10 @@ GO
 ALTER TABLE [Flood].[FloodParcelPayment] ADD CONSTRAINT FK_ApplicationId_FloodParcelPayment  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
 GO
 
-ALTER TABLE [Flood].[FloodParcelPayment] WITH NOCHECK ADD  CONSTRAINT [DF_HardCostPaymentStatus_FloodParcelPayment]  DEFAULT (0) FOR [HardCostPaymentStatus]
+ALTER TABLE [Flood].[FloodParcelPayment] WITH NOCHECK ADD  CONSTRAINT [DF_HardCostPaymentStatusId_FloodParcelPayment]  DEFAULT (0) FOR [HardCostPaymentStatusId]
 GO
 
-ALTER TABLE [Flood].[FloodParcelPayment] WITH NOCHECK ADD  CONSTRAINT [DF_SoftCostPaymentStatus_FloodParcelPayment]  DEFAULT (0) FOR [SoftCostPaymentStatus]
+ALTER TABLE [Flood].[FloodParcelPayment] WITH NOCHECK ADD  CONSTRAINT [DF_SoftCostPaymentStatusId_FloodParcelPayment]  DEFAULT (0) FOR [SoftCostPaymentStatusId]
 GO
 
 ALTER TABLE [Flood].[FloodParcelPayment] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodParcelPayment]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
