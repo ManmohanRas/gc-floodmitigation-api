@@ -3,13 +3,13 @@
 public class UpdateContactSqlCommand
 {
     private readonly string _sqlCommand =
-       @"  UPDATE [Flood].[FloodComment]
+       @"  UPDATE [Flood].[FloodContacts]
                 SET ContactName = @p_ContactName
                     ,Agency = @p_Agency
                     ,Email = @p_Email
                     ,MainNumber = @p_MainNumber
                     ,AlternateNumber = @p_AlternateNumber
-                    ,SelContact = @p_SelContact
+                    ,SelectContact = @p_SelContact
                    ,LastUpdatedBy = @p_LastUpdatedBy
                    ,LastUpdatedOn = GETDATE()
                 WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId;";

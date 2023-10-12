@@ -50,7 +50,7 @@ public class ContactRepository : IContactRepository
                 @p_Email = contact.Email,
                 @p_MainNumber = contact.MainNumber,
                 @p_AlternateNumber = contact.AlternateNumber,
-                @p_SelContact = contact.SelContact,
+                @p_SelContact = contact.SelectContact,
                 @p_LastUpdatedBy = contact.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
             });
@@ -75,7 +75,7 @@ public class ContactRepository : IContactRepository
                 @p_Email = contact.Email,
                 @p_MainNumber = contact.MainNumber,
                 @p_AlternateNumber = contact.AlternateNumber,
-                @p_SelContact = contact.SelContact,
+                @p_SelContact = contact.SelectContact,
                 @p_LastUpdatedBy = contact.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
             });

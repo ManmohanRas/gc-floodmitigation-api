@@ -7,7 +7,6 @@ BEGIN
 	ALTER TABLE [Flood].[FloodApplicationFinanceFund] DROP CONSTRAINT IF EXISTS  [FK_FundingSourceTypeId_FloodApplicationFinanceFund];
 
 	ALTER TABLE [Flood].[FloodApplicationFinanceFund] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodApplicationFinanceFund];
-
 END;
 GO
   

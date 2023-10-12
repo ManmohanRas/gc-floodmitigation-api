@@ -24,7 +24,7 @@ CREATE TABLE [Flood].[FloodParcelFinance](
 [AMV]                                   [decimal](18,2)					          NULL    ,
 [TotalFEMABenifits]                     [decimal](18,2)					          NULL    ,
 [DOBAffidavitType]						[varchar](128)					          NULL    ,
-[DOBAffidavitAmtAmt]						[decimal](18,2)					          NULL    ,
+[DOBAffidavitAmt]						[decimal](18,2)					          NULL    ,
 [HardCostFMPAmt]						[decimal](18,2)					          NULL    ,
 [SoftCostFMPAmt]                        [decimal](18,2)					          NULL    ,
 [AppraisersFee]                         [decimal](18,2)					          NULL    ,
