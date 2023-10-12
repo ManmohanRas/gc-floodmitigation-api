@@ -13,5 +13,5 @@ public interface IPropReleaseOfFundsRepository
     /// </summary>
     /// <param name="FloodTech"></param>
     /// <returns></returns>
-    Task<FloodPropReleaseOfFundsEntity> SaveRofAsync(FloodPropReleaseOfFundsEntity FloodTech);
+    Task<FloodPropReleaseOfFundsEntity> SaveAsync(FloodPropReleaseOfFundsEntity FloodTech);
 }

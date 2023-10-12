@@ -2,42 +2,34 @@
 
 public class CreatePropReleaseSqlCommand
 {
+//
+//
+//
+//
+//
+//
     private readonly string _sqlCommand =
       @"INSERT INTO [Flood].[FloodParcelPayment]
                    ([ApplicationId]
-                   ,[Pamspin]
-                   ,[ProjectAreaName]
-                   ,[Property]
-                   ,[ReimburesedHradCost]
-                   ,[ReimburesedSoftCost]
-                   ,[ReimburesedHradSoftCost]
-                   ,[CAFNumber]
-                   ,[FinalCost]
-                   ,[PaymentMode]
-                   ,[BalanceAmount]
-                   ,[ReimbureseType]
-                   ,[ReimbureseAmount]
-                   ,[PaymentType]
-                   ,[DateTransfareNeeded]
+                   ,[PamsPin]
+                   ,[HardCostPaymentTypeId]
+                   ,[HardCostPaymentDate]
+                   ,[HardCostPaymentStatusId]
+                   ,[SoftCostPaymentTypeId]
+                   ,[SoftCostPaymentDate]
+                   ,[SoftCostPaymentStatusId]
                    ,[LastUpdatedBy]
                    ,[LastUpdatedOn])
              VALUES
-                   (@p_ApplicationId
-                   ,@p_Pamspin
-                   ,@P_ProjectAreaName
-                   ,@_Property
-                   ,@_ReimburesedSoftCost
-                   ,@_ReimburesedHradSoftCost
-                   ,@_ReimburesedHradCost
-                   ,@_CAFNumber
-                   ,@_FinalCost
-                   ,@_PaymentMode
-                   ,@_BalanceAmount
-                   ,@_ReimbureseType
-                   ,@_ReimbureseAmount
-                   ,@_PaymentType
-                   ,@_DateTransfareNeeded
-                   ,@p_LastUpdatedBy
+                   (@P_ApplicationId
+                   ,@P_Pamspin
+                   ,@P_HardCostPaymentTypeId
+                   ,@P_HardCostPaymentDate
+                   ,@P_HardCostPaymentStatusId
+                   ,@P_SoftCostPaymentTypeId
+                   ,@P_SoftCostPaymentDate
+                   ,@P_SoftCostPaymentStatusId
+                   ,@P_LastUpdatedBy
                    ,GETDATE());
 
            SELECT CAST( SCOPE_IDENTITY() AS INT);";

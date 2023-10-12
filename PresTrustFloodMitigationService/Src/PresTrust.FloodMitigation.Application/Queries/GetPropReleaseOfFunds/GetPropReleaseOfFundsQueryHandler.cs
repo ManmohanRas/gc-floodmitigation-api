@@ -21,7 +21,7 @@ public class GetPropReleaseOfFundsQueryHandler : BaseHandler, IRequestHandler<Ge
 
     public async Task<GetPropReleaseOfFundsQueryViewModel> Handle(GetPropReleaseOfFundsQuery request, CancellationToken cancellationToken)
     {
-        var releaseOfFunds = await repoGrant.GetReleaseOfFundsAsync(request.ApplicationId, request.Pamspin);
+        var releaseOfFunds = await repoGrant.GetReleaseOfFundsAsync(request.ApplicationId, request.PamsPin);
 
         releaseOfFunds = releaseOfFunds ?? new FloodPropReleaseOfFundsEntity()
         {
