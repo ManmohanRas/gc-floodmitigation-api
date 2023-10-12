@@ -11,5 +11,5 @@ public enum PaymentTypeEnum
     /// <summary>
     /// Payment Type for Check
     /// </summary>
-    Check = 2
+    Cheque = 2
 }

@@ -99,6 +99,7 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
+                @P_Id = floodPropReleaseOfFunds.Id,
                 @P_ApplicationId = floodPropReleaseOfFunds.ApplicationId,
                 @P_PamsPin = floodPropReleaseOfFunds.PamsPin,
                 @P_HardCostPaymentTypeId = floodPropReleaseOfFunds.HardCostPaymentTypeId,

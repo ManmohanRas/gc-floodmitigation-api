@@ -6,10 +6,10 @@ public enum PaymentStatusEnum
     /// Payment Status for  FUNDS_NOT_RELEASED
     /// </summary>
     ///
-    FUNDS_NOT_RELEASED = 1,
+    FUNDS_NOT_RELEASED = 0,
 
     /// <summary>
     /// Payment Status for FUNDS_RELEASED
     /// </summary>
-    FUNDS_RELEASED = 2
+    FUNDS_RELEASED = 1
 }
