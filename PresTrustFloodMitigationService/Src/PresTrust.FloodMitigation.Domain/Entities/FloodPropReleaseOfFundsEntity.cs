@@ -4,6 +4,7 @@ public class FloodPropReleaseOfFundsEntity
     public int Id { get; set; } = 0;
     public int ApplicationId { get; set; } = 0;
     public string PamsPin { get; set; } = "";
+    public string Property { get; set; } = "";
     public string CAFNumber { get; set; } = "";
     public int HardCostPaymentTypeId { get; set; }
     public DateTime HardCostPaymentDate { get; set; }

@@ -48,6 +48,28 @@ public class ApplicationReleaseOfFundsRepository: IApplicationReleaseOfFundsRepo
     }
 
     /// <summary>
+    ///  Procedure to fetch Application payments.
+    /// </summary>
+    /// <param name="applicationId"> Id.</param>
+    /// <returns> Returns FloodPropReleaseOfFundsEntity.</returns>
+    public async Task<IEnumerable<FloodPropReleaseOfFundsEntity>> GetApplicationPaymentsAsync(int applicationId)
+    {
+        IEnumerable<FloodPropReleaseOfFundsEntity> results;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetApplicationPaymentsSqlCommand();
+        results = await conn.QueryAsync<FloodPropReleaseOfFundsEntity>(sqlCommand.ToString(),
+                            commandType: CommandType.Text,
+                            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                            param: new
+                            {
+                                @p_ApplicationId = applicationId,
+                            });
+
+
+        return results;
+    }
+
+    /// <summary>
     /// Save Release of funds.
     /// </summary>
     /// <param name="releaseOfFunds"></param>

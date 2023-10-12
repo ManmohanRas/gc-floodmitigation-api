@@ -4,6 +4,8 @@ public interface IApplicationReleaseOfFundsRepository
 {
     Task<FloodApplicationReleaseOfFundsEntity> GetReleaseOfFundsAsync(int applicationId);
 
+    Task<IEnumerable<FloodPropReleaseOfFundsEntity>> GetApplicationPaymentsAsync(int applicationId);
+
     Task<FloodApplicationReleaseOfFundsEntity> SaveAsync(FloodApplicationReleaseOfFundsEntity releaseOfFunds);
 
 }
