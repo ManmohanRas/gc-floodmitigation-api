@@ -28,20 +28,4 @@ public class GetParcelPropertyQueryViewModel
     public bool NeedSoftCost { get; set; }
     public string? LastUpdatedBy { get; set; }
     public DateTime LastUpdatedOn { get; set; }
-    public string? Latitude { get; set; }
-    public string? Longitude { get; set; }
-    public string? StreetNo { get; set; }
-    public string? StreetAddress { get; set; }
-    public int Acreage { get; set; }
-    public string? OwnersName { get; set; }
-    public string? OwnersAddress1 { get; set; }
-    public string? OwnersAddress2 { get; set; }
-    public string? OwnersCity { get; set; }
-    public string? OwnersState { get; set; }
-    public string? OwnersZipcode { get; set; }
-    public int SquareFootage { get; set; }
-    public int YearOfConstruction { get; set; }
-    public string? QualificationCode { get; set; }
-    public string? Block { get; set; }
-    public string? Lot { get; set; }
 }

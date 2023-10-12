@@ -26,6 +26,7 @@ public class GetParcelPropertyQueryHandler : BaseHandler, IRequestHandler<GetPar
         Property = Property ?? new FloodParcelPropertyEntity()
         {
             ApplicationId = application.Id,
+            PamsPin = request.Pamspin,
         };
         var result = mapper.Map<FloodParcelPropertyEntity, GetParcelPropertyQueryViewModel>(Property);
 
