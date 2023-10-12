@@ -21,9 +21,11 @@ builder.AddMiddleware(builder.Environment);
 builder.MapHangfireDashboard();
 builder.UseHangfireDashboard("/backgroundjobs");
 
-PresTrust.FloodMitigation.Application.BackgroundJobs.GrantExpirationReminder backgroundJob = new PresTrust.FloodMitigation.Application.BackgroundJobs.GrantExpirationReminder();
 
-RecurringJob.AddOrUpdate("Send Mail : Runs Every 1 Min", () => backgroundJob.SendEmail("RecurringJob", DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")), builder.Configuration["CronTime"]);
+var jobGrantExpirationReminder = builder.Services.GetService<IGrantExpirationReminder>();
+//RecurringJob.AddOrUpdate("Send Mail : Runs Every 1 Min", () => jobGrantExpirationReminder.SendEmail("RecurringJob", DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")), builder.Configuration["CronTime"]);
+
+RecurringJob.AddOrUpdate("Send Mail : Runs Every 5 Min", () => jobGrantExpirationReminder.Handle(), builder.Configuration["CronTimeGrantExpirationReminder"]);
 
 builder.MapControllers();
 builder.Run();

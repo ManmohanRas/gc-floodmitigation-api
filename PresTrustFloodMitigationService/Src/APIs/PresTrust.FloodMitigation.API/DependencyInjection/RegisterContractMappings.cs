@@ -30,6 +30,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IContactRepository, ContactRepository>();
         services.AddTransient<IEmailTemplateRepository, EmailTemplateRepository>();
         services.AddTransient<IEmailManager, EmailManager>();
+        services.AddTransient<IReminderEmailManager, ReminderEmailManager>();
         services.AddTransient<IGrantExpirationReminder, GrantExpirationReminder>();
         services.AddHttpContextAccessor();
     }
