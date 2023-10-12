@@ -6,7 +6,7 @@ public class SaveApplicationDocumentCommandMappingProfile: Profile
 {
     public SaveApplicationDocumentCommandMappingProfile() 
     {
-        CreateMap<SaveApplicationDocumentCommand, FloodApplicationDocumentEntity>();
-        CreateMap<FloodApplicationDocumentEntity, SaveApplicationDocumentCommandViewModel>();
+        CreateMap<SavePropertyDocumentDetailsCommand, FloodPropertyDocumentEntity>();
+        CreateMap<FloodPropertyDocumentEntity, SavePropertyDocumentDetailsCommandViewModel>();
     }
 }
