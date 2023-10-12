@@ -632,6 +632,22 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
+
+    [HttpPost("getParcelProperty")]
+    [ProducesResponseType(typeof(GetParcelPropertyQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetParcelPropertyQueryViewModel>> GetParcelProperty([FromBody] GetParcelPropertyQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveParcelProperty")]
+    public async Task<ActionResult<int>> SaveParcelProperty([FromBody] SaveParcelPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController
@@ -677,7 +693,7 @@ public class FloodMitigationWorkflowController : ApiBaseController
     {
         return Single(await CommandAsync(command));
     }
-    
+
     [HttpPost("activateApplication")]
     [ProducesResponseType(typeof(ActivateApplicationCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -687,7 +703,7 @@ public class FloodMitigationWorkflowController : ApiBaseController
     {
         return Single(await CommandAsync(command));
     }
-    
+
     [HttpPost("closeApplication")]
     [ProducesResponseType(typeof(CloseApplicationCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
