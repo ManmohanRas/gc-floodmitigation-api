@@ -406,7 +406,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
 
     [HttpPost("saveApplicationFinance")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]   
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveApplicationFinance([FromBody] SaveApplicationFinanceCommand  command)
@@ -684,6 +684,36 @@ public class FloodMitigationWorkflowController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<Unit>> ReinitiateApplication([FromBody] ReinitiateApplicationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getPropertyDocument")]
+    [ProducesResponseType(typeof(IEnumerable<PropertyDocumentTypeViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<PropertyDocumentTypeViewModel>>> GetPropertyDocument([FromBody] GetPropertyDocumentsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("savePropertyDocument")]
+    [ProducesResponseType(typeof(SavePropertyDocumentDetailsCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<SavePropertyDocumentDetailsCommandViewModel>> SavePropertyDocument([FromBody] SavePropertyDocumentDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("deletePropertyDocument")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeletePropertyDocument([FromBody] DeletePropertyDocumentCommand command)
     {
         return Single(await CommandAsync(command));
     }

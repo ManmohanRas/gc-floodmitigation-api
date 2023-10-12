@@ -26,6 +26,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<ICommentPropRepository, CommentPropRepository>();
         services.AddTransient<IBrokenRuleRepository, BrokenRuleRepository>();
         services.AddTransient<IContactRepository, ContactRepository>();
+        services.AddTransient<IPropertyDocumentRepository, PropertyDocumentRepository>();
         services.AddHttpContextAccessor();
     }
 }                                                                               
