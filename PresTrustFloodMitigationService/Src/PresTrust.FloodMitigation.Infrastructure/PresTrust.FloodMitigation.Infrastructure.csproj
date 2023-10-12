@@ -25,8 +25,4 @@
   <ItemGroup>
     <ProjectReference Include="..\PresTrust.FloodMitigation.Domain\PresTrust.FloodMitigation.Domain.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="SqlServerDb\SqlCommands\Softcost\GetSoftcostLineItemsSqlCommand-old.cs\" />
-  </ItemGroup>
 </Project>
