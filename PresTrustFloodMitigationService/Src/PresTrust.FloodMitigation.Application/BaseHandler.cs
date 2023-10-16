@@ -4,7 +4,7 @@ namespace PresTrust.FloodMitigation.Application;
 
 public class BaseHandler
 {
-    private PermissionEntity permission = default;
+    private ApplicationPermissionEntity permission = default;
     private readonly IApplicationRepository repoApplication;
 
     public BaseHandler(IApplicationRepository repoApplication = null)

@@ -31,7 +31,7 @@ public class GetPropertyDetailsQueryViewModel
     public bool AlreadyExists { get; set; }
     public IEnumerable<FloodPropertyCommentEntity> Comments { get; set;}
     public IEnumerable<FloodPropertyFeedbackEntity> Feedbacks { get; set;}
-    public PermissionEntity Permission { get; set; } = new PermissionEntity();
+    public PropertyPermissionEntity Permission { get; set; } = new PropertyPermissionEntity();
     public IEnumerable<NavigationItemEntity> NavigationItems { get; set; } = new List<NavigationItemEntity>();
     public IEnumerable<NavigationItemEntity> AdminNavigationItems { get; set; } = new List<NavigationItemEntity>();
     public IEnumerable<NavigationItemEntity> PostApprovedNavigationItems { get; set; } = new List<NavigationItemEntity>();

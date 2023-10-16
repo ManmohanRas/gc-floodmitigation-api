@@ -12,7 +12,7 @@ public class FloodPropertySecurityManager
 {
     private UserRoleEnum userRole = default;
     private PropertyStatusEnum propertyStatus = default;
-    private PermissionEntity permission = default;
+    private PropertyPermissionEntity permission = default;
     private List<NavigationItemEntity> navigationItems = default;
     private List<NavigationItemEntity> adminNavigationItems = default;
     private List<NavigationItemEntity> postApprovedNavigationItems = default;
@@ -28,7 +28,7 @@ public class FloodPropertySecurityManager
         ConfigurePermissions();
     }
 
-    public PermissionEntity Permission { get { return permission; } }
+    public PropertyPermissionEntity Permission { get { return permission; } }
     public List<NavigationItemEntity> NavigationItems { get => navigationItems; }
     public List<NavigationItemEntity> AdminNavigationItems { get => adminNavigationItems; }
     public List<NavigationItemEntity> PostApprovedNavigationItems { get => postApprovedNavigationItems; }
@@ -36,14 +36,14 @@ public class FloodPropertySecurityManager
 
     private void ConfigurePermissions()
     {
-        permission = new PermissionEntity();
+        permission = new PropertyPermissionEntity();
         navigationItems = new List<NavigationItemEntity>();
         adminNavigationItems = new List<NavigationItemEntity>();
         postApprovedNavigationItems = new List<NavigationItemEntity>();
 
         if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
         {
-            permission.CanCreateApplication = true;
+            permission.CanCreateProperty = true;
         }
 
         switch (propertyStatus)
@@ -150,8 +150,8 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
                 permission.CanApproveDeclarationOfIntent = true;
-                permission.CanRejectApplication = true;
-                permission.CanRequestForAnApplicationCorrection = true;
+                permission.CanRejectProperty = true;
+                permission.CanRequestForAPropertyCorrection = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 permission.CanViewFeedback = true;
@@ -171,7 +171,7 @@ public class FloodPropertySecurityManager
                 };
                 break;
             case UserRoleEnum.PROGRAM_EDITOR:
-                permission.CanRequestForAnApplicationCorrection = true;
+                permission.CanRequestForAPropertyCorrection = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 permission.CanViewFeedback = true;
@@ -192,7 +192,7 @@ public class FloodPropertySecurityManager
                 break;
             case UserRoleEnum.AGENCY_ADMIN:
             case UserRoleEnum.AGENCY_EDITOR:
-                permission.CanRespondToTheRequestForAnApplicationCorrection = true;
+                permission.CanRespondToTheRequestForAPropertyCorrection = true;
                 permission.CanViewFeedback = true;
                 // Declaration Of Intent
                 DeclarationOfIntent();
@@ -225,7 +225,7 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                permission.CanSubmitApplication = true;
+                permission.CanSubmitProperty = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 // Declaration Of Intent
@@ -251,7 +251,7 @@ public class FloodPropertySecurityManager
                 };
                 break;
             case UserRoleEnum.AGENCY_ADMIN:
-                permission.CanSubmitApplication = true;
+                permission.CanSubmitProperty = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 // Declaration Of Intent

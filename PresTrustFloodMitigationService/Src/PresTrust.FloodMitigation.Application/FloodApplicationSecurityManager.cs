@@ -10,7 +10,7 @@ public class FloodApplicationSecurityManager
 {
     private UserRoleEnum userRole = default;
     private ApplicationStatusEnum applicationStatus = default;
-    private PermissionEntity permission = default;
+    private ApplicationPermissionEntity permission = default;
     private List<NavigationItemEntity> navigationItems = default;
     private List<NavigationItemEntity> adminNavigationItems = default;
     private List<NavigationItemEntity> postApprovedNavigationItems = default;
@@ -26,7 +26,7 @@ public class FloodApplicationSecurityManager
         ConfigurePermissions();
     }
 
-    public PermissionEntity Permission { get { return permission; } }
+    public ApplicationPermissionEntity Permission { get { return permission; } }
     public List<NavigationItemEntity> NavigationItems { get => navigationItems; }
     public List<NavigationItemEntity> AdminNavigationItems { get => adminNavigationItems; }
     public List<NavigationItemEntity> PostApprovedNavigationItems { get => postApprovedNavigationItems; }
@@ -34,7 +34,7 @@ public class FloodApplicationSecurityManager
 
     private void ConfigurePermissions()
     {
-        permission = new PermissionEntity();
+        permission = new ApplicationPermissionEntity();
         navigationItems = new List<NavigationItemEntity>();
         adminNavigationItems = new List<NavigationItemEntity>();
         postApprovedNavigationItems = new List<NavigationItemEntity>();
