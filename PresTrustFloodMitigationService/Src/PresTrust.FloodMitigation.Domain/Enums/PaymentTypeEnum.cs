@@ -3,6 +3,12 @@
 public enum PaymentTypeEnum
 {
     /// <summary>
+    /// Payment Type for  NONE
+    /// </summary>
+    ///
+    NONE = 0,
+
+    /// <summary>
     /// Payment Type for  Wired
     /// </summary>
     ///

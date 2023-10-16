@@ -28,7 +28,8 @@ public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHand
 
         var result = mapper.Map<FloodApplicationReleaseOfFundsEntity, GetApplicationReleaseOfFundsQueryViewModel>(releaseOfFunds);
 
-        result.Payments = payments;
+
+        result.Payments = mapper.Map<IEnumerable<FloodPropReleaseOfFundsEntity>, IEnumerable<FloodParcelReleaseOfFundsViewModel>>(payments);
 
         return result;
     }
