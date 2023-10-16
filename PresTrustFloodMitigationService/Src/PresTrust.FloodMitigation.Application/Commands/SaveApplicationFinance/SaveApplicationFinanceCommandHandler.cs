@@ -13,7 +13,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
     private readonly IFinanceLineItemRepository repoFinanceLineItem;
     private readonly IApplicationRepository repoApplication;
     private readonly IBrokenRuleRepository repoBrokenRules;
-
+    private readonly IParcelPropertyRepository repoParcelProperty;
 
 
     public SaveApplicationFinanceCommandHandler(
@@ -24,7 +24,8 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         IFundingSourceRepoitory repoFundingSource,
         IFinanceLineItemRepository repoFinanceLineItem,
         IApplicationRepository repoApplication,
-        IBrokenRuleRepository repoBrokenRules
+        IBrokenRuleRepository repoBrokenRules,
+        IParcelPropertyRepository repoParcelProperty
         ) : base(repoApplication: repoApplication)
     {
         this.mapper =   mapper;
@@ -35,6 +36,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         this.repoFinanceLineItem = repoFinanceLineItem;
         this.repoApplication = repoApplication;
         this.repoBrokenRules = repoBrokenRules;
+        this.repoParcelProperty = repoParcelProperty;
     }
     public async Task<int> Handle(SaveApplicationFinanceCommand request, CancellationToken cancellationToken)
     {
@@ -89,9 +91,10 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         foreach (var lineItem in financeLinteItems)
         {
             var entity = mapper.Map<FloodFinanceLineItemViewModel, FloodFinanceLineItemEntity>(lineItem);
-
+            var parcelProperty = await repoParcelProperty.GetAsync(entity.ApplicationId, entity.PamsPin ?? string.Empty);
+            
             await repoFinanceLineItem.SaveAsync(entity);
-
+            await repoParcelProperty.SavePropertyAsync(parcelProperty);
         }
     }
 
@@ -107,11 +110,11 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         int sectionId = (int)ApplicationSectionEnum.FINANCE;
 
 
-        var priority = request.FinanceLineItems.Where(f => (string.IsNullOrEmpty(f.Priority))).FirstOrDefault();
+        var priority = request.FinanceLineItems.Select(f => f.Priority).FirstOrDefault();
 
         if (application.Status == ApplicationStatusEnum.SUBMITTED)
         {
-            if (priority != null)
+            if (priority != 0)
             {
                 brokenRules.Add(new FloodBrokenRuleEntity()
                 {
