@@ -1,9 +1,9 @@
 ﻿namespace PresTrust.FloodMitigation.Domain.Entities;
 
-public class PermissionEntity
+public class PropertyPermissionEntity
 {
     //---------------------------------------------------------------------//
-    //  Application Section Permissions
+    //  Property Section Permissions
     //---------------------------------------------------------------------//
     public bool CanViewDeclarationOfIntentSection { get; set; } = false;
     public bool CanEditDeclarationOfIntentSection { get; set; } = false;
@@ -39,7 +39,7 @@ public class PermissionEntity
     public bool CanEditOtherDocsSection { get; set; } = false;
 
     //---------------------------------------------------------------------//
-    //  Application Admin Action Section Permissions
+    //  Property Admin Action Section Permissions
     //---------------------------------------------------------------------//
 
     public bool CanViewAdminDocChkListSection { get; set; } = false;
@@ -61,10 +61,10 @@ public class PermissionEntity
     public bool CanEditAdminRlsOfFundsSection { get; set; } = false;
 
     //---------------------------------------------------------------------//
-    //  Application Status Permissions
+    //  Property Status Permissions
     //---------------------------------------------------------------------//
 
-    public bool CanCreateApplication { get; set; } = false;
+    public bool CanCreateProperty { get; set; } = false;
 
     //---------------------------------------------------------------------//
 
@@ -73,16 +73,16 @@ public class PermissionEntity
 
     //---------------------------------------------------------------------//
 
-    public bool CanSubmitApplication { get; set; } = false;
-    public bool CanReviewApplication { get; set; } = false;
-    public bool CanActivateApplication { get; set; } = false;
-    public bool CanCloseApplication { get; set; } = false;
-    public bool CanRejectApplication { get; set; } = false;
-    public bool CanWithdrawApplication { get; set; } = false;
-    public bool CanReinitiateApplication { get; set; } = false;
+    public bool CanSubmitProperty { get; set; } = false;
+    public bool CanReviewProperty { get; set; } = false;
+    public bool CanActivateProperty { get; set; } = false;
+    public bool CanCloseProperty { get; set; } = false;
+    public bool CanRejectProperty { get; set; } = false;
+    public bool CanWithdrawProperty { get; set; } = false;
+    public bool CanReinitiateProperty { get; set; } = false;
 
     //---------------------------------------------------------------------//
-    //  Application Details Permissions
+    //  Property Details Permissions
     //---------------------------------------------------------------------//
 
     public bool CanViewComments { get; set; } = false;
@@ -94,8 +94,8 @@ public class PermissionEntity
     public bool CanViewFeedback { get; set; } = false;
     public bool CanEditFeedback { get; set; } = false;
     public bool CanDeleteFeedback { get; set; } = false;
-    public bool CanRequestForAnApplicationCorrection { get; set; } = false;
-    public bool CanRespondToTheRequestForAnApplicationCorrection { get; set; } = false;
+    public bool CanRequestForAPropertyCorrection { get; set; } = false;
+    public bool CanRespondToTheRequestForAPropertyCorrection { get; set; } = false;
 
     //---------------------------------------------------------------------//
 
