@@ -80,7 +80,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         foreach (var fundingSource in fundingSources)
         {
             var entity = mapper.Map<FloodFundingSourceViewModel, FloodFundingSourceEntity>(fundingSource);
-            
+                
                 await repoFundingSource.SaveAsync(entity);
             
         }
@@ -92,6 +92,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         {
             var entity = mapper.Map<FloodFinanceLineItemViewModel, FloodFinanceLineItemEntity>(lineItem);
             var parcelProperty = await repoParcelProperty.GetAsync(entity.ApplicationId, entity.PamsPin ?? string.Empty);
+            parcelProperty = parcelProperty ?? new FloodParcelPropertyEntity() { ApplicationId = lineItem.ApplicationId, PamsPin = lineItem.PamsPin };
 
             parcelProperty.Priority = lineItem.Priority;
 
