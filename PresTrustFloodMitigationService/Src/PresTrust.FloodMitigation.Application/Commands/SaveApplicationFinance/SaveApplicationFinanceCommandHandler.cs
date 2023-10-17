@@ -92,7 +92,9 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         {
             var entity = mapper.Map<FloodFinanceLineItemViewModel, FloodFinanceLineItemEntity>(lineItem);
             var parcelProperty = await repoParcelProperty.GetAsync(entity.ApplicationId, entity.PamsPin ?? string.Empty);
-            
+
+            parcelProperty.Priority = lineItem.Priority;
+
             await repoFinanceLineItem.SaveAsync(entity);
             await repoParcelProperty.SavePropertyAsync(parcelProperty);
         }

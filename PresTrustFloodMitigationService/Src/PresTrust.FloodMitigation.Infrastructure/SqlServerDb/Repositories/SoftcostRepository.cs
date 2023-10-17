@@ -84,5 +84,21 @@ public class SoftcostRepository : ISoftcostRepository
 
         return softcost;
     }
+
+    public async Task<IEnumerable<Dictionary<string, decimal>>> GetSoftcostSumsByTypeId(int applicationId, string pamsPin)
+    {
+        IEnumerable<Dictionary<string, decimal>> results;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetSoftcostSumsByTypeIdSqlCommand();
+        results = await conn.QueryAsync<Dictionary<string, decimal>>(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                            param: new
+                            {
+                                @p_ApplicationId = applicationId,
+                                @p_PamsPin = pamsPin
+                            });
+        return results;
+    }
 }
 
