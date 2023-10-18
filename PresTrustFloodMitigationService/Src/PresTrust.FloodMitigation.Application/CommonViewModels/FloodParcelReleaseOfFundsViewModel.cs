@@ -15,5 +15,7 @@ public class FloodParcelReleaseOfFundsViewModel
     public string? SoftCostPaymentStatus { get; set; }
     public string? HardCostPaymentType { get; set; }
     public string? SoftCostPaymentType { get; set; }
+    public int HardCostPaymentStatusId { get; set; }
+    public int SoftCostPaymentStatusId { get; set; }
 
 }

@@ -678,6 +678,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
+
+    [HttpPost("releaseApplicationPayments")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> ReleaseApplicationPayments([FromBody] ReleaseApplicationPaymentsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController

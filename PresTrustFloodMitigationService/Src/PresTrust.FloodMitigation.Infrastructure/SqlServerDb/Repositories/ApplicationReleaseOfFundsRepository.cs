@@ -133,4 +133,30 @@ public class ApplicationReleaseOfFundsRepository: IApplicationReleaseOfFundsRepo
 
         return releaseOfFunds;
     }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="releaseOfFunds"></param>
+    /// <returns></returns>
+    public async Task<bool> ReleaseApplicationPayments(FloodPropReleaseOfFundsEntity releaseOfFunds)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new ReleaseApplicationPaymentsSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_Id = releaseOfFunds.Id,
+                @p_ApplicationId = releaseOfFunds.ApplicationId,
+                @p_PamsPin = releaseOfFunds.PamsPin,
+                @p_HardCostPaymentStatusId = releaseOfFunds.HardCostPaymentStatusId,
+                @p_SoftCostPaymentStatusId = releaseOfFunds.SoftCostPaymentStatusId,
+                @p_LastUpdatedBy = releaseOfFunds.LastUpdatedBy,
+                @p_LastUpdatedOn = DateTime.Now
+            });
+
+        return true;
+    }
 }

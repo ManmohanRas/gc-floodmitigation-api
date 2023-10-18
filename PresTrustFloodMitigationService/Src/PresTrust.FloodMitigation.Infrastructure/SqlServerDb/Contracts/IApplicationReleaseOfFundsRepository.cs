@@ -8,4 +8,5 @@ public interface IApplicationReleaseOfFundsRepository
 
     Task<FloodApplicationReleaseOfFundsEntity> SaveAsync(FloodApplicationReleaseOfFundsEntity releaseOfFunds);
 
+    Task<bool> ReleaseApplicationPayments(FloodPropReleaseOfFundsEntity releaseOfFunds);
 }
