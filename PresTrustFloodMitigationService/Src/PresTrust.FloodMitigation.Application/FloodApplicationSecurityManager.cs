@@ -95,8 +95,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_EDIT,
                     SortOrder = 1
                 };
                 break;
@@ -109,8 +109,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_EDIT,
                     SortOrder = 1
                 };
                 break;
@@ -122,8 +122,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_EDIT,
                     SortOrder = 1
                 };
                 break;
@@ -133,8 +133,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_VIEW,
                     SortOrder = 1
                 };
                 break;
@@ -163,8 +163,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_EDIT,
                     SortOrder = 1
                 };
                 break;
@@ -183,8 +183,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT,
+                    Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_EDIT,
                     SortOrder = 1
                 };
                 break;
@@ -197,8 +197,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_VIEW,
                     SortOrder = 1
                 };
                 break;
@@ -208,8 +208,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.DECLARATION_OF_INTENT,
-                    RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW,
+                    Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                    RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_VIEW,
                     SortOrder = 1
                 };
                 break;
@@ -243,9 +243,9 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.ROLES,
-                    RouterLink = RouterLinks.ROLES_EDIT,
-                    SortOrder = 1
+                    Title = ApplicationNavigationItemTitles.ROLES,
+                    RouterLink = ApplicationRouterLinks.ROLES_EDIT,
+                    SortOrder = 2
                 };
                 break;
             case UserRoleEnum.AGENCY_ADMIN:
@@ -269,9 +269,9 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.ROLES,
-                    RouterLink = RouterLinks.ROLES_EDIT,
-                    SortOrder = 1
+                    Title = ApplicationNavigationItemTitles.ROLES,
+                    RouterLink = ApplicationRouterLinks.ROLES_EDIT,
+                    SortOrder = 2
                 };
                 break;
             case UserRoleEnum.AGENCY_EDITOR:
@@ -294,9 +294,9 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.ROLES,
-                    RouterLink = RouterLinks.ROLES_EDIT,
-                    SortOrder = 1
+                    Title = ApplicationNavigationItemTitles.ROLES,
+                    RouterLink = ApplicationRouterLinks.ROLES_EDIT,
+                    SortOrder = 2
                 };
                 break;
             default:
@@ -317,9 +317,9 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = NavigationItemTitles.ROLES,
-                    RouterLink = RouterLinks.ROLES_VIEW,
-                    SortOrder = 1
+                    Title = ApplicationNavigationItemTitles.ROLES,
+                    RouterLink = ApplicationRouterLinks.ROLES_VIEW,
+                    SortOrder = 2
                 };
                 break;
         }
@@ -355,11 +355,11 @@ public class FloodApplicationSecurityManager
         {
             case ViewOrEdit.VIEW:
                 permission.CanViewDeclarationOfIntentSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.DECLARATION_OF_INTENT, RouterLink = RouterLinks.DECLARATION_OF_INTENT_VIEW, SortOrder = 1, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT, RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_VIEW, SortOrder = 1, Icon = (correction == true ? "report_problem" : "") });
                 break;
             case ViewOrEdit.EDIT:
                 permission.CanEditDeclarationOfIntentSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.DECLARATION_OF_INTENT, RouterLink = RouterLinks.DECLARATION_OF_INTENT_EDIT, SortOrder = 1, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT, RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_EDIT, SortOrder = 1, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
@@ -372,11 +372,11 @@ public class FloodApplicationSecurityManager
         {
             case ViewOrEdit.VIEW:
                 permission.CanViewRolesSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.ROLES, RouterLink = RouterLinks.ROLES_VIEW, SortOrder = 2, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ROLES, RouterLink = ApplicationRouterLinks.ROLES_VIEW, SortOrder = 2, Icon = (correction == true ? "report_problem" : "") });
                 break;
             case ViewOrEdit.EDIT:
                 permission.CanEditRolesSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.ROLES, RouterLink = RouterLinks.ROLES_EDIT, SortOrder = 2, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ROLES, RouterLink = ApplicationRouterLinks.ROLES_EDIT, SortOrder = 2, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
@@ -389,11 +389,11 @@ public class FloodApplicationSecurityManager
         {
             case ViewOrEdit.VIEW:
                 permission.CanViewOverviewSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.OVERVIEW, RouterLink = RouterLinks.OVERVIEW_VIEW, SortOrder = 3, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.OVERVIEW, RouterLink = ApplicationRouterLinks.OVERVIEW_VIEW, SortOrder = 3, Icon = (correction == true ? "report_problem" : "") });
                 break;
             case ViewOrEdit.EDIT:
                 permission.CanEditOverviewSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.OVERVIEW, RouterLink = RouterLinks.OVERVIEW_EDIT, SortOrder = 3, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.OVERVIEW, RouterLink = ApplicationRouterLinks.OVERVIEW_EDIT, SortOrder = 3, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
@@ -406,11 +406,11 @@ public class FloodApplicationSecurityManager
         {
             case ViewOrEdit.VIEW:
                 permission.CanViewProjectAreaSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.PROJECT_AREA, RouterLink = RouterLinks.PROJECT_AREA_VIEW, SortOrder = 4, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.PROJECT_AREA, RouterLink = ApplicationRouterLinks.PROJECT_AREA_VIEW, SortOrder = 4, Icon = (correction == true ? "report_problem" : "") });
                 break;
             case ViewOrEdit.EDIT:
                 permission.CanEditProjectAreaSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.PROJECT_AREA, RouterLink = RouterLinks.PROJECT_AREA_EDIT, SortOrder = 4, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.PROJECT_AREA, RouterLink = ApplicationRouterLinks.PROJECT_AREA_EDIT, SortOrder = 4, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
@@ -423,11 +423,11 @@ public class FloodApplicationSecurityManager
         {
             case ViewOrEdit.VIEW:
                 permission.CanViewFinanceSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.FINANCE, RouterLink = RouterLinks.FINANCE_VIEW, SortOrder = 5, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.FINANCE, RouterLink = ApplicationRouterLinks.FINANCE_VIEW, SortOrder = 5, Icon = (correction == true ? "report_problem" : "") });
                 break;
             case ViewOrEdit.EDIT:
                 permission.CanEditFinanceSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.FINANCE, RouterLink = RouterLinks.FINANCE_EDIT, SortOrder = 5, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.FINANCE, RouterLink = ApplicationRouterLinks.FINANCE_EDIT, SortOrder = 5, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
@@ -440,11 +440,11 @@ public class FloodApplicationSecurityManager
         {
             case ViewOrEdit.VIEW:
                 permission.CanViewSignatorySection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.SIGNATORY, RouterLink = RouterLinks.SIGNATORY_VIEW, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.SIGNATORY, RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
                 break;
             case ViewOrEdit.EDIT:
                 permission.CanEditSignatorySection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.SIGNATORY, RouterLink = RouterLinks.SIGNATORY_EDIT, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.SIGNATORY, RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
@@ -457,11 +457,11 @@ public class FloodApplicationSecurityManager
         {
             case ViewOrEdit.VIEW:
                 permission.CanViewOtherDocsSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.OTHER_DOCUMENTS, RouterLink = RouterLinks.OTHER_DOCUMENTS_VIEW, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS, RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
                 break;
             case ViewOrEdit.EDIT:
                 permission.CanEditOtherDocsSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = NavigationItemTitles.OTHER_DOCUMENTS, RouterLink = RouterLinks.OTHER_DOCUMENTS_EDIT, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS, RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
