@@ -1,8 +1,8 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class ReleaseApplicationPaymentsCommandMappingProfile: Profile
+public class ReleasePaymentsCommandMappingProfile: Profile
 {
-    public ReleaseApplicationPaymentsCommandMappingProfile() 
+    public ReleasePaymentsCommandMappingProfile() 
     {
         CreateMap<FloodParcelReleaseOfFundsViewModel, FloodPropReleaseOfFundsEntity>();
     }

@@ -14,4 +14,7 @@ public interface IPropReleaseOfFundsRepository
     /// <param name="FloodTech"></param>
     /// <returns></returns>
     Task<FloodPropReleaseOfFundsEntity> SaveAsync(FloodPropReleaseOfFundsEntity FloodTech);
+
+    Task<bool> ReleasePayments(FloodPropReleaseOfFundsEntity releaseOfFunds);
+
 }

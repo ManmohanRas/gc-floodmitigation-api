@@ -1,16 +1,15 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class ReleaseApplicationPaymentsSqlCommand
+public class ReleasePaymentsSqlCommand
 {
     private readonly string _sqlCommand =
       @" UPDATE [Flood].[FloodParcelPayment]
                SET  HardCostPaymentStatusId   =   @p_HardCostPaymentStatusId
                    ,SoftCostPaymentStatusId   =   @p_SoftCostPaymentStatusId
-                   ,LastUpdatedBy = @p_LastUpdatedBy
                    ,LastUpdatedOn = @p_LastUpdatedOn
-             WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId AND Pamspin = @p_Pamspin";
+             WHERE Id = @p_Id;";
 
-    public ReleaseApplicationPaymentsSqlCommand()
+    public ReleasePaymentsSqlCommand()
     {
     }
 

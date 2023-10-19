@@ -684,7 +684,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> ReleaseApplicationPayments([FromBody] ReleaseApplicationPaymentsCommand command)
+    public async Task<ActionResult<bool>> ReleaseApplicationPayments([FromBody] ReleasePaymentsCommand command)
     {
         return Single(await CommandAsync(command));
     }

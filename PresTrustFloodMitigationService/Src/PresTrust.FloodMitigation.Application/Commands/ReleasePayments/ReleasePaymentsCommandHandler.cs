@@ -1,28 +1,31 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
 
-public class ReleaseApplicationPaymentsCommandHandler: BaseHandler, IRequestHandler<ReleaseApplicationPaymentsCommand, bool>
+namespace PresTrust.FloodMitigation.Application.Commands;
+
+public class ReleasePaymentsCommandHandler: BaseHandler, IRequestHandler<ReleasePaymentsCommand, bool>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
-    //private readonly SystemParameterConfiguration systemParamOptions;
+    private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IApplicationReleaseOfFundsRepository repoROF;
+    private readonly IPropReleaseOfFundsRepository repoROF;
 
-    public ReleaseApplicationPaymentsCommandHandler(
-        IMapper mapper, IPresTrustUserContext userContext, 
-        //SystemParameterConfiguration systemParamOptions, 
+
+    public ReleasePaymentsCommandHandler(
+        IMapper mapper, IPresTrustUserContext userContext,
+        IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IApplicationReleaseOfFundsRepository repoROF
+        IPropReleaseOfFundsRepository repoROF
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
-        //this.systemParamOptions = systemParamOptions;
+        this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
         this.repoROF = repoROF;
     }
 
-    public async Task<bool> Handle(ReleaseApplicationPaymentsCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(ReleasePaymentsCommand request, CancellationToken cancellationToken)
     {
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
@@ -34,7 +37,7 @@ public class ReleaseApplicationPaymentsCommandHandler: BaseHandler, IRequestHand
         {
             foreach (var payment in releaseOfFunds)
             {
-                requestROF = await repoROF.ReleaseApplicationPayments(payment);
+                requestROF = await repoROF.ReleasePayments(payment);
             }
         }
         
