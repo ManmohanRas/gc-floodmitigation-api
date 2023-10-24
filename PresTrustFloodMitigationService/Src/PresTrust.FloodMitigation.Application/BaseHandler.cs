@@ -1,4 +1,5 @@
 ﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PresTrust.FloodMitigation.Application;
 
@@ -29,16 +30,16 @@ public class BaseHandler
 
     public void IsAuthorizedOperation(UserRoleEnum userRole, FloodApplicationEntity application, UserPermissionEnum operation, List<FloodApplicationFeedbackEntity> corrections = null)
     {
-        var securityMgr = new FloodApplicationSecurityManager(userRole, application.Status, corrections);
+        var securityMgr = new FloodApplicationSecurityManager(userRole, application.Status, application.PrevStatus, corrections);
         permission = securityMgr.Permission;
 
         VerifyUserAuthorization(operation, userRole);
         VerifyIfOperationIsValidToPerform(operation, application.Status);
     }
 
-    public void IsAuthorizedOperation(UserRoleEnum userRole, ApplicationStatusEnum applicationStatus, UserPermissionEnum operation)
+    public void IsAuthorizedOperation(UserRoleEnum userRole, ApplicationStatusEnum applicationStatus, ApplicationStatusEnum applicationPrevStatus, UserPermissionEnum operation)
     {
-        var securityMgr = new FloodApplicationSecurityManager(userRole, applicationStatus);
+        var securityMgr = new FloodApplicationSecurityManager(userRole, applicationStatus, applicationPrevStatus);
         permission = securityMgr.Permission;
 
         VerifyUserAuthorization(operation, userRole);
