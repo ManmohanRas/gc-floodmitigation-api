@@ -5,22 +5,26 @@ public class GetApplicationParcelsSqlCommand
     private readonly string _sqlCommand =
             @"  WITH ApplicationParcelCTE AS (
 					SELECT
-						ApplicationId,
-						PamsPin,
+						AppParcels.ApplicationId,
+						AppParcels.PamsPin,
 						StatusId,
 						IsLocked,
+						PP.[Priority],
 						CASE WHEN OtherPamsPin IS NULL THEN 0 ELSE 1 END AS AlreadyExists
 					FROM
 						(SELECT * FROM [Flood].[FloodApplicationParcel] WHERE [ApplicationId] = @p_ApplicationId) AppParcels
 					LEFT JOIN
 						(SELECT DISTINCT PamsPin AS OtherPamsPin FROM [Flood].[FloodApplicationParcel] WHERE [ApplicationId] != @p_ApplicationId) OtherAppParcels
 					ON AppParcels.PamsPin = OtherAppParcels.OtherPamsPin
+					JOIN [Flood].[FloodParcelProperty] PP
+					ON (AppParcels.PamsPin = PP.PamsPin)
 				)
 				SELECT
 					AP.[PamsPin],
 					AP.[StatusId],
 					AP.[IsLocked],
 					AP.[AlreadyExists],
+					AP.[Priority],
 					CONCAT(CP.[StreetNo], ' ', CP.[StreetAddress]) AS [PropertyAddress],
 					NULL AS [TargetArea],
 					CP.[Block],
