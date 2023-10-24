@@ -20,4 +20,23 @@ public interface IApplicationParcelRepository
     /// <param name="applicationId"></param>
     /// <returns></returns>
     Task DeleteApplicationParcelsByApplicationIdAsync(int applicationId);
+    /// <summary>
+    /// Get Application Parcels
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+    Task<FloodApplicationParcelEntity> GetApplicationPropertyAsync(int applicationId, string pamsPin);
+
+    /// <summary>
+    /// Save Application Workflow Status
+    /// </summary>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    Task<FloodApplicationParcelEntity> SaveApplicationParcelWorkflowStatusAsync(FloodApplicationParcelEntity property);
+    /// <summary>
+    /// Save Application Status Log
+    /// </summary>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    Task<bool> SaveStatusLogAsync(FloodApplicationParcelStatusLogEntity applicationStatusLog);
 }
