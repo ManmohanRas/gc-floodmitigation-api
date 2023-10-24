@@ -6,7 +6,7 @@ public partial class FloodMitigationDomainConstants
     /// <summary>
     /// Class to hold constants for Navigation Item router link
     /// </summary>
-    public static class RouterLinks
+    public static class ApplicationRouterLinks
     {
         /// <summary>
         /// Constant to hold router link for Declaration Of Intent View screen

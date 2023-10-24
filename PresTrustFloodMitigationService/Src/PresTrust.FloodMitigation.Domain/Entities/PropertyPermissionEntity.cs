@@ -5,38 +5,29 @@ public class PropertyPermissionEntity
     //---------------------------------------------------------------------//
     //  Property Section Permissions
     //---------------------------------------------------------------------//
-    public bool CanViewDeclarationOfIntentSection { get; set; } = false;
-    public bool CanEditDeclarationOfIntentSection { get; set; } = false;
-    
-    //---------------------------------------------------------------------//
 
-    public bool CanViewRolesSection { get; set; } = false;
-    public bool CanEditRolesSection { get; set; } = false;
-
-    //---------------------------------------------------------------------//
-
-    public bool CanViewOverviewSection { get; set; } = false;
-    public bool CanEditOverviewSection { get; set; } = false;
-
-    //---------------------------------------------------------------------//
-
-    public bool CanViewProjectAreaSection { get; set; } = false;
-    public bool CanEditProjectAreaSection { get; set; } = false;
-
-    //---------------------------------------------------------------------//
-
-    public bool CanViewFinanceSection { get; set; } = false;
-    public bool CanEditFinanceSection { get; set; } = false;
-
-    //---------------------------------------------------------------------//
-
-    public bool CanViewSignatorySection { get; set; } = false;
-    public bool CanEditSignatorySection { get; set; } = false;
+    public bool CanViewPropertySection { get; set; } = false;
+    public bool CanEditPropertySection { get; set; } = false;
 
     //---------------------------------------------------------------------//
 
     public bool CanViewOtherDocsSection { get; set; } = false;
     public bool CanEditOtherDocsSection { get; set; } = false;
+
+    //---------------------------------------------------------------------//
+
+    public bool CanViewSoftCostsSection { get; set; } = false;
+    public bool CanEditSoftCostsSection { get; set; } = false;
+
+    //---------------------------------------------------------------------//
+
+    public bool CanViewTechSection { get; set; } = false;
+    public bool CanEditTechSection { get; set; } = false;
+
+    //---------------------------------------------------------------------//
+
+    public bool CanViewFinanceSection { get; set; } = false;
+    public bool CanEditFinanceSection { get; set; } = false;
 
     //---------------------------------------------------------------------//
     //  Property Admin Action Section Permissions
@@ -47,18 +38,23 @@ public class PropertyPermissionEntity
 
     //---------------------------------------------------------------------//
 
+    public bool CanViewAdminSurveySection { get; set; } = false;
+    public bool CanEditAdminSurveySection { get; set; } = false;
+    
+    //---------------------------------------------------------------------//
+
     public bool CanViewAdminDetailsSection { get; set; } = false;
     public bool CanEditAdminDetailsSection { get; set; } = false;
 
     //---------------------------------------------------------------------//
 
-    public bool CanViewAdminContactsSection { get; set; } = false;
-    public bool CanEditAdminContactsSection { get; set; } = false;
+    public bool CanViewAdminRlsOfFundsSection { get; set; } = false;
+    public bool CanEditAdminRlsOfFundsSection { get; set; } = false;
 
     //---------------------------------------------------------------------//
 
-    public bool CanViewAdminRlsOfFundsSection { get; set; } = false;
-    public bool CanEditAdminRlsOfFundsSection { get; set; } = false;
+    public bool CanViewAdminTrackingSection { get; set; } = false;
+    public bool CanEditAdminTrackingSection { get; set; } = false;
 
     //---------------------------------------------------------------------//
     //  Property Status Permissions
@@ -68,18 +64,16 @@ public class PropertyPermissionEntity
 
     //---------------------------------------------------------------------//
 
-    public bool CanSubmitDeclarationOfIntent { get; set; } = false;
-    public bool CanApproveDeclarationOfIntent { get; set; } = false;
-
-    //---------------------------------------------------------------------//
-
     public bool CanSubmitProperty { get; set; } = false;
     public bool CanReviewProperty { get; set; } = false;
-    public bool CanActivateProperty { get; set; } = false;
-    public bool CanCloseProperty { get; set; } = false;
+    public bool CanPendProperty { get; set; } = false;
+    public bool CanApproveProperty { get; set; } = false;
+    public bool CanPreserveProperty { get; set; } = false;
+    public bool CanGrantExpireProperty { get; set; } = false;
     public bool CanRejectProperty { get; set; } = false;
     public bool CanWithdrawProperty { get; set; } = false;
-    public bool CanReinitiateProperty { get; set; } = false;
+    public bool CanProjectAreaExpireProperty { get; set; } = false;
+    public bool CanTransferProperty { get; set; } = false;
 
     //---------------------------------------------------------------------//
     //  Property Details Permissions

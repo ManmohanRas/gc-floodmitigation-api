@@ -91,10 +91,10 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
             case ApplicationStatusEnum.IN_REVIEW:
             case ApplicationStatusEnum.ACTIVE:
                 var feedbacksReqForCorrections = application.Feedbacks.Where(f => f.RequestForCorrection == true && string.Compare(f.CorrectionStatus, ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString(), true) == 0).ToList();
-                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, feedbacksReqForCorrections);
+                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, application.PrevStatus, feedbacksReqForCorrections);
                 break;
             default:
-                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status);
+                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, application.PrevStatus);
                 break;
         }
 
@@ -109,7 +109,7 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
     private void AuthorizationCheck(CreateApplicationCommand request)
     {
         userContext.DeriveRole(request.AgencyId);
-        IsAuthorizedOperation(userRole: userContext.Role, applicationStatus: ApplicationStatusEnum.NONE, operation: UserPermissionEnum.CREATE_APPLICATION);
+        IsAuthorizedOperation(userRole: userContext.Role, applicationStatus: ApplicationStatusEnum.NONE, applicationPrevStatus: ApplicationStatusEnum.NONE, operation: UserPermissionEnum.CREATE_APPLICATION);
     }
 
     private async Task<IEnumerable<FloodApplicationUserViewModel>> GetApplicationUsers(int applicationId, int agencyId)

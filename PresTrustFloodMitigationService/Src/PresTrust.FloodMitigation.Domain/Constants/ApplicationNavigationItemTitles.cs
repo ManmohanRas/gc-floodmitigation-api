@@ -5,7 +5,7 @@ public partial class FloodMitigationDomainConstants
     /// <summary>
     /// Class to hold constants for Navigation Item Title
     /// </summary>
-    public static class NavigationItemTitles
+    public static class ApplicationNavigationItemTitles
     {
         /// <summary>
         /// Constant to hold title for Declaration Of Intent 
