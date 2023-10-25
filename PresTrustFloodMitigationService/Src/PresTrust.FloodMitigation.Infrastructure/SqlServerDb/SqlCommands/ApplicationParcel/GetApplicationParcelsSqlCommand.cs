@@ -16,7 +16,7 @@ public class GetApplicationParcelsSqlCommand
 					LEFT JOIN
 						(SELECT DISTINCT PamsPin AS OtherPamsPin FROM [Flood].[FloodApplicationParcel] WHERE [ApplicationId] != @p_ApplicationId) OtherAppParcels
 					ON AppParcels.PamsPin = OtherAppParcels.OtherPamsPin
-					JOIN [Flood].[FloodParcelProperty] PP
+					LEFT JOIN [Flood].[FloodParcelProperty] PP
 					ON (AppParcels.PamsPin = PP.PamsPin)
 				)
 				SELECT
