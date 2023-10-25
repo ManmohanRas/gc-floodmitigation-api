@@ -42,4 +42,8 @@
     <ProjectReference Include="..\PresTrust.FloodMitigation.Infrastructure\PresTrust.FloodMitigation.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\PendingProperty\" />
+  </ItemGroup>
+
 </Project>

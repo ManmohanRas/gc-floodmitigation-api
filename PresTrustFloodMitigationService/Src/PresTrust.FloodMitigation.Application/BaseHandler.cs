@@ -7,10 +7,12 @@ public class BaseHandler
 {
     private ApplicationPermissionEntity permission = default;
     private readonly IApplicationRepository repoApplication;
+    private readonly IApplicationParcelRepository repoProperty;
 
-    public BaseHandler(IApplicationRepository repoApplication = null)
+    public BaseHandler(IApplicationRepository repoApplication = null, IApplicationParcelRepository repoProperty = null)
     { 
         this.repoApplication = repoApplication;
+        this.repoProperty = repoProperty;
     }
 
     /// <summary>
@@ -22,10 +24,21 @@ public class BaseHandler
     {
         var application = await repoApplication.GetApplicationAsync(id);
 
+
         if (application == null)
             throw new EntityNotFoundException($"Application (Id: {id}) does not exist or invalid");
 
         return application;
+    }
+
+    public async Task<FloodApplicationParcelEntity> GetIfPropertyExists(int id, string pamspin)
+    {
+        var parcelProperty = await repoProperty.GetApplicationPropertyAsync(id, pamspin);
+
+        if (parcelProperty == null)
+            throw new EntityNotFoundException($" Parcel Property (ApplicationId: {id}, Pamspin : {pamspin} ) does not exist or invalid");
+
+        return parcelProperty;
     }
 
     public void IsAuthorizedOperation(UserRoleEnum userRole, FloodApplicationEntity application, UserPermissionEnum operation, List<FloodApplicationFeedbackEntity> corrections = null)

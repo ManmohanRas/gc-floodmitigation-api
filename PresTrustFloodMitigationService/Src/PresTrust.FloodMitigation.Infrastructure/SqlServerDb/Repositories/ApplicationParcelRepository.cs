@@ -62,4 +62,78 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
                 @p_ApplicationId = applicationId
             });
     }
+
+
+    public async Task<FloodApplicationParcelEntity> GetApplicationPropertyAsync(int applicationId, string pamsPin )
+    {
+        FloodApplicationParcelEntity result = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetApplicationParcelSqlCommand();
+        var results = await conn.QueryAsync<FloodApplicationParcelEntity>(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new
+                    {
+                        @p_ApplicationId = applicationId,
+                        @p_PamsPin = pamsPin
+                    });
+
+        result = results.FirstOrDefault();
+
+        return result;
+    }
+
+
+    public async Task<FloodApplicationParcelEntity> SaveApplicationParcelWorkflowStatusAsync(FloodApplicationParcelEntity property)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new UpdateApplicationParcelWorkflowStatusSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = property.ApplicationId,
+                @p_PamsPin = property.PamsPin,
+                @p_StatusId = property.StatusId,
+                @p_LastUpdatedBy = property.LastUpdatedBy,
+            });
+
+        var sqlCommand2 = new UpdateApplicationParcelWorkflowDateSqlCommand();
+        await conn.ExecuteAsync(sqlCommand2.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = property.ApplicationId,
+                @p_PamsPin = property.PamsPin,
+                @p_StatusId = property.StatusId,
+                @p_LastUpdatedBy = property.LastUpdatedBy,
+            });
+        return property;
+    }
+
+
+    public async Task<bool> SaveStatusLogAsync(FloodApplicationParcelStatusLogEntity applicationStatusLog)
+    {
+        bool result = false;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new CreateApplicationParcelStatusLogSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationStatusLog.ApplicationId,
+                @p_PamsPin = applicationStatusLog.PamsPin,
+                @p_StatusId = applicationStatusLog.StatusId,
+                @p_StatusDate = applicationStatusLog.StatusDate,
+                @p_Notes = applicationStatusLog.Notes,
+                @p_LastUpdatedBy = applicationStatusLog.LastUpdatedBy,
+            });
+
+        result = true;
+        return result;
+    }
 }
