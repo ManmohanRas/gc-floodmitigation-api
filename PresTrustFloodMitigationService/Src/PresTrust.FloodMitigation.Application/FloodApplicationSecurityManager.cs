@@ -1178,6 +1178,10 @@ public class FloodApplicationSecurityManager
                 case UserRoleEnum.SYSTEM_ADMIN:
                 case UserRoleEnum.PROGRAM_ADMIN:
                 case UserRoleEnum.PROGRAM_EDITOR:
+                    if(userRole == UserRoleEnum.PROGRAM_ADMIN)
+                    {
+                        permission.CanReinitiateApplication = true;
+                    }
                     permission.CanViewFeedback = true;
                     permission.CanViewComments = true;
                     permission.CanEditComments = true;
@@ -1230,6 +1234,10 @@ public class FloodApplicationSecurityManager
                 case UserRoleEnum.SYSTEM_ADMIN:
                 case UserRoleEnum.PROGRAM_ADMIN:
                 case UserRoleEnum.PROGRAM_EDITOR:
+                    if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                    {
+                        permission.CanReinitiateApplication = true;
+                    }
                     permission.CanViewFeedback = true;
                     permission.CanViewComments = true;
                     permission.CanEditComments = true;
@@ -1327,6 +1335,10 @@ public class FloodApplicationSecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanReinitiateApplication = true;
+                }
                 permission.CanViewFeedback = true;
                 permission.CanViewComments = true;
                 permission.CanEditComments = true;
