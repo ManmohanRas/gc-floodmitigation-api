@@ -1,6 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace PresTrust.FloodMitigation.Application;
+﻿namespace PresTrust.FloodMitigation.Application;
 
 public enum ViewOrEdit
 {
@@ -363,7 +361,6 @@ public class FloodApplicationSecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
                 permission.CanReviewApplication = true;
-                permission.CanRejectApplication = true;
                 permission.CanRequestForAnApplicationCorrection = true;
                 permission.CanEditFeedback = true;
                 permission.CanDeleteFeedback = true;
@@ -411,6 +408,14 @@ public class FloodApplicationSecurityManager
                     OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Document Checklist
+                AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Details
+                AdminDetails(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Contacts
+                AdminContacts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Release of Funds
+                AdminReleaseOfFunds(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -482,6 +487,14 @@ public class FloodApplicationSecurityManager
                         SortOrder = 7
                     };
                 }
+                //Admin Document Checklist
+                AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Details
+                AdminDetails(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Contacts
+                AdminContacts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Release of Funds
+                AdminReleaseOfFunds(enumViewOrEdit: ViewOrEdit.EDIT);
                 break;
             case UserRoleEnum.AGENCY_ADMIN:
             case UserRoleEnum.AGENCY_EDITOR:
@@ -581,14 +594,578 @@ public class FloodApplicationSecurityManager
 
     private void DeriveInReviewStatePermissions()
     {
+        FloodApplicationFeedbackEntity correction = default;
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanActivateApplication = true;
+                permission.CanRejectApplication = true;
+                permission.CanRequestForAnApplicationCorrection = true;
+                permission.CanEditFeedback = true;
+                permission.CanDeleteFeedback = true;
+                permission.CanViewFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.ROLES).FirstOrDefault();
+                if (correction == null)
+                    Roles(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Roles(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Overview
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OVERVIEW).FirstOrDefault();
+                if (correction == null)
+                    Overview(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Overview(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Project Area
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.PROJECT_AREA).FirstOrDefault();
+                if (correction == null)
+                    ProjectArea(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    ProjectArea(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.FINANCE).FirstOrDefault();
+                if (correction == null)
+                    Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
+                if (correction == null)
+                    OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Document Checklist
+                AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Details
+                AdminDetails(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Contacts
+                AdminContacts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Release of Funds
+                AdminReleaseOfFunds(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                    SortOrder = 7
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                permission.CanViewFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.ROLES).FirstOrDefault();
+                if (correction == null)
+                    Roles(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Roles(correction: true);
+                //Overview
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OVERVIEW).FirstOrDefault();
+                if (correction == null)
+                    Overview(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Overview(correction: true);
+                //Project Area
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.PROJECT_AREA).FirstOrDefault();
+                if (correction == null)
+                    ProjectArea(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    ProjectArea(correction: true);
+                //Finance
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.FINANCE).FirstOrDefault();
+                if (correction == null)
+                    Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Finance(correction: true);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                    Signatory();
+                else
+                    Signatory(correction: true);
+                //Other Documents
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
+                if (correction == null)
+                {
+                    OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        SortOrder = 7
+                    };
+                }
+                else
+                {
+                    OtherDocuments(correction: true);
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        SortOrder = 7
+                    };
+                }
+                //Admin Document Checklist
+                AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Details
+                AdminDetails(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Contacts
+                AdminContacts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Release of Funds
+                AdminReleaseOfFunds(enumViewOrEdit: ViewOrEdit.EDIT);
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+                if (userRole == UserRoleEnum.AGENCY_ADMIN)
+                {
+                    permission.CanRespondToTheRequestForAnApplicationCorrection = true;
+                }
+                permission.CanViewFeedback = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.ROLES).FirstOrDefault();
+                if (correction == null)
+                    Roles();
+                else
+                    Roles(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Overview
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OVERVIEW).FirstOrDefault();
+                if (correction == null)
+                    Overview();
+                else
+                    Overview(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Project Area
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.PROJECT_AREA).FirstOrDefault();
+                if (correction == null)
+                    ProjectArea();
+                else
+                    ProjectArea(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.FINANCE).FirstOrDefault();
+                if (correction == null)
+                    Finance();
+                else
+                    Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                    Signatory();
+                else
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
+                if (correction == null)
+                {
+                    OtherDocuments();
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        SortOrder = 7
+                    };
+                }
+                else
+                {
+                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        SortOrder = 7
+                    };
+                }
+                break;
+            default:
+                if (userRole != UserRoleEnum.AGENCY_READONLY)
+                {
+                    permission.CanViewFeedback = true;
+                }
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles();
+                //Overview
+                Overview();
+                //Project Area
+                ProjectArea();
+                //Finance
+                Finance();
+                //Signatory
+                Signatory();
+                //Other Documents
+                OtherDocuments();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    SortOrder = 7
+                };
+                break;
+        }
     }
 
     private void DeriveActiveStatePermissions()
     {
+        FloodApplicationFeedbackEntity correction = default;
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+                permission.CanCloseApplication = true;
+                permission.CanWithdrawApplication = true;
+                permission.CanRequestForAnApplicationCorrection = true;
+                permission.CanEditFeedback = true;
+                permission.CanDeleteFeedback = true;
+                permission.CanViewFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.ROLES).FirstOrDefault();
+                if (correction == null)
+                    Roles(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Roles(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Overview
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OVERVIEW).FirstOrDefault();
+                if (correction == null)
+                    Overview(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Overview(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Project Area
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.PROJECT_AREA).FirstOrDefault();
+                if (correction == null)
+                    ProjectArea(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    ProjectArea(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.FINANCE).FirstOrDefault();
+                if (correction == null)
+                    Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
+                if (correction == null)
+                    OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Document Checklist
+                AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Details
+                AdminDetails(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Contacts
+                AdminContacts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Release of Funds
+                AdminReleaseOfFunds(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                    SortOrder = 7
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                permission.CanViewFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.ROLES).FirstOrDefault();
+                if (correction == null)
+                    Roles(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Roles(correction: true);
+                //Overview
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OVERVIEW).FirstOrDefault();
+                if (correction == null)
+                    Overview(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Overview(correction: true);
+                //Project Area
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.PROJECT_AREA).FirstOrDefault();
+                if (correction == null)
+                    ProjectArea(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    ProjectArea(correction: true);
+                //Finance
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.FINANCE).FirstOrDefault();
+                if (correction == null)
+                    Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Finance(correction: true);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                    Signatory();
+                else
+                    Signatory(correction: true);
+                //Other Documents
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
+                if (correction == null)
+                {
+                    OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        SortOrder = 7
+                    };
+                }
+                else
+                {
+                    OtherDocuments(correction: true);
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        SortOrder = 7
+                    };
+                }
+                //Admin Document Checklist
+                AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Details
+                AdminDetails(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Contacts
+                AdminContacts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Release of Funds
+                AdminReleaseOfFunds(enumViewOrEdit: ViewOrEdit.EDIT);
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+                if (userRole == UserRoleEnum.AGENCY_ADMIN)
+                {
+                    permission.CanRespondToTheRequestForAnApplicationCorrection = true;
+                }
+                permission.CanViewFeedback = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.ROLES).FirstOrDefault();
+                if (correction == null)
+                    Roles();
+                else
+                    Roles(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Overview
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OVERVIEW).FirstOrDefault();
+                if (correction == null)
+                    Overview();
+                else
+                    Overview(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Project Area
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.PROJECT_AREA).FirstOrDefault();
+                if (correction == null)
+                    ProjectArea();
+                else
+                    ProjectArea(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.FINANCE).FirstOrDefault();
+                if (correction == null)
+                    Finance();
+                else
+                    Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                    Signatory();
+                else
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
+                if (correction == null)
+                {
+                    OtherDocuments();
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        SortOrder = 7
+                    };
+                }
+                else
+                {
+                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        SortOrder = 7
+                    };
+                }
+                break;
+            default:
+                if (userRole != UserRoleEnum.AGENCY_READONLY)
+                {
+                    permission.CanViewFeedback = true;
+                }
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles();
+                //Overview
+                Overview();
+                //Project Area
+                ProjectArea();
+                //Finance
+                Finance();
+                //Signatory
+                Signatory();
+                //Other Documents
+                OtherDocuments();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    SortOrder = 7
+                };
+                break;
+        }
     }
 
     private void DeriveClosedStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                permission.CanViewFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles();
+                //Overview
+                Overview();
+                //Project Area
+                ProjectArea();
+                //Finance
+                Finance();
+                //Signatory
+                Signatory();
+                //Other Documents
+                OtherDocuments();
+                //Admin Document Checklist
+                AdminDocumentChecklist();
+                //Admin Details
+                AdminDetails();
+                //Admin Contacts
+                AdminContacts();
+                //Admin Release of Funds
+                AdminReleaseOfFunds();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    SortOrder = 7
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+                permission.CanViewFeedback = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles();
+                //Overview
+                Overview();
+                //Project Area
+                ProjectArea();
+                //Finance
+                Finance();
+                //Signatory
+                Signatory();
+                //Other Documents
+                OtherDocuments();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    SortOrder = 7
+                };
+                break;
+            default:
+                if (userRole != UserRoleEnum.AGENCY_READONLY)
+                {
+                    permission.CanViewFeedback = true;
+                }
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles();
+                //Overview
+                Overview();
+                //Project Area
+                ProjectArea();
+                //Finance
+                Finance();
+                //Signatory
+                Signatory();
+                //Other Documents
+                OtherDocuments();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    SortOrder = 7
+                };
+                break;
+        }
     }
 
     private void DeriveRejectedStatePermissions()
@@ -596,7 +1173,6 @@ public class FloodApplicationSecurityManager
         // DOI Reject
         if (applicationPrevStatus == ApplicationStatusEnum.DOI_SUBMITTED)
         {
-            FloodApplicationFeedbackEntity correction = default;
             switch (userRole)
             {
                 case UserRoleEnum.SYSTEM_ADMIN:
@@ -649,12 +1225,195 @@ public class FloodApplicationSecurityManager
         // Application Reject
         else
         {
-
+            switch (userRole)
+            {
+                case UserRoleEnum.SYSTEM_ADMIN:
+                case UserRoleEnum.PROGRAM_ADMIN:
+                case UserRoleEnum.PROGRAM_EDITOR:
+                    permission.CanViewFeedback = true;
+                    permission.CanViewComments = true;
+                    permission.CanEditComments = true;
+                    permission.CanDeleteComments = true;
+                    // Declaration Of Intent
+                    DeclarationOfIntent();
+                    //Roles
+                    Roles();
+                    //Overview
+                    Overview();
+                    //Project Area
+                    ProjectArea();
+                    //Finance
+                    Finance();
+                    //Signatory
+                    Signatory();
+                    //Other Documents
+                    OtherDocuments();
+                    //Admin Document Checklist
+                    AdminDocumentChecklist();
+                    //Admin Details
+                    AdminDetails();
+                    //Admin Contacts
+                    AdminContacts();
+                    //Admin Release of Funds
+                    AdminReleaseOfFunds();
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        SortOrder = 7
+                    };
+                    break;
+                case UserRoleEnum.AGENCY_ADMIN:
+                case UserRoleEnum.AGENCY_EDITOR:
+                    permission.CanViewFeedback = true;
+                    // Declaration Of Intent
+                    DeclarationOfIntent();
+                    //Roles
+                    Roles();
+                    //Overview
+                    Overview();
+                    //Project Area
+                    ProjectArea();
+                    //Finance
+                    Finance();
+                    //Signatory
+                    Signatory();
+                    //Other Documents
+                    OtherDocuments();
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        SortOrder = 7
+                    };
+                    break;
+                default:
+                    if (userRole != UserRoleEnum.AGENCY_READONLY)
+                    {
+                        permission.CanViewFeedback = true;
+                    }
+                    // Declaration Of Intent
+                    DeclarationOfIntent();
+                    //Roles
+                    Roles();
+                    //Overview
+                    Overview();
+                    //Project Area
+                    ProjectArea();
+                    //Finance
+                    Finance();
+                    //Signatory
+                    Signatory();
+                    //Other Documents
+                    OtherDocuments();
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        SortOrder = 7
+                    };
+                    break;
+            }
         }
     }
 
     private void DeriveWithdrawnStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                permission.CanViewFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles();
+                //Overview
+                Overview();
+                //Project Area
+                ProjectArea();
+                //Finance
+                Finance();
+                //Signatory
+                Signatory();
+                //Other Documents
+                OtherDocuments();
+                //Admin Document Checklist
+                AdminDocumentChecklist();
+                //Admin Details
+                AdminDetails();
+                //Admin Contacts
+                AdminContacts();
+                //Admin Release of Funds
+                AdminReleaseOfFunds();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    SortOrder = 7
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+                permission.CanViewFeedback = true;
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles();
+                //Overview
+                Overview();
+                //Project Area
+                ProjectArea();
+                //Finance
+                Finance();
+                //Signatory
+                Signatory();
+                //Other Documents
+                OtherDocuments();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    SortOrder = 7
+                };
+                break;
+            default:
+                if (userRole != UserRoleEnum.AGENCY_READONLY)
+                {
+                    permission.CanViewFeedback = true;
+                }
+                // Declaration Of Intent
+                DeclarationOfIntent();
+                //Roles
+                Roles();
+                //Overview
+                Overview();
+                //Project Area
+                ProjectArea();
+                //Finance
+                Finance();
+                //Signatory
+                Signatory();
+                //Other Documents
+                OtherDocuments();
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
+                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    SortOrder = 7
+                };
+                break;
+        }
     }
 
     private void DeclarationOfIntent(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
@@ -770,6 +1529,74 @@ public class FloodApplicationSecurityManager
             case ViewOrEdit.EDIT:
                 permission.CanEditOtherDocsSection = true;
                 navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS, RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AdminDocumentChecklist(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewAdminDocChkListSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ADMIN_DOCUMENT_CHECKLIST, RouterLink = ApplicationRouterLinks.ADMIN_DOCUMENT_CHECKLIST_VIEW, SortOrder = 8, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditAdminDocChkListSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ADMIN_DOCUMENT_CHECKLIST, RouterLink = ApplicationRouterLinks.ADMIN_DOCUMENT_CHECKLIST_EDIT, SortOrder = 8, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AdminDetails(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewAdminDetailsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ADMIN_DETAILS, RouterLink = ApplicationRouterLinks.ADMIN_DETAILS_VIEW, SortOrder = 9, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditAdminDetailsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ADMIN_DETAILS, RouterLink = ApplicationRouterLinks.ADMIN_DETAILS_EDIT, SortOrder = 9, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AdminContacts(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewAdminContactsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ADMIN_CONTACTS, RouterLink = ApplicationRouterLinks.ADMIN_CONTACTS_VIEW, SortOrder = 10, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditAdminContactsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ADMIN_CONTACTS, RouterLink = ApplicationRouterLinks.ADMIN_CONTACTS_EDIT, SortOrder = 10, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AdminReleaseOfFunds(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewAdminRlsOfFundsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ADMIN_RELEASE_OF_FUNDS, RouterLink = ApplicationRouterLinks.ADMIN_RELEASE_OF_FUNDS_VIEW, SortOrder = 11, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditAdminRlsOfFundsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.ADMIN_RELEASE_OF_FUNDS, RouterLink = ApplicationRouterLinks.ADMIN_RELEASE_OF_FUNDS_EDIT, SortOrder = 11, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
