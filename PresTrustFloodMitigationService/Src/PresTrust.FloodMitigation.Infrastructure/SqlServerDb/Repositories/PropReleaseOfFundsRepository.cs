@@ -113,7 +113,30 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
             });
         return floodPropReleaseOfFunds;
     }
- }   
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="releaseOfFunds"></param>
+    /// <returns></returns>
+    public async Task<bool> ReleasePayments(FloodPropReleaseOfFundsEntity releaseOfFunds)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new ReleasePaymentsSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_Id = releaseOfFunds.Id,
+                @p_HardCostPaymentStatusId = releaseOfFunds.HardCostPaymentStatusId,
+                @p_SoftCostPaymentStatusId = releaseOfFunds.SoftCostPaymentStatusId,
+                @p_LastUpdatedOn = DateTime.Now
+            });
+
+        return true;
+    }
+}   
 
 
             

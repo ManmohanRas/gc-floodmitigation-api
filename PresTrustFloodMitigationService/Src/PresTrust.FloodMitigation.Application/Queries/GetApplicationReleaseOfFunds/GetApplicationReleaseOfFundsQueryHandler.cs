@@ -23,12 +23,14 @@ public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHand
         var application = await GetIfApplicationExists(request.ApplicationId);
 
         var releaseOfFunds = await repoApplicationROF.GetReleaseOfFundsAsync(application.Id);
+        releaseOfFunds = releaseOfFunds ?? new FloodApplicationReleaseOfFundsEntity() { ApplicationId = application.Id};
 
         var payments = await repoApplicationROF.GetApplicationPaymentsAsync(application.Id);
 
         var result = mapper.Map<FloodApplicationReleaseOfFundsEntity, GetApplicationReleaseOfFundsQueryViewModel>(releaseOfFunds);
 
-        result.Payments = payments;
+
+        result.Payments = mapper.Map<IEnumerable<FloodPropReleaseOfFundsEntity>, IEnumerable<FloodParcelReleaseOfFundsViewModel>>(payments);
 
         return result;
     }
