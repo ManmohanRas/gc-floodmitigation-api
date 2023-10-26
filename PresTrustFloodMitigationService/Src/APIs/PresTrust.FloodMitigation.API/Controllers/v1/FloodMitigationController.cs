@@ -504,6 +504,48 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("getApplicationAdminDetails")]
+    [ProducesResponseType(typeof(GetApplicationDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetApplicationDetailsQueryViewModel>> GetApplicationAdminDetails([FromBody] GetApplicationDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+
+    [HttpPost("saveApplicationAdminDetails")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveApplicationAdminDetails([FromBody] SaveApplicationDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getPropertyAdminDetails")]
+    [ProducesResponseType(typeof(GetPropertyAdminDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetPropertyAdminDetailsQueryViewModel>> GetPropertyAdminDetails([FromBody] GetPropertyAdminDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+
+    [HttpPost("savePropertyAdminDetails")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SavePropertyDetails([FromBody] SavePropertyDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("reCalculateParcelFinance")]
     [ProducesResponseType(typeof(ReCalculateParcelFinanceQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

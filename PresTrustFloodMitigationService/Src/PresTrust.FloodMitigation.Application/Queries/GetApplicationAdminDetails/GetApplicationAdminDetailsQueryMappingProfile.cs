@@ -1,6 +1,9 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetApplicationAdminDetailsQueryMappingProfile
+public class GetApplicationAdminDetailsQueryMappingProfile : Profile
 {
-
+    public GetApplicationAdminDetailsQueryMappingProfile()
+    {
+        CreateMap<FloodApplicationDetailsEntity, GetApplicationAdminDetailsQueryViewModel>();
+    }
 }
