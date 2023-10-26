@@ -29,6 +29,7 @@ public class FloodParcelEntity
     public int PrevStatusId { get; set; }
     public bool IsLocked { get; set; }
     public bool AlreadyExists { get; set; }
+    public int Priority { get; set; }
     public string CommentsJSON { get; set; }
     public string FeedbacksJSON { get; set; }
     public PropertyStatusEnum Status

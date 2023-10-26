@@ -18,13 +18,13 @@ public class ReCalculateParcelFinanceQueryHandler : IRequestHandler<ReCalculateP
         var parcelFinance = mapper.Map<ReCalculateParcelFinanceQuery, ReCalculateParcelFinanceQueryViewModel>(request);
 
         //recalculate
-        parcelFinance.HouseEncubrance = request.EstimatePurchasePrice * request.MatchPercent;
+        parcelFinance.HouseEncubrance = request.EstimatePurchasePrice * request.MatchPercent / 100;
         parcelFinance.SoftEstimateInit = (parcelFinance.HouseEncubrance) * 25 / 100;
         parcelFinance.SoftEstimate = parcelFinance.SoftEstimateInit + request.AdditionalSoftCostEstimate;
-        parcelFinance.TotalEncumbresedFunds = (request.EstimatePurchasePrice) * (request.MatchPercent) + parcelFinance.SoftEstimateInit;
+        parcelFinance.TotalEncumbresedFunds = (request.EstimatePurchasePrice) * request.MatchPercent / 100 + parcelFinance.SoftEstimateInit;
         parcelFinance.DOBAmount = request.TotalFEMABenifits - request.DOBAffidavitAmt;
         parcelFinance.FinalOffer = request.AMV - parcelFinance.DOBAmount;
-        parcelFinance.HardCostFMPAmt = request.AMV - parcelFinance.DOBAmount * (request.MatchPercent);
+        parcelFinance.HardCostFMPAmt = request.AMV - parcelFinance.DOBAmount * request.MatchPercent / 100;
 
         return Task.FromResult(parcelFinance);
     }

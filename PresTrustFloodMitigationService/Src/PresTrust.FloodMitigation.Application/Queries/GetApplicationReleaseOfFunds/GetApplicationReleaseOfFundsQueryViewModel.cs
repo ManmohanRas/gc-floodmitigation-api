@@ -6,7 +6,7 @@ public class GetApplicationReleaseOfFundsQueryViewModel
     public int ApplicationId { get; set; }
     public int CAFNumber { get; set; }
     public bool CAFClosed { get; set; }
-    public IEnumerable<FloodPropReleaseOfFundsEntity>? Payments { get; set; }
+    public IEnumerable<FloodParcelReleaseOfFundsViewModel>? Payments { get; set; }
     public string? LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedDate { get; set; }
 }
