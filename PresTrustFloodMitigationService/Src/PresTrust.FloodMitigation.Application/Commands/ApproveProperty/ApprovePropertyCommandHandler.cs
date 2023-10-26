@@ -1,5 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<PendingPropertyCommand, PendingPropertyCommandViewModel>
+public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<ApprovePropertyCommand, ApprovePropertyCommandViewModel>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -27,9 +27,9 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Pendin
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<PendingPropertyCommandViewModel> Handle(PendingPropertyCommand request, CancellationToken cancellationToken)
+    public async Task<ApprovePropertyCommandViewModel> Handle(ApprovePropertyCommand request, CancellationToken cancellationToken)
     {
-        PendingPropertyCommandViewModel result = new ();
+        ApprovePropertyCommandViewModel result = new ();
 
         // check if Property exists
         var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
