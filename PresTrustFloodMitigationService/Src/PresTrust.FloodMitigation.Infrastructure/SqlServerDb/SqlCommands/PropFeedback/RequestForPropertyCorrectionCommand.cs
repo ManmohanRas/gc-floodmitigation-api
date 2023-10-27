@@ -6,8 +6,8 @@ public class RequestForPropertyCorrectionCommand
            @"UPDATE		       [Flood].[ParcelFeedback]
              SET			   [CorrectionStatus] = @p_CorrectionStatus
 			                  ,[LastUpdatedOn] = GETDATE()
-             WHERE		       ApplicationId = @p_ApplicationId 
-                               Pamspin = @_Pamspin
+             WHERE		       ApplicationId = @p_ApplicationId
+                               AND Pamspin = @_Pamspin
                                AND ISNULL(RequestForCorrection,0) = 1 
                                AND ISNULL(CorrectionStatus, '') = 'PENDING';";
 
