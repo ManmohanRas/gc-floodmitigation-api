@@ -909,4 +909,24 @@ public class FloodMitigationWorkflowController : ApiBaseController
     {
         return Single(await CommandAsync(command));
     }
+
+    [HttpPost("submitProperty")]
+    [ProducesResponseType(typeof(ReviewPropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<SubmitPropertyCommandViewModel>> SubmitProperty([FromBody] SubmitPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("transferProperty")]
+    [ProducesResponseType(typeof(PendingPropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<TransferPropertyCommandViewModel>> TransferProperty([FromBody] TransferPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }

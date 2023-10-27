@@ -1,43 +1,45 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<ApprovePropertyCommand, ApprovePropertyCommandViewModel>
+﻿using Newtonsoft.Json.Linq;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
+public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitPropertyCommand, SubmitPropertyCommandViewModel>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationParcelRepository repoProperty;
 
-    public ApprovePropertyCommandHandler
+    public SubmitPropertyCommandHandler
     (
         IMapper mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         IApplicationParcelRepository repoProperty
-    ) : base(repoApplication, repoProperty)
+    ) : base(repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
-        this.repoProperty = repoProperty;        
+        this.repoProperty = repoProperty;
     }
 
     /// <summary>
     /// 
-    /// </summary>....................... 
+    /// </summary>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<ApprovePropertyCommandViewModel> Handle(ApprovePropertyCommand request, CancellationToken cancellationToken)
+    public async Task<SubmitPropertyCommandViewModel> Handle(SubmitPropertyCommand request, CancellationToken cancellationToken)
     {
-        ApprovePropertyCommandViewModel result = new ();
+        SubmitPropertyCommandViewModel result = new ();
 
-        // check if Property exists
+        // check if application exists
         var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
 
-        //update Property
+        //update application
         if (Property != null)
         {
-            Property.StatusId = (int)PropertyStatusEnum.APPROVED;
+            Property.StatusId = (int)PropertyStatusEnum.SUBMITTED;
             Property.LastUpdatedBy = userContext.Email;
         }
 
@@ -54,7 +56,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
                 LastUpdatedBy = Property.LastUpdatedBy
             };
             await repoProperty.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to in-Pending in future
+            //change properties statuses to submitted in future
 
             scope.Complete();
             result.IsSuccess = true;
