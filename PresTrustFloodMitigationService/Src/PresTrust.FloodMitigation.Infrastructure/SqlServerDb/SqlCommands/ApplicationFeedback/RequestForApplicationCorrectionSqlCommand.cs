@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class RequestForApplicationCorrectionCommand
+public class RequestForApplicationCorrectionSqlCommand
 {
     private readonly string _sqlCommand =
           @"UPDATE		       [Flood].[FloodApplicationFeedback]
@@ -10,7 +10,7 @@ public class RequestForApplicationCorrectionCommand
                                AND ISNULL(RequestForCorrection,0) = 1 
                                AND ISNULL(CorrectionStatus, '') = 'PENDING';";
 
-    public RequestForApplicationCorrectionCommand() { }
+    public RequestForApplicationCorrectionSqlCommand() { }
 
     public override string ToString()
     {

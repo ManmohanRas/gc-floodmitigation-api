@@ -1,0 +1,7 @@
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
+
+public class PreservePropertyCommand : IRequest<PreservePropertyCommandViewModel>
+{
+    public int ApplicationId { get; set; }
+    public required string Pamspin { get; set; }
+}
