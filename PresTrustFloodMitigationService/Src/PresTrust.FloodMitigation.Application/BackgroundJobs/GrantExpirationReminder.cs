@@ -25,21 +25,8 @@ public class GrantExpirationReminder : BaseHandler, IGrantExpirationReminder
         this.repoEmailManager = repoEmailManager;
     }
 
-    public void SendEmail(string backGroundJobType, string startTime)
-    {
-        Console.WriteLine(backGroundJobType + " - " + startTime + " - Email Sent - " + DateTime.Now.ToLongTimeString());
-    }
-
     public async Task Handle()
     {
-        // Get list of applications with properties that will expire in 3 months on Grant Expiration Date. 
-
-        // Iterate through each application and fetch properties that will expire in 3 months on Grant Expiration Date.
-
-        // Get Email template
-
-        // Send Email
-
         Console.WriteLine("Handle - " + DateTime.Now.ToLongTimeString());
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))

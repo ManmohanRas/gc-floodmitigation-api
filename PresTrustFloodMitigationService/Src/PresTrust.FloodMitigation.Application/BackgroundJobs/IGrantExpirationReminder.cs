@@ -2,6 +2,5 @@
 
 public interface IGrantExpirationReminder
 {
-    void SendEmail(string backGroundJobType, string startTime);
     Task Handle();
 }

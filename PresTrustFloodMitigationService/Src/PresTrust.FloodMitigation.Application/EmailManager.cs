@@ -131,8 +131,6 @@ public class ReminderEmailManager : IReminderEmailManager
         var primaryContacts = await repoApplicationRole.GetPrimaryContactsAsync(applicationId);
         primaryContactEmails = primaryContacts.Select(i => i.Email).ToList();
 
-        primaryContactEmails = new List<string>() { "mgthirumalesh@rightanglesol.com" };
-
         htmlBody = htmlBody.Replace("{{ProgramAdmin}}", systemParamOptions.ProgramAdminName);
 
         subject = subject.Replace("{{ApplicationName}}", applicationName ?? "");
@@ -179,7 +177,7 @@ public class ReminderEmailManager : IReminderEmailManager
             await retry.Execute(async () =>
             {
                 // call external api - EmailApi
-                var result = await this.emailApiConnect.PostDataAsync<EmailResponse, JsonContent>($"{systemParamOptions.EmailApiSubDomain}/ReminderEmail", postUserJson);
+                var result = await this.emailApiConnect.PostDataAsync<EmailResponse, JsonContent>($"{systemParamOptions.EmailApiSubDomain}/Reminder", postUserJson);
             });
         }
         catch (Exception ex)
