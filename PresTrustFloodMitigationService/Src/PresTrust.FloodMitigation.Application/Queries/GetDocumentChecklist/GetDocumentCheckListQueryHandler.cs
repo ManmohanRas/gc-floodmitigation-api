@@ -32,24 +32,8 @@ namespace PresTrust.FloodMitigation.Application.Queries
             // get application details
             // var application = await GetIfApplicationExists(request.ApplicationId);
 
-            bool hasCOEDocument = false;
-            //if (application != null )
-            //{
-            //    if (site != null)
-            //    {
-            //        if (!site.IsPropertyListed && site.ExpectingCOESHPOOpinion)
-            //        {
-            //            hasCOEDocument = true;
-            //        }
-            //        else
-            //        {
-            //            hasCOEDocument = false;
-            //        }
-            //    }
-            //}
-
             // get documents 
-            var documents = await repoDocuments.GetDocumentCheckListAsync(request.ApplicationId, hasCOEDocument);
+            var documents = await repoDocuments.GetDocumentCheckListAsync(request.ApplicationId);
 
             // build checklist view model
             var docBuilder = new ApplicationDocumentTreeBuilder(documents, buildChecklist: true);
