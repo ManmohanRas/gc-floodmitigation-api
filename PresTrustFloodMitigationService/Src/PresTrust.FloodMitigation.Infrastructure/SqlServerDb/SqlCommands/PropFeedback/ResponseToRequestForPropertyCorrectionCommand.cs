@@ -7,7 +7,7 @@ public class ResponseToRequestForPropertyCorrectionCommand
        @"UPDATE		       [Flood].[ParcelFeedback]
              SET			   [CorrectionStatus] = @p_CorrectionStatus
              WHERE		       ApplicationId = @p_ApplicationId  
-                               Pamspin = @_Pamspin
+                               AND Pamspin = @_Pamspin
                                AND SectionId = @p_SectionId
                                AND ISNULL(RequestForCorrection,0) = 1 
                                AND ISNULL(CorrectionStatus,'') = 'REQUEST_SENT';";

@@ -151,7 +151,7 @@ public class ApplicationFeedbackRepository : IApplicationFeedbackRepository
     public async Task RequestForApplicationCorrectionAsync(int applicationId)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new RequestForPropertyCorrectionCommand();
+        var sqlCommand = new RequestForApplicationCorrectionSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,

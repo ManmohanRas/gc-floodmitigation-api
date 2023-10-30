@@ -56,11 +56,11 @@ public class FloodApplicationEntity
             this.StatusId = (int)value;
         }
     }
-    public PropertyStatusEnum PrevStatus
+    public ApplicationStatusEnum PrevStatus
     {
         get
         {
-            return (PropertyStatusEnum)PrevStatusId;
+            return (ApplicationStatusEnum)PrevStatusId;
         }
         set
         {

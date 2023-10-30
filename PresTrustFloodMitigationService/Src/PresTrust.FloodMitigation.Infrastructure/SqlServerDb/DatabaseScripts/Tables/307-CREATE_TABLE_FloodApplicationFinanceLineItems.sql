@@ -19,7 +19,6 @@ CREATE TABLE [Flood].[FloodApplicationFinanceLineItems](
 [Id]	                                [integer]     IDENTITY(1,1)               NOT NULL,
 [ApplicationId]                         [integer] 								  NOT NULL,
 [PamsPin]					            [nvarchar](76)							  NOT NULL,
-[Priority]			                    [varchar](216)			                  NOT NULL,
 [ValueEstimate]				            [decimal](18,2)				              NULL    ,
 [LastUpdatedBy]							[varchar](128)					          NULL	  ,
 [LastUpdatedOn]							[dateTime]						          NULL	  ,

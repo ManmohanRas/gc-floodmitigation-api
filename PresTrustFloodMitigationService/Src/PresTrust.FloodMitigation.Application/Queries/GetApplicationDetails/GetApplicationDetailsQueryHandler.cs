@@ -54,10 +54,10 @@ public class GetApplicationDetailsQueryHandler : BaseHandler, IRequestHandler<Ge
             case ApplicationStatusEnum.IN_REVIEW:
             case ApplicationStatusEnum.ACTIVE:
                 var feedbacksReqForCorrections = application.Feedbacks.Where(f => f.RequestForCorrection == true && string.Compare(f.CorrectionStatus, ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString(), true) == 0).ToList();
-                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, feedbacksReqForCorrections);
+                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, application.PrevStatus, feedbacksReqForCorrections);
                 break;
             default:
-                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status);
+                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, application.PrevStatus);
                 break;
         }
 

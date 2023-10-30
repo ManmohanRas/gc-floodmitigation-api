@@ -1,3 +1,4 @@
+using PresTrust.FloodMitigation.Application.Commands;
 using PresTrust.FloodMitigation.Application.Queries;
 
 namespace PresTrust.FloodMitigation.API.Controllers.v1;
@@ -406,7 +407,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
 
     [HttpPost("saveApplicationFinance")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]   
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveApplicationFinance([FromBody] SaveApplicationFinanceCommand  command)
@@ -480,6 +481,26 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveTechDetails([FromBody] SaveTechDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getParcelReleaseOfFunds")]
+    [ProducesResponseType(typeof(GetPropReleaseOfFundsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetPropReleaseOfFundsQueryViewModel>> GetReleaseOfFunds([FromBody] GetPropReleaseOfFundsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveParcelReleaseOfFunds")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveReleaseOfFunds([FromBody] SavePropReleaseOfFundsCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -592,6 +613,112 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
+
+    [HttpPost("getReleaseOfFunds")]
+    [ProducesResponseType(typeof(GetApplicationReleaseOfFundsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetApplicationReleaseOfFundsQueryViewModel>> GetReleaseOfFunds([FromBody] GetApplicationReleaseOfFundsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveReleaseOfFunds")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveReleaseOfFunds([FromBody] SaveApplicationReleaseOfFundsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getPropertyDocument")]
+    [ProducesResponseType(typeof(IEnumerable<PropertyDocumentTypeViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<PropertyDocumentTypeViewModel>>> GetPropertyDocument([FromBody] GetPropertyDocumentsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("savePropertyDocument")]
+    [ProducesResponseType(typeof(SavePropertyDocumentDetailsCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<SavePropertyDocumentDetailsCommandViewModel>> SavePropertyDocument([FromBody] SavePropertyDocumentDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("deletePropertyDocument")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeletePropertyDocument([FromBody] DeletePropertyDocumentCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getParcelProperty")]
+    [ProducesResponseType(typeof(GetParcelPropertyQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetParcelPropertyQueryViewModel>> GetParcelProperty([FromBody] GetParcelPropertyQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveParcelProperty")]
+    public async Task<ActionResult<int>> SaveParcelProperty([FromBody] SaveParcelPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("releaseApplicationPayments")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> ReleaseApplicationPayments([FromBody] ReleasePaymentsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    /// <summary>
+    /// Get Property Document Checklist
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getPropertyDocumentChecklist")]
+    [ProducesResponseType(typeof(IEnumerable<PropertyDocumentCheckListSectionViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<PropertyDocumentCheckListSectionViewModel>>> GetPropertyDocumentChecklist([FromBody] GetPropertyDocumentCheckListQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    /// <summary>
+    /// Save Property Document Checklist. 
+    /// </summary>
+    /// <param name="command"> Query Command.</param>
+    /// <returns> Returns Document Checklist Reponse.</returns>
+    [HttpPost("savePropertyDocumentCheckList")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> UpdatePropertyDocumentCheckListItemsAsync([FromBody] UpdatePropertyDocumentCheckListCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController
@@ -637,7 +764,7 @@ public class FloodMitigationWorkflowController : ApiBaseController
     {
         return Single(await CommandAsync(command));
     }
-    
+
     [HttpPost("activateApplication")]
     [ProducesResponseType(typeof(ActivateApplicationCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -647,7 +774,7 @@ public class FloodMitigationWorkflowController : ApiBaseController
     {
         return Single(await CommandAsync(command));
     }
-    
+
     [HttpPost("closeApplication")]
     [ProducesResponseType(typeof(CloseApplicationCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -684,6 +811,109 @@ public class FloodMitigationWorkflowController : ApiBaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<Unit>> ReinitiateApplication([FromBody] ReinitiateApplicationCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    //// Property Status Workflow
+    ///
+
+    [HttpPost("reviewProperty")]
+    [ProducesResponseType(typeof(ReviewPropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ReviewPropertyCommandViewModel>> ReviewProperty([FromBody] ReviewPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("pendingProperty")]
+    [ProducesResponseType(typeof(PendingPropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<PendingPropertyCommandViewModel>> PendingProperty([FromBody] PendingPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("rejectProperty")]
+    [ProducesResponseType(typeof(RejectPropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<RejectPropertyCommandViewModel>> RejectProperty([FromBody] RejectPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("withdrawProperty")]
+    [ProducesResponseType(typeof(WithdrawPropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<WithdrawPropertyCommandViewModel>> WithdrawProperty([FromBody] WithdrawPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("approveProperty")]
+    [ProducesResponseType(typeof(ApprovePropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ApprovePropertyCommandViewModel>> ApproveProperty([FromBody] ApprovePropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("projectAreaExpireProperty")]
+    [ProducesResponseType(typeof(ProjectAreaExpirePropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ProjectAreaExpirePropertyCommandViewModel>> ProjectAreaExpireProperty([FromBody] ProjectAreaExpirePropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("grantExpireProperty")]
+    [ProducesResponseType(typeof(GrantExpirePropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GrantExpirePropertyCommandViewModel>> GrantExpireProperty([FromBody] GrantExpirePropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("preserveProperty")]
+    [ProducesResponseType(typeof(PreservePropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<PreservePropertyCommandViewModel>> PreserveProperty([FromBody] PreservePropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("submitProperty")]
+    [ProducesResponseType(typeof(ReviewPropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<SubmitPropertyCommandViewModel>> SubmitProperty([FromBody] SubmitPropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("transferProperty")]
+    [ProducesResponseType(typeof(PendingPropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<TransferPropertyCommandViewModel>> TransferProperty([FromBody] TransferPropertyCommand command)
     {
         return Single(await CommandAsync(command));
     }

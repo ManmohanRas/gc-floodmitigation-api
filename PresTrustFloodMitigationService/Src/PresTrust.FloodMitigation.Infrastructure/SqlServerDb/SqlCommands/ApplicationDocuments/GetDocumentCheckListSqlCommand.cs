@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Documents
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands
 {
      public class GetDocumentCheckListSqlCommand
     {
         private readonly string _sqlCommand = string.Empty;
 
-        public GetDocumentCheckListSqlCommand(bool hasCOEDocument)
+        public GetDocumentCheckListSqlCommand()
         {
             
                 _sqlCommand =
@@ -25,9 +19,8 @@ namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Docum
 			                ,D.[ReviewComment]		AS	ReviewComment
 		                    ,DT.[Id]				AS	DocumentTypeId	
                             ,DT.[SectionId]			AS  SectionId
-			                ,0						AS  IsPropertyDocument
-                    FROM		[Flood].[FloodDocument] D
-            INNER JOIN	[Flood].[FloodDocumentType] DT
+                    FROM		[Flood].[FloodApplicatiomDocument] D
+            INNER JOIN	[Flood].[FloodApplicationDocumentType] DT
 			                ON (DT.Id = D.DocumentTypeId  AND D.ApplicationId = @p_ApplicationId)";
             
         }

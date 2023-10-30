@@ -31,10 +31,9 @@ public interface IApplicationDocumentRepository
     Task<FloodApplicationDocumentEntity> UpdateDocumentCheckListItemsAsync(FloodApplicationDocumentEntity doc);
 
     /// <summary>
-    /// Procedure to get application document checklist
+    /// Procedure to get Property document checklist
     /// </summary>
     /// <param name="applicationId"></param>
-    /// <param name="hasCOEDocument"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId, bool hasCOEDocument);
+    Task<IEnumerable<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId);
 }

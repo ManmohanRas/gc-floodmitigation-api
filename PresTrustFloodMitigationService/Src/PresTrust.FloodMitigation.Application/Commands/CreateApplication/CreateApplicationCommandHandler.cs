@@ -1,4 +1,9 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using MediatR;
+using PresTrust.FloodMitigation.Application.Services.IdentityApi;
+using System.Collections;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
 
 /// <summary>
 /// This class handles the command to update data and build response
@@ -9,18 +14,24 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
+    private readonly IIdentityApiConnect identityApiConnect;
+    private readonly IApplicationUserRepository repoApplicationUser;
 
     public CreateApplicationCommandHandler(
         IMapper  mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
-        IApplicationRepository repoApplication
+        IApplicationRepository repoApplication,
+        IIdentityApiConnect identityApiConnect,
+        IApplicationUserRepository repoApplicationUser
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
+        this.identityApiConnect = identityApiConnect;
+        this.repoApplicationUser = repoApplicationUser;
     }
 
     public async Task<CreateApplicationCommandViewModel> Handle(CreateApplicationCommand request, CancellationToken cancellationToken)
@@ -48,6 +59,19 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
 
+            var agencyUsers = await GetApplicationUsers(reqApplication.Id, reqApplication.AgencyId);
+            if(agencyUsers?.Count() > 0)
+            {
+                var agencyAdminUser = agencyUsers.Where(o => o.Role == "flood_agencyadmin").FirstOrDefault();
+                var agencyAdmin = mapper.Map<FloodApplicationUserViewModel, FloodApplicationUserEntity>(agencyAdminUser);
+                if (agencyAdmin != null)
+                {
+                    agencyAdmin.ApplicationId = reqApplication.Id;
+                    agencyAdmin.IsPrimaryContact = true;
+                    await repoApplicationUser.SaveAsync(new List<FloodApplicationUserEntity>() { agencyAdmin });
+                }
+            }
+
             scope.Complete();
         }
 
@@ -67,10 +91,10 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
             case ApplicationStatusEnum.IN_REVIEW:
             case ApplicationStatusEnum.ACTIVE:
                 var feedbacksReqForCorrections = application.Feedbacks.Where(f => f.RequestForCorrection == true && string.Compare(f.CorrectionStatus, ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString(), true) == 0).ToList();
-                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, feedbacksReqForCorrections);
+                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, application.PrevStatus, feedbacksReqForCorrections);
                 break;
             default:
-                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status);
+                securityMgr = new FloodApplicationSecurityManager(userContext.Role, application.Status, application.PrevStatus);
                 break;
         }
 
@@ -85,6 +109,41 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
     private void AuthorizationCheck(CreateApplicationCommand request)
     {
         userContext.DeriveRole(request.AgencyId);
-        IsAuthorizedOperation(userRole: userContext.Role, applicationStatus: ApplicationStatusEnum.NONE, operation: UserPermissionEnum.CREATE_APPLICATION);
+        IsAuthorizedOperation(userRole: userContext.Role, applicationStatus: ApplicationStatusEnum.NONE, applicationPrevStatus: ApplicationStatusEnum.NONE, operation: UserPermissionEnum.CREATE_APPLICATION);
+    }
+
+    private async Task<IEnumerable<FloodApplicationUserViewModel>> GetApplicationUsers(int applicationId, int agencyId)
+    {
+        try
+        {
+            // get identity users by agency id
+            var endPoint = $"{systemParamOptions.IdentityApiSubDomain}/UserAdmin/users/pres-trust/flood/{agencyId}";
+            var usersResult = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
+            var vmAgencyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<FloodApplicationUserViewModel>>(usersResult);
+
+            var applicationUsers = await repoApplicationUser.GetApplicationUsersAsync(applicationId);
+            var vmApplicationUsers = mapper.Map<IEnumerable<FloodApplicationUserEntity>, IEnumerable<FloodApplicationUserViewModel>>(applicationUsers);
+
+            if (vmApplicationUsers != null && vmApplicationUsers.Count() > 0)
+            {
+                foreach (var pc in vmApplicationUsers)
+                {
+                    foreach (var agencyUser in vmAgencyUsers)
+                    {
+                        if (string.Compare(agencyUser.Email, pc.Email, true) == 0)
+                        {
+                            agencyUser.Id = pc.Id;
+                            agencyUser.IsPrimaryContact = pc.IsPrimaryContact;
+                            agencyUser.IsAlternateContact = pc.IsAlternateContact;
+                        }
+                    }
+                }
+            }
+            return vmAgencyUsers;
+        }
+        catch (Exception ex)
+        {
+            return new List<FloodApplicationUserViewModel>();
+        }
     }
 }

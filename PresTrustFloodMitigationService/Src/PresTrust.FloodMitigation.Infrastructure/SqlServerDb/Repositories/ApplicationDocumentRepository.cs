@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Documents;
-
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
 public class ApplicationDocumentRepository: IApplicationDocumentRepository
 {
@@ -88,11 +86,11 @@ public class ApplicationDocumentRepository: IApplicationDocumentRepository
             param: new { @p_Id = id });
     }
 
-    public async Task<IEnumerable<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId, bool hasCOEDocument)
+    public async Task<IEnumerable<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId)
     {
         IEnumerable<FloodApplicationDocumentEntity> results = default;
         using var conn = context.CreateConnection();
-        var sqlCommand = new GetDocumentCheckListSqlCommand(hasCOEDocument);
+        var sqlCommand = new GetDocumentCheckListSqlCommand();
         results = await conn.QueryAsync<FloodApplicationDocumentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,

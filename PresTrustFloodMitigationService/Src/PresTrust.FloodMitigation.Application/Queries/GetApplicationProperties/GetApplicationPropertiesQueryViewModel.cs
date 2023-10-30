@@ -11,4 +11,6 @@ public class GetApplicationPropertiesQueryViewModel
     public string Lot { get; set; }
     public string QCode { get; set; }
     public string LandOwner { get; set; }
+    public int Priority { get; set; }
+
 }

@@ -4,8 +4,7 @@ public class UpdateFinanceLineItemSqlCommand
 {
     private readonly string _sqlCommand =
             @" UPDATE [Flood].[FloodApplicationFinanceLineItems]
-                   SET [Priority] = @p_Priority
-                      ,[ValueEstimate] = @p_ValueEstimate
+                   SET [ValueEstimate] = @p_ValueEstimate
                       ,[LastUpdatedBy] = @p_LastUpdatedBy
                       ,[LastUpdatedOn] = @p_LastUpdatedOn
                 WHERE  Id = @p_Id AND PamsPin = @p_PamsPin;";

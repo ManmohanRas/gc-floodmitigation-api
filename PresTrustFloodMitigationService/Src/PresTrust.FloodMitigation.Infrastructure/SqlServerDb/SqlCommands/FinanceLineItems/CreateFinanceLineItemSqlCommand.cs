@@ -6,14 +6,12 @@ public class CreateFinanceLineItemSqlCommand
             @"  INSERT INTO [Flood].[FloodApplicationFinanceLineItems]
                        ([ApplicationId]
                        ,[PamsPin]
-                       ,[Priority]
                        ,[ValueEstimate]
                        ,[LastUpdatedBy]
                        ,[LastUpdatedOn])
                  VALUES
                        (@p_ApplicationId
                        ,@p_PamsPin
-                       ,@p_Priority
                        ,@p_ValueEstimate
                        ,@p_LastUpdatedBy
                        ,GETDATE());

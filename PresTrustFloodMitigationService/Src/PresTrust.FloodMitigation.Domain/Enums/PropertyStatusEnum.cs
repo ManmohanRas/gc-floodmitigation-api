@@ -13,43 +13,48 @@ public enum PropertyStatusEnum
     SUBMITTED = 1,
 
     /// <summary>
+    /// Property Status Type for In Review
+    /// </summary>
+    IN_REVIEW = 2,
+
+    /// <summary>
     /// Property Status Type for Pending
     /// </summary>
-    PENDING = 2,
+    PENDING = 3,
 
     /// <summary>
     /// Property Status Type for Approved
     /// </summary>
-    APPROVED = 3,
+    APPROVED = 4,
 
     /// <summary>
     /// Property Status Type for Preserved
     /// </summary>
-    PRESERVED = 4,
+    PRESERVED = 5,
 
     /// <summary>
     /// Property Status Type for Grant Expired
     /// </summary>
-    GRANT_EXPIRED = 5,
+    GRANT_EXPIRED = 6,
 
     /// <summary>
     /// Property Status Type for Rejected
     /// </summary>
-    REJECTED = 6,
+    REJECTED = 7,
 
     /// <summary>
     /// Property Status Type for Withdrawn
     /// </summary
     /// 
-    WITHDRAWN = 7,
+    WITHDRAWN = 8,
 
     /// <summary>
     /// Property Status Type for Project Area Expired
     /// </summary>
-    PROJECT_AREA_EXPIRED = 8,
+    PROJECT_AREA_EXPIRED = 9,
 
     /// <summary>
     /// Property Status Type for Transferred
     /// </summary>
-    TRANSFERRED = 9
+    TRANSFERRED = 10
 }

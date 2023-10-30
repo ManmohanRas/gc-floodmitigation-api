@@ -6,7 +6,7 @@ public partial class FloodMitigationDomainConstants
     /// <summary>
     /// Class to hold constants for Navigation Item router link
     /// </summary>
-    public static class RouterLinks
+    public static class ApplicationRouterLinks
     {
         /// <summary>
         /// Constant to hold router link for Declaration Of Intent View screen
@@ -64,5 +64,37 @@ public partial class FloodMitigationDomainConstants
         /// Constant to hold router link for Other Documents Edit screen
         /// </summary>
         public const string OTHER_DOCUMENTS_EDIT = "app/otherdocs/edit";
+        /// <summary>
+        /// Constant to hold router link for Other Documents View screen
+        /// </summary>
+        public const string ADMIN_DOCUMENT_CHECKLIST_VIEW = "appadmin/docchecklist/view";
+        /// <summary>
+        /// Constant to hold router link for Other Documents Edit screen
+        /// </summary>
+        public const string ADMIN_DOCUMENT_CHECKLIST_EDIT = "appadmin/docchecklist/edit";
+        /// <summary>
+        /// Constant to hold router link for Other Documents View screen
+        /// </summary>
+        public const string ADMIN_DETAILS_VIEW = "appadmin/details/view";
+        /// <summary>
+        /// Constant to hold router link for Other Documents Edit screen
+        /// </summary>
+        public const string ADMIN_DETAILS_EDIT = "appadmin/details/edit";
+        /// <summary>
+        /// Constant to hold router link for Other Documents View screen
+        /// </summary>
+        public const string ADMIN_CONTACTS_VIEW = "appadmin/contacts/view";
+        /// <summary>
+        /// Constant to hold router link for Other Documents Edit screen
+        /// </summary>
+        public const string ADMIN_CONTACTS_EDIT = "appadmin/contacts/edit";
+        /// <summary>
+        /// Constant to hold router link for Other Documents View screen
+        /// </summary>
+        public const string ADMIN_RELEASE_OF_FUNDS_VIEW = "appadmin/releaseoffunds/view";
+        /// <summary>
+        /// Constant to hold router link for Other Documents Edit screen
+        /// </summary>
+        public const string ADMIN_RELEASE_OF_FUNDS_EDIT = "appadmin/releaseoffunds/edit";
     }
 }
