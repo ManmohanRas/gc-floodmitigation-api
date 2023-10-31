@@ -24,7 +24,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IFinanceLineItemRepository, FinanceLineItemRepository>();
         services.AddTransient<IApplicationFundingAgencyRepository, ApplicationFundingAgencyRepository>();
         services.AddTransient<ITechDetailsRepository, TechDetailsRepository>();
-        services.AddTransient<IFloodParcelRepository, FloodParcelRepository>();
+        services.AddTransient<IParcelRepository, ParcelRepository>();
         services.AddTransient<ICommentPropRepository, CommentPropRepository>();
         services.AddTransient<IBrokenRuleRepository, BrokenRuleRepository>();
         services.AddTransient<IContactRepository, ContactRepository>();

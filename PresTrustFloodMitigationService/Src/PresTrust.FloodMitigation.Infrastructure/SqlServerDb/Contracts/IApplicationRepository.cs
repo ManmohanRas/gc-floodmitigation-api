@@ -37,4 +37,12 @@ public interface IApplicationRepository
     /// <param name="application"></param>
     /// <returns></returns>
     Task<FloodApplicationEntity> SaveApplicationWorkflowStatusAsync(FloodApplicationEntity application);
+
+    /// <summary>
+    /// Get Application Status Log
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+    Task<IEnumerable<FloodApplicationStatusLogEntity>> GetApplicationStatusLogAsync(int applicationId);
+
 }

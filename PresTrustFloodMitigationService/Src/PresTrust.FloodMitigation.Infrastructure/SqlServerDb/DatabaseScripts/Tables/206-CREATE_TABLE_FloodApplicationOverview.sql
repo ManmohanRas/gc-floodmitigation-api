@@ -29,24 +29,24 @@ CREATE TABLE [Flood].[FloodApplicationOverview](
 
 	[LOI]									[bit]							DEFAULT 0,
 	[LOIStatus]								[varchar](50)					NULL	,
-	[LOIApprovedDate]						[date]							NULL	,
+	[LOIApprovedDate]						[DateTime]						NULL	,
 
 	[FEMA_OR_NJDEP_Applied]					[bit]							DEFAULT 0,
 
 	[FEMAApplied]							[bit]							DEFAULT 0,
 	[FEMAStatus]							[varchar](50)					NULL	,
-	[FEMAApprovedDate]						[date]							NULL	,
+	[FEMAApprovedDate]						[DateTime]						NULL	,
 	[FEMADenialReason]						[varchar](max)					NULL	,
 
 	[GreenAcresApplied]						[bit]							DEFAULT 0,
 	[GreenAcresStatus]						[varchar](50)					NULL	,
-	[GreenAcresApprovedDate]				[date]							NULL	,
+	[GreenAcresApprovedDate]				[DateTime]						NULL	,
 
 	[BlueAcresApplied]						[bit]							DEFAULT 0,
 	[BlueAcresStatus]						[varchar](50)					NULL	,
-	[BlueAcresApprovedDate]					[date]							NULL	,
+	[BlueAcresApprovedDate]					[DateTime]						NULL	,
 
-	[FundingAgenciesApplied]			[bit]							DEFAULT 0,
+	[FundingAgenciesApplied]				[bit]							DEFAULT 0,
  
 	[LastUpdatedBy]							[varchar](128)					NULL	,
 	[LastUpdatedOn]							[DateTime]						NOT NULL,
