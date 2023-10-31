@@ -640,6 +640,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<IEnumerable<PropertyDocumentTypeViewModel>>> GetPropertyDocument([FromBody] GetPropertyDocumentsQuery query)
+{
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("getParcelSurvey")]
+    [ProducesResponseType(typeof(GetParcelSurveyQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetParcelSurveyQueryViewModel>> GetParcelSurvey([FromBody] GetParcelSurveyQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -716,6 +726,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<Unit>> UpdatePropertyDocumentCheckListItemsAsync([FromBody] UpdatePropertyDocumentCheckListCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("saveParcelSurvey")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveParcelSurvey([FromBody] SaveParcelFinanceCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -918,3 +938,5 @@ public class FloodMitigationWorkflowController : ApiBaseController
         return Single(await CommandAsync(command));
     }
 }
+
+
