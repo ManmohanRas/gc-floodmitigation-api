@@ -113,21 +113,21 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         int sectionId = (int)ApplicationSectionEnum.FINANCE;
 
 
-        var lineItems = request.FinanceLineItems.Where(f => (string.IsNullOrEmpty(f.Priority))).FirstOrDefault();
+        var lineItems = request.FinanceLineItems.Where(f => !(f.Priority > 0)).FirstOrDefault();
 
-        if (application.Status == ApplicationStatusEnum.IN_REVIEW)
-        {
-            if (lineItems.Priority != null)
-            {
-                brokenRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = application.Id,
-                    SectionId = sectionId,
-                    Message = "Priority is empty.",
-                    IsApplicantFlow = true
-                });
-            }
-        }
+        //if (application.Status == ApplicationStatusEnum.IN_REVIEW)
+        //{
+        //    if (lineItems.Priority != null)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = application.Id,
+        //            SectionId = sectionId,
+        //            Message = "Priority is empty.",
+        //            IsApplicantFlow = true
+        //        });
+        //    }
+        //}
 
         if (application.Status == ApplicationStatusEnum.DRAFT) 
         {
