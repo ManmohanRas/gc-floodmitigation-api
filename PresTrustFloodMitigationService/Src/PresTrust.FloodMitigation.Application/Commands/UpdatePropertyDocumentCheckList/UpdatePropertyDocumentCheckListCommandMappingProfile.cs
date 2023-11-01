@@ -7,7 +7,7 @@
         /// </summary>
         public UpdatePropertyDocumentCheckListCommandMappingProfile()
         {
-            CreateMap<PropertyDocumentTypeViewModel, FloodPropertyDocumentEntity>()
+            CreateMap<PropertyDocumentViewModel, FloodPropertyDocumentEntity>()
               .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => MapDocumentType(src.DocumentType)));
         }
 

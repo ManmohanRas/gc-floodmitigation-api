@@ -107,11 +107,11 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         int sectionId = (int)ApplicationSectionEnum.FINANCE;
 
 
-        var priority = request.FinanceLineItems.Where(f => (string.IsNullOrEmpty(f.Priority))).FirstOrDefault();
+        var lineItems = request.FinanceLineItems.Where(f => (string.IsNullOrEmpty(f.Priority))).FirstOrDefault();
 
-        if (application.Status == ApplicationStatusEnum.SUBMITTED)
+        if (application.Status == ApplicationStatusEnum.IN_REVIEW)
         {
-            if (priority != null)
+            if (lineItems.Priority != null)
             {
                 brokenRules.Add(new FloodBrokenRuleEntity()
                 {
@@ -123,6 +123,32 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
             }
         }
 
-        return Task.FromResult(brokenRules);
+        if (application.Status == ApplicationStatusEnum.DRAFT) 
+        {
+            if (lineItems.ValueEstimate <= 0)
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "value estimate is empty.",
+                    IsApplicantFlow = true
+                });
+            }
+        }
+
+        if (request.FundingSources.Count() <= 0)
+        {
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = sectionId,
+                Message = "atleast one funding source mustbe selected.",
+                IsApplicantFlow = true
+            });
+
+        }
+
+       return Task.FromResult(brokenRules);
     }
 }
