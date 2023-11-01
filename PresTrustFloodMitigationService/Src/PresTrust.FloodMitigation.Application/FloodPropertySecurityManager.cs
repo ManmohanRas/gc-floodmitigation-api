@@ -191,9 +191,39 @@ public class FloodPropertySecurityManager
                     SortOrder = 1
                 };
                 break;
-            case UserRoleEnum.AGENCY_ADMIN:
-            case UserRoleEnum.AGENCY_EDITOR:
-                if (userRole == UserRoleEnum.AGENCY_ADMIN)
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
+    }
+
+    private void DeriveInReviewStatePermissions()
+    {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
                     permission.CanSubmitProperty = true;
                 }
@@ -201,6 +231,14 @@ public class FloodPropertySecurityManager
                 permission.CanDeleteDocument = true;
                 //Property
                 Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -234,40 +272,452 @@ public class FloodPropertySecurityManager
         }
     }
 
-    private void DeriveInReviewStatePermissions()
-    {
-    }
-
     private void DerivePendingStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveApprovedStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DerivePreservedStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveGrantExpiredStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveRejectedStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveWithdrawnStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveProjectAreaExpiredStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveTransferredStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void Property(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
