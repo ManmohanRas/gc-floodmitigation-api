@@ -23,4 +23,11 @@ public interface IApplicationUserRepository
     /// <returns></returns>
     Task DeleteApplicationUsersByApplicationIdAsync(int applicationId);
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+    Task<IEnumerable<FloodApplicationUserEntity>> GetPrimaryContactsAsync(int applicationId);
+
 }

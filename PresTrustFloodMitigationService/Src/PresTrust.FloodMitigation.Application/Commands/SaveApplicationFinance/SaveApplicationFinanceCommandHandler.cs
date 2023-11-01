@@ -113,22 +113,48 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         int sectionId = (int)ApplicationSectionEnum.FINANCE;
 
 
-        var priority = request.FinanceLineItems.Select(f => f.Priority).FirstOrDefault();
+        var lineItems = request.FinanceLineItems.Where(f => !(f.Priority > 0)).FirstOrDefault();
 
-        if (application.Status == ApplicationStatusEnum.SUBMITTED)
+        //if (application.Status == ApplicationStatusEnum.IN_REVIEW)
+        //{
+        //    if (lineItems.Priority != null)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = application.Id,
+        //            SectionId = sectionId,
+        //            Message = "Priority is empty.",
+        //            IsApplicantFlow = true
+        //        });
+        //    }
+        //}
+
+        if (application.Status == ApplicationStatusEnum.DRAFT) 
         {
-            if (priority != 0)
+            if (lineItems.ValueEstimate <= 0)
             {
                 brokenRules.Add(new FloodBrokenRuleEntity()
                 {
                     ApplicationId = application.Id,
                     SectionId = sectionId,
-                    Message = "Priority is empty.",
+                    Message = "value estimate is empty.",
                     IsApplicantFlow = true
                 });
             }
         }
 
-        return Task.FromResult(brokenRules);
+        if (request.FundingSources.Count() <= 0)
+        {
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = sectionId,
+                Message = "atleast one funding source mustbe selected.",
+                IsApplicantFlow = true
+            });
+
+        }
+
+       return Task.FromResult(brokenRules);
     }
 }

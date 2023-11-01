@@ -58,7 +58,7 @@ public class PropertyDocumentRepository: IPropertyDocumentRepository
                 @p_ReviewComment = parcelDoc.ReviewComment,
                 @p_UseInReport = parcelDoc.UseInReport,
                 @p_DocumentTypeId = (int)parcelDoc.DocumentType,
-                @p_Pamspin = parcelDoc.Pamspin,
+                @p_Pamspin = parcelDoc.PamsPin,
                 @p_ApplicationId = parcelDoc.ApplicationId,
                 @p_LastUpdatedBy = parcelDoc.LastUpdatedBy,
             });
@@ -76,5 +76,40 @@ public class PropertyDocumentRepository: IPropertyDocumentRepository
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new { @p_Id = id });
+    }
+    public async Task<IEnumerable<FloodPropertyDocumentEntity>> GetPropertyDocumentCheckListAsync(int applicationId, string pamsPin)
+    {
+        IEnumerable<FloodPropertyDocumentEntity> results = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetPropertyDocumentCheckListSqlCommand();
+        results = await conn.QueryAsync<FloodPropertyDocumentEntity>(sqlCommand.ToString(),
+                            commandType: CommandType.Text,
+                            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                            param: new { @p_ApplicationId = applicationId, @p_pamsPin = pamsPin });
+
+        return results;
+    }
+
+    public async Task<FloodPropertyDocumentEntity> UpdatePropertyDocumentCheckListItemsAsync(FloodPropertyDocumentEntity doc)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new UpdatePropertyDocumentCheckListSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_Id = doc.Id,
+                @p_Title = doc.Title,
+                @p_PamsPin = doc.PamsPin,
+                @p_Description = doc.Description,
+                @p_HardCopy = doc.HardCopy,
+                @p_Approved = doc.Approved,
+                @p_ReviewComment = doc.ReviewComment,
+                @p_UseInReport = doc.UseInReport,
+                @p_LastUpdatedBy = doc.LastUpdatedBy,
+            });
+
+        return doc;
     }
 }

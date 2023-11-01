@@ -36,6 +36,8 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IPropertyDocumentRepository, PropertyDocumentRepository>();
         services.AddTransient<IApplicationDetailsRepository, ApplicationDetailsRepository>();
         services.AddTransient<IPropertyAdminDetailsRepository, PropertyAdminDetailsRepository>();
+        services.AddTransient<IReminderEmailManager, ReminderEmailManager>();
+        services.AddTransient<IGrantExpirationReminder, GrantExpirationReminder>();
         services.AddHttpContextAccessor();
     }
 }                                                                               
