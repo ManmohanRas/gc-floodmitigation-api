@@ -27,8 +27,8 @@ namespace PresTrust.FloodMitigation.Application.Commands
         /// <returns></returns>
         public ApplicationDocumentTypeEnum MapDocumentType(string docType)
         {
-            Enum.TryParse(value: docType, ignoreCase: true, out ApplicationDocumentTypeEnum histDocType);
-            return histDocType;
+            Enum.TryParse(value: docType, ignoreCase: true, out ApplicationDocumentTypeEnum floodDocType);
+            return floodDocType;
         }
     }
 }
