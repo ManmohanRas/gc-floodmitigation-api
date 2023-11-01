@@ -17,9 +17,9 @@ GO
 CREATE TABLE [Flood].[FloodApplicationStatusLog](
 	[ApplicationId]							[integer]						NOT NULL,
 	[StatusId]								[integer]						NOT NULL,
-	[StatusDate]							[date]							NULL	,
+	[StatusDate]							[DateTime]						NULL,
 	[Notes]									[varchar](max)					NOT NULL,
-	[LastUpdatedBy]							[varchar](128)					NULL	,
+	[LastUpdatedBy]							[varchar](128)					NULL,
 	[LastUpdatedOn]							[DateTime]						NOT NULL,
 	
 CONSTRAINT [PK_FloodApplicationStatusLog_Id] PRIMARY KEY CLUSTERED 

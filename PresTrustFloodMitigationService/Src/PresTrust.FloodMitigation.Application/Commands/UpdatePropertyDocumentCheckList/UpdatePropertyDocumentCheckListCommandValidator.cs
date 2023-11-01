@@ -35,7 +35,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
     public bool ValidDocumentType(string docType)
     {
         bool result = false;
-        Enum.TryParse(value: docType, ignoreCase: true, out ApplicationDocumentTypeEnum enumDocType);
+        Enum.TryParse(value: docType, ignoreCase: true, out PropertyDocumentTypeEnum enumDocType);
 
         if (enumDocType > 0)
             result = true;

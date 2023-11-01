@@ -84,7 +84,7 @@ public class SaveApplicationSignatoryCommandHandler : BaseHandler, IRequestHandl
                 SectionId = sectionId,
                 Message = "Designation required field on Signatory tab have not been filled.",
                 IsApplicantFlow = true
-            }); ;
+            }); 
 
         if (string.IsNullOrEmpty(reqSignatory.Title))
             brokenRules.Add(new FloodBrokenRuleEntity()
@@ -93,7 +93,7 @@ public class SaveApplicationSignatoryCommandHandler : BaseHandler, IRequestHandl
                 SectionId = sectionId,
                 Message = "Title required field on Signatory tab have not been filled.",
                 IsApplicantFlow = true
-            }); ;
+            }); 
 
         if (reqSignatory.SignedOn == null)
             brokenRules.Add(new FloodBrokenRuleEntity()
@@ -102,7 +102,7 @@ public class SaveApplicationSignatoryCommandHandler : BaseHandler, IRequestHandl
                 SectionId = sectionId,
                 Message = "Date required field on Signatory tab have not been filled.",
                 IsApplicantFlow = true
-            }); ;
+            }); 
 
         return brokenRules;
     }
