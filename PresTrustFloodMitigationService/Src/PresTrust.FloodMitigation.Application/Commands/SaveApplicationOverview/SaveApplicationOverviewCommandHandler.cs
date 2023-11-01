@@ -1,32 +1,142 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using static System.Net.Mime.MediaTypeNames;
 
-public class SaveApplicationOverviewCommandHandler : IRequestHandler<SaveApplicationOverviewCommand, int>
+namespace PresTrust.FloodMitigation.Application.Commands;
+
+public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler<SaveApplicationOverviewCommand, int>
 {
     private readonly IMapper mapper;
-    private readonly IApplicationOverviewRepository repoOverviewDetails;
+    private IApplicationOverviewRepository repoOverviewDetails;
+    private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IPresTrustUserContext userContext;
+    private readonly IBrokenRuleRepository repoBrokenRules;
+    private readonly IApplicationRepository repoApplication;
+    private readonly IApplicationFeedbackRepository repoFeedback;
+
 
     public SaveApplicationOverviewCommandHandler
         (
         IMapper mapper,
         IApplicationOverviewRepository repoOverviewDetails,
-        IPresTrustUserContext userContext
+        IOptions<SystemParameterConfiguration> systemParamOptions,
+        IPresTrustUserContext userContext,
+        IBrokenRuleRepository repoBrokenRules,
+        IApplicationRepository repoApplication,
+        IApplicationFeedbackRepository repoFeedback
         )
     {
         this.mapper = mapper;
         this.repoOverviewDetails = repoOverviewDetails;
+        this.systemParamOptions = systemParamOptions.Value;
         this.userContext = userContext;
+        this.repoBrokenRules = repoBrokenRules;
+        this.repoApplication = repoApplication;
+        this.repoFeedback = repoFeedback;
     }
     public async Task<int> Handle(SaveApplicationOverviewCommand request, CancellationToken cancellationToken)
     {
+        // get application details
+        var application = await GetIfApplicationExists(request.ApplicationId);
+
+        // get feedback details and corrections
+        IEnumerable<FloodApplicationFeedbackEntity> corrections = new List<FloodApplicationFeedbackEntity>();
+        if (application.Status == ApplicationStatusEnum.SUBMITTED)
+            corrections = await repoFeedback.GetFeedbacksAsync(request.ApplicationId, ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString());
+        AuthorizationCheck(application,corrections);
+
         var reqOverviewDetails = mapper.Map<SaveApplicationOverviewCommand,FloodApplicationOverviewEntity>(request);
 
-        reqOverviewDetails.LastUpdatedBy = userContext.Email;
-      
-        FloodApplicationOverviewEntity overviewDetails = default;
+        // Check Broken Rules
+        var brokenRules = ReturnBrokenRulesIfAny(application, reqOverviewDetails);
 
-        overviewDetails = await repoOverviewDetails.SaveAsync(reqOverviewDetails);
+        using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
+        {
+            // Delete old Broken Rules, if any
+            await repoBrokenRules.DeleteBrokenRulesAsync(application.Id, ApplicationSectionEnum.OVERVIEW);
+            // Save current Broken Rules, if any
+            await repoBrokenRules.SaveBrokenRules(brokenRules);
+            reqOverviewDetails = await repoOverviewDetails.SaveAsync(reqOverviewDetails);
+            reqOverviewDetails.LastUpdatedBy = userContext.Email;
+            scope.Complete();
 
-        return overviewDetails.Id;
+        }
+        return reqOverviewDetails.Id;
+
+
+    }
+
+    /// <summary>
+    /// Ensure that a user has the relevant authorizations to perform an action
+    /// </summary>
+    private void AuthorizationCheck(FloodApplicationEntity application, IEnumerable<FloodApplicationFeedbackEntity> corrections)
+    {
+        // security
+        userContext.DeriveRole(application.AgencyId);
+        IsAuthorizedOperation(userRole: userContext.Role, application: application, operation: UserPermissionEnum.EDIT_OVERVIEW_SECTION, corrections.ToList());
+    }
+
+
+    private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application ,FloodApplicationOverviewEntity reqOverviewDetails)
+    {
+        int sectionId = (int)ApplicationSectionEnum.OVERVIEW;
+        List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+
+        // add based on the empty check conditions
+        if (application.Status == ApplicationStatusEnum.SUBMITTED) 
+        {
+            if (reqOverviewDetails?.NatlDisaster == null)
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = reqOverviewDetails.ApplicationId,
+                    SectionId = sectionId,
+                    Message = "national distar required field on overview tab have not been filled.",
+                    IsApplicantFlow = true
+                });
+            }
+
+            if (reqOverviewDetails.NatlDisaster == true)
+            {
+                if (string.IsNullOrEmpty(reqOverviewDetails.NatlDisasterName) && reqOverviewDetails.NatlDisasterYear == null)
+                {
+                    brokenRules.Add(new FloodBrokenRuleEntity()
+                    {
+                        ApplicationId = reqOverviewDetails.ApplicationId,
+                        SectionId = sectionId,
+                        Message = "Name,Month and year required field on overview tab have not been filled.",
+                        IsApplicantFlow = true
+                    });
+                }
+            }
+
+            if (reqOverviewDetails?.LOI == null)
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = reqOverviewDetails.ApplicationId,
+                    SectionId = sectionId,
+                    Message = "LOI required field on overview tab have not been filled.",
+                    IsApplicantFlow = true
+                });
+            }
+
+            if (reqOverviewDetails.LOI == true)
+            {
+                if (reqOverviewDetails.LOIStatus == "Approved")
+                {
+                    if (reqOverviewDetails.LOIApprovedDate == null)
+                    {
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = reqOverviewDetails.ApplicationId,
+                            SectionId = sectionId,
+                            Message = "LOI Approved Date required field on overview tab have not been filled.",
+                            IsApplicantFlow = true
+                        });
+                    }
+                }
+            }
+        }
+
+        return brokenRules;
     }
 }

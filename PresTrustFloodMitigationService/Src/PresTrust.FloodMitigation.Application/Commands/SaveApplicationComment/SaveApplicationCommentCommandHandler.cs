@@ -10,7 +10,7 @@ public class SaveApplicationCommentCommandHandler : IRequestHandler<SaveApplicat
 
     public SaveApplicationCommentCommandHandler
         (
-         IMapper mapper,
+        IMapper mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
