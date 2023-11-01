@@ -23,18 +23,19 @@ public class ApplicationDetailsRepository : IApplicationDetailsRepository
     }
 
     #endregion
-    public async Task<FloodApplicationDetailsEntity> GetAsync(int applicationId)
+    public async Task<FloodApplicationAdminDetailsEntity> GetAsync(int applicationId)
     {
-        FloodApplicationDetailsEntity result = default;
+        FloodApplicationAdminDetailsEntity result = default;
         using var conn = context.CreateConnection();
-        var sqlCommand = new GetApplicationDetailsSqlCommand();
-        var results = await conn.QueryAsync<FloodApplicationDetailsEntity>(sqlCommand.ToString(),
+        var sqlCommand = new GetApplicationAdminDetailsSqlCommand();
+        var results = await conn.QueryAsync<FloodApplicationAdminDetailsEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new
                             {
                                 @p_ApplicationId = applicationId,
                             });
+
 
         result = results.FirstOrDefault();
 
@@ -45,7 +46,7 @@ public class ApplicationDetailsRepository : IApplicationDetailsRepository
     /// </summary>
     /// <param name="floodAppDetails"></param>
     /// <returns></returns>
-    public async Task<FloodApplicationDetailsEntity> SaveAsync(FloodApplicationDetailsEntity floodAppDetails)
+    public async Task<FloodApplicationAdminDetailsEntity> SaveAsync(FloodApplicationAdminDetailsEntity floodAppDetails)
     {
         if (floodAppDetails.Id > 0)
             return await UpdateAsync(floodAppDetails);
@@ -58,25 +59,31 @@ public class ApplicationDetailsRepository : IApplicationDetailsRepository
     /// </summary>
     /// <param name="floodAppDetails"></param>
     /// <returns></returns>
-    private async Task<FloodApplicationDetailsEntity> CreateAsync(FloodApplicationDetailsEntity floodAppDetails)
+    private async Task<FloodApplicationAdminDetailsEntity> CreateAsync(FloodApplicationAdminDetailsEntity floodAppDetails)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreateApplicationDetailsSqlCommand();
+        var sqlCommand = new CreateApplicationAdminDetailsSqlCommand();
         var id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
                 @P_ApplicationId = floodAppDetails.ApplicationId,
+                @P_MunicipalResolutionDate = floodAppDetails.MunicipalResolutionDate,
+                @P_MunicipalResolutionNumber = floodAppDetails.MunicipalResolutionNumber,
+                @P_FmcPreliminaryApprovalDate = floodAppDetails.FMCPreliminaryApprovalDate,
+                @P_FMCPreliminaryNumber = floodAppDetails.FMCPreliminaryNumber,
+                @P_BccPreliminaryApprovalDate = floodAppDetails.BCCPreliminaryApprovalDate,
+                @P_BccPreliminaryNumber = floodAppDetails.BCCPreliminaryNumber,
+                @P_ProjectDescription = floodAppDetails.ProjectDescription,
+                @P_FundingExpirationDate = floodAppDetails.FundingExpirationDate,
+                @P_FirstFundingExpirationDate = floodAppDetails.FirstFundingExpirationDate,
+                @P_SecondFundingExpirationDate = floodAppDetails.SecondFundingExpirationDate,
+                @P_CommissionerMeetingDate = floodAppDetails.CommissionerMeetingDate,
+                @P_FirstCommitteeMeetingDate = floodAppDetails.FirstCommitteeMeetingDate,
+                @P_SecondCommitteeMeetingDate = floodAppDetails.SecondCommitteeMeetingDate,
+                @p_LastUpdatedBy = floodAppDetails.LastUpdatedBy
 
-                //@P_PamsPin = floodPropReleaseOfFunds.PamsPin,
-                //@P_HardCostPaymentTypeId = floodPropReleaseOfFunds.HardCostPaymentTypeId,
-                //@P_HardCostPaymentDate = floodPropReleaseOfFunds.HardCostPaymentDate,
-                //@P_HardCostPaymentStatusId = floodPropReleaseOfFunds.HardCostPaymentStatusId,
-                //@P_SoftCostPaymentTypeId = floodPropReleaseOfFunds.SoftCostPaymentTypeId,
-                //@P_SoftCostPaymentDate = floodPropReleaseOfFunds.SoftCostPaymentDate,
-                //@P_SoftCostPaymentStatusId = floodPropReleaseOfFunds.SoftCostPaymentStatusId,
-                //@P_LastUpdatedBy = floodPropReleaseOfFunds.LastUpdatedBy
             });
         floodAppDetails.Id = id;
 
@@ -88,10 +95,10 @@ public class ApplicationDetailsRepository : IApplicationDetailsRepository
     /// </summary>
     /// <param name="floodAppDetails"></param>
     /// <returns></returns>
-    private async Task<FloodApplicationDetailsEntity> UpdateAsync(FloodApplicationDetailsEntity floodAppDetails)
+    private async Task<FloodApplicationAdminDetailsEntity> UpdateAsync(FloodApplicationAdminDetailsEntity floodAppDetails)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdateApplicationDetailsSqlCommand();
+        var sqlCommand = new UpdateApplicationAdminDetailsSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -99,16 +106,21 @@ public class ApplicationDetailsRepository : IApplicationDetailsRepository
             {
                 @P_Id = floodAppDetails.Id,
                 @P_ApplicationId = floodAppDetails.ApplicationId,
-
-                //@P_PamsPin = floodPropReleaseOfFunds.PamsPin,
-                //@P_HardCostPaymentTypeId = floodPropReleaseOfFunds.HardCostPaymentTypeId,
-                //@P_HardCostPaymentDate = floodPropReleaseOfFunds.HardCostPaymentDate,
-                //@P_HardCostPaymentStatusId = floodPropReleaseOfFunds.HardCostPaymentStatusId,
-                //@P_SoftCostPaymentTypeId = floodPropReleaseOfFunds.SoftCostPaymentTypeId,
-                //@P_SoftCostPaymentDate = floodPropReleaseOfFunds.SoftCostPaymentDate,
-                //@P_SoftCostPaymentStatusId = floodPropReleaseOfFunds.SoftCostPaymentStatusId,
-                //@P_LastUpdatedBy = floodPropReleaseOfFunds.LastUpdatedBy,
-                //@p_LastUpdatedOn = DateTime.Now
+                @P_MunicipalResolutionDate = floodAppDetails.MunicipalResolutionDate,
+                @P_MunicipalResolutionNumber = floodAppDetails.MunicipalResolutionNumber,
+                @P_FmcPreliminaryApprovalDate = floodAppDetails.FMCPreliminaryApprovalDate,
+                @P_FMCPreliminaryNumber = floodAppDetails.FMCPreliminaryNumber,
+                @P_BccPreliminaryApprovalDate = floodAppDetails.BCCPreliminaryApprovalDate,
+                @P_BccPreliminaryNumber = floodAppDetails.BCCPreliminaryNumber,
+                @P_ProjectDescription = floodAppDetails.ProjectDescription,
+                @P_FundingExpirationDate = floodAppDetails.FundingExpirationDate,
+                @P_FirstFundingExpirationDate = floodAppDetails.FirstFundingExpirationDate,
+                @P_SecondFundingExpirationDate = floodAppDetails.SecondFundingExpirationDate,
+                @P_CommissionerMeetingDate = floodAppDetails.CommissionerMeetingDate,
+                @P_FirstCommitteeMeetingDate = floodAppDetails.FirstCommitteeMeetingDate,
+                @P_SecondCommitteeMeetingDate = floodAppDetails.SecondCommitteeMeetingDate,
+                @p_LastUpdatedBy = floodAppDetails.LastUpdatedBy,
+                @p_LastUpdatedOn = DateTime.Now
             });
         return floodAppDetails;
     }

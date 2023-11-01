@@ -2,7 +2,7 @@
 
 public interface IApplicationDetailsRepository
 {
-    Task<FloodApplicationDetailsEntity> GetAsync(int applicationId);
+    Task<FloodApplicationAdminDetailsEntity> GetAsync(int applicationId);
 
-    Task<FloodApplicationDetailsEntity> SaveAsync(FloodApplicationDetailsEntity floodApplicationAdminDetails);
+    Task<FloodApplicationAdminDetailsEntity> SaveAsync(FloodApplicationAdminDetailsEntity floodApplicationAdminDetails);
 }

@@ -1,8 +1,8 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SavePropertyDetailsCommandValidator : AbstractValidator<SavePropertyDetailsCommand>
+public class SavePropertyAdminDetailsCommandValidator : AbstractValidator<SavePropertyAdminDetailsCommand>
 {
-    public SavePropertyDetailsCommandValidator()
+    public SavePropertyAdminDetailsCommandValidator()
     {
         RuleFor(query => query.ApplicationId)
                 .GreaterThan(0)

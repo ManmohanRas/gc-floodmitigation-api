@@ -506,11 +506,11 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     }
 
     [HttpPost("getApplicationAdminDetails")]
-    [ProducesResponseType(typeof(GetApplicationDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(GetApplicationAdminDetailsQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetApplicationDetailsQueryViewModel>> GetApplicationAdminDetails([FromBody] GetApplicationDetailsQuery query)
+    public async Task<ActionResult<GetApplicationAdminDetailsQueryViewModel>> GetApplicationAdminDetails([FromBody] GetApplicationAdminDetailsQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -521,7 +521,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveApplicationAdminDetails([FromBody] SaveApplicationDetailsCommand command)
+    public async Task<ActionResult<int>> SaveApplicationAdminDetails([FromBody] SaveApplicationAdminDetailsCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -542,7 +542,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SavePropertyDetails([FromBody] SavePropertyDetailsCommand command)
+    public async Task<ActionResult<int>> SavePropertyDetails([FromBody] SavePropertyAdminDetailsCommand command)
     {
         return Single(await CommandAsync(command));
     }

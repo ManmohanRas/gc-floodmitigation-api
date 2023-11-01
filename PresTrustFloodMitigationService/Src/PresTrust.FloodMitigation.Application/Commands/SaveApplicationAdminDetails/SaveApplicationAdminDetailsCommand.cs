@@ -1,6 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application.Queries;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class GetApplicationAdminDetailsQueryViewModel
+public class SaveApplicationAdminDetailsCommand : IRequest<int>
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
@@ -16,7 +16,5 @@ public class GetApplicationAdminDetailsQueryViewModel
     public DateTime? SecondFundingExpirationDate { get; set; }
     public DateTime? CommissionerMeetingDate { get; set; }
     public DateTime? FirstCommitteeMeetingDate { get; set; }
-     public DateTime? SecondCommitteeMeetingDate { get; set; }
-     public string? LastUpdatedBy { get; set; }
-     public DateTime? LastUpdatedOn { get; set; }
+    public DateTime? SecondCommitteeMeetingDate { get; set; }
 }

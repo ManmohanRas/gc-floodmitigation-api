@@ -1,29 +1,29 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveApplicationDetailsCommandHandler : BaseHandler, IRequestHandler<SaveApplicationDetailsCommand, int>
+public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHandler<SaveApplicationAdminDetailsCommand, int>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IApplicationDetailsRepository appDetails;
+    private readonly IApplicationDetailsRepository repoAppDetails;
 
-    public SaveApplicationDetailsCommandHandler(
+    public SaveApplicationAdminDetailsCommandHandler(
         IMapper mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IApplicationReleaseOfFundsRepository repoROF
+        IApplicationDetailsRepository repoAppDetails
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
-        this.appDetails = appDetails;
+        this.repoAppDetails = repoAppDetails;
     }
 
-    public async Task<int> Handle(SaveApplicationDetailsCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(SaveApplicationAdminDetailsCommand request, CancellationToken cancellationToken)
     {
         int AppDetailsId = 0;
 
@@ -31,9 +31,9 @@ public class SaveApplicationDetailsCommandHandler : BaseHandler, IRequestHandler
         var application = await GetIfApplicationExists(request.ApplicationId);
 
         // map command object to the FloodApplicationDetailsEntity
-        var reqAppDetails = mapper.Map<SaveApplicationDetailsCommand, FloodApplicationDetailsEntity>(request);
+        var reqAppDetails = mapper.Map<SaveApplicationAdminDetailsCommand, FloodApplicationAdminDetailsEntity>(request);
 
-        var AppDetails = await appDetails.SaveAsync(reqAppDetails);
+        var AppDetails = await repoAppDetails.SaveAsync(reqAppDetails);
 
         AppDetailsId = AppDetails.Id;
 

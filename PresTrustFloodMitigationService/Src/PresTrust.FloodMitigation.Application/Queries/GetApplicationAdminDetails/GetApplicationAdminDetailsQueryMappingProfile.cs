@@ -4,6 +4,6 @@ public class GetApplicationAdminDetailsQueryMappingProfile : Profile
 {
     public GetApplicationAdminDetailsQueryMappingProfile()
     {
-        CreateMap<FloodApplicationDetailsEntity, GetApplicationAdminDetailsQueryViewModel>();
+        CreateMap<FloodApplicationAdminDetailsEntity, GetApplicationAdminDetailsQueryViewModel>();
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveApplicationDetailsCommandValidater : AbstractValidator<SaveApplicationDetailsCommand>
+public class SaveApplicationAdminDetailsCommandValidater : AbstractValidator<SaveApplicationAdminDetailsCommand>
 {
-    public SaveApplicationDetailsCommandValidater()
+    public SaveApplicationAdminDetailsCommandValidater()
     {
         RuleFor(command => command.ApplicationId)
                .GreaterThan(0)

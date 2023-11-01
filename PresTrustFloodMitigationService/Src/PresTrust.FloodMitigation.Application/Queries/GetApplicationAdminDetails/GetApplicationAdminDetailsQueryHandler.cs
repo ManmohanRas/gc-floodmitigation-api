@@ -9,7 +9,7 @@ public class GetApplicationAdminDetailsQueryHandler : BaseHandler, IRequestHandl
         IMapper mapper,
         IApplicationRepository repoApplication,
         IApplicationDetailsRepository repoDetails
-        )
+        ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.repoApplication = repoApplication;
@@ -23,11 +23,11 @@ public class GetApplicationAdminDetailsQueryHandler : BaseHandler, IRequestHandl
 
         //get Admin details
         var details = await this.repoDetails.GetAsync(request.ApplicationId);
-        details = details ?? new FloodApplicationDetailsEntity()
+        details = details ?? new FloodApplicationAdminDetailsEntity()
         {
             ApplicationId = application.Id
         };
-        var result = mapper.Map<FloodApplicationDetailsEntity, GetApplicationAdminDetailsQueryViewModel>(details);
+        var result = mapper.Map<FloodApplicationAdminDetailsEntity, GetApplicationAdminDetailsQueryViewModel>(details);
         return result;
     }
 }

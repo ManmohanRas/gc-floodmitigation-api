@@ -2,7 +2,7 @@
 
 namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SavePropertyDetailsCommandHandler : BaseHandler, IRequestHandler<SavePropertyDetailsCommand, int>
+public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandler<SavePropertyAdminDetailsCommand, int>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -10,7 +10,7 @@ public class SavePropertyDetailsCommandHandler : BaseHandler, IRequestHandler<Sa
     private readonly IApplicationRepository repoApplication;
     private IPropertyAdminDetailsRepository repoPropertyDetails;
 
-    public SavePropertyDetailsCommandHandler 
+    public SavePropertyAdminDetailsCommandHandler 
     (
        IMapper mapper,
        IPresTrustUserContext userContext,
@@ -31,11 +31,11 @@ public class SavePropertyDetailsCommandHandler : BaseHandler, IRequestHandler<Sa
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<int> Handle(SavePropertyDetailsCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(SavePropertyAdminDetailsCommand request, CancellationToken cancellationToken)
     {
         // map command object to the FloodPropertyDetailsEntity
         
-        var reqPropDetails = mapper.Map<SavePropertyDetailsCommand, FloodPropertyAdminDetailsEntity>(request);
+        var reqPropDetails = mapper.Map<SavePropertyAdminDetailsCommand, FloodPropertyAdminDetailsEntity>(request);
         reqPropDetails.LastUpdatedBy = userContext.Email;
 
         reqPropDetails = await repoPropertyDetails.SaveAsync(reqPropDetails);
