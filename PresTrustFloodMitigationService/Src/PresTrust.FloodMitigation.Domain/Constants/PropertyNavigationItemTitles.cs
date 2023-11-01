@@ -27,5 +27,25 @@ public partial class FloodMitigationDomainConstants
         /// Constant to hold title for Finance 
         /// </summary>
         public const string FINANCE = "Finance";
+        /// <summary>
+        /// Constant to hold title for Admin Document Checklist 
+        /// </summary>
+        public const string ADMIN_DOCUMENT_CHECKLIST = "Document Checklist";
+        /// <summary>
+        /// Constant to hold title for Admin Survey 
+        /// </summary>
+        public const string ADMIN_SURVEY = "Survey";
+        /// <summary>
+        /// Constant to hold title for Admin Details 
+        /// </summary>
+        public const string ADMIN_DETAILS = "Details";
+        /// <summary>
+        /// Constant to hold title for Admin Release of Funds 
+        /// </summary>
+        public const string ADMIN_RELEASE_OF_FUNDS = "Release of Funds";
+        /// <summary>
+        /// Constant to hold title for Admin Tracking 
+        /// </summary>
+        public const string ADMIN_TRACKING = "Tracking";
     }
 }

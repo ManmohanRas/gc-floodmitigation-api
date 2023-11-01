@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using PresTrust.FloodMitigation.Domain.Enums;
-
-namespace PresTrust.FloodMitigation.Application;
+﻿namespace PresTrust.FloodMitigation.Application;
 
 //public enum ViewOrEdit
 //{
@@ -13,6 +10,7 @@ public class FloodPropertySecurityManager
 {
     private UserRoleEnum userRole = default;
     private PropertyStatusEnum propertyStatus = default;
+    private PropertyStatusEnum propertyPrevStatus = default;
     private PropertyPermissionEntity permission = default;
     private List<NavigationItemEntity> navigationItems = default;
     private List<NavigationItemEntity> adminNavigationItems = default;
@@ -20,10 +18,11 @@ public class FloodPropertySecurityManager
     private NavigationItemEntity defaultNavigationItem = default;
     private List<FloodPropertyFeedbackEntity> corrections = new List<FloodPropertyFeedbackEntity>();
 
-    public FloodPropertySecurityManager(UserRoleEnum userRole, PropertyStatusEnum propertyStatus, List<FloodPropertyFeedbackEntity> corrections = null)
+    public FloodPropertySecurityManager(UserRoleEnum userRole, PropertyStatusEnum propertyStatus, PropertyStatusEnum propertyPrevStatus, List<FloodPropertyFeedbackEntity> corrections = null)
     {
         this.userRole = userRole;
         this.propertyStatus = propertyStatus;
+        this.propertyPrevStatus = propertyPrevStatus;
         this.corrections = corrections ?? new List<FloodPropertyFeedbackEntity>();
 
         ConfigurePermissions();
@@ -94,7 +93,10 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                permission.CanSubmitProperty = true;
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 //Property
@@ -116,40 +118,15 @@ public class FloodPropertySecurityManager
                 };
                 break;
             case UserRoleEnum.AGENCY_ADMIN:
-                permission.CanSubmitProperty = true;
-                permission.CanSaveDocument = true;
-                permission.CanDeleteDocument = true;
-                //Property
-                Property(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Soft Costs
-                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Tech
-                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Finance
-                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = PropertyNavigationItemTitles.PROPERTY,
-                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
-                    SortOrder = 1
-                };
-                break;
             case UserRoleEnum.AGENCY_EDITOR:
+                if (userRole == UserRoleEnum.AGENCY_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 //Property
                 Property(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Soft Costs
-                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Tech
-                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Finance
-                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -160,15 +137,18 @@ public class FloodPropertySecurityManager
                 break;
             default:
                 //Property
-                Property(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Soft Costs
-                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Tech
-                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Finance
-                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -182,6 +162,76 @@ public class FloodPropertySecurityManager
 
     private void DeriveSubmittedStatePermissions()
     {
+        switch (userRole)
+        {
+            case UserRoleEnum.SYSTEM_ADMIN:
+            case UserRoleEnum.PROGRAM_ADMIN:
+            case UserRoleEnum.PROGRAM_EDITOR:
+                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.AGENCY_ADMIN:
+            case UserRoleEnum.AGENCY_EDITOR:
+                if (userRole == UserRoleEnum.AGENCY_ADMIN)
+                {
+                    permission.CanSubmitProperty = true;
+                }
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            default:
+                //Property
+                Property();
+                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    //Tech
+                    Tech();
+                    //Finance
+                    Finance();
+                }
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
+                {
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                    SortOrder = 1
+                };
+                break;
+        }
     }
 
     private void DeriveInReviewStatePermissions()
@@ -299,6 +349,91 @@ public class FloodPropertySecurityManager
             case ViewOrEdit.EDIT:
                 permission.CanEditFinanceSection = true;
                 navigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.FINANCE, RouterLink = PropertyRouterLinks.FINANCE_EDIT, SortOrder = 5, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AdminDocumentChecklist(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewAdminDocChkListSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_DOCUMENT_CHECKLIST, RouterLink = PropertyRouterLinks.ADMIN_DOCUMENT_CHECKLIST_VIEW, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditAdminDocChkListSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_DOCUMENT_CHECKLIST, RouterLink = PropertyRouterLinks.ADMIN_DOCUMENT_CHECKLIST_EDIT, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AdminSurvey(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewAdminSurveySection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_SURVEY, RouterLink = PropertyRouterLinks.ADMIN_SURVEY_VIEW, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditAdminSurveySection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_SURVEY, RouterLink = PropertyRouterLinks.ADMIN_SURVEY_EDIT, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AdminDetails(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewAdminDetailsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_DETAILS, RouterLink = PropertyRouterLinks.ADMIN_DETAILS_VIEW, SortOrder = 8, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditAdminDetailsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_DETAILS, RouterLink = PropertyRouterLinks.ADMIN_DETAILS_EDIT, SortOrder = 8, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AdminReleaseOfFunds(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewAdminRlsOfFundsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_RELEASE_OF_FUNDS, RouterLink = PropertyRouterLinks.ADMIN_RELEASE_OF_FUNDS_VIEW, SortOrder = 9, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditAdminRlsOfFundsSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_RELEASE_OF_FUNDS, RouterLink = PropertyRouterLinks.ADMIN_RELEASE_OF_FUNDS_EDIT, SortOrder = 9, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AdminTracking(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewAdminTrackingSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_TRACKING, RouterLink = PropertyRouterLinks.ADMIN_TRACKING_VIEW, SortOrder = 10, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditAdminTrackingSection = true;
+                adminNavigationItems.Add(new NavigationItemEntity() { Title = PropertyNavigationItemTitles.ADMIN_TRACKING, RouterLink = PropertyRouterLinks.ADMIN_TRACKING_EDIT, SortOrder = 10, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
