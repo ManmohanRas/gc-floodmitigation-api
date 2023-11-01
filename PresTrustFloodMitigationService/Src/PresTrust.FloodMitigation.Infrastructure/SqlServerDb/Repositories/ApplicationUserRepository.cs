@@ -83,4 +83,23 @@ public class ApplicationUserRepository: IApplicationUserRepository
                 @p_ApplicationId = applicationId
             });
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+    public async Task<IEnumerable<FloodApplicationUserEntity>> GetPrimaryContactsAsync(int applicationId)
+    {
+        IEnumerable<FloodApplicationUserEntity> results = default;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetPrimaryContactsByApplicationIdSqlCommand();
+        results = await conn.QueryAsync<FloodApplicationUserEntity>(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new { @p_ApplicationId = applicationId });
+
+        return results;
+    }
 }

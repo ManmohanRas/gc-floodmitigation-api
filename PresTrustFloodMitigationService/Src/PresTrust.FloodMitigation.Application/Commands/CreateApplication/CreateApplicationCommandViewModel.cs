@@ -17,7 +17,7 @@ public class CreateApplicationCommandViewModel
     public FloodAgencyEntity Agency { get; set; }
     public IEnumerable<FloodApplicationCommentEntity> Comments { get; set; }
     public IEnumerable<FloodApplicationFeedbackEntity> Feedbacks { get; set; }
-    public PermissionEntity Permission { get; set; } = new PermissionEntity();
+    public ApplicationPermissionEntity Permission { get; set; } = new ApplicationPermissionEntity();
     public IEnumerable<NavigationItemEntity> NavigationItems { get; set; } = new List<NavigationItemEntity>();
     public IEnumerable<NavigationItemEntity> AdminNavigationItems { get; set; } = new List<NavigationItemEntity>();
     public IEnumerable<NavigationItemEntity> PostApprovedNavigationItems { get; set; } = new List<NavigationItemEntity>();

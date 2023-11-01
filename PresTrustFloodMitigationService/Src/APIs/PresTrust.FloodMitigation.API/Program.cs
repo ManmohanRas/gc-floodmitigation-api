@@ -1,7 +1,40 @@
+using Hangfire;
+using Hangfire.SqlServer;
+using System.Configuration;
+using System;
+using System.Runtime.InteropServices;
+
 var applicationBuilder = WebApplication.CreateBuilder(args);
 applicationBuilder.Services.AddServices(applicationBuilder.Configuration);
 
-var application = applicationBuilder.Build();
-application.AddMiddleware(application.Environment);
-application.MapControllers();
-await application.RunAsync();
+var sqlServerStorageOptions = new SqlServerStorageOptions
+{
+    PrepareSchemaIfNecessary = true,
+    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+    QueuePollInterval = TimeSpan.Zero,
+    UseRecommendedIsolationLevel = true,
+    DisableGlobalLocks = true,
+};
+
+applicationBuilder.Services.AddHangfire(x => x.UseSqlServerStorage(applicationBuilder.Configuration.GetConnectionString("HangfireDbConnectionStrings"), sqlServerStorageOptions));
+applicationBuilder.Services.AddHangfireServer();
+
+applicationBuilder.Services.AddEndpointsApiExplorer();
+var builder = applicationBuilder.Build();
+builder.AddMiddleware(builder.Environment);
+
+builder.MapHangfireDashboard();
+builder.UseHangfireDashboard("/backgroundjobs");
+
+
+var jobGrantExpirationReminder = builder.Services.GetService<IGrantExpirationReminder>();
+var jobOptions = new RecurringJobOptions()
+{
+    TimeZone = TimeZoneInfo.Local    
+};
+
+RecurringJob.AddOrUpdate("Reminder: Grant Expiration", () => jobGrantExpirationReminder.Handle(), builder.Configuration["CronTimeGrantExpirationReminder"], jobOptions);
+
+builder.MapControllers();
+builder.Run();

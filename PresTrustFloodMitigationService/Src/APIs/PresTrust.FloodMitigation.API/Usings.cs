@@ -48,6 +48,7 @@ global using PresTrust.FloodMitigation.Application.Queries;
 global using PresTrust.FloodMitigation.Application.Services.EmailApi;
 global using PresTrust.FloodMitigation.Application.Services.IdentityApi;
 global using PresTrust.FloodMitigation.Application.CommonViewModels;
+global using PresTrust.FloodMitigation.Application.BackgroundJobs;
 
 //---------------------------------------------- PresTrust.FloodMitigation.Domain Namespaces ----------------------------------------------//
 //=========================================================================================================================================//
@@ -60,3 +61,4 @@ global using static PresTrust.FloodMitigation.Domain.Constants.FloodMitigationDo
 global using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
 global using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
 global using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+

@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Domain.Entities;
 
-public class PermissionEntity
+public class ApplicationPermissionEntity
 {
     //---------------------------------------------------------------------//
     //  Application Section Permissions

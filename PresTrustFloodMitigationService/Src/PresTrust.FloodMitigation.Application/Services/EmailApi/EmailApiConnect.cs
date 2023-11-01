@@ -57,3 +57,36 @@ public class EmailApiConnect : IEmailApiConnect
         return data;
     }
 }
+
+
+public class ReminderEmailApiConnect : IReminderEmailApiConnect
+{
+    private readonly HttpClient _httpClient;
+    
+    public ReminderEmailApiConnect(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+       
+    public async Task<TResponse> PostDataAsync<TResponse, TRequest>(string endPoint, JsonContent content)
+    {
+        TResponse data = default;
+        HttpResponseMessage httpResponse = null;
+
+        try
+        {
+            httpResponse = await _httpClient.PostAsync(endPoint, content);
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            data = JsonConvert.DeserializeObject<TResponse>(responseAsString);
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound || ex.StatusCode == HttpStatusCode.Unauthorized || ex.StatusCode == HttpStatusCode.ServiceUnavailable)
+        {
+            throw;
+        }
+
+        return data;
+    }
+}

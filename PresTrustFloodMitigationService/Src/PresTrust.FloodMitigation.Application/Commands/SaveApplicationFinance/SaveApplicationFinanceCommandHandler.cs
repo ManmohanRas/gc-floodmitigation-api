@@ -13,7 +13,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
     private readonly IFinanceLineItemRepository repoFinanceLineItem;
     private readonly IApplicationRepository repoApplication;
     private readonly IBrokenRuleRepository repoBrokenRules;
-
+    private readonly IParcelPropertyRepository repoParcelProperty;
 
 
     public SaveApplicationFinanceCommandHandler(
@@ -24,7 +24,8 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         IFundingSourceRepoitory repoFundingSource,
         IFinanceLineItemRepository repoFinanceLineItem,
         IApplicationRepository repoApplication,
-        IBrokenRuleRepository repoBrokenRules
+        IBrokenRuleRepository repoBrokenRules,
+        IParcelPropertyRepository repoParcelProperty
         ) : base(repoApplication: repoApplication)
     {
         this.mapper =   mapper;
@@ -35,6 +36,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         this.repoFinanceLineItem = repoFinanceLineItem;
         this.repoApplication = repoApplication;
         this.repoBrokenRules = repoBrokenRules;
+        this.repoParcelProperty = repoParcelProperty;
     }
     public async Task<int> Handle(SaveApplicationFinanceCommand request, CancellationToken cancellationToken)
     {
@@ -78,7 +80,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         foreach (var fundingSource in fundingSources)
         {
             var entity = mapper.Map<FloodFundingSourceViewModel, FloodFundingSourceEntity>(fundingSource);
-            
+                
                 await repoFundingSource.SaveAsync(entity);
             
         }
@@ -89,9 +91,13 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         foreach (var lineItem in financeLinteItems)
         {
             var entity = mapper.Map<FloodFinanceLineItemViewModel, FloodFinanceLineItemEntity>(lineItem);
+            var parcelProperty = await repoParcelProperty.GetAsync(entity.ApplicationId, entity.PamsPin ?? string.Empty);
+            parcelProperty = parcelProperty ?? new FloodParcelPropertyEntity() { ApplicationId = lineItem.ApplicationId, PamsPin = lineItem.PamsPin };
+
+            parcelProperty.Priority = lineItem.Priority;
 
             await repoFinanceLineItem.SaveAsync(entity);
-
+            await repoParcelProperty.SavePropertyAsync(parcelProperty);
         }
     }
 

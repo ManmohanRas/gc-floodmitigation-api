@@ -24,7 +24,7 @@ public class RegisterApiResources : IDependencyInjectionService
         {
             client.BaseAddress = new Uri(config["ApiResourceBaseUrls:IdentityApi"]);
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FloodMitigationDomainConstants.HttpContentMediaTypes.JSON));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(HttpContentMediaTypes.JSON));
         })
         .SetHandlerLifetime(TimeSpan.FromMinutes(policyConfigs.HandlerTimeoutInMinutes))
         .AddPolicyHandler(request => request.Method == HttpMethod.Get ? retryPolicy : noOpPolicy)
@@ -36,7 +36,19 @@ public class RegisterApiResources : IDependencyInjectionService
         {
             client.BaseAddress = new Uri(config["ApiResourceBaseUrls:EmailApi"]);
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FloodMitigationDomainConstants.HttpContentMediaTypes.JSON));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(HttpContentMediaTypes.JSON));
+        })
+        .SetHandlerLifetime(TimeSpan.FromMinutes(policyConfigs.HandlerTimeoutInMinutes))
+        .AddPolicyHandler(request => request.Method == HttpMethod.Get ? retryPolicy : noOpPolicy)
+        .AddPolicyHandler(timeoutPolicy);
+        //.AddPolicyHandler(circuitBreakerPolicy);
+
+        //ReminderEmailApiConnect 
+        services.AddHttpClient<IReminderEmailApiConnect, ReminderEmailApiConnect>(client =>
+        {
+            client.BaseAddress = new Uri(config["ApiResourceBaseUrls:EmailApi"]);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(HttpContentMediaTypes.JSON));
         })
         .SetHandlerLifetime(TimeSpan.FromMinutes(policyConfigs.HandlerTimeoutInMinutes))
         .AddPolicyHandler(request => request.Method == HttpMethod.Get ? retryPolicy : noOpPolicy)
