@@ -22,7 +22,7 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
         IBrokenRuleRepository repoBrokenRules,
         IApplicationRepository repoApplication,
         IApplicationFeedbackRepository repoFeedback
-        )
+        ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.repoOverviewDetails = repoOverviewDetails;

@@ -67,6 +67,8 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
                 financeId = reqFinance.Id;
             }
             await repoBrokenRules.SaveBrokenRules(await brokenRules);
+            // Delete old Broken Rules, if any
+            await repoBrokenRules.DeleteBrokenRulesAsync(application.Id, ApplicationSectionEnum.DECLARATION_OF_INTENT);
 
             scope.Complete();
 
@@ -129,19 +131,19 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         //    }
         //}
 
-        if (application.Status == ApplicationStatusEnum.DRAFT) 
-        {
-            if (lineItems.ValueEstimate <= 0)
-            {
-                brokenRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = application.Id,
-                    SectionId = sectionId,
-                    Message = "value estimate is empty.",
-                    IsApplicantFlow = true
-                });
-            }
-        }
+        //if (application.Status == ApplicationStatusEnum.DRAFT) 
+        //{
+        //    if (lineItems.ValueEstimate <= 0)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = application.Id,
+        //            SectionId = sectionId,
+        //            Message = "value estimate is empty.",
+        //            IsApplicantFlow = true
+        //        });
+        //    }
+        //}
 
         if (request.FundingSources.Count() <= 0)
         {

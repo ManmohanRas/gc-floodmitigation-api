@@ -16,6 +16,7 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
     private readonly IApplicationRepository repoApplication;
     private readonly IIdentityApiConnect identityApiConnect;
     private readonly IApplicationUserRepository repoApplicationUser;
+    private readonly IBrokenRuleRepository repoBrokenRules;
 
     public CreateApplicationCommandHandler(
         IMapper  mapper,
@@ -23,7 +24,8 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         IIdentityApiConnect identityApiConnect,
-        IApplicationUserRepository repoApplicationUser
+        IApplicationUserRepository repoApplicationUser,
+        IBrokenRuleRepository repoBrokenRules
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
@@ -32,6 +34,7 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
         this.repoApplication = repoApplication;
         this.identityApiConnect = identityApiConnect;
         this.repoApplicationUser = repoApplicationUser;
+        this.repoBrokenRules = repoBrokenRules; 
     }
 
     public async Task<CreateApplicationCommandViewModel> Handle(CreateApplicationCommand request, CancellationToken cancellationToken)
@@ -44,6 +47,15 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
         reqApplication.Status = ApplicationStatusEnum.DOI_DRAFT;
         reqApplication.CreatedByProgramAdmin = userContext.Role == UserRoleEnum.PROGRAM_ADMIN;
         reqApplication.LastUpdatedBy = userContext.Email;
+
+        // check if any broken rules exists, if yes then return
+        //var brokenRules = await repoBrokenRules.GetBrokenRulesAsync(reqApplication.Id);
+
+        //// returns broken rules  
+        //var defaultBrokenRules = ReturnBrokenRulesIfAny(reqApplication);
+        //// save broken rules
+        //await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
@@ -146,4 +158,18 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
             return new List<FloodApplicationUserViewModel>();
         }
     }
+    //private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application)
+    //{
+    //    List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+
+    //    // add default broken rule while initiating application flow
+    //    brokenRules.Add(new FloodBrokenRuleEntity()
+    //    {
+    //        ApplicationId = application.Id,
+    //        SectionId = (int)ApplicationSectionEnum.DECLARATION_OF_INTENT,
+    //        Message = "All required fields on DOI tab have not been filled.",
+    //        IsApplicantFlow = true
+    //    });
+    //    return brokenRules;
+    //}
 }
