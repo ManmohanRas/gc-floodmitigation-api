@@ -57,10 +57,10 @@ public class GetPropertyDetailsQueryHandler : BaseHandler, IRequestHandler<GetPr
             case PropertyStatusEnum.IN_REVIEW:
             case PropertyStatusEnum.PENDING:
                 var feedbacksReqForCorrections = property.Feedbacks.Where(f => f.RequestForCorrection == true && string.Compare(f.CorrectionStatus, PropertyCorrectionStatusEnum.REQUEST_SENT.ToString(), true) == 0).ToList();
-                securityMgr = new FloodPropertySecurityManager(userContext.Role, property.Status, feedbacksReqForCorrections);
+                securityMgr = new FloodPropertySecurityManager(userContext.Role, property.Status, property.PrevStatus, feedbacksReqForCorrections);
                 break;
             default:
-                securityMgr = new FloodPropertySecurityManager(userContext.Role, property.Status);
+                securityMgr = new FloodPropertySecurityManager(userContext.Role, property.Status, property.PrevStatus);
                 break;
         }
 
