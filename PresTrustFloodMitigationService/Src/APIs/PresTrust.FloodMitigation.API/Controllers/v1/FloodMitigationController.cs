@@ -542,7 +542,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SavePropertyDetails([FromBody] SavePropertyAdminDetailsCommand command)
+    public async Task<ActionResult<int>> SavePropertyAdminDetails([FromBody] SavePropertyAdminDetailsCommand command)
     {
         return Single(await CommandAsync(command));
     }
