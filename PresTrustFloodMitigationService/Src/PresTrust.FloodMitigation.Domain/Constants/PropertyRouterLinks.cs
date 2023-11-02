@@ -48,5 +48,45 @@ public partial class FloodMitigationDomainConstants
         /// Constant to hold router link for Finance Edit screen
         /// </summary>
         public const string FINANCE_EDIT = "prop/finance/edit";
+        /// <summary>
+        /// Constant to hold router link for Admin Document Checklist View screen
+        /// </summary>
+        public const string ADMIN_DOCUMENT_CHECKLIST_VIEW = "propadmin/docchecklist/view";
+        /// <summary>
+        /// Constant to hold router link for Admin Document Checklist Edit screen
+        /// </summary>
+        public const string ADMIN_DOCUMENT_CHECKLIST_EDIT = "propadmin/docchecklist/edit";
+        /// <summary>
+        /// Constant to hold router link for Admin Survey View screen
+        /// </summary>
+        public const string ADMIN_SURVEY_VIEW = "propadmin/survey/view";
+        /// <summary>
+        /// Constant to hold router link for Admin Survey Edit screen
+        /// </summary>
+        public const string ADMIN_SURVEY_EDIT = "propadmin/survey/edit";
+        /// <summary>
+        /// Constant to hold router link for Admin Details View screen
+        /// </summary>
+        public const string ADMIN_DETAILS_VIEW = "propadmin/details/view";
+        /// <summary>
+        /// Constant to hold router link for Admin Details Edit screen
+        /// </summary>
+        public const string ADMIN_DETAILS_EDIT = "propadmin/details/edit";
+        /// <summary>
+        /// Constant to hold router link for Admin Release of Funds View screen
+        /// </summary>
+        public const string ADMIN_RELEASE_OF_FUNDS_VIEW = "propadmin/releaseoffunds/view";
+        /// <summary>
+        /// Constant to hold router link for Admin Release of Funds Edit screen
+        /// </summary>
+        public const string ADMIN_RELEASE_OF_FUNDS_EDIT = "propadmin/releaseoffunds/edit";
+        /// <summary>
+        /// Constant to hold router link for Admin Tracking View screen
+        /// </summary>
+        public const string ADMIN_TRACKING_VIEW = "propadmin/tracking/view";
+        /// <summary>
+        /// Constant to hold router link for Admin Tracking Edit screen
+        /// </summary>
+        public const string ADMIN_TRACKING_EDIT = "propadmin/tracking/edit";
     }
 }

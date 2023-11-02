@@ -22,8 +22,7 @@ CREATE TABLE [Flood].[FloodContacts](
 	[AlternateNumber]		[integer]							NOT NULL,
 	[SelectContact]			[bit]								NOT NULL,
 	[LastUpdatedBy]			[varchar](128)						NULL	,
-	[LastUpdatedOn]			[DateTime]							NOT NULL
-
+	[LastUpdatedOn]			[DateTime]							NOT NULL,
 CONSTRAINT [PK_FloodContacts_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

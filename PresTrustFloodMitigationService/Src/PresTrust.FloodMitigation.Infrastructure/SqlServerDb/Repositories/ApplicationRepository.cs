@@ -139,4 +139,20 @@ public class ApplicationRepository: IApplicationRepository
 
         return application;
     }
+
+    public async Task<IEnumerable<FloodApplicationStatusLogEntity>> GetApplicationStatusLogAsync(int applicationId)
+    {
+        IEnumerable<FloodApplicationStatusLogEntity> results = default;
+       
+        using var conn = context.CreateConnection();
+        string sqlCommand = new GetApplicationStatusLogSqlCommand().ToString();
+        results = await conn.QueryAsync<FloodApplicationStatusLogEntity>(sqlCommand,
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new {
+                        @p_ApplicationId = applicationId
+                    });
+
+        return results;
+    }
 }

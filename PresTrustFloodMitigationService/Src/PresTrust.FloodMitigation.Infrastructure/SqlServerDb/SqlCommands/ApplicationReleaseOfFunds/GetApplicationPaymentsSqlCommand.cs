@@ -16,7 +16,10 @@ public class GetApplicationPaymentsSqlCommand
                           PP.[SoftCostPaymentTypeId],
                           PP.[SoftCostPaymentDate],
                           PP.[SoftCostPaymentStatusId],
-                          PR.[Priority]
+                          PR.[Priority],
+                         PF.[EstimatePurchasePrice],
+						 PF.[AdditionalSoftCostEstimate],
+						 AF.[MatchPercent]
                     FROM [Flood].[FloodApplicationParcel] AP
                     LEFT JOIN [Flood].[FloodParcel] P
                           ON AP.[PamsPin] = P.[PamsPin]
@@ -26,6 +29,8 @@ public class GetApplicationPaymentsSqlCommand
                           ON AP.[ApplicationId] = PP.[ApplicationId] AND AP.[PamsPin] = PP.[PamsPin]
                     LEFT JOIN [Flood].[FloodParcelProperty] PR
                           ON AP.[ApplicationId] = PR.[ApplicationId] AND AP.[PamsPin] = PR.[PamsPin] AND PR.[Priority] = 1
+                    LEFT JOIN [Flood].[FloodApplicationFinance] AF 
+				         ON (AP.ApplicationId = AF.ApplicationId)
                     WHERE AP.[ApplicationId] = @p_ApplicationId;";
 
     public GetApplicationPaymentsSqlCommand()

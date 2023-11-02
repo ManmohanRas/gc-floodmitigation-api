@@ -7,7 +7,7 @@ public class GetPropertyDetailsQueryHandler : BaseHandler, IRequestHandler<GetPr
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly ICoreRepository repoCore;
-    private readonly IFloodParcelRepository repoParcel;
+    private readonly IParcelRepository repoParcel;
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationCommentRepository repoComment;
     private readonly IApplicationFeedbackRepository repoFeedback;
@@ -17,7 +17,7 @@ public class GetPropertyDetailsQueryHandler : BaseHandler, IRequestHandler<GetPr
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         ICoreRepository repoCore,
-        IFloodParcelRepository repoParcel,
+        IParcelRepository repoParcel,
         IApplicationRepository repoApplication,
         IApplicationCommentRepository repoComment,
         IApplicationFeedbackRepository repoFeedback
@@ -54,12 +54,13 @@ public class GetPropertyDetailsQueryHandler : BaseHandler, IRequestHandler<GetPr
         switch (property.Status)
         {
             case PropertyStatusEnum.SUBMITTED:
+            case PropertyStatusEnum.IN_REVIEW:
             case PropertyStatusEnum.PENDING:
                 var feedbacksReqForCorrections = property.Feedbacks.Where(f => f.RequestForCorrection == true && string.Compare(f.CorrectionStatus, PropertyCorrectionStatusEnum.REQUEST_SENT.ToString(), true) == 0).ToList();
-                securityMgr = new FloodPropertySecurityManager(userContext.Role, property.Status, feedbacksReqForCorrections);
+                securityMgr = new FloodPropertySecurityManager(userContext.Role, property.Status, property.PrevStatus, feedbacksReqForCorrections);
                 break;
             default:
-                securityMgr = new FloodPropertySecurityManager(userContext.Role, property.Status);
+                securityMgr = new FloodPropertySecurityManager(userContext.Role, property.Status, property.PrevStatus);
                 break;
         }
 

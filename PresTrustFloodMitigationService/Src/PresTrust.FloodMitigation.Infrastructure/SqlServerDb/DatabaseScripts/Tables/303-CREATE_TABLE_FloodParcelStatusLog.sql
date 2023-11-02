@@ -17,9 +17,9 @@ CREATE TABLE [Flood].[FloodParcelStatusLog](
 	[ApplicationId]							[integer]						NOT NULL,
 	[PamsPin]								[varchar](76)					NOT NULL,
 	[StatusId]								[integer]						NOT NULL,
-	[StatusDate]							[date]							NULL	,
+	[StatusDate]							[DateTime]						NULL,
 	[Notes]									[varchar](max)					NOT NULL,
-	[LastUpdatedBy]							[varchar](128)					NULL	,
+	[LastUpdatedBy]							[varchar](128)					NULL,
 	[LastUpdatedOn]							[DateTime]						NOT NULL,
 	
 CONSTRAINT [PK_FloodParcelStatusLog_Id] PRIMARY KEY CLUSTERED 

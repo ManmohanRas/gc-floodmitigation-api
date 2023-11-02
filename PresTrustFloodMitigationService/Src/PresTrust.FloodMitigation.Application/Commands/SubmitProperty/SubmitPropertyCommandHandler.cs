@@ -46,7 +46,7 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(Property);
-            FloodApplicationParcelStatusLogEntity appStatusLog = new()
+            FloodParcelStatusLogEntity appStatusLog = new()
             {
                 ApplicationId = Property.ApplicationId,
                 PamsPin = Property.PamsPin,

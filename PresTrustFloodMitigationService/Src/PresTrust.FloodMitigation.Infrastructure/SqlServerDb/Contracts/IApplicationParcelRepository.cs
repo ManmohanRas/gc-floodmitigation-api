@@ -38,5 +38,5 @@ public interface IApplicationParcelRepository
     /// </summary>
     /// <param name="application"></param>
     /// <returns></returns>
-    Task<bool> SaveStatusLogAsync(FloodApplicationParcelStatusLogEntity applicationStatusLog);
+    Task<bool> SaveStatusLogAsync(FloodParcelStatusLogEntity applicationStatusLog);
 }
