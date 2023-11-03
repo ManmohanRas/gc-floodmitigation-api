@@ -6,7 +6,7 @@ public class GetApplicationStatusLogSqlCommand
        @"   SELECT		[StatusId],
 			            [StatusDate]
             FROM		[Flood].[FloodApplicationStatusLog]
-            WHERE		[ApplicationId] = @p_ApplicationId
+            WHERE		[ApplicationId] = @p_ApplicationId AND [StatusId] IN (4,5,6,7,8,9)
             ORDER BY	[StatusDate] DESC;";
 
     public GetApplicationStatusLogSqlCommand() { }

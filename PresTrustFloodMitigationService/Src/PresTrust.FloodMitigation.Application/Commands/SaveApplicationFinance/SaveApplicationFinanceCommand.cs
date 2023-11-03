@@ -8,7 +8,7 @@ public class SaveApplicationFinanceCommand: IRequest<int>
     public int Id { get; set; }
     public int ApplicationId { get; set; }
     public decimal MatchPercent { get; set; }
-    public IEnumerable<FloodFundingSourceViewModel>? FundingSources { get; set; }
-    public IEnumerable<FloodFinanceLineItemViewModel>? FinanceLineItems { get; set; }
+    public IEnumerable<FloodFundingSourceViewModel> FundingSources { get; set; }
+    public IEnumerable<FloodFinanceLineItemViewModel> FinanceLineItems { get; set; }
 
 }

@@ -3,7 +3,7 @@
 public class GetTechDetailsSqlCommand
 {
     private readonly string _sqlCommand =
-      @"  SELECT       ,[Id]                                                        
+      @"  SELECT        [Id]                                                        
                         ,[ApplicationId]                                            
                         ,[PamsPin]                                                   
                         ,[FEMASevereRepetitiveLossList]                      

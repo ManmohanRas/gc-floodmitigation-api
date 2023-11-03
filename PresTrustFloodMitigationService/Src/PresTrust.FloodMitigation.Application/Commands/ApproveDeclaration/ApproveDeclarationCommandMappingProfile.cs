@@ -4,5 +4,6 @@ public class ApproveDeclarationCommandMappingProfile : Profile
 {
     public ApproveDeclarationCommandMappingProfile()
     {
+        CreateMap<FloodBrokenRuleEntity, ApplicationBrokenRuleViewModel>();
     }
 }

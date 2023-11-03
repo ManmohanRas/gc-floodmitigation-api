@@ -9,6 +9,7 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
     private readonly IParcelRepository repoParcel;
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IApplicationUserRepository repoApplicationUser;
+    private readonly IBrokenRuleRepository repoBrokenRule;
     public SaveDeclarationCommandHandler (
         IMapper mapper,
         IPresTrustUserContext userContext,
@@ -16,7 +17,9 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
         IApplicationRepository repoApplication,
         IParcelRepository repoParcel,
         IApplicationParcelRepository repoApplicationParcel,
-        IApplicationUserRepository repoApplicationUser
+        IApplicationUserRepository repoApplicationUser,
+        IBrokenRuleRepository repoBrokenRule
+
         ) : base (repoApplication)
     {
         this.mapper = mapper;
@@ -26,6 +29,7 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
         this.repoParcel = repoParcel;
         this.repoApplicationParcel = repoApplicationParcel;
         this.repoApplicationUser = repoApplicationUser;
+        this.repoBrokenRule = repoBrokenRule;
     }
     public async Task<bool> Handle(SaveDeclarationCommand request, CancellationToken cancellationToken)
     {
@@ -68,6 +72,9 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
             return o;
         }).Where(au => (au.IsPrimaryContact) || (au.IsAlternateContact)).ToList();
 
+        // returns broken rules  
+        var brokenRules = ReturnBrokenRulesIfAny(application, request, reqAppParcels?.Count ?? 0, reqAppUsers?.Count ?? 0);
+
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoApplication.SaveAsync(application);
@@ -84,6 +91,65 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
             result = true;
         }
 
+
         return result;
+    }
+
+    private Task<List<FloodBrokenRuleEntity>> ReturnBrokenRulesIfAny(FloodApplicationEntity application, SaveDeclarationCommand request, int parcelCount, int rolesCount)
+    {
+        List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+        int sectionId = (int)ApplicationSectionEnum.DECLARATION_OF_INTENT;
+
+        if (application.ApplicationType == ApplicationTypeEnum.CORE)
+        {
+            if (string.IsNullOrEmpty(request.Title))
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "Project Area title must be entered.",
+                    IsApplicantFlow = true
+                });
+
+            }
+
+            if (string.IsNullOrEmpty(request.ApplicationSubType)) 
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "Sub Program type must be entered.",
+                    IsApplicantFlow = true
+                });
+            }
+
+            if (parcelCount == 0) 
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "atleast one property is required.",
+                    IsApplicantFlow = true
+                });
+            }
+
+            if (rolesCount == 0) 
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "atleast one role is required.",
+                    IsApplicantFlow = true
+                });
+
+            }    
+
+        }
+
+        return Task.FromResult(brokenRules);
     }
 }
