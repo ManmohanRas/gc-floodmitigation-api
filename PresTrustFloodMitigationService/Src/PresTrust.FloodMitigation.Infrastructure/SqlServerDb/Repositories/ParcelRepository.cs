@@ -1,11 +1,11 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
-public class FloodParcelRepository : IFloodParcelRepository
+public class ParcelRepository : IParcelRepository
 {
     private readonly PresTrustSqlDbContext context;
     protected readonly SystemParameterConfiguration systemParamConfig;
 
-    public FloodParcelRepository(
+    public ParcelRepository(
         PresTrustSqlDbContext context,
         IOptions<SystemParameterConfiguration> systemParamConfigOptions
         )
@@ -53,5 +53,23 @@ public class FloodParcelRepository : IFloodParcelRepository
         result = results.FirstOrDefault();
 
         return result;
+    }
+
+    public async Task<IEnumerable<FloodParcelStatusLogEntity>> GetParcelStatusLogAsync(int applicationId, string pamsPin)
+    {
+        IEnumerable<FloodParcelStatusLogEntity> results = default;
+
+        using var conn = context.CreateConnection();
+        string sqlCommand = new GetParcelStatusLogSqlCommand().ToString();
+        results = await conn.QueryAsync<FloodParcelStatusLogEntity>(sqlCommand,
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new
+                    {
+                        @p_ApplicationId = applicationId,
+                        @p_PamsPin = pamsPin
+                    });
+
+        return results;
     }
 }

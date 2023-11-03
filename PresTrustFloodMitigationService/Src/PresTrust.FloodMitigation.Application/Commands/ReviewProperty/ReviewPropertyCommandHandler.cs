@@ -44,7 +44,7 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(Property);
-            FloodApplicationParcelStatusLogEntity appStatusLog = new()
+            FloodParcelStatusLogEntity appStatusLog = new()
             {
                 ApplicationId = Property.ApplicationId,
                 PamsPin = Property.PamsPin,

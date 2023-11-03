@@ -114,7 +114,7 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
     }
 
 
-    public async Task<bool> SaveStatusLogAsync(FloodApplicationParcelStatusLogEntity applicationStatusLog)
+    public async Task<bool> SaveStatusLogAsync(FloodParcelStatusLogEntity applicationStatusLog)
     {
         bool result = false;
 

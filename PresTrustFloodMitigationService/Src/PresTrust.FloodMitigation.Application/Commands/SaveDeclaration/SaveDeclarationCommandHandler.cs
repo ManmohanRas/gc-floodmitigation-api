@@ -6,7 +6,7 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IFloodParcelRepository repoParcel;
+    private readonly IParcelRepository repoParcel;
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IApplicationUserRepository repoApplicationUser;
     public SaveDeclarationCommandHandler (
@@ -14,7 +14,7 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IFloodParcelRepository repoParcel,
+        IParcelRepository repoParcel,
         IApplicationParcelRepository repoApplicationParcel,
         IApplicationUserRepository repoApplicationUser
         ) : base (repoApplication)
