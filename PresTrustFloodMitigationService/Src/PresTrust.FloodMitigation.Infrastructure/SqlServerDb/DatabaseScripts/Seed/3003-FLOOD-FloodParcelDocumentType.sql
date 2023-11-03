@@ -95,3 +95,6 @@ GO
 
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (32, 'SURVEY_REVIEW_LETTER', 'Survey Review Letter document', 2);
 GO
+
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (33, 'POST_ACQUISITION', 'Post Acquisition Picture document', 10);
+GO

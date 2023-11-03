@@ -142,5 +142,10 @@
         /// </summary>
         SURVEY_REVIEW_LETTER = 32,
 
+        /// <summary>
+        /// Documentype Type for postAcquisitionPicture -TrackingTab
+        /// </summary>
+        POST_ACQUISITION = 33,
+
     }
 }

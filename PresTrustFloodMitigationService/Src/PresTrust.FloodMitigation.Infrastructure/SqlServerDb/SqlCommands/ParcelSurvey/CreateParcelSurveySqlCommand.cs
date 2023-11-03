@@ -18,6 +18,7 @@ public class CreateParcelSurveySqlCommand
                    ,@p_Surveyor
                    ,@p_SurveyDate
                    ,@p_LastRevision
+                   ,@p_DateCorrected
                    ,@p_LastUpdatedBy
                    ,GETDATE());
 

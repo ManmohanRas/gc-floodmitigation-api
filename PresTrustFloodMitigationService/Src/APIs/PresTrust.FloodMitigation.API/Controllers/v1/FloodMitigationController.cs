@@ -640,7 +640,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<IEnumerable<PropertyDocumentTypeViewModel>>> GetPropertyDocument([FromBody] GetPropertyDocumentsQuery query)
-{
+    {
         return Single(await QueryAsync(query));
     }
 
@@ -653,6 +653,26 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
+
+    [HttpPost("getParcelTracking")]
+    [ProducesResponseType(typeof(GetParcelTrackingQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetParcelTrackingQueryViewModel>> GetParcelTracking([FromBody] GetParcelTrackingQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveParcelTracking")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveParcelTracking([FromBody] SaveParcelTrackingCommand command)
+    {
+        return Single(await CommandAsync(command));
+    } 
 
     [HttpPost("savePropertyDocument")]
     [ProducesResponseType(typeof(SavePropertyDocumentDetailsCommandViewModel), (int)HttpStatusCode.OK)]
@@ -735,7 +755,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveParcelSurvey([FromBody] SaveParcelFinanceCommand command)
+    public async Task<ActionResult<int>> SaveParcelSurvey([FromBody] SaveParcelSurveyCommand command)
     {
         return Single(await CommandAsync(command));
     }
