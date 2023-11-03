@@ -67,9 +67,9 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
             //change properties statuses to DOI_SUBMITTED in future
 
             // returns broken rules  
-            var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
+            //var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
             // save broken rules
-            await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+            //await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
 
             scope.Complete();
             result.IsSuccess = true;
