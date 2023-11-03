@@ -3,7 +3,7 @@
     public class UpdateDocumentCheckListItemsSqlCommand
 	{
 		private readonly string _sqlCommand =
-          @" UPDATE [Flood].[FloodDocument]
+          @" UPDATE [Flood].[FloodApplicationDocument]
 				SET  [Title] = @p_Title
 					,[Description] = @p_Description
 					,[UseInReport] = @p_UseInReport
