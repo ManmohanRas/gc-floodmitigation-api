@@ -76,9 +76,9 @@ public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<Subm
             //change properties statuses to DOI_SUBMITTED in future
 
             // returns broken rules  
-            var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
+            //var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
             // save broken rules
-            await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+            //await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
 
             //Send Email
             var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_DRAFT_TO_DOI_SUBMITTED.ToString());
