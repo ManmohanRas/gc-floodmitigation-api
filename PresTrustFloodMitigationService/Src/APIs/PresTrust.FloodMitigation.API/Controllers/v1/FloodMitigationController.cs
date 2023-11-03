@@ -307,7 +307,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     }
 
 
-    [HttpPost("saveOverviewDetails")]
+    [HttpPost("saveApplicationOverviewDetails")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]

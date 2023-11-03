@@ -96,7 +96,7 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
 
             if (reqOverviewDetails.NatlDisaster == true)
             {
-                if (string.IsNullOrEmpty(reqOverviewDetails.NatlDisasterName) && reqOverviewDetails.NatlDisasterYear == null)
+                if (string.IsNullOrEmpty(reqOverviewDetails.NatlDisasterName) || reqOverviewDetails.NatlDisasterYear == 0 || reqOverviewDetails.NatlDisasterMonth <= 0)
                 {
                     brokenRules.Add(new FloodBrokenRuleEntity()
                     {
@@ -107,6 +107,19 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
                     });
                 }
             }
+            //if (reqOverviewDetails.NatlDisaster == true)
+            //{
+            //    if (reqOverviewDetails.NatlDisasterYear == 0)
+            //    {
+            //        brokenRules.Add(new FloodBrokenRuleEntity()
+            //        {
+            //            ApplicationId = reqOverviewDetails.ApplicationId,
+            //            SectionId = sectionId,
+            //            Message = "Name,Month and year required field on overview tab have not been filled.",
+            //            IsApplicantFlow = true
+            //        });
+            //    }
+            //}
 
             if (reqOverviewDetails?.LOI == null)
             {
