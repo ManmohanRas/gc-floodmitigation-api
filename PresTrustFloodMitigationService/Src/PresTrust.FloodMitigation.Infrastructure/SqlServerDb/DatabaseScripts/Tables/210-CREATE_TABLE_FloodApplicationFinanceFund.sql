@@ -20,9 +20,9 @@ CREATE TABLE [Flood].[FloodApplicationFinanceFund](
 	[ApplicationId]							[integer]						NOT NULL,
 
 	[FundingSourceTypeId]                   [integer]                       NOT NULL,
-	[Title]									[varchar](256)					NOT NULL,
+	[Title]									[varchar](256)				    NULL    ,
 	[Amount]								[decimal](18,2)					NOT NULL,
-	[AwardDate]								[DateTime]						NOT NULL,
+	[AwardDate]								[DateTime]						NULL    ,
 
 	[LastUpdatedBy]							[varchar](128)					NULL,
 	[LastUpdatedOn]							[DateTime]						NOT NULL,
