@@ -10,7 +10,7 @@ public class AssignApplicationUsersCommandHandler : BaseHandler, IRequestHandler
     private readonly IApplicationUserRepository repoApplicationUser;
     private readonly IApplicationRepository repoApplication;
     private readonly IBrokenRuleRepository repoBrokenRules;
-
+    
     public AssignApplicationUsersCommandHandler(
         IMapper mapper,
         IPresTrustUserContext userContext,
@@ -18,7 +18,7 @@ public class AssignApplicationUsersCommandHandler : BaseHandler, IRequestHandler
         IApplicationUserRepository repoApplicationUser,
         IApplicationRepository repoApplication,
         IBrokenRuleRepository repoBrokenRules
-        )
+        ): base (repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
