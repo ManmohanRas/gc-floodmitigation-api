@@ -7,7 +7,7 @@ public interface IFundingSourceRepoitory
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Funding source items.</returns>
-    Task<IEnumerable<FloodFundingSourceEntity>> GetFundingSourcesAsync(int applicationId);
+    Task<List<FloodFundingSourceEntity>> GetFundingSourcesAsync(int applicationId);
     /// <summary>
     /// Save Funding source item.
     /// </summary>

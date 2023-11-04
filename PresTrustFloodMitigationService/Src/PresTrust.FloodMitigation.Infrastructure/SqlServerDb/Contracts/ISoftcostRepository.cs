@@ -2,6 +2,6 @@
 
 public interface ISoftcostRepository
 {
-    Task<IEnumerable<FloodParcelSoftcostEntity>> GetAllSoftcostLineItemsAsync(int applicationId, string pamsPin);
+    Task<List<FloodParcelSoftcostEntity>> GetAllSoftcostLineItemsAsync(int applicationId, string pamsPin);
     Task<FloodParcelSoftcostEntity> SaveAsync(FloodParcelSoftcostEntity softcost);
 }

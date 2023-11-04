@@ -38,12 +38,7 @@ public class SaveTechDetailsCommandHandler : IRequestHandler<SaveTechDetailsComm
         var reqTechDetails = mapper.Map<SaveTechDetailsCommand, FloodTechDetailsEntity>(request);
         reqTechDetails.LastUpdatedBy = userContext.Email;
 
-        var techDetails = await repoTechDetails.SaveTechAsync(reqTechDetails) ?? new FloodTechDetailsEntity()
-        {
-            Id = 0,
-            ApplicationId = request.ApplicationId,
-            Pamspin = request.Pamspin
-        };
+        var techDetails = await repoTechDetails.SaveTechAsync(reqTechDetails);
         return techDetails.Id;
     }
 

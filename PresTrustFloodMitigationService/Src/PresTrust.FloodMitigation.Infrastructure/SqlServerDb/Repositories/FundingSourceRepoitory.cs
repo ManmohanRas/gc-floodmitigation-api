@@ -25,17 +25,17 @@ public class FundingSourceRepoitory: IFundingSourceRepoitory
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns funding source items.</returns>
-    public async Task<IEnumerable<FloodFundingSourceEntity>> GetFundingSourcesAsync(int applicationId)
+    public async Task<List<FloodFundingSourceEntity>> GetFundingSourcesAsync(int applicationId)
     {
-        IEnumerable<FloodFundingSourceEntity> results;
+        List<FloodFundingSourceEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetFundingSourcesByApplicationIdSqlCommad();
-        results = await conn.QueryAsync<FloodFundingSourceEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodFundingSourceEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId });
+                            param: new { @p_ApplicationId = applicationId })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     /// <summary>

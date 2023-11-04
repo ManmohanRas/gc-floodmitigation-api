@@ -28,17 +28,17 @@ public class ApplicationDocumentRepository: IApplicationDocumentRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Document collection.</returns>
-    public async Task<IEnumerable<FloodApplicationDocumentEntity>> GetApplicationDocumentsAsync(int applicationId, int sectionId)
+    public async Task<List<FloodApplicationDocumentEntity>> GetApplicationDocumentsAsync(int applicationId, int sectionId)
     {
-        IEnumerable<FloodApplicationDocumentEntity> results = default;
+        List<FloodApplicationDocumentEntity> results = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetApplicationDocumentsSqlCommand();
-        results = await conn.QueryAsync<FloodApplicationDocumentEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodApplicationDocumentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId, @p_SectionId = sectionId });
+                            param: new { @p_ApplicationId = applicationId, @p_SectionId = sectionId })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     /// Procedure to save uploaded document 
@@ -86,17 +86,17 @@ public class ApplicationDocumentRepository: IApplicationDocumentRepository
             param: new { @p_Id = id });
     }
 
-    public async Task<IEnumerable<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId)
+    public async Task<List<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId)
     {
-        IEnumerable<FloodApplicationDocumentEntity> results = default;
+        List<FloodApplicationDocumentEntity> results = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetDocumentCheckListSqlCommand();
-        results = await conn.QueryAsync<FloodApplicationDocumentEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodApplicationDocumentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId });
+                            param: new { @p_ApplicationId = applicationId })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     public async Task<FloodApplicationDocumentEntity> UpdateDocumentCheckListItemsAsync(FloodApplicationDocumentEntity doc)

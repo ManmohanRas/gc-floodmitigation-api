@@ -27,15 +27,15 @@ public class FinanceRepository: IFinanceRepository
     /// <returns> Returns finance details.</returns>
     public async Task<FloodApplicationFinanceEntity> GetFinanceAsync(int applicationId)
     {
-        IEnumerable<FloodApplicationFinanceEntity> results;
+        FloodApplicationFinanceEntity result = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetFinanceSqlCommand();
-        results = await conn.QueryAsync<FloodApplicationFinanceEntity>(sqlCommand.ToString(),
+        var results = await conn.QueryAsync<FloodApplicationFinanceEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new { @p_ApplicationId = applicationId });
-        var result = results.FirstOrDefault();
-        return result;
+        result = results.FirstOrDefault();
+        return result ?? new();
     }
 
     /// <summary>

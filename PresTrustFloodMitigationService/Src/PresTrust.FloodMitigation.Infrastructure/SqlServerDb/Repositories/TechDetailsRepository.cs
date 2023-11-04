@@ -48,7 +48,7 @@ public class TechDetailsRepository : ITechDetailsRepository
 
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
 
     /// <summary>

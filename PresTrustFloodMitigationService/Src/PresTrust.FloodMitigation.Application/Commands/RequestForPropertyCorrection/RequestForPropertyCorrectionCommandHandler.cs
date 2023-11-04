@@ -9,7 +9,7 @@ public class RequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestH
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IApplicationFeedbackRepository repoFeedback;
+    private readonly IFeedbackPropRepository repoFeedback;
     private readonly IEmailManager repoEmailManager;
 
     /// <summary>
@@ -27,7 +27,7 @@ public class RequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestH
            IPresTrustUserContext userContext,
            IOptions<SystemParameterConfiguration> systemParamOptions,
            IApplicationRepository repoApplication,
-           IApplicationFeedbackRepository repoFeedback
+           IFeedbackPropRepository repoFeedback
        )
     {
         this.mapper = mapper;
@@ -49,15 +49,15 @@ public class RequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestH
         AuthorizationCheck(application);
         // update feedback status and send email to an applicant
         //  using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
-        {
-          await repoFeedback.RequestForApplicationCorrectionAsync(application.Id);
+        //{
+          await repoFeedback.RequestForPropertyCorrectionAsync(application.Id);
 
            // var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.FEEDBACK_EMAIL.ToString());
            // if (template != null)
              //   await repoEmailManager.SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, fundingYear: application.FundingYear, agencyId: application.AgencyId);
 
            // scope.Complete();
-        };
+        //};
 
         return true;
     }

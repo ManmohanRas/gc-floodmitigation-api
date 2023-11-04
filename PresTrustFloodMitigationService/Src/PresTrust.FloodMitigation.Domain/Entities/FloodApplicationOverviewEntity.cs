@@ -28,5 +28,4 @@ public class FloodApplicationOverviewEntity
     public bool FundingAgenciesApplied { get; set; }
     public string? LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedOn { get; set; }
-
 }

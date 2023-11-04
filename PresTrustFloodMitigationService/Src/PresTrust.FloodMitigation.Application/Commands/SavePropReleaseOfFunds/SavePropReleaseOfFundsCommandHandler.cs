@@ -37,12 +37,7 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
         var reqPropRof = mapper.Map<SavePropReleaseOfFundsCommand, FloodPropReleaseOfFundsEntity>(request);
         reqPropRof.LastUpdatedBy = userContext.Email;
 
-        var propReleaseOfFunds = await repoPropReleaseOfFunds.SaveAsync(reqPropRof) ?? new FloodPropReleaseOfFundsEntity()
-        {
-            Id = 0,
-            ApplicationId = request.ApplicationId,
-            PamsPin = request.PamsPin
-        };
+        var propReleaseOfFunds = await repoPropReleaseOfFunds.SaveAsync(reqPropRof);
         return propReleaseOfFunds.Id;
     }
 

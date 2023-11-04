@@ -6,7 +6,7 @@ public interface ICoreRepository
     /// Procedure to get list of agencies
     /// </summary>
     /// <returns></returns>
-    Task<IEnumerable<FloodAgencyEntity>> GetAgenciesAsync();
+    Task<List<FloodAgencyEntity>> GetAgenciesAsync();
     /// <summary>
     /// Procedure to get agency by id
     /// </summary>
@@ -27,5 +27,5 @@ public interface ICoreRepository
     /// <param name="lot"></param>
     /// <param name="address"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address, List<string> existingPamsPins);
+    Task<List<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address, List<string> existingPamsPins);
 }

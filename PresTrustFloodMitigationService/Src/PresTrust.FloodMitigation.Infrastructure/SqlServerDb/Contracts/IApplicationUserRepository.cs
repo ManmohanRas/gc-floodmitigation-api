@@ -7,7 +7,7 @@ public interface IApplicationUserRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodApplicationUserEntity>> GetApplicationUsersAsync(int applicationId);
+    Task<List<FloodApplicationUserEntity>> GetApplicationUsersAsync(int applicationId);
 
     /// <summary>
     /// 
@@ -28,6 +28,6 @@ public interface IApplicationUserRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodApplicationUserEntity>> GetPrimaryContactsAsync(int applicationId);
+    Task<List<FloodApplicationUserEntity>> GetPrimaryContactsAsync(int applicationId);
 
 }

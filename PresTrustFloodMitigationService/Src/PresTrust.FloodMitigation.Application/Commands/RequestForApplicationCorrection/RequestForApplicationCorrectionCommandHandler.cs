@@ -51,16 +51,16 @@ public class RequestForApplicationCorrectionCommandHandler : BaseHandler, IReque
         AuthorizationCheck(application);
 
         // update feedback status and send email to an applicant
-        using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
-        {
+        //using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
+        //{
             await repoFeedback.RequestForApplicationCorrectionAsync(application.Id);
 
-           // var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.FEEDBACK_EMAIL.ToString());
+            // var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.FEEDBACK_EMAIL.ToString());
             //if (template != null)
-              //  await repoEmailManager.SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, fundingYear: application.FundingYear, agencyId: application.AgencyId);
+            //  await repoEmailManager.SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, fundingYear: application.FundingYear, agencyId: application.AgencyId);
 
             //scope.Complete();
-        };
+        //};
 
         return true;
     }

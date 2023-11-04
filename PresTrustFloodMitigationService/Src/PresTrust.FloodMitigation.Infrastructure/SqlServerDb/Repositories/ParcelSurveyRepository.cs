@@ -30,7 +30,7 @@ public class ParcelSurveyRepository : IParcelSurveyRepository
                             });
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
     public async Task<FloodParcelSurveyEntity> SaveAsync(FloodParcelSurveyEntity parcelSurvey)
     {

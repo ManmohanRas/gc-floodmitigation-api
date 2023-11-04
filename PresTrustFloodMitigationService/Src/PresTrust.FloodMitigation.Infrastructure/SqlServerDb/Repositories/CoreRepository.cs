@@ -30,16 +30,16 @@
         /// <param name="id"> Id.</param>
         /// <param name="applicationId"> Id.</param>
         /// <returns> Returns Grant Entity.</returns>
-        public async Task<IEnumerable<FloodAgencyEntity>> GetAgenciesAsync()
+        public async Task<List<FloodAgencyEntity>> GetAgenciesAsync()
         {
-            IEnumerable<FloodAgencyEntity> results = default;
+            List<FloodAgencyEntity> results = default;
             using var conn = context.CreateConnection();
             var sqlCommand = new GetFloodAgenciesSqlCommand();
-            results = await conn.QueryAsync<FloodAgencyEntity>(sqlCommand.ToString(),
+            results = (await conn.QueryAsync<FloodAgencyEntity>(sqlCommand.ToString(),
                         commandType: CommandType.Text,
-                        commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds);
+                        commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds)).ToList();
 
-            return results;
+            return results ?? new();
         }
 
         public async Task<FloodAgencyEntity> GetAgencyByIdAsync(int id)
@@ -53,7 +53,7 @@
                                 param: new { @p_Id = id });
             result = results.FirstOrDefault();
 
-            return result;
+            return result ?? new();
         }
 
         public async Task<bool> IsValidPamsPinAsync(string pamsPin)
@@ -71,12 +71,12 @@
             return result;
         }
 
-        public async Task<IEnumerable<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address, List<string> existingPamsPins)
+        public async Task<List<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address, List<string> existingPamsPins)
         {
-            IEnumerable<FloodParcelEntity> results = default;
+            List<FloodParcelEntity> results = default;
             using var conn = context.CreateConnection();
             var sqlCommand = new GetFloodParcelsByFilterSqlCommand();
-            results = await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
+            results = (await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
                         commandType: CommandType.Text,
                         commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                         param: new {
@@ -85,9 +85,9 @@
                             @p_Block = string.Format("%{0}%", block ?? string.Empty),
                             @p_Lot = string.Format("%{0}%", lot ?? string.Empty),
                             @p_Address = string.Format("%{0}%", address ?? string.Empty)
-                        });
+                        })).ToList();
 
-            return results;
+            return results ?? new();
         }
     }
 }

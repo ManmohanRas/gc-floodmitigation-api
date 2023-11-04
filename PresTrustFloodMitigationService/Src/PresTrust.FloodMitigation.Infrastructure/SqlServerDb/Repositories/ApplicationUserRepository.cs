@@ -20,18 +20,18 @@ public class ApplicationUserRepository: IApplicationUserRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<FloodApplicationUserEntity>> GetApplicationUsersAsync(int applicationId)
+    public async Task<List<FloodApplicationUserEntity>> GetApplicationUsersAsync(int applicationId)
     {
-        IEnumerable<FloodApplicationUserEntity>? results = default;
+        List<FloodApplicationUserEntity>? results = default;
 
         using var conn = context.CreateConnection();
         var sqlCommand = new GetApplicationUsersByApplicationIdSqlCommand();
-        results = await conn.QueryAsync<FloodApplicationUserEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodApplicationUserEntity>(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                    param: new { @p_ApplicationId = applicationId });
+                    param: new { @p_ApplicationId = applicationId })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     /// <summary>
@@ -89,17 +89,17 @@ public class ApplicationUserRepository: IApplicationUserRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<FloodApplicationUserEntity>> GetPrimaryContactsAsync(int applicationId)
+    public async Task<List<FloodApplicationUserEntity>> GetPrimaryContactsAsync(int applicationId)
     {
-        IEnumerable<FloodApplicationUserEntity> results = default;
+        List<FloodApplicationUserEntity> results = default;
 
         using var conn = context.CreateConnection();
         var sqlCommand = new GetPrimaryContactsByApplicationIdSqlCommand();
-        results = await conn.QueryAsync<FloodApplicationUserEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodApplicationUserEntity>(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                    param: new { @p_ApplicationId = applicationId });
+                    param: new { @p_ApplicationId = applicationId })).ToList();
 
-        return results;
+        return results ?? new();
     }
 }

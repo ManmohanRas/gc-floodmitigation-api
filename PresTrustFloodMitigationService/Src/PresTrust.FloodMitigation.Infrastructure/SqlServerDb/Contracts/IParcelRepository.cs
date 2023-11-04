@@ -23,5 +23,5 @@ public interface IParcelRepository
     /// <param name="applicationId"></param>
     /// <param name="pamsPin"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodParcelStatusLogEntity>> GetParcelStatusLogAsync(int applicationId, string pamsPin);
+    Task<List<FloodParcelStatusLogEntity>> GetParcelStatusLogAsync(int applicationId, string pamsPin);
 }

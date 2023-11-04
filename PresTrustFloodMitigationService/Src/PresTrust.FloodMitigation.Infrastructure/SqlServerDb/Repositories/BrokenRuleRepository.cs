@@ -31,18 +31,18 @@ public class BrokenRuleRepository: IBrokenRuleRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<FloodBrokenRuleEntity>> GetBrokenRulesAsync(int applicationId)
+    public async Task<List<FloodBrokenRuleEntity>> GetBrokenRulesAsync(int applicationId)
     {
-        IEnumerable<FloodBrokenRuleEntity> results = default;
+        List<FloodBrokenRuleEntity> results = default;
 
         using var conn = context.CreateConnection();
         var sqlCommand = new GetBrokenRulesSqlCommand();
-        results = await conn.QueryAsync<FloodBrokenRuleEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodBrokenRuleEntity>(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                    param: new { @p_ApplicationId = applicationId });
+                    param: new { @p_ApplicationId = applicationId })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     /// <summary>

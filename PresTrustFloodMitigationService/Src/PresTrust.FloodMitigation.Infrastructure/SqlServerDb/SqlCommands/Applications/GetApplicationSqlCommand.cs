@@ -67,7 +67,7 @@ public class GetApplicationSqlCommand
 													FOR JSON PATH,
 													WITHOUT_ARRAY_WRAPPER) AS [CommentJSON]
 									FROM		[Flood].[FloodApplicationComment]
-									WHERE		[ApplicationId] = @p_Id AND [CommentTypeId] IN (2)) FLOOD_COMMENT
+									WHERE		[ApplicationId] = @p_Id) FLOOD_COMMENT
 						GROUP BY	[ApplicationId]) C ON A.Id = C.ApplicationId
 			LEFT JOIN	(SELECT		[ApplicationId],
 									CONCAT('[', STRING_AGG([FeedbackJSON], ','), ']') AS [FeedbacksJSON]

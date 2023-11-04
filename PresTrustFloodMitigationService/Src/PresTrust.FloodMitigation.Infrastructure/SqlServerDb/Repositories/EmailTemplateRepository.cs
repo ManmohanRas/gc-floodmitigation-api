@@ -42,6 +42,6 @@ public class EmailTemplateRepository: IEmailTemplateRepository
 
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
 }

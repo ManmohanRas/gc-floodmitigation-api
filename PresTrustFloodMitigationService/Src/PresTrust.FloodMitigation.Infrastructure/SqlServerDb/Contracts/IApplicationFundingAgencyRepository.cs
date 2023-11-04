@@ -7,7 +7,7 @@ public interface IApplicationFundingAgencyRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodApplicationFundingAgencyEntity>> GetFundingAgencies(int applicationId);
+    Task<List<FloodApplicationFundingAgencyEntity>> GetFundingAgencies(int applicationId);
     // <summary>
     /// Save fundingAgency.
     /// </summary>

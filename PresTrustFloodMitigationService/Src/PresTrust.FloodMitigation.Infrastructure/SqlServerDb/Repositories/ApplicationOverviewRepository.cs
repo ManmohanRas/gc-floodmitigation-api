@@ -25,9 +25,9 @@ public class ApplicationOverviewRepository : IApplicationOverviewRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new { @p_ApplicationId = applicationId });
 
-        result = results.FirstOrDefault() ?? new FloodApplicationOverviewEntity();
+        result = results.FirstOrDefault();
 
-        return result ?? new FloodApplicationOverviewEntity();
+        return result ?? new();
     }
 
     public async Task<FloodApplicationOverviewEntity> SaveAsync(FloodApplicationOverviewEntity overviewDetails)

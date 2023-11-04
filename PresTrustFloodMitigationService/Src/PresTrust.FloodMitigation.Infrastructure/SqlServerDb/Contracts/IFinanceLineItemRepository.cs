@@ -7,7 +7,7 @@ public interface IFinanceLineItemRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Finance line items.</returns>
-    Task<IEnumerable<FloodFinanceLineItemEntity>> GetFinanceLineItemsAsync(int applicationId);
+    Task<List<FloodFinanceLineItemEntity>> GetFinanceLineItemsAsync(int applicationId);
 
     /// <summary>
     /// Save Finance line item.

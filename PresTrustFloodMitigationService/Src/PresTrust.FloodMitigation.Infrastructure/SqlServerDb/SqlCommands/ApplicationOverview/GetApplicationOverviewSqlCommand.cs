@@ -3,7 +3,7 @@
 public class GetApplicationOverviewSqlCommand
 {
     private readonly String _sqlCommand =
-            @" SELECT [Id]
+            @" SELECT    [Id]
                         ,[ApplicationId]
                         ,[NoOfHomes]
                         ,[NoOfContiguousHomes]
@@ -30,8 +30,8 @@ public class GetApplicationOverviewSqlCommand
                         ,[LastUpdatedBy]
                         ,[LastUpdatedOn]
                     FROM [Flood].[FloodApplicationOverview]
-                    WHERE [ApplicationId] = @p_ApplicationId;"
-                 ;
+                    WHERE [ApplicationId] = @p_ApplicationId;";
+
     public GetApplicationOverviewSqlCommand()
     {
     }

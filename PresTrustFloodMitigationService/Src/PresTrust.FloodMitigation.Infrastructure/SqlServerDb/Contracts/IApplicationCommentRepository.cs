@@ -7,7 +7,7 @@ public interface IApplicationCommentRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Comments.</returns>
-    Task<IEnumerable<FloodApplicationCommentEntity>> GetAllCommentsAsync(int applicationId);
+    Task<List<FloodApplicationCommentEntity>> GetAllCommentsAsync(int applicationId);
 
    
     /// <summary>

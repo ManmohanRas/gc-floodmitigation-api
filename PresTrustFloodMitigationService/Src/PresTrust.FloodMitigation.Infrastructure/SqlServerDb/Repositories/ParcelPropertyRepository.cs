@@ -55,7 +55,7 @@ public async Task<FloodParcelPropertyEntity> GetAsync(int applicationId, string 
 
     result = results.FirstOrDefault();
 
-    return result;
+    return result ?? new();
 }
 
 /// <summary>

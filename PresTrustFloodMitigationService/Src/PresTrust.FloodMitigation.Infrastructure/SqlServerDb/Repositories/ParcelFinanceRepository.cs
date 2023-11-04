@@ -45,7 +45,7 @@ public class ParcelFinanceRepository: IParcelFinanceRepository
 
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
 
     /// <summary>

@@ -8,7 +8,7 @@ public interface IApplicationRepository
     /// <param name="agencyIds"></param>
     /// <param name="isExternalUser"></param>
     /// <returns>Returns application collection</returns>
-    Task<IEnumerable<FloodApplicationEntity>> GetApplicationsByAgenciesAsync(List<int> agencyIds, bool isExternalUser);
+    Task<List<FloodApplicationEntity>> GetApplicationsByAgenciesAsync(List<int> agencyIds, bool isExternalUser);
 
     /// <summary>
     /// Get Application by Id
@@ -43,6 +43,6 @@ public interface IApplicationRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodApplicationStatusLogEntity>> GetApplicationStatusLogAsync(int applicationId);
+    Task<List<FloodApplicationStatusLogEntity>> GetApplicationStatusLogAsync(int applicationId);
 
 }

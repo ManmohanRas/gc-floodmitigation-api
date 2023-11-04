@@ -45,7 +45,7 @@ public class ApplicationSignatoryRepository : IApplicationSignatoryRepository
 
             result = results.FirstOrDefault();
 
-            return result;
+            return result ?? new();
     }
 
     /// <summary>

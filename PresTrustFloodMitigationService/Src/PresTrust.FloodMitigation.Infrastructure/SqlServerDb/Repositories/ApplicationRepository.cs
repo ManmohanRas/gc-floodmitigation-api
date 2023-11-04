@@ -17,9 +17,9 @@ public class ApplicationRepository: IApplicationRepository
         this.systemParamConfig = systemParamConfigOptions.Value;
     }
 
-    public async Task<IEnumerable<FloodApplicationEntity>> GetApplicationsByAgenciesAsync(List<int> agencyIds, bool isExternalUser)
+    public async Task<List<FloodApplicationEntity>> GetApplicationsByAgenciesAsync(List<int> agencyIds, bool isExternalUser)
     {
-        IEnumerable<FloodApplicationEntity> results = default;
+        List<FloodApplicationEntity> results = default;
         DataTable table = new DataTable();
         table.Columns.Add("Id", typeof(int));
 
@@ -35,12 +35,12 @@ public class ApplicationRepository: IApplicationRepository
 
         using var conn = context.CreateConnection();
         string sqlCommand = new GetApplicationsByAgenciesSqlCommand().ToString();
-        results = await conn.QueryAsync<FloodApplicationEntity>(sqlCommand,
+        results = (await conn.QueryAsync<FloodApplicationEntity>(sqlCommand,
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                    param: new { @p_IdTableType = table.AsTableValuedParameter("[OSTF].[IdTableType]") });
+                    param: new { @p_IdTableType = table.AsTableValuedParameter("[OSTF].[IdTableType]") })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     public async Task<FloodApplicationEntity> GetApplicationAsync(int applicationId)
@@ -54,7 +54,7 @@ public class ApplicationRepository: IApplicationRepository
                             param: new { @p_Id = applicationId });
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
 
     public async Task<FloodApplicationEntity> SaveAsync(FloodApplicationEntity application)
@@ -140,19 +140,19 @@ public class ApplicationRepository: IApplicationRepository
         return application;
     }
 
-    public async Task<IEnumerable<FloodApplicationStatusLogEntity>> GetApplicationStatusLogAsync(int applicationId)
+    public async Task<List<FloodApplicationStatusLogEntity>> GetApplicationStatusLogAsync(int applicationId)
     {
-        IEnumerable<FloodApplicationStatusLogEntity> results = default;
+        List<FloodApplicationStatusLogEntity> results = default;
        
         using var conn = context.CreateConnection();
         string sqlCommand = new GetApplicationStatusLogSqlCommand().ToString();
-        results = await conn.QueryAsync<FloodApplicationStatusLogEntity>(sqlCommand,
+        results = (await conn.QueryAsync<FloodApplicationStatusLogEntity>(sqlCommand,
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new {
                         @p_ApplicationId = applicationId
-                    });
+                    })).ToList();
 
-        return results;
+        return results ?? new();
     }
 }

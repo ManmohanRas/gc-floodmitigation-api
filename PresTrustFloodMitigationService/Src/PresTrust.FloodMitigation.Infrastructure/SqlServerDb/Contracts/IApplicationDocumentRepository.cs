@@ -7,7 +7,7 @@ public interface IApplicationDocumentRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Document collection.</returns>
-    Task<IEnumerable<FloodApplicationDocumentEntity>> GetApplicationDocumentsAsync(int applicationId, int sectionId);
+    Task<List<FloodApplicationDocumentEntity>> GetApplicationDocumentsAsync(int applicationId, int sectionId);
 
     /// <summary>
     /// Procedure to save uploaded application document details
@@ -35,5 +35,5 @@ public interface IApplicationDocumentRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId);
+    Task<List<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId);
 }

@@ -32,7 +32,7 @@ public class GetBrokenRulesQueryHandler: BaseHandler, IRequestHandler<GetBrokenR
         var brokenRules = await repoBrokenRule.GetBrokenRulesAsync(request.ApplicationId);
         if (isApplicantFlow)
         {
-            brokenRules = brokenRules.Where(o => o.IsApplicantFlow);
+            brokenRules = brokenRules.Where(o => o.IsApplicantFlow).ToList();
         }
 
         var result = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<GetBrokenRulesQueryViewModel>>(brokenRules);

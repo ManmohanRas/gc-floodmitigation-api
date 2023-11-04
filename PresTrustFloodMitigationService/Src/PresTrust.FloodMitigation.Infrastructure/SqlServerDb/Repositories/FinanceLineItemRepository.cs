@@ -25,17 +25,17 @@ public class FinanceLineItemRepository: IFinanceLineItemRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns inance line items.</returns>
-    public async Task<IEnumerable<FloodFinanceLineItemEntity>> GetFinanceLineItemsAsync(int applicationId)
+    public async Task<List<FloodFinanceLineItemEntity>> GetFinanceLineItemsAsync(int applicationId)
     {
-        IEnumerable<FloodFinanceLineItemEntity> results;
+        List<FloodFinanceLineItemEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetFinanceLineItemsByApplicationIdSqlCommand();
-        results = await conn.QueryAsync<FloodFinanceLineItemEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodFinanceLineItemEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId });
+                            param: new { @p_ApplicationId = applicationId })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     /// <summary>

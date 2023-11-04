@@ -43,12 +43,7 @@ public class SaveParcelPropertyCommandHandler : IRequestHandler<SaveParcelProper
         var reqParcelProperty = mapper.Map<SaveParcelPropertyCommand, FloodParcelPropertyEntity>(request);
         reqParcelProperty.LastUpdatedBy = userContext.Email;
 
-        var ParcelProperty = await repoParcelProperty.SavePropertyAsync(reqParcelProperty) ?? new FloodParcelPropertyEntity()
-        {
-            Id = 0,
-            ApplicationId = request.ApplicationId,
-            PamsPin = request.Pamspin
-        };
+        var ParcelProperty = await repoParcelProperty.SavePropertyAsync(reqParcelProperty);
         return ParcelProperty.Id;
     }
 

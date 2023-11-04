@@ -44,7 +44,7 @@ public class ApplicationReleaseOfFundsRepository: IApplicationReleaseOfFundsRepo
 
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
 
     /// <summary>
@@ -52,21 +52,21 @@ public class ApplicationReleaseOfFundsRepository: IApplicationReleaseOfFundsRepo
     /// </summary>
     /// <param name="applicationId"> Id.</param>
     /// <returns> Returns FloodPropReleaseOfFundsEntity.</returns>
-    public async Task<IEnumerable<FloodPropReleaseOfFundsEntity>> GetApplicationPaymentsAsync(int applicationId)
+    public async Task<List<FloodPropReleaseOfFundsEntity>> GetApplicationPaymentsAsync(int applicationId)
     {
-        IEnumerable<FloodPropReleaseOfFundsEntity> results;
+        List<FloodPropReleaseOfFundsEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetApplicationPaymentsSqlCommand();
-        results = await conn.QueryAsync<FloodPropReleaseOfFundsEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodPropReleaseOfFundsEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new
                             {
                                 @p_ApplicationId = applicationId,
-                            });
+                            })).ToList();
 
 
-        return results;
+        return results ?? new();
     }
 
     /// <summary>

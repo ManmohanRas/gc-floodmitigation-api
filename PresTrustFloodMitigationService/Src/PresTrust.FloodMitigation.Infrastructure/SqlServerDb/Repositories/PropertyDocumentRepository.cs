@@ -23,17 +23,17 @@ public class PropertyDocumentRepository: IPropertyDocumentRepository
     }
 
     #endregion
-    public async Task<IEnumerable<FloodPropertyDocumentEntity>> GetPropertyDocumentsAsync(int applicationId, int sectionId, string pamsPin)
+    public async Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentsAsync(int applicationId, int sectionId, string pamsPin)
     {
-        IEnumerable<FloodPropertyDocumentEntity> results = default;
+        List<FloodPropertyDocumentEntity> results = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetPropertyDocumentsSqlCommand();
-        results = await conn.QueryAsync<FloodPropertyDocumentEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodPropertyDocumentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId, @p_SectionId = sectionId, @p_pamsPin = pamsPin});
+                            param: new { @p_ApplicationId = applicationId, @p_SectionId = sectionId, @p_pamsPin = pamsPin})).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     /// <summary>
@@ -77,17 +77,17 @@ public class PropertyDocumentRepository: IPropertyDocumentRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new { @p_Id = id });
     }
-    public async Task<IEnumerable<FloodPropertyDocumentEntity>> GetPropertyDocumentCheckListAsync(int applicationId, string pamsPin)
+    public async Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentCheckListAsync(int applicationId, string pamsPin)
     {
-        IEnumerable<FloodPropertyDocumentEntity> results = default;
+        List<FloodPropertyDocumentEntity> results = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetPropertyDocumentCheckListSqlCommand();
-        results = await conn.QueryAsync<FloodPropertyDocumentEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodPropertyDocumentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId, @p_pamsPin = pamsPin });
+                            param: new { @p_ApplicationId = applicationId, @p_pamsPin = pamsPin })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     public async Task<FloodPropertyDocumentEntity> UpdatePropertyDocumentCheckListItemsAsync(FloodPropertyDocumentEntity doc)

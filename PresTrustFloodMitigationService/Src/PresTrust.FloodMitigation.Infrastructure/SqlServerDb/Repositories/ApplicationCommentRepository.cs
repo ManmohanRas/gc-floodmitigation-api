@@ -15,16 +15,16 @@ public class ApplicationCommentRepository : IApplicationCommentRepository
         this.systemParamConfig = systemParamConfigOptions.Value;
     }
 
-    public async Task<IEnumerable<FloodApplicationCommentEntity>> GetAllCommentsAsync(int applicationId)
+    public async Task<List<FloodApplicationCommentEntity>> GetAllCommentsAsync(int applicationId)
     {
-        IEnumerable<FloodApplicationCommentEntity> results;
+        List<FloodApplicationCommentEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetAllApplicationCommentsSqlCommand();
-        results = await conn.QueryAsync<FloodApplicationCommentEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodApplicationCommentEntity>(sqlCommand.ToString(),
             commandType:CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId });
-        return results;
+                            param: new { @p_ApplicationId = applicationId })).ToList();
+        return results ?? new();
     }
 
     public async Task<FloodApplicationCommentEntity> SaveAsync(FloodApplicationCommentEntity comment)

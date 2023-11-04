@@ -41,7 +41,7 @@ public class FloodApplicationSecurityManager
         adminNavigationItems = new List<NavigationItemEntity>();
         postApprovedNavigationItems = new List<NavigationItemEntity>();
 
-        if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
+        if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
         {
             permission.CanCreateApplication = true;
         }
@@ -89,7 +89,7 @@ public class FloodApplicationSecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
                     permission.CanSubmitDeclarationOfIntent = true;
                 }
@@ -145,11 +145,12 @@ public class FloodApplicationSecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
                     permission.CanApproveDeclarationOfIntent = true;
                     permission.CanRejectApplication = true;
                     permission.CanRequestForAnApplicationCorrection = true;
+                    permission.CanRespondToTheRequestForAnApplicationCorrection = true;
                     permission.CanEditFeedback = true;
                     permission.CanDeleteFeedback = true;
                 }
@@ -175,17 +176,28 @@ public class FloodApplicationSecurityManager
                 else
                 {
                     // Declaration Of Intent
-                    if (userRole == UserRoleEnum.PROGRAM_ADMIN)
-                        DeclarationOfIntent(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
-                    else
-                        DeclarationOfIntent(correction: true);
-                    // Default Navigation Item
-                    this.defaultNavigationItem = new NavigationItemEntity()
+                    if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                     {
-                        Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
-                        RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_VIEW,
-                        SortOrder = 1
-                    };
+                        DeclarationOfIntent(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                            RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_EDIT,
+                            SortOrder = 1
+                        };
+                    }
+                    else
+                    {
+                        DeclarationOfIntent(correction: true);
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = ApplicationNavigationItemTitles.DECLARATION_OF_INTENT,
+                            RouterLink = ApplicationRouterLinks.DECLARATION_OF_INTENT_VIEW,
+                            SortOrder = 1
+                        };
+                    }
                 }
                 break;
             case UserRoleEnum.AGENCY_ADMIN:
@@ -248,7 +260,7 @@ public class FloodApplicationSecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
                     permission.CanSubmitApplication = true;
                 }
@@ -265,7 +277,7 @@ public class FloodApplicationSecurityManager
                 //Finance
                 Finance(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Signatory
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                     Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Signatory();
@@ -362,6 +374,7 @@ public class FloodApplicationSecurityManager
             case UserRoleEnum.PROGRAM_ADMIN:
                 permission.CanReviewApplication = true;
                 permission.CanRequestForAnApplicationCorrection = true;
+                permission.CanRespondToTheRequestForAnApplicationCorrection = true;
                 permission.CanEditFeedback = true;
                 permission.CanDeleteFeedback = true;
                 permission.CanViewFeedback = true;
@@ -602,6 +615,7 @@ public class FloodApplicationSecurityManager
                 permission.CanActivateApplication = true;
                 permission.CanRejectApplication = true;
                 permission.CanRequestForAnApplicationCorrection = true;
+                permission.CanRespondToTheRequestForAnApplicationCorrection = true;
                 permission.CanEditFeedback = true;
                 permission.CanDeleteFeedback = true;
                 permission.CanViewFeedback = true;
@@ -842,6 +856,7 @@ public class FloodApplicationSecurityManager
                 permission.CanCloseApplication = true;
                 permission.CanWithdrawApplication = true;
                 permission.CanRequestForAnApplicationCorrection = true;
+                permission.CanRespondToTheRequestForAnApplicationCorrection = true;
                 permission.CanEditFeedback = true;
                 permission.CanDeleteFeedback = true;
                 permission.CanViewFeedback = true;
@@ -1178,7 +1193,7 @@ public class FloodApplicationSecurityManager
                 case UserRoleEnum.SYSTEM_ADMIN:
                 case UserRoleEnum.PROGRAM_ADMIN:
                 case UserRoleEnum.PROGRAM_EDITOR:
-                    if(userRole == UserRoleEnum.PROGRAM_ADMIN)
+                    if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                     {
                         permission.CanReinitiateApplication = true;
                     }
@@ -1234,7 +1249,7 @@ public class FloodApplicationSecurityManager
                 case UserRoleEnum.SYSTEM_ADMIN:
                 case UserRoleEnum.PROGRAM_ADMIN:
                 case UserRoleEnum.PROGRAM_EDITOR:
-                    if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                    if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                     {
                         permission.CanReinitiateApplication = true;
                     }
@@ -1335,7 +1350,7 @@ public class FloodApplicationSecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
                     permission.CanReinitiateApplication = true;
                 }

@@ -29,17 +29,17 @@ public class CommentPropRepository : ICommentPropRepository
     /// </summary>
     /// <param name="applicationId"> Id.</param>
     /// <returns> Returns Comments Entity.</returns>
-    public async Task<IEnumerable<FloodPropertyCommentEntity>> GetCommentsAsync(int applicationId, string Pamspin)
+    public async Task<List<FloodPropertyCommentEntity>> GetCommentsAsync(int applicationId, string Pamspin)
     {
-        IEnumerable<FloodPropertyCommentEntity> results;
+        List<FloodPropertyCommentEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetPropCommentsSqlCommend();
-        results = await conn.QueryAsync<FloodPropertyCommentEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodPropertyCommentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId });
+                            param: new { @p_ApplicationId = applicationId })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     /// <summary>

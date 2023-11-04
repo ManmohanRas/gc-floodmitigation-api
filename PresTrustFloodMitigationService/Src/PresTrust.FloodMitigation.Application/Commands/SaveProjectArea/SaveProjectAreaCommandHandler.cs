@@ -50,10 +50,8 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         }).ToList();
 
         // update overview
-        var reqAppOverview = await repoOverview.GetOverviewDetailsAsync(application.Id) ?? new FloodApplicationOverviewEntity()
-        {
-            ApplicationId = application.Id
-        };
+        var reqAppOverview = await repoOverview.GetOverviewDetailsAsync(application.Id);
+        reqAppOverview.ApplicationId = application.Id;
         reqAppOverview.NoOfHomes = request.NoOfHomes;
         reqAppOverview.NoOfContiguousHomes = request.NoOfContiguousHomes;
         reqAppOverview.LastUpdatedBy = userContext.Email;

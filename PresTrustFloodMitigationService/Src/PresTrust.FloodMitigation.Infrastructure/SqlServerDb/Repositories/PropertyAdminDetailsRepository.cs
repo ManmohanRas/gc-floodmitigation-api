@@ -39,7 +39,7 @@ public class PropertyAdminDetailsRepository : IPropertyAdminDetailsRepository
 
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
     /// <summary>
     /// Save .

@@ -7,7 +7,7 @@ public interface IContactRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns contacts.</returns>
-    Task<IEnumerable<FloodContactEntity>> GetAllContactsAsync(int applicationId);
+    Task<List<FloodContactEntity>> GetAllContactsAsync(int applicationId);
 
     /// <summary>
     /// Save Contact.

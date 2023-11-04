@@ -15,19 +15,19 @@ public class SoftcostRepository : ISoftcostRepository
         this.systemParamConfig = systemParamConfigOptions.Value;
     }
 
-    public async Task<IEnumerable<FloodParcelSoftcostEntity>> GetAllSoftcostLineItemsAsync(int applicationId, string pamsPin)
+    public async Task<List<FloodParcelSoftcostEntity>> GetAllSoftcostLineItemsAsync(int applicationId, string pamsPin)
     {
-        IEnumerable<FloodParcelSoftcostEntity> results;
+        List<FloodParcelSoftcostEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetSoftcostLineItemsSqlCommand();
-        results = await conn.QueryAsync<FloodParcelSoftcostEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodParcelSoftcostEntity>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new {
                                 @p_ApplicationId = applicationId,
                                 @p_PamsPin = pamsPin
-                            });
-        return results;
+                            })).ToList();
+        return results ?? new();
     }
 
     public async Task<FloodParcelSoftcostEntity> SaveAsync(FloodParcelSoftcostEntity softcost)

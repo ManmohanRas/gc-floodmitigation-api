@@ -33,20 +33,20 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
         }
     }
 
-    public async Task<IEnumerable<FloodParcelEntity>> GetApplicationPropertiesAsync(int applicationId)
+    public async Task<List<FloodParcelEntity>> GetApplicationPropertiesAsync(int applicationId)
     {
-        IEnumerable<FloodParcelEntity> results = default;
+        List<FloodParcelEntity> results = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetApplicationParcelsSqlCommand();
-        results = await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new
                     {
                         @p_ApplicationId = applicationId
-                    });
+                    })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     public async Task DeleteApplicationParcelsByApplicationIdAsync(int applicationId)
@@ -80,7 +80,7 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
 
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
 
 

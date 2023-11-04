@@ -30,7 +30,7 @@ public class ParcelTrackingRepository : IParcelTrackingRepository
                             });
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
 
     public async Task<FloodParcelTrackingEntity> SaveAsync(FloodParcelTrackingEntity parcelTracking)

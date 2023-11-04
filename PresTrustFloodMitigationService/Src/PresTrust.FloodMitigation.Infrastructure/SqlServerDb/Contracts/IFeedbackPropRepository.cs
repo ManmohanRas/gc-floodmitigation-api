@@ -9,7 +9,7 @@ public interface IFeedbackPropRepository
     /// <param name="applicationId"></param>
     /// <param name="correctionStatus"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodPropertyFeedbackEntity>> GetPropFeedbackAsync(int applicationId, string Pamspin);
+    Task<List<FloodPropertyFeedbackEntity>> GetPropFeedbackAsync(int applicationId, string Pamspin);
     // <summary>
     /// Save Feedback.
     /// </summary>

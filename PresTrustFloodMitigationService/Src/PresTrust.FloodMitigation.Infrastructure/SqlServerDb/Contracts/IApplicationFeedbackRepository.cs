@@ -8,7 +8,7 @@ public interface IApplicationFeedbackRepository
     /// <param name="applicationId"></param>
     /// <param name="correctionStatus"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodApplicationFeedbackEntity>> GetFeedbacksAsync(int applicationId, string correctionStatus = "");
+    Task<List<FloodApplicationFeedbackEntity>> GetFeedbacksAsync(int applicationId, string correctionStatus = "");
     // <summary>
     /// Save Feedback.
     /// </summary>

@@ -39,7 +39,7 @@ public class ApplicationDetailsRepository : IApplicationDetailsRepository
 
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
     /// <summary>
     /// Save .

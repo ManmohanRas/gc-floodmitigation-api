@@ -1,4 +1,5 @@
 ﻿using PresTrust.FloodMitigation.Domain.Enums;
+using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands.Feedback;
 
 namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 public class ApplicationFeedbackRepository : IApplicationFeedbackRepository
@@ -31,17 +32,17 @@ public class ApplicationFeedbackRepository : IApplicationFeedbackRepository
     /// <param name="applicationId"></param>
     /// <param name="correctionStatus"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<FloodApplicationFeedbackEntity>> GetFeedbacksAsync(int applicationId, string correctionStatus = "")
+    public async Task<List<FloodApplicationFeedbackEntity>> GetFeedbacksAsync(int applicationId, string correctionStatus = "")
     {
-        IEnumerable<FloodApplicationFeedbackEntity> results = default;
+        List<FloodApplicationFeedbackEntity> results = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetApplicationFeedbackSqlCommand();
-        results = await conn.QueryAsync<FloodApplicationFeedbackEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodApplicationFeedbackEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId, @p_CorrectionStatus = correctionStatus });
+                            param: new { @p_ApplicationId = applicationId, @p_CorrectionStatus = correctionStatus })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     /// <summary>
@@ -171,7 +172,7 @@ public class ApplicationFeedbackRepository : IApplicationFeedbackRepository
     public async Task ResponseToRequestForApplicationCorrectionAsync(int applicationId, int sectionId)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new ResponseToRequestForPropertyCorrectionCommand();
+        var sqlCommand = new ResponseToRequestForApplicationCorrectionCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,

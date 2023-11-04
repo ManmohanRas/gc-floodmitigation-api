@@ -52,24 +52,24 @@ public class ParcelRepository : IParcelRepository
                             });
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
 
-    public async Task<IEnumerable<FloodParcelStatusLogEntity>> GetParcelStatusLogAsync(int applicationId, string pamsPin)
+    public async Task<List<FloodParcelStatusLogEntity>> GetParcelStatusLogAsync(int applicationId, string pamsPin)
     {
-        IEnumerable<FloodParcelStatusLogEntity> results = default;
+        List<FloodParcelStatusLogEntity> results = default;
 
         using var conn = context.CreateConnection();
         string sqlCommand = new GetParcelStatusLogSqlCommand().ToString();
-        results = await conn.QueryAsync<FloodParcelStatusLogEntity>(sqlCommand,
+        results = (await conn.QueryAsync<FloodParcelStatusLogEntity>(sqlCommand,
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new
                     {
                         @p_ApplicationId = applicationId,
                         @p_PamsPin = pamsPin
-                    });
+                    })).ToList();
 
-        return results;
+        return results ?? new();
     }
 }

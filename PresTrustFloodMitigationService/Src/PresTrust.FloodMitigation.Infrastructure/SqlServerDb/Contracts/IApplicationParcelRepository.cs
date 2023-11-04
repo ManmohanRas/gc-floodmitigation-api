@@ -13,7 +13,7 @@ public interface IApplicationParcelRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodParcelEntity>> GetApplicationPropertiesAsync(int applicationId);
+    Task<List<FloodParcelEntity>> GetApplicationPropertiesAsync(int applicationId);
     /// <summary>
     /// Delete Application Parcels by Application Id
     /// </summary>

@@ -15,16 +15,16 @@ public class ContactRepository : IContactRepository
         this.systemParamConfig = systemParamConfigOptions.Value;
     }
 
-    public async Task<IEnumerable<FloodContactEntity>> GetAllContactsAsync(int applicationId)
+    public async Task<List<FloodContactEntity>> GetAllContactsAsync(int applicationId)
     {
-        IEnumerable<FloodContactEntity> results;
+        List<FloodContactEntity> results;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetContactsSqlCommand();
-        results = await conn.QueryAsync<FloodContactEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodContactEntity>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId });
-        return results;
+                            param: new { @p_ApplicationId = applicationId })).ToList();
+        return results ?? new();
     }
     public async Task<FloodContactEntity> SaveAsync(FloodContactEntity contact)
     {

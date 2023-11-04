@@ -32,17 +32,17 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// <param name="applicationId"></param>
     /// <param name="correctionStatus"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<FloodPropertyFeedbackEntity>> GetPropFeedbackAsync(int applicationId, string correctionStatus)
+    public async Task<List<FloodPropertyFeedbackEntity>> GetPropFeedbackAsync(int applicationId, string correctionStatus)
     {
-        IEnumerable<FloodPropertyFeedbackEntity> results = default;
+        List<FloodPropertyFeedbackEntity> results = default;
         using var conn = context.CreateConnection();
         var sqlCommand = new GetPropFeedbackSqlCommand();
-        results = await conn.QueryAsync<FloodPropertyFeedbackEntity>(sqlCommand.ToString(),
+        results = (await conn.QueryAsync<FloodPropertyFeedbackEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId, @p_CorrectionStatus = correctionStatus });
+                            param: new { @p_ApplicationId = applicationId, @p_CorrectionStatus = correctionStatus })).ToList();
 
-        return results;
+        return results ?? new();
     }
 
     /// <summary>

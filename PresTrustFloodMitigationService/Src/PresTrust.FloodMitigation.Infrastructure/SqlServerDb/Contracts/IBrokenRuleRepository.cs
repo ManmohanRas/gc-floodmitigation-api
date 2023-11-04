@@ -9,7 +9,7 @@ public interface IBrokenRuleRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodBrokenRuleEntity>> GetBrokenRulesAsync(int applicationId);
+    Task<List<FloodBrokenRuleEntity>> GetBrokenRulesAsync(int applicationId);
     /// <summary>
     /// save broken rule
     /// </summary>

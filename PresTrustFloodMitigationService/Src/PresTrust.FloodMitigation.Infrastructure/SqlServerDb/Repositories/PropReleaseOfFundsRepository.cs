@@ -41,7 +41,7 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
 
         result = results.FirstOrDefault();
 
-        return result;
+        return result ?? new();
     }
     /// <summary>
     /// Save .

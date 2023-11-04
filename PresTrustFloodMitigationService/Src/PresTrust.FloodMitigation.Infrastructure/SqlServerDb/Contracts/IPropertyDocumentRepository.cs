@@ -17,7 +17,7 @@ public interface IPropertyDocumentRepository
     /// <param name="sectionId"></param>
     /// <param name="pamsPin"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodPropertyDocumentEntity>> GetPropertyDocumentsAsync(int applicationId, int sectionId , string pamsPin);
+    Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentsAsync(int applicationId, int sectionId , string pamsPin);
 
     /// <summary>
     /// 
@@ -39,6 +39,6 @@ public interface IPropertyDocumentRepository
     /// <param name="applicationId"></param>
     /// <param name="pamsPin"></param>
     /// <returns></returns>
-    Task<IEnumerable<FloodPropertyDocumentEntity>> GetPropertyDocumentCheckListAsync(int applicationId, string pamsPin);
+    Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentCheckListAsync(int applicationId, string pamsPin);
 }
 
