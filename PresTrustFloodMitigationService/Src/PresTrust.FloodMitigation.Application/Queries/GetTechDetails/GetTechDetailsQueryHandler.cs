@@ -23,10 +23,6 @@ public class GetTechDetailsQueryHandler : BaseHandler, IRequestHandler<GetTechDe
 
         // get tech details
         var Tech = await repoTech.GetTechAsync(request.ApplicationId);
-        Tech = Tech ?? new FloodTechDetailsEntity()
-        {
-            ApplicationId = application.Id,
-        };
         var result = mapper.Map<FloodTechDetailsEntity, GetTechDetailsQueryViewModel>(Tech);
 
         return result;

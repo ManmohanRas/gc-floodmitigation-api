@@ -4,7 +4,7 @@ public class FloodParcelReleaseOfFundsViewModel
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public string? PamsPin { get; set; }
+    public string PamsPin { get; set; }
     public string? Property { get; set; } = "";
     public string? CAFNumber { get; set; }
     public DateTime HardCostPaymentDate { get; set; }

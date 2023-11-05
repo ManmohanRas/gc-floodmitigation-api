@@ -4,7 +4,7 @@ public class FloodParcelTrackingEntity
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public string? PamsPin { get; set; }
+    public string PamsPin { get; set; }
     public string? ClosingDate { get; set; }
     public string? DeedBook { get; set; }
     public string? DeedPage { get; set; }

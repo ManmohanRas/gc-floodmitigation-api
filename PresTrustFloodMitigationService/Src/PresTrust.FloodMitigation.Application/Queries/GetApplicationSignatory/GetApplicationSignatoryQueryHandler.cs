@@ -27,10 +27,6 @@ public class GetApplicationSignatoryQueryHandler : BaseHandler, IRequestHandler<
 
         // get signatory details
         var signatory = await this.repoSignatory.GetSignatoryAsync(request.ApplicationId);
-        signatory = signatory ?? new FloodApplicationSignatoryEntity()
-        {
-            ApplicationId = application.Id
-        };
         var result = mapper.Map<FloodApplicationSignatoryEntity, GetApplicationSignatoryQueryViewModel>(signatory);
 
         return result;  

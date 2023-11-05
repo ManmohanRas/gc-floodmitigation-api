@@ -1,11 +1,11 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class UpdateSoftcostLineItemsSqlCommand
+public class UpdateSoftCostLineItemsSqlCommand
 {
     private readonly string _sqlCommand=
         @" UPDATE [Flood].[FloodParcelSoftCost]
             SET     PamsPin = @p_PamsPin
-                   ,SoftcostTypeId = @p_SoftcostTypeId
+                   ,SoftCostTypeId = @p_SoftCostTypeId
                    ,VendorName = @p_VendorName
                    ,InvoiceAmount = @p_InvoiceAmount
                    ,PaymentAmount = @p_PaymentAmount
@@ -13,7 +13,7 @@ public class UpdateSoftcostLineItemsSqlCommand
                    ,LastUpdatedOn = GETDATE()
                 WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId;";
 
-    public UpdateSoftcostLineItemsSqlCommand()
+    public UpdateSoftCostLineItemsSqlCommand()
     {
 
     }

@@ -1,34 +1,32 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetSoftcostDetailsQueryHandler : IRequestHandler<GetSoftcostDetailsQuery, GetSoftcostDetailsQueryViewModel>
+public class GetSoftCostDetailsQueryHandler : IRequestHandler<GetSoftCostDetailsQuery, GetSoftCostDetailsQueryViewModel>
 {
     private readonly IMapper mapper;
-    private readonly ISoftcostRepository repoSoftcost;
-    public GetSoftcostDetailsQueryHandler(
+    private readonly IFinanceRepository repoFinance;
+    private readonly ISoftCostRepository repoSoftCost;
+    public GetSoftCostDetailsQueryHandler(
          IMapper mapper,
-         ISoftcostRepository repoSoftcost)
+         IFinanceRepository repoFinance,
+         ISoftCostRepository repoSoftCost)
     {
         this.mapper = mapper;
-        this.repoSoftcost = repoSoftcost;
+        this.repoFinance = repoFinance;
+        this.repoSoftCost = repoSoftCost;
     }
 
-    public async Task<GetSoftcostDetailsQueryViewModel> Handle(GetSoftcostDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<GetSoftCostDetailsQueryViewModel> Handle(GetSoftCostDetailsQuery request, CancellationToken cancellationToken)
     {
-
-        var softCostLineItems = await this.repoSoftcost.GetAllSoftcostLineItemsAsync(request.ApplicationId, request.PamsPin);
-
-        var softCosts = mapper.Map<IEnumerable<FloodParcelSoftcostEntity>, IEnumerable<FloodParcelSoftcostViewModel>>(softCostLineItems);
-
-        foreach (var item in softCosts)
-        {
-            item.SoftcostTotal = item.PaymentAmount * item.CostShare;
-        }
-        var result = new GetSoftcostDetailsQueryViewModel()
+        var finance = await repoFinance.GetFinanceAsync(request.ApplicationId);
+        var softCostLineItems = await repoSoftCost.GetAllSoftCostLineItemsAsync(request.ApplicationId, request.PamsPin);
+        var softCosts = mapper.Map<IEnumerable<FloodParcelSoftCostEntity>, IEnumerable<FloodParcelSoftCostViewModel>>(softCostLineItems);
+        var result = new GetSoftCostDetailsQueryViewModel()
         {
             ApplicationId = request.ApplicationId,
-            SoftcostLineItems = softCosts
+            PamsPin = request.PamsPin,
+            CostShare = finance.MatchPercent,
+            SoftCostLineItems = softCosts
         };
-
         return result;
     }
 }

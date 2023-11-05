@@ -22,10 +22,6 @@ public class GetParcelSurveyQueryHandler : BaseHandler, IRequestHandler<GetParce
 
         // get parcel Survey
         var parcelSurvey = await this.repoParcelSurvey.GetSurveyAsync(request.ApplicationId, request.PamsPin);
-        parcelSurvey = parcelSurvey ?? new FloodParcelSurveyEntity()
-        {
-            ApplicationId = application.Id
-        };
 
         var result = mapper.Map<FloodParcelSurveyEntity, GetParcelSurveyQueryViewModel>(parcelSurvey);
 

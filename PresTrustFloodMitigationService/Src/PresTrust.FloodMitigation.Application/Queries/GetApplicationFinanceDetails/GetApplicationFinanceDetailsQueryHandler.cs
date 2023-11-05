@@ -31,7 +31,6 @@ public class GetApplicationFinanceDetailsQueryHandler : BaseHandler, IRequestHan
         var application = await GetIfApplicationExists(request.ApplicationId);
 
         var reqFinance = await repoFinance.GetFinanceAsync(application.Id);
-        reqFinance = reqFinance ?? new FloodApplicationFinanceEntity() { ApplicationId = application.Id };
 
         var finance = mapper.Map<FloodApplicationFinanceEntity,GetApplicationFinanceDetailsQueryViewModel>(reqFinance);
 

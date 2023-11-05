@@ -1,8 +1,8 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetSoftcostDetailsQueryValidator : AbstractValidator<GetSoftcostDetailsQuery>
+public class GetSoftCostDetailsQueryValidator : AbstractValidator<GetSoftCostDetailsQuery>
 {
-    public GetSoftcostDetailsQueryValidator()
+    public GetSoftCostDetailsQueryValidator()
     {
         RuleFor(query => query.ApplicationId)
                 .GreaterThan(0)

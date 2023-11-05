@@ -4,7 +4,7 @@ public class SaveParcelFinanceCommand: IRequest<int>
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public string? PamsPin { get; set; }
+    public string PamsPin { get; set; }
     public decimal EstimatePurchasePrice { get; set; }
     public decimal AdditionalSoftCostEstimate { get; set; }
     public decimal AppraisedValue { get; set; }

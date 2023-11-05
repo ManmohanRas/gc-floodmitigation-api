@@ -17,10 +17,10 @@ public class FloodPropertyAdminDetailsEntity
     public DateTime? DueDiligenceDocumentsMissingDate { get; set; }
     public DateTime? ScheduleClosingDate { get; set; }
     public DateTime? SoftCostReimbursementRequestDate { get; set; }
-    public DateTime? FmcSoftcostReimbApprovalDate { get; set; }
-    public string FmcSoftcostReimbApprovalNumber { get; set; }
-    public DateTime? BccSoftcostReimbApprovalDate { get; set; }
-    public string BccSoftcostReimbApprovalNumber { get; set; }
+    public DateTime? FmcSoftCostReimbApprovalDate { get; set; }
+    public string FmcSoftCostReimbApprovalNumber { get; set; }
+    public DateTime? BccSoftCostReimbApprovalDate { get; set; }
+    public string BccSoftCostReimbApprovalNumber { get; set; }
     public bool DoesHomeOwnerHaveNFIPInsurance { get; set; }
     public bool IsDEPInvolved { get; set; }
     public bool IsPARRequestedbyFunder { get; set; }

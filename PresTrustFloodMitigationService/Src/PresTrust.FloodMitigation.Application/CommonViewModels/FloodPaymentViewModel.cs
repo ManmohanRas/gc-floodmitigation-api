@@ -4,7 +4,7 @@ public class FloodPaymentViewModel
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public string? PamsPin { get; set; }
+    public string PamsPin { get; set; }
     public int HardCostPaymentTypeId { get; set; }
     public DateTime HardCostPaymentDate { get; set; }
     public bool HardCostPaymentStatus { get; set; }

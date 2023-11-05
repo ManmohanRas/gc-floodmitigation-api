@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Domain.Enums;
 
-public enum SoftcostTypeEnum
+public enum SoftCostTypeEnum
 {
     NONE = 0,
 

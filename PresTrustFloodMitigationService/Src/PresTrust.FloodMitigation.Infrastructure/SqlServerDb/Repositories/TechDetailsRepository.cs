@@ -79,7 +79,7 @@ public class TechDetailsRepository : ITechDetailsRepository
             param: new
             {
                 @p_ApplicationId = floodTechDetails.ApplicationId,
-                @p_PamsPin = floodTechDetails.Pamspin,
+                @p_PamsPin = floodTechDetails.PamsPin,
                 @p_FEMASevereRepetitiveLossList = floodTechDetails.FEMASevereRepetitiveLossList,
                 @p_FEMARepetitiveLossList = floodTechDetails.FEMARepetitiveLossList,
                 @p_IsthepropertywithinthePassaicRiverBasin = floodTechDetails.IsthepropertywithinthePassaicRiverBasin,
@@ -135,7 +135,7 @@ public class TechDetailsRepository : ITechDetailsRepository
             {
                 @p_Id = floodTechDetails.Id,
                 @p_ApplicationId = floodTechDetails.ApplicationId,
-                @p_PamsPin = floodTechDetails.Pamspin,
+                @p_PamsPin = floodTechDetails.PamsPin,
                 @p_FEMASevereRepetitiveLossList = floodTechDetails.FEMASevereRepetitiveLossList,
                 @p_FEMARepetitiveLossList = floodTechDetails.FEMARepetitiveLossList,
                 @p_IsthepropertywithinthePassaicRiverBasin = floodTechDetails.IsthepropertywithinthePassaicRiverBasin,

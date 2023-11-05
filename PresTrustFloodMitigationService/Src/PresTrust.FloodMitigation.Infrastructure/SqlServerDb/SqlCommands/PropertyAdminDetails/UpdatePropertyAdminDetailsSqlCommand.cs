@@ -18,10 +18,10 @@ public class UpdatePropertyAdminDetailsSqlCommand
                     ,DueDiligenceDocumentsMissingDate = @p_DueDiligenceDocumentsMissingDate 
                     ,ScheduleClosingDate = @p_ScheduleClosingDate 
                     ,SoftCostReimbursementRequestDate = @p_SoftCostReimbursementRequestDate 
-                    ,FmcSoftcostReimbApprovalDate = @p_FmcSoftcostReimbApprovalDate 
-                    ,FmcSoftcostReimbApprovalNumber = @P_FmcSoftcostReimbApprovalNumber 
-                    ,BccSoftcostReimbApprovalDate = @p_BccSoftcostReimbApprovalDate 
-                    ,BccSoftcostReimbApprovalNumber = @p_BccSoftcostReimbApprovalNumber 
+                    ,FmcSoftCostReimbApprovalDate = @p_FmcSoftCostReimbApprovalDate 
+                    ,FmcSoftCostReimbApprovalNumber = @P_FmcSoftCostReimbApprovalNumber 
+                    ,BccSoftCostReimbApprovalDate = @p_BccSoftCostReimbApprovalDate 
+                    ,BccSoftCostReimbApprovalNumber = @p_BccSoftCostReimbApprovalNumber 
                     ,DoesHomeOwnerHaveNFIPInsurance = @p_DoesHomeOwnerHaveNFIPInsurance 
                     ,IsDEPInvolved = @p_IsDEPInvolved 
                     ,IsPARRequestedbyFunder = @p_IsPARRequestedbyFunder 

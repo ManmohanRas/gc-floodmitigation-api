@@ -23,7 +23,6 @@ public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHand
         var application = await GetIfApplicationExists(request.ApplicationId);
 
         var releaseOfFunds = await repoApplicationROF.GetReleaseOfFundsAsync(application.Id);
-        releaseOfFunds = releaseOfFunds ?? new FloodApplicationReleaseOfFundsEntity() { ApplicationId = application.Id};
 
         var payments = await repoApplicationROF.GetApplicationPaymentsAsync(application.Id);
 

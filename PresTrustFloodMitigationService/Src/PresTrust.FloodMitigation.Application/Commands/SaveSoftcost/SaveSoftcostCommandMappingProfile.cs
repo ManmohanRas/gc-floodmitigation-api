@@ -1,9 +1,9 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveSoftcostCommandMappingProfile : Profile
+public class SaveSoftCostCommandMappingProfile : Profile
 {
-    public SaveSoftcostCommandMappingProfile() 
+    public SaveSoftCostCommandMappingProfile() 
     {
-        CreateMap<FloodParcelSoftcostViewModel, FloodParcelSoftcostEntity>();
+        CreateMap<SaveSoftCostModel, FloodParcelSoftCostEntity>();
     }
 }

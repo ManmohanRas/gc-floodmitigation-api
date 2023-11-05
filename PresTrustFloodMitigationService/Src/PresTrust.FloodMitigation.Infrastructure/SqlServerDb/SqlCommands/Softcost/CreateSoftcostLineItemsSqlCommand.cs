@@ -1,13 +1,13 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class CreateSoftcostLineItemsSqlCommand
+public class CreateSoftCostLineItemsSqlCommand
 {
     private readonly string _sqlCommand=
         @" INSERT INTO [Flood].[FloodParcelSoftCost]
             (
               [ApplicationId]
              ,[PamsPin]
-             ,[SoftcostTypeId]
+             ,[SoftCostTypeId]
              ,[VendorName]
              ,[InvoiceAmount]
              ,[PaymentAmount]
@@ -18,7 +18,7 @@ public class CreateSoftcostLineItemsSqlCommand
             (
                 @p_ApplicationId
                ,@p_PamsPin
-               ,@p_SoftcostTypeId
+               ,@p_SoftCostTypeId
                ,@p_VendorName
                ,@p_InvoiceAmount
                ,@p_PaymentAmount
@@ -27,7 +27,7 @@ public class CreateSoftcostLineItemsSqlCommand
             );
         SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
-    public CreateSoftcostLineItemsSqlCommand() { }
+    public CreateSoftCostLineItemsSqlCommand() { }
 
     public override string ToString()
     {

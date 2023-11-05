@@ -23,10 +23,6 @@ public class GetApplicationAdminDetailsQueryHandler : BaseHandler, IRequestHandl
 
         //get Admin details
         var details = await this.repoDetails.GetAsync(request.ApplicationId);
-        details = details ?? new FloodApplicationAdminDetailsEntity()
-        {
-            ApplicationId = application.Id
-        };
         var result = mapper.Map<FloodApplicationAdminDetailsEntity, GetApplicationAdminDetailsQueryViewModel>(details);
         return result;
     }

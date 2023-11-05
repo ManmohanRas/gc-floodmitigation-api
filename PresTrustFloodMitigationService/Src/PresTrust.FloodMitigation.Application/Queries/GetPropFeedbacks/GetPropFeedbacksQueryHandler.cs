@@ -25,7 +25,7 @@ public class GetPropFeedbacksQueryHandler: IRequestHandler<GetPropFeedbacksQuery
     public async Task<IEnumerable<GetPropFeedbacksQueryViewModel>> Handle(GetPropFeedbacksQuery request, CancellationToken cancellationToken)
     {
         // get feedbacks for a given application id
-        var feedbacks = await repoFeedback.GetPropFeedbackAsync(request.ApplicationId, request.Pamspin);
+        var feedbacks = await repoFeedback.GetPropFeedbackAsync(request.ApplicationId, request.PamsPin);
 
         // map command object to the GetPropFeedbacksQueryViewModel
         var result = mapper.Map<IEnumerable<FloodPropertyFeedbackEntity>, IEnumerable<GetPropFeedbacksQueryViewModel>>(feedbacks);

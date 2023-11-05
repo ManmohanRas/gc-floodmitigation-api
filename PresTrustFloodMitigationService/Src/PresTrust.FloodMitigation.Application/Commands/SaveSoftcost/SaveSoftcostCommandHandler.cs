@@ -1,21 +1,21 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveSoftcostCommandHandler : IRequestHandler<SaveSoftcostCommand, Unit>
+public class SaveSoftCostCommandHandler : IRequestHandler<SaveSoftCostCommand, Unit>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly ISoftcostRepository repoSoftcost;
+    private readonly ISoftCostRepository repoSoftCost;
     private readonly IParcelFinanceRepository repoParcelFinance;
 
-    public SaveSoftcostCommandHandler
+    public SaveSoftCostCommandHandler
         (
             IMapper mapper,
             IPresTrustUserContext userContext,
             IOptions<SystemParameterConfiguration> systemParamOptions,
             IApplicationRepository repoApplication,
-            ISoftcostRepository repoSoftcost,
+            ISoftCostRepository repoSoftCost,
             IParcelFinanceRepository repoParcelFinance
         )
     {
@@ -23,29 +23,27 @@ public class SaveSoftcostCommandHandler : IRequestHandler<SaveSoftcostCommand, U
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
-        this.repoSoftcost = repoSoftcost;
+        this.repoSoftCost = repoSoftCost;
         this.repoParcelFinance = repoParcelFinance;
     }
 
-    public async Task<Unit> Handle(SaveSoftcostCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(SaveSoftCostCommand request, CancellationToken cancellationToken)
     {
-        var softCostLineItems = request.SoftcostLineItems ?? new List<FloodParcelSoftcostViewModel>();
-
-        int applicationId = 0; // need to revisit
-        string pamsPin = string.Empty; // need to revisit
         decimal softCostFMPAmt = 0;
-        foreach (var softCost in softCostLineItems)
+        foreach (var softCost in request.SoftCostLineItems)
         {
-            applicationId = softCost.ApplicationId;
-            pamsPin = softCost.PamsPin;
-            var entity = mapper.Map<FloodParcelSoftcostViewModel, FloodParcelSoftcostEntity>(softCost);
-            await this.repoSoftcost.SaveAsync(entity);
+            var entity = mapper.Map<SaveSoftCostModel, FloodParcelSoftCostEntity>(softCost);
+            entity.ApplicationId = request.ApplicationId;
+            entity.PamsPin = request.PamsPin;
+            await this.repoSoftCost.SaveAsync(entity);
             softCostFMPAmt += softCost.PaymentAmount;
         }
 
-        var parcelFinance = await repoParcelFinance.GetParceFinanceAsync(applicationId, pamsPin);
+        var parcelFinance = await repoParcelFinance.GetParceFinanceAsync(request.ApplicationId, request.PamsPin);
         if(parcelFinance != null)
         {
+            parcelFinance.ApplicationId = request.ApplicationId;
+            parcelFinance.PamsPin = request.PamsPin;
             parcelFinance.SoftCostFMPAmt = softCostFMPAmt;
             await repoParcelFinance.SaveAsync(parcelFinance);
         }

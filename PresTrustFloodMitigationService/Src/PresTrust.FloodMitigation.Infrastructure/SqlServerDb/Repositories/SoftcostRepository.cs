@@ -1,11 +1,11 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
-public class SoftcostRepository : ISoftcostRepository
+public class SoftCostRepository : ISoftCostRepository
 {
     private readonly PresTrustSqlDbContext context;
     private readonly SystemParameterConfiguration systemParamConfig;
 
-    public SoftcostRepository
+    public SoftCostRepository
         (
         PresTrustSqlDbContext context,
         IOptions<SystemParameterConfiguration> systemParamConfigOptions
@@ -15,12 +15,12 @@ public class SoftcostRepository : ISoftcostRepository
         this.systemParamConfig = systemParamConfigOptions.Value;
     }
 
-    public async Task<List<FloodParcelSoftcostEntity>> GetAllSoftcostLineItemsAsync(int applicationId, string pamsPin)
+    public async Task<List<FloodParcelSoftCostEntity>> GetAllSoftCostLineItemsAsync(int applicationId, string pamsPin)
     {
-        List<FloodParcelSoftcostEntity> results;
+        List<FloodParcelSoftCostEntity> results;
         using var conn = context.CreateConnection();
-        var sqlCommand = new GetSoftcostLineItemsSqlCommand();
-        results = (await conn.QueryAsync<FloodParcelSoftcostEntity>(sqlCommand.ToString(),
+        var sqlCommand = new GetSoftCostLineItemsSqlCommand();
+        results = (await conn.QueryAsync<FloodParcelSoftCostEntity>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new {
@@ -30,19 +30,19 @@ public class SoftcostRepository : ISoftcostRepository
         return results ?? new();
     }
 
-    public async Task<FloodParcelSoftcostEntity> SaveAsync(FloodParcelSoftcostEntity softcost)
+    public async Task<FloodParcelSoftCostEntity> SaveAsync(FloodParcelSoftCostEntity softcost)
     {
         if (softcost.Id > 0)
             return await UpdateAsync(softcost);
         else
             return await CreateAsync(softcost);
     }
-    private async Task<FloodParcelSoftcostEntity> CreateAsync(FloodParcelSoftcostEntity softcost)
+    private async Task<FloodParcelSoftCostEntity> CreateAsync(FloodParcelSoftCostEntity softcost)
     {
         int id = default;
 
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreateSoftcostLineItemsSqlCommand();
+        var sqlCommand = new CreateSoftCostLineItemsSqlCommand();
         id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -50,7 +50,7 @@ public class SoftcostRepository : ISoftcostRepository
             {
                 @p_ApplicationId = softcost.ApplicationId,
                 @p_PamsPin = softcost.PamsPin,
-                @p_SoftcostTypeId = softcost.SoftcostTypeId,
+                @p_SoftCostTypeId = softcost.SoftCostTypeId,
                 @p_VendorName = softcost.VendorName,
                 @p_InvoiceAmount = softcost.InvoiceAmount,
                 @p_PaymentAmount = softcost.PaymentAmount,
@@ -62,10 +62,10 @@ public class SoftcostRepository : ISoftcostRepository
 
         return softcost;
     }
-    private async Task<FloodParcelSoftcostEntity> UpdateAsync(FloodParcelSoftcostEntity softcost)
+    private async Task<FloodParcelSoftCostEntity> UpdateAsync(FloodParcelSoftCostEntity softcost)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdateSoftcostLineItemsSqlCommand();
+        var sqlCommand = new UpdateSoftCostLineItemsSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -73,7 +73,7 @@ public class SoftcostRepository : ISoftcostRepository
             {
                 @p_Id = softcost.Id,
                 @p_ApplicationId = softcost.ApplicationId,
-                @p_SoftcostTypeId = softcost.SoftcostTypeId,
+                @p_SoftCostTypeId = softcost.SoftCostTypeId,
                 @p_PamsPin = softcost.PamsPin,
                 @p_VendorName = softcost.VendorName,
                 @p_InvoiceAmount = softcost.InvoiceAmount,

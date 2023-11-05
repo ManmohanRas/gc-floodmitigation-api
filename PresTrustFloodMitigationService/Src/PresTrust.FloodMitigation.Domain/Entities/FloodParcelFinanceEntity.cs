@@ -4,7 +4,7 @@ public class FloodParcelFinanceEntity
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public string? PamsPin { get; set; }
+    public string PamsPin { get; set; }
     public decimal ValueEstimate { get; set; }
     public decimal EstimatePurchasePrice { get; set; }
     public decimal MatchPercent { get; set; }

@@ -5,5 +5,5 @@ public class DeletePropCommentCommand : IRequest<bool>
 
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public string? Pamspin { get; set; }
+    public string PamsPin { get; set; }
 }

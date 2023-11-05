@@ -596,22 +596,22 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("getSoftcostDetails")]
-    [ProducesResponseType(typeof(GetSoftcostDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [HttpPost("getSoftCostDetails")]
+    [ProducesResponseType(typeof(GetSoftCostDetailsQueryViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<GetSoftcostDetailsQueryViewModel>> GetSoftcostDetails([FromBody] GetSoftcostDetailsQuery query)
+    public async Task<ActionResult<GetSoftCostDetailsQueryViewModel>> GetSoftCostDetails([FromBody] GetSoftCostDetailsQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("saveSoftcost")]
+    [HttpPost("saveSoftCost")]
     [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<Unit>> saveSoftcost([FromBody] SaveSoftcostCommand command)
+    public async Task<ActionResult<Unit>> saveSoftCost([FromBody] SaveSoftCostCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -757,6 +757,10 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     }
 
     [HttpPost("saveParcelProperty")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveParcelProperty([FromBody] SaveParcelPropertyCommand command)
     {
         return Single(await CommandAsync(command));

@@ -1,7 +1,7 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
 
-public interface ISoftcostRepository
+public interface ISoftCostRepository
 {
-    Task<List<FloodParcelSoftcostEntity>> GetAllSoftcostLineItemsAsync(int applicationId, string pamsPin);
-    Task<FloodParcelSoftcostEntity> SaveAsync(FloodParcelSoftcostEntity softcost);
+    Task<List<FloodParcelSoftCostEntity>> GetAllSoftCostLineItemsAsync(int applicationId, string pamsPin);
+    Task<FloodParcelSoftCostEntity> SaveAsync(FloodParcelSoftCostEntity softcost);
 }

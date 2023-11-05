@@ -5,7 +5,7 @@ public class SaveParcelPropertyCommand : IRequest<int>
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public string? Pamspin { get; set; }
+    public string PamsPin { get; set; }
     public int Priority { get; set; }
     public decimal ValueEstimate { get; set; }
     public decimal EstimatedPurchasePrice { get; set; }

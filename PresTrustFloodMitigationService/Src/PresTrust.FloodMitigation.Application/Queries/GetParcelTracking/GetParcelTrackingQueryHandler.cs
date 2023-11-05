@@ -22,10 +22,6 @@ public class GetParcelTrackingQueryHandler : BaseHandler, IRequestHandler<GetPar
 
         // get parcel Tracking
         var parcelTracking = await this.repoParcelTracking.GetTrackingAsync(request.ApplicationId, request.PamsPin);
-        parcelTracking = parcelTracking ?? new FloodParcelTrackingEntity()
-        {
-            ApplicationId = application.Id
-        };
 
         var result = mapper.Map<FloodParcelTrackingEntity, GetParcelTrackingQueryViewModel>(parcelTracking);
 

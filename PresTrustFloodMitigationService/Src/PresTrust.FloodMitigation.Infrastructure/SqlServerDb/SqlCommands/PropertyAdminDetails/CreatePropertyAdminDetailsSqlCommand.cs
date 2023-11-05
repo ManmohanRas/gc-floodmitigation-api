@@ -19,10 +19,10 @@ public class CreatePropertyAdminDetailsSqlCommand
 							,DueDiligenceDocumentsMissingDate
 							,ScheduleClosingDate
 							,SoftCostReimbursementRequestDate
-							,FmcSoftcostReimbApprovalDate
-							,FmcSoftcostReimbApprovalNumber
-							,BccSoftcostReimbApprovalDate
-							,BccSoftcostReimbApprovalNumber
+							,FmcSoftCostReimbApprovalDate
+							,FmcSoftCostReimbApprovalNumber
+							,BccSoftCostReimbApprovalDate
+							,BccSoftCostReimbApprovalNumber
 							,DoesHomeOwnerHaveNFIPInsurance
 							,IsDEPInvolved
 							,IsPARRequestedbyFunder
@@ -46,10 +46,10 @@ public class CreatePropertyAdminDetailsSqlCommand
 							,@p_DueDiligenceDocumentsMissingDate
 							,@p_ScheduleClosingDate
 							,@p_SoftCostReimbursementRequestDate
-							,@p_FmcSoftcostReimbApprovalDate
-							,@P_FmcSoftcostReimbApprovalNumber
-							,@p_BccSoftcostReimbApprovalDate
-							,@p_BccSoftcostReimbApprovalNumber
+							,@p_FmcSoftCostReimbApprovalDate
+							,@P_FmcSoftCostReimbApprovalNumber
+							,@p_BccSoftCostReimbApprovalDate
+							,@p_BccSoftCostReimbApprovalNumber
 							,@p_DoesHomeOwnerHaveNFIPInsurance
 							,@p_IsDEPInvolved
 							,@p_IsPARRequestedbyFunder

@@ -7,13 +7,13 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
     private IMapper mapper;
     private IApplicationRepository repoApplication;
     private IParcelFinanceRepository repoParcelFinance;
-    private ISoftcostRepository repoSoftCost;
+    private ISoftCostRepository repoSoftCost;
     
     public GetParcelFinanceQueryHandler(
         IMapper mapper
        ,IApplicationRepository repoApplication
        ,IParcelFinanceRepository repoParcelFinance
-       ,ISoftcostRepository repoSoftCost
+       ,ISoftCostRepository repoSoftCost
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
@@ -28,22 +28,17 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
 
         // get parcel finance
         var parcelFinance = await this.repoParcelFinance.GetParceFinanceAsync(request.ApplicationId, request.PamsPin);
-        var softCosts = await this.repoSoftCost.GetAllSoftcostLineItemsAsync(request.ApplicationId, request.PamsPin);
-
-        parcelFinance = parcelFinance ?? new FloodParcelFinanceEntity()
-        {
-            ApplicationId = application.Id
-        };
+        var softCosts = await this.repoSoftCost.GetAllSoftCostLineItemsAsync(request.ApplicationId, request.PamsPin);
 
         var result = mapper.Map<FloodParcelFinanceEntity, GetParcelFinanceQueryViewModel>(parcelFinance);
 
         //softCosts totals
-        result.MunicipalAppraisersFee = softCosts.Where(x => x.SoftcostTypeId == (int)SoftcostTypeEnum.APPRAISALS).Sum(x => x.PaymentAmount);
-        result.EnvAnalysis = softCosts.Where(x => x.SoftcostTypeId == (int)SoftcostTypeEnum.ENVIRONMENTAL_ANALYSIS).Sum(x => x.PaymentAmount);
-        result.TitleSrchIns = softCosts.Where(x => x.SoftcostTypeId == (int)SoftcostTypeEnum.TITLE_SEARCH_INSURANCE).Sum(x => x.PaymentAmount);
-        result.MunicipalSurveyorsFee = softCosts.Where(x => x.SoftcostTypeId == (int)SoftcostTypeEnum.SURVEY).Sum(x => x.PaymentAmount);
-        result.DemolitionFee = softCosts.Where(x => x.SoftcostTypeId == (int)SoftcostTypeEnum.DEMOLITION).Sum(x => x.PaymentAmount);
-        result.OtherSoftCost = softCosts.Where(x => x.SoftcostTypeId == (int)SoftcostTypeEnum.OTHER_SOFT_COSTS).Sum(x => x.PaymentAmount);
+        result.MunicipalAppraisersFee = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.APPRAISALS).Sum(x => x.PaymentAmount);
+        result.EnvAnalysis = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.ENVIRONMENTAL_ANALYSIS).Sum(x => x.PaymentAmount);
+        result.TitleSrchIns = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.TITLE_SEARCH_INSURANCE).Sum(x => x.PaymentAmount);
+        result.MunicipalSurveyorsFee = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.SURVEY).Sum(x => x.PaymentAmount);
+        result.DemolitionFee = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.DEMOLITION).Sum(x => x.PaymentAmount);
+        result.OtherSoftCost = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.OTHER_SOFT_COSTS).Sum(x => x.PaymentAmount);
         result.TotalSoftCost = result.MunicipalAppraisersFee + result.EnvAnalysis + result.TitleSrchIns + result.MunicipalSurveyorsFee + result.DemolitionFee + result.OtherSoftCost;
         result.SoftCostFMPAmt = result.TotalSoftCost * (result.MatchPercent / 100);
 

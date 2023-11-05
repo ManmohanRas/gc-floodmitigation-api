@@ -4,7 +4,7 @@ public class SaveParcelTrackingCommand : IRequest<int>
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public string? PamsPin { get; set; }
+    public string PamsPin { get; set; }
     public DateTime? ClosingDate { get; set; }
     public string? DeedBook { get; set; }
     public string? DeedPage { get; set; }

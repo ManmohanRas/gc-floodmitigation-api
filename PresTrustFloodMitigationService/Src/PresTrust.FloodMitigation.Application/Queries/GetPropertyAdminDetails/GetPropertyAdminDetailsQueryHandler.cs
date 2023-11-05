@@ -23,11 +23,6 @@ public class GetPropertyAdminDetailsQueryHandler : BaseHandler, IRequestHandler<
     {
         var propertyDetails = await PropDetails.GetAsync(request.ApplicationId, request.PamsPin);
 
-        propertyDetails = propertyDetails ?? new FloodPropertyAdminDetailsEntity()
-        {
-            ApplicationId = request.ApplicationId,
-        };
-
         var result = mapper.Map<FloodPropertyAdminDetailsEntity, GetPropertyAdminDetailsQueryViewModel>(propertyDetails);
 
         return result;

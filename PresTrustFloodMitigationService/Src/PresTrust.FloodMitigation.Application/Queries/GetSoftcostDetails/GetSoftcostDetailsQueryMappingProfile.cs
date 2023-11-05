@@ -1,9 +1,9 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetSoftcostDetailsQueryMappingProfile : Profile
+public class GetSoftCostDetailsQueryMappingProfile : Profile
 {
-    public GetSoftcostDetailsQueryMappingProfile()
+    public GetSoftCostDetailsQueryMappingProfile()
     {
-        CreateMap<FloodParcelSoftcostEntity, FloodParcelSoftcostViewModel>();
+        CreateMap<FloodParcelSoftCostEntity, FloodParcelSoftCostViewModel>();
     }
 }

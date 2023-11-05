@@ -23,11 +23,6 @@ public class GetPropReleaseOfFundsQueryHandler : BaseHandler, IRequestHandler<Ge
     {
         var releaseOfFunds = await repoGrant.GetReleaseOfFundsAsync(request.ApplicationId, request.PamsPin);
 
-        releaseOfFunds = releaseOfFunds ?? new FloodPropReleaseOfFundsEntity()
-        {
-            ApplicationId = request.ApplicationId,
-        };
-
         var result = mapper.Map<FloodPropReleaseOfFundsEntity, GetPropReleaseOfFundsQueryViewModel>(releaseOfFunds);
 
         return result;
