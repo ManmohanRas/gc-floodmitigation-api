@@ -16,4 +16,5 @@ public class GetParcelTrackingQueryViewModel
     public bool CommunityGarden { get; set; }
     public bool ActiveRecreation { get; set; }
     public bool NaturalHabitat { get; set; }
+    public List<PropertyDocumentTypeViewModel> DocumentsTree { get; set; } = new List<PropertyDocumentTypeViewModel>();
 }

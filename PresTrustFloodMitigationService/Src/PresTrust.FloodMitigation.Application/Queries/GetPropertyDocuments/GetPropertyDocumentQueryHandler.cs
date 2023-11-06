@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries
 {
-    public class GetPropertyDocumentQueryHandler : BaseHandler, IRequestHandler<GetPropertyDocumentsQuery, IEnumerable<PropertyDocumentTypeViewModel>>
+    public class GetPropertyDocumentQueryHandler : BaseHandler, IRequestHandler<GetPropertyDocumentQuery, IEnumerable<PropertyDocumentTypeViewModel>>
     {
         private readonly IMapper mapper;
         private readonly IPropertyDocumentRepository repoDocument;
@@ -15,7 +15,7 @@
             this.repoDocument = repoDocument;
             this.repoApplication = repoApplication;
         }
-        public async Task<IEnumerable<PropertyDocumentTypeViewModel>> Handle(GetPropertyDocumentsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PropertyDocumentTypeViewModel>> Handle(GetPropertyDocumentQuery request, CancellationToken cancellationToken)
         {
             // get application details
             var application = await GetIfApplicationExists(request.ApplicationId);

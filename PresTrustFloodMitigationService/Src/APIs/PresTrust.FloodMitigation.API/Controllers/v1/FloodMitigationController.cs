@@ -681,7 +681,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<PropertyDocumentTypeViewModel>>> GetPropertyDocument([FromBody] GetPropertyDocumentsQuery query)
+    public async Task<ActionResult<IEnumerable<PropertyDocumentTypeViewModel>>> GetPropertyDocument([FromBody] GetPropertyDocumentQuery query)
     {
         return Single(await QueryAsync(query));
     }

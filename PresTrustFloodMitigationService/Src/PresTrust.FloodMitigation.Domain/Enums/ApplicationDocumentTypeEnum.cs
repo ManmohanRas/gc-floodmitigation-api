@@ -86,5 +86,30 @@ public enum ApplicationDocumentTypeEnum
     /// <summary>
     /// DocumentType Type for PROJECT_AREA_FUNDS_EXPIRATION_REQUEST - OTHER DOCUMENTS TAB
     /// </summary>
-    PROJECT_AREA_FUNDS_EXPIRATION_REQUEST =     16
+    PROJECT_AREA_FUNDS_EXPIRATION_REQUEST = 16,
+    /// <summary>
+    /// DocumentType Type for COMMISSIONER_RESOLUTION - ADMINT DETAILS TAB
+    /// </summary>
+    COMMISSIONER_RESOLUTION = 17,
+    /// <summary>
+    /// DocumentType Type for FIRST_COMMISSIONER_RESOLUTION - ADMINT DETAILS TAB
+    /// </summary>
+    FIRST_COMMISSIONER_RESOLUTION = 18,
+    /// <summary>
+    /// DocumentType Type for SECOND_COMMISSIONER_RESOLUTION - ADMINT DETAILS TAB
+    /// </summary>
+    SECOND_COMMISSIONER_RESOLUTION = 19,
+    /// <summary>
+    /// DocumentType Type for CORE_APPLICATION_REPORT - ADMINT DETAILS TAB
+    /// </summary>
+    CORE_APPLICATION_REPORT = 20,
+    /// <summary>
+    /// DocumentType Type for CORE_REVIEW_REPORT - ADMINT DETAILS TAB
+    /// </summary>
+    CORE_REVIEW_REPORT = 21,
+    /// <summary>
+    /// DocumentType Type for PROJECT_AREA_APPLICATION_MAP - ADMINT DETAILS TAB
+    /// </summary>
+    PROJECT_AREA_APPLICATION_MAP = 22,
+
 }
