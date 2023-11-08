@@ -8,5 +8,5 @@ public class SaveApplicationDocumentCommandViewModel
     public string Description { get; set; }
     public string FileName { get; set; }
     public string DocumentType { get; set; }
-    public int? otherFundingSource { get; set; }
+    public int? OtherFundingSourceId { get; set; }
 }
