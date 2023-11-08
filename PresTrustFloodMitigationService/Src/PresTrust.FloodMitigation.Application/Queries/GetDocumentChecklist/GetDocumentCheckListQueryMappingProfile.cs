@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PresTrust.FloodMitigation.Application.Queries.GetDocumentChecklist
 {
-    internal class GetDocumentCheckListQueryMappingProfile
+    public class GetDocumentCheckListQueryMappingProfile
     {
     }
 }

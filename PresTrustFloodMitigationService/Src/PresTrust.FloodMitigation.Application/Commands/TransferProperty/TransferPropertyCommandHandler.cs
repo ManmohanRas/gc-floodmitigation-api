@@ -15,7 +15,7 @@ public class TransferPropertyCommandHandler : BaseHandler, IRequestHandler<Trans
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         IApplicationParcelRepository repoProperty
-    ) : base(repoApplication)
+    ) : base(repoApplication, repoProperty)
     {
         this.mapper = mapper;
         this.userContext = userContext;
