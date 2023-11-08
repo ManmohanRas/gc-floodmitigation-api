@@ -7,7 +7,7 @@ public interface ITechDetailsRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-   Task<FloodTechDetailsEntity> GetTechAsync(int applicationId);
+   Task<FloodTechDetailsEntity> GetTechAsync(int applicationId, string pamsPin);
     /// <summary>
     /// Save Tech.
     /// </summary>

@@ -15,7 +15,7 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         IApplicationParcelRepository repoProperty
-    ) : base(repoApplication)
+    ) : base(repoApplication, repoProperty)
     {
         this.mapper = mapper;
         this.userContext = userContext;

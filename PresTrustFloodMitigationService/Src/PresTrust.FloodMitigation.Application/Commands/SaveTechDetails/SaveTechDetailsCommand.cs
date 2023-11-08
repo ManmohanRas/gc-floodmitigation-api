@@ -10,9 +10,9 @@ public class SaveTechDetailsCommand: IRequest<int>
     public bool IsthepropertywithinthePassaicRiverBasin { get; set; }
     public bool IsthepropertywithinFloodway { get; set; }
     public bool IsthepropertywithinFloodplain { get; set; }
-    public int Clame10Years { get; set; }
+    public int Claim10Years { get; set; }
     public decimal TotalOfClaims { get; set; }
-    public decimal BenifitCostRatio { get; set; }
+    public decimal BenefitCostRatio { get; set; }
     public int FEMACommunityId { get; set; }
     public DateTime? FirmEffectiveDate { get; set; }
     public string FirmPanel { get; set; }
@@ -26,8 +26,8 @@ public class SaveTechDetailsCommand: IRequest<int>
     public string FloodProfile { get; set; }
     public string FloodProfileFinal { get; set; }
     public string FloodSource { get; set; }
-    public decimal FirstFloodElivation { get; set; }
-    public decimal FirstFloodElivationFinal { get; set; }
+    public decimal FirstFloodElevation { get; set; }
+    public decimal FirstFloodElevationFinal { get; set; }
     public decimal StreambedElevation { get; set; }
     public decimal StreambedElevationFinal { get; set; }
     public decimal ElevationBeforeMitigation { get; set; }
