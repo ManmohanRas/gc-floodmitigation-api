@@ -37,9 +37,9 @@ public class GetPropertyAdminDetailsQueryHandler : BaseHandler, IRequestHandler<
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    private async Task<List<PropertyDocumentTypeViewModel>> GetPropertyDocument(int applicationId, string pamsPin)
+    private async Task<List<PropertyDocumentTypeViewModel>> GetPropertyDocument(int applicationId, string PamsPin)
     {
-        var documents = await repoDocument.GetPropertyDocumentsAsync(applicationId, (int)PropertySectionEnum.ADMIN_DETAILS, pamsPin);
+        var documents = await repoDocument.GetPropertyDocumentsAsync(applicationId, (int)PropertySectionEnum.ADMIN_DETAILS, PamsPin);
 
         List<PropertyDocumentTypeViewModel> documentsTree = new List<PropertyDocumentTypeViewModel>();
         if (documents != null)

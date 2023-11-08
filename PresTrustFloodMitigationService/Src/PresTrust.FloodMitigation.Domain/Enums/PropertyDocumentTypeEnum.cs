@@ -99,53 +99,59 @@
 
         //Admin Document
         /// <summary>
+        /// Documentype Type for Congratuation letter to home owner -OtherDocumentTab Admin DocumentSection
+        /// </summary>
+        CONGRATULATION_LETTER_HOMEOWNER = 23,
+        /// <summary>
         /// Documentype Type for bccFinalApproval -OtherDocumentTab Admin DocumentSection
         /// </summary>
-        BCC_FINAL_APPROVAL = 23,
+        BCC_FINAL_APPROVAL = 24,
         /// <summary>
         /// Documentype Type for grantAgreement -OtherDocumentTab Admin DocumentSection
         /// </summary>
-        GRANT_AGREEMENT = 24,
+        GRANT_AGREEMENT = 25,
         /// <summary>
         /// Documentype Type for fmcSoftCost -OtherDocumentTab Admin DocumentSection
         /// </summary>
-        FMC_SOFTCOST = 25,
+        FMC_SOFTCOST = 26,
         /// <summary>
         /// Documentype Type for bccSoftCost -OtherDocumentTab Admin DocumentSection
         /// </summary>
-        BCC_SOFTCOST = 26,
+        BCC_SOFTCOST = 27,
 
         //Miscellaneous Documents
         /// <summary>
         /// Documentype Type for dobFaq -OtherDocumentTab Miscellaneous DocumentsSection
         /// </summary>
-        DOB_FAQ = 27,
+        DOB_FAQ = 28,
         /// <summary>
         /// Documentype Type for bankVerificationForm -OtherDocumentTab Miscellaneous DocumentsSection
         /// </summary>
-        BANK_VERIFICATION_FORM = 28,
+        BANK_VERIFICATION_FORM = 29,
         /// <summary>
         /// Documentype Type for voluntaryParticipationsForm -OtherDocumentTab Miscellaneous DocumentsSection
         /// </summary>
-        VOLUNTARY_PARTICIPATIONS_FORM = 29,
+        VOLUNTARY_PARTICIPATIONS_FORM = 30,
         /// <summary>
         /// Documentype Type for stepToClosing -OtherDocumentTab Miscellaneous DocumentsSection
         /// </summary>
-        STEP_TO_CLOSING = 30,
+        STEP_TO_CLOSING = 31,
         /// <summary>
         /// Documentype Type for benefitsProcess -OtherDocumentTab Miscellaneous DocumentsSection
         /// </summary>
-        BENEFITS_PROCESS = 31,
+        BENEFITS_PROCESS = 32,
 
         /// <summary>
         ///  Documentype Type for surveyReviewLetter -OtherDocumentTab
         /// </summary>
-        SURVEY_REVIEW_LETTER = 32,
+        SURVEY_REVIEW_LETTER = 33,
 
         /// <summary>
         /// Documentype Type for postAcquisitionPicture -TrackingTab
         /// </summary>
-        POST_ACQUISITION = 33,
+        POST_ACQUISITION = 34,
+
+        
 
     }
 }

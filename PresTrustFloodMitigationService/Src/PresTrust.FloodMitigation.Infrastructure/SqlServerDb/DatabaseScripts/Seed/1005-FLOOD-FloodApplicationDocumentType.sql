@@ -65,3 +65,6 @@ GO
 
 INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (22, 'PROJECT_AREA_APPLICATION_MAP', 'Project area application map request', 9);
 GO
+
+INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (23, 'CAF_CLOSE_OUT_SUMMARY', 'CAF Close out summary application map request', 9);
+GO

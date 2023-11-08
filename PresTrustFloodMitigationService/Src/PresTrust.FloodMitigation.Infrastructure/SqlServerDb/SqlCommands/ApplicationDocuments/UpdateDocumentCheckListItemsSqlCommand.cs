@@ -12,6 +12,7 @@
 					,[ReviewComment] = @p_ReviewComment
 					,[LastUpdatedOn] = GETDATE()
 					,[LastUpdatedBy] = @p_LastUpdatedBy
+					,[OtherFundingSourceId] = @p_OtherFundingSourceId
 				WHERE Id = @p_Id;";
 
 		public UpdateDocumentCheckListItemsSqlCommand() { }

@@ -116,6 +116,7 @@ public class ApplicationDocumentRepository: IApplicationDocumentRepository
                 @p_ReviewComment = doc.ReviewComment,
                 @p_UseInReport = doc.UseInReport,
                 @p_LastUpdatedBy = doc.LastUpdatedBy,
+                @p_OtherFundingSourceId = doc.OtherFundingSourceId
             });
 
         return doc;

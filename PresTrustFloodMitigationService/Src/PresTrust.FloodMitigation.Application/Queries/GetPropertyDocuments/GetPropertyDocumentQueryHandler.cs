@@ -20,21 +20,22 @@
             // get application details
             var application = await GetIfApplicationExists(request.ApplicationId);
 
-            Enum.TryParse(value: request.SectionName, ignoreCase: true, out PropertySectionEnum propertySection);
-            var documents = await repoDocument.GetPropertyDocumentsAsync(application.Id, (int)propertySection,request.Pamspin);
-
-            List<PropertyDocumentTypeViewModel>? documentsTree = default;
+            var documents = await repoDocument.GetPropertyDocumentsAsync(application.Id, (int)PropertySectionEnum.OTHER_DOCUMENTS, request.Pamspin);
+            var adminDocuments = await repoDocument.GetPropertyDocumentsAsync(application.Id, (int)PropertySectionEnum.ADMIN_DETAILS, request.Pamspin);
+           
+            List<PropertyDocumentTypeViewModel>? documentsTree = new List<PropertyDocumentTypeViewModel>();
 
             if (documents.Count() > 0)
             {
                 var docBuilder = new PropertyDocumentTreeBuilder(documents);
-                documentsTree = docBuilder.DocumentsTree;
-            }
-            else
-            {
-                documentsTree = new List<PropertyDocumentTypeViewModel>();
+                documentsTree.AddRange(docBuilder.DocumentsTree);
             }
 
+            if (adminDocuments.Count() > 0)
+            {
+                var adminDocBuilder = new PropertyDocumentTreeBuilder(adminDocuments);
+                documentsTree.AddRange(adminDocBuilder.DocumentsTree);
+            }
             return documentsTree;
         }
     }

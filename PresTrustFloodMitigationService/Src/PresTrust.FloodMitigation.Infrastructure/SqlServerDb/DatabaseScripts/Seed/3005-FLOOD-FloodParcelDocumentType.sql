@@ -66,35 +66,38 @@ GO
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (22, 'FMC_FINAL_APPROVAL', 'Fmc Final Approval document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (23, 'BCC_FINAL_APPROVAL', 'Bcc Final Approval document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (23, 'CONGRATULATION_LETTER_HOMEOWNER', 'Congratuation letter to home owner', 8);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (24, 'GRANT_AGREEMENT', 'Grant Agreement document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (24, 'BCC_FINAL_APPROVAL', 'Bcc Final Approval document', 8);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (25, 'FMC_SOFTCOST', 'Fmc Soft Cost document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (25, 'GRANT_AGREEMENT', 'Grant Agreement document', 8);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (26, 'BCC_SOFTCOST', 'Bcc Soft Cost document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (26, 'FMC_SOFTCOST', 'Fmc Soft Cost document', 8);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (27, 'DOB_FAQ', 'Dob Faq document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (27, 'BCC_SOFTCOST', 'Bcc Soft Cost document', 8);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (28, 'BANK_VERIFICATION_FORM', 'Bank Verification Form document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (28, 'DOB_FAQ', 'Dob Faq document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (29, 'VOLUNTARY_PARTICIPATIONS_FORM', 'Voluntary Participations Form document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (29, 'BANK_VERIFICATION_FORM', 'Bank Verification Form document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (30, 'STEP_TO_CLOSING', 'Step To Closing document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (30, 'VOLUNTARY_PARTICIPATIONS_FORM', 'Voluntary Participations Form document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (31, 'BENEFITS_PROCESS', 'Benefits Process document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (31, 'STEP_TO_CLOSING', 'Step To Closing document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (32, 'SURVEY_REVIEW_LETTER', 'Survey Review Letter document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (32, 'BENEFITS_PROCESS', 'Benefits Process document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (33, 'POST_ACQUISITION', 'Post Acquisition Picture document', 10);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (33, 'SURVEY_REVIEW_LETTER', 'Survey Review Letter document', 2);
+GO
+
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (34, 'POST_ACQUISITION', 'Post Acquisition Picture document', 10);
 GO

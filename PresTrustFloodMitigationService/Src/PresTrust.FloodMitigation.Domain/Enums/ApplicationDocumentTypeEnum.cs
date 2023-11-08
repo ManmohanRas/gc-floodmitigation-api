@@ -111,5 +111,10 @@ public enum ApplicationDocumentTypeEnum
     /// DocumentType Type for PROJECT_AREA_APPLICATION_MAP - ADMINT DETAILS TAB
     /// </summary>
     PROJECT_AREA_APPLICATION_MAP = 22,
+    /// <summary>
+    /// DocumentType Type for CAF_CLOSE_OUT_SUMMARY - ADMINT DETAILS TAB
+    /// </summary>
+    CAF_CLOSE_OUT_SUMMARY = 23,
+
 
 }

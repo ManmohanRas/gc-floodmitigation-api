@@ -8,6 +8,7 @@ public class FloodApplicationDocumentEntity
     public string Description { get; set; }
     public string FileName { get; set; }
     public int DocumentTypeId { get; set; }
+    public int OtherFundingSourceId { get; set; }
     public ApplicationDocumentTypeEnum DocumentType
     {
         get
