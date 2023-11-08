@@ -19,19 +19,20 @@ GO
 
 -- Create Table
 CREATE TABLE [Flood].[FloodApplicationDocument](
-	[Id]				[integer] 		IDENTITY(1,1)	NOT NULL,
-	[ApplicationId]		[integer]						NOT NULL,
-	[DocumentTypeId]	[smallint]						NOT NULL,
-	[FileName]			[varchar](128)					NOT NULL,
-	[Title]				[varchar](128)					NOT NULL,
-	[Description]		[varchar](256)					NULL	,
-	[ShowCommittee]		[bit]							NOT NULL,
-	[UseInReport]		[bit]							NOT NULL,
-	[HardCopy]			[bit]							NOT NULL,
-	[Approved]			[bit]							NOT NULL,
-	[ReviewComment]		[varchar](2000)					NULL	,
-	[LastUpdatedBy]		[varchar](128)					NULL	,
-	[LastUpdatedOn]		[dateTime]						NOT NULL,
+	[Id]						[integer] 		IDENTITY(1,1)	NOT NULL,
+	[ApplicationId]				[integer]						NOT NULL,
+	[DocumentTypeId]			[smallint]						NOT NULL,
+	[OtherFundingSourceId]		[integer]						NULL,
+	[FileName]					[varchar](128)					NOT NULL,
+	[Title]						[varchar](128)					NOT NULL,
+	[Description]				[varchar](256)					NULL,
+	[ShowCommittee]				[bit]							NOT NULL,
+	[UseInReport]				[bit]							NOT NULL,
+	[HardCopy]					[bit]							NOT NULL,
+	[Approved]					[bit]							NOT NULL,
+	[ReviewComment]				[varchar](2000)					NULL,
+	[LastUpdatedBy]				[varchar](128)					NULL,
+	[LastUpdatedOn]				[dateTime]						NOT NULL,
 CONSTRAINT [PK_FloodApplicationDocument_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

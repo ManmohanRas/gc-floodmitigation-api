@@ -3,5 +3,5 @@
 public class GetTechDetailsQuery : IRequest<GetTechDetailsQueryViewModel> 
 {
     public int ApplicationId { get; set; }
-
+    public string PamsPin { get; set; }
 }

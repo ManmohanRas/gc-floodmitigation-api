@@ -42,7 +42,7 @@ public class GetTechDetailsSqlCommand
                         ,[LastUpdatedOn]                                           
 
             FROM [Flood].[FloodParcelTech]
-            WHERE ApplicationId = @p_ApplicationId";
+            WHERE ApplicationId = @p_ApplicationId AND [PamsPin] = @p_PamsPin";
 
 
     public GetTechDetailsSqlCommand()

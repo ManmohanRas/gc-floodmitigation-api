@@ -33,7 +33,7 @@ public class TechDetailsRepository : ITechDetailsRepository
     /// </summary>
     /// <param name="applicationId"> Id.</param>
     /// <returns> Returns FloodTechDetails Entity.</returns>
-    public async Task<FloodTechDetailsEntity> GetTechAsync(int applicationId)
+    public async Task<FloodTechDetailsEntity> GetTechAsync(int applicationId, string pamsPin)
     {
         FloodTechDetailsEntity result = default;
         using var conn = context.CreateConnection();
@@ -43,7 +43,8 @@ public class TechDetailsRepository : ITechDetailsRepository
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new
                             {
-                                @p_ApplicationId = applicationId
+                                @p_ApplicationId = applicationId,
+                                @p_PamsPin = pamsPin
                             });
 
         result = results.FirstOrDefault();
@@ -85,9 +86,9 @@ public class TechDetailsRepository : ITechDetailsRepository
                 @p_IsthepropertywithinthePassaicRiverBasin = floodTechDetails.IsthepropertywithinthePassaicRiverBasin,
                 @p_IsthepropertywithinFloodway = floodTechDetails.IsthepropertywithinFloodway,
                 @p_IsthepropertywithinFloodplain = floodTechDetails.IsthepropertywithinFloodplain,
-                @p_Claim10Years = floodTechDetails.Clame10Years,
+                @p_Claim10Years = floodTechDetails.Claim10Years,
                 @p_TotalOfClaims = floodTechDetails.TotalOfClaims,
-                @p_BenefitCostRatio = floodTechDetails.BenifitCostRatio,
+                @p_BenefitCostRatio = floodTechDetails.BenefitCostRatio,
                 @p_FEMACommunityId = floodTechDetails.FEMACommunityId,
                 @p_FirmEffectiveDate = floodTechDetails.FirmEffectiveDate,
                 @p_FirmPanel = floodTechDetails.FirmPanel,
@@ -101,8 +102,8 @@ public class TechDetailsRepository : ITechDetailsRepository
                 @p_FloodProfile = floodTechDetails.FloodProfile,    
                 @p_FloodProfileFinal = floodTechDetails.FloodProfileFinal,
                 @p_FloodSource = floodTechDetails.FloodSource,
-                @p_FirstFloodElevation = floodTechDetails.FirstFloodElivation,
-                @p_FirstFloodElevationFinal = floodTechDetails.FirstFloodElivationFinal,
+                @p_FirstFloodElevation = floodTechDetails.FirstFloodElevation,
+                @p_FirstFloodElevationFinal = floodTechDetails.FirstFloodElevationFinal,
                 @p_StreambedElevation = floodTechDetails.StreambedElevation,
                 @p_StreambedElevationFinal = floodTechDetails.StreambedElevationFinal,
                 @p_ElevationBeforeMitigation = floodTechDetails.ElevationBeforeMitigation,
@@ -141,9 +142,9 @@ public class TechDetailsRepository : ITechDetailsRepository
                 @p_IsthepropertywithinthePassaicRiverBasin = floodTechDetails.IsthepropertywithinthePassaicRiverBasin,
                 @p_IsthepropertywithinFloodway = floodTechDetails.IsthepropertywithinFloodway,
                 @p_IsthepropertywithinFloodplain = floodTechDetails.IsthepropertywithinFloodplain,
-                @p_Claim10Years = floodTechDetails.Clame10Years,
+                @p_Claim10Years = floodTechDetails.Claim10Years,
                 @p_TotalOfClaims = floodTechDetails.TotalOfClaims,
-                @p_BenefitCostRatio = floodTechDetails.BenifitCostRatio,
+                @p_BenefitCostRatio = floodTechDetails.BenefitCostRatio,
                 @p_FEMACommunityId = floodTechDetails.FEMACommunityId,
                 @p_FirmEffectiveDate = floodTechDetails.FirmEffectiveDate,
                 @p_FirmPanel = floodTechDetails.FirmPanel,
@@ -157,8 +158,8 @@ public class TechDetailsRepository : ITechDetailsRepository
                 @p_FloodProfile = floodTechDetails.FloodProfile,
                 @p_FloodProfileFinal = floodTechDetails.FloodProfileFinal,
                 @p_FloodSource = floodTechDetails.FloodSource,
-                @p_FirstFloodElevation = floodTechDetails.FirstFloodElivation,
-                @p_FirstFloodElevationFinal = floodTechDetails.FirstFloodElivationFinal,
+                @p_FirstFloodElevation = floodTechDetails.FirstFloodElevation,
+                @p_FirstFloodElevationFinal = floodTechDetails.FirstFloodElevationFinal,
                 @p_StreambedElevation = floodTechDetails.StreambedElevation,
                 @p_StreambedElevationFinal = floodTechDetails.StreambedElevationFinal,
                 @p_ElevationBeforeMitigation = floodTechDetails.ElevationBeforeMitigation,
