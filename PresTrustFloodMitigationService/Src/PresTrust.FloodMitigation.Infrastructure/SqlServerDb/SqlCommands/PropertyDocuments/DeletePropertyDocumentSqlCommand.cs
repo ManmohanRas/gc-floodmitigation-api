@@ -3,9 +3,9 @@
 public class DeletePropertyDocumentSqlCommand
 {
     private readonly string _sqlCommand =
-              @" DELETE 
-            FROM	[Flood].[FloodParcelDocument]
-            WHERE	Id = @p_Id;";
+              @"    DELETE  FROM
+                    [Flood].[FloodParcelDocument]
+                    WHERE   Id = @p_Id;";
 
     public DeletePropertyDocumentSqlCommand()
     {

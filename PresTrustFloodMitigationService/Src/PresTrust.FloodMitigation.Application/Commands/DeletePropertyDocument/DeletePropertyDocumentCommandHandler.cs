@@ -1,14 +1,17 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands 
 { 
-    public class DeletePropertyDocumentCommandHandler : IRequestHandler<DeletePropertyDocumentCommand, bool>
+    public class DeletePropertyDocumentCommandHandler :BaseHandler, IRequestHandler<DeletePropertyDocumentCommand, bool>
     {
         private readonly IPropertyDocumentRepository propertyDocumentRepository;
+        private readonly IApplicationRepository repoApplication;
         public DeletePropertyDocumentCommandHandler
             (
-            IPropertyDocumentRepository propertyDocumentRepository
-            )
+            IPropertyDocumentRepository propertyDocumentRepository,
+            IApplicationRepository repoApplication    
+            ):base(repoApplication:repoApplication)
         {
             this.propertyDocumentRepository = propertyDocumentRepository;
+            this.repoApplication = repoApplication;
         }
         public async Task<bool> Handle(DeletePropertyDocumentCommand request, CancellationToken cancellationToken)
         {
