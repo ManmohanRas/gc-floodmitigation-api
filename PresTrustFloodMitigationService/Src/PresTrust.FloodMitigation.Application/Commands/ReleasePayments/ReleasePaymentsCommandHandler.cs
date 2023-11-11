@@ -30,18 +30,16 @@ public class ReleasePaymentsCommandHandler: BaseHandler, IRequestHandler<Release
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 
-        var releaseOfFunds = mapper.Map<IEnumerable<FloodParcelReleaseOfFundsViewModel>, IEnumerable<FloodPropReleaseOfFundsEntity>>(request.Payments);
-        
-        bool requestROF;
+        var releaseOfFunds = request.Payments;
 
         if(releaseOfFunds.Count() > 0)
         {
             foreach (var payment in releaseOfFunds)
             {
-                    payment.HardCostPaymentStatusId = request.Payments.Select(x => x.HardCostPaymentStatusId).FirstOrDefault();
-                    payment.SoftCostPaymentStatusId = request.Payments.Select(x => x.SoftCostPaymentStatusId).FirstOrDefault();
-                    
-                    requestROF = await repoROF.ReleasePayments(payment);
+                payment.HardCostPaymentStatus = ((PaymentStatusEnum)payment.HardCostPaymentStatusId).ToString();
+                payment.SoftCostPaymentStatus = ((PaymentStatusEnum)payment.SoftCostPaymentStatusId).ToString();
+                //release payment(s)
+                 await repoROF.ReleasePayments(mapper.Map<FloodParcelReleaseOfFundsViewModel, FloodPropReleaseOfFundsEntity>(payment));
             }
         }
         
