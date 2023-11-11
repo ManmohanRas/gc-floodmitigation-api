@@ -57,8 +57,7 @@ public class ParcelSurveyRepository : IParcelSurveyRepository
                 @p_SurveyDate = parcelSurvey.SurveyDate,
                 @p_LastRevision = parcelSurvey.LastRevision,
                 @p_DateCorrected = parcelSurvey.DateCorrected,
-                @p_LastUpdatedBy = parcelSurvey.LastUpdatedBy,
-                @p_LastUpdatedOn = DateTime.Now
+                @p_LastUpdatedBy = parcelSurvey.LastUpdatedBy
             });
 
         parcelSurvey.Id = id;
@@ -87,8 +86,7 @@ public class ParcelSurveyRepository : IParcelSurveyRepository
                 @p_SurveyDate = parcelSurvey.SurveyDate,
                 @p_LastRevision = parcelSurvey.LastRevision,
                 @p_DateCorrected = parcelSurvey.DateCorrected,
-                @p_LastUpdatedBy = parcelSurvey.LastUpdatedBy,
-                @p_LastUpdatedOn = DateTime.Now
+                @p_LastUpdatedBy = parcelSurvey.LastUpdatedBy
             });
 
         return parcelSurvey;

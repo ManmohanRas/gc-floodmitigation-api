@@ -7,6 +7,6 @@ public class SaveParcelSurveyCommand: IRequest<int>
     public string PamsPin { get; set; }
     public string? Surveyor { get; set; }
     public DateTime? SurveyDate { get; set; }
-    public DateTime LastRevision { get; set; }
-    public DateTime DateCorrected { get; set; }
+    public DateTime? LastRevision { get; set; }
+    public DateTime? DateCorrected { get; set; }
 }

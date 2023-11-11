@@ -13,7 +13,7 @@ public class GetParcelSurveySqlCommand
                    ,[LastUpdatedOn]
                    ,[LastUpdatedBy]
                 FROM [Flood].[FloodParcelSurvey]
-                WHERE [ApplicationId] = @p_ApplicationId;"
+                WHERE [ApplicationId] = @p_ApplicationId AND [PamsPin] = @p_PamsPin;"
         ;
     public GetParcelSurveySqlCommand()
     {
