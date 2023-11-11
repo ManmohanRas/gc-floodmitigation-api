@@ -31,13 +31,17 @@ public class ReleasePaymentsCommandHandler: BaseHandler, IRequestHandler<Release
         var application = await GetIfApplicationExists(request.ApplicationId);
 
         var releaseOfFunds = mapper.Map<IEnumerable<FloodParcelReleaseOfFundsViewModel>, IEnumerable<FloodPropReleaseOfFundsEntity>>(request.Payments);
+        
         bool requestROF;
 
         if(releaseOfFunds.Count() > 0)
         {
             foreach (var payment in releaseOfFunds)
             {
-                requestROF = await repoROF.ReleasePayments(payment);
+                    payment.HardCostPaymentStatusId = request.Payments.Select(x => x.HardCostPaymentStatusId).FirstOrDefault();
+                    payment.SoftCostPaymentStatusId = request.Payments.Select(x => x.SoftCostPaymentStatusId).FirstOrDefault();
+                    
+                    requestROF = await repoROF.ReleasePayments(payment);
             }
         }
         
