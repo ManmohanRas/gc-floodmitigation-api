@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries
 {
-    public class GetPropertyDocumentCheckListQueryValidator
+    public class GetPropertyDocumentChecklistQueryValidator
     {
     }
 }

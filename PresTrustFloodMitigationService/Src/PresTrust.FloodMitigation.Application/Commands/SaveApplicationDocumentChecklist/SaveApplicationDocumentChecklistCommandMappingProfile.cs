@@ -9,12 +9,12 @@ namespace PresTrust.FloodMitigation.Application.Commands
     /// <summary>
     /// This class defines the configuration using profiles.
     /// </summary>
-    public class UpdateDocumentCheckListCommandMappingProfile : Profile
+    public class SaveApplicationDocumentChecklistCommandMappingProfile : Profile
     {
         /// <summary>
         /// 
         /// </summary>
-        public UpdateDocumentCheckListCommandMappingProfile()
+        public SaveApplicationDocumentChecklistCommandMappingProfile()
         {
             CreateMap<ApplicationDocumentViewModel, FloodApplicationDocumentEntity>()
               .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => MapDocumentType(src.DocumentType)));

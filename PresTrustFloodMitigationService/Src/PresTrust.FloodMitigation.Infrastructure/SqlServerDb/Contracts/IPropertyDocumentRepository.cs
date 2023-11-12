@@ -31,7 +31,7 @@ public interface IPropertyDocumentRepository
     /// </summary>
     /// <param name="doc"></param>
     /// <returns></returns>
-    Task<FloodPropertyDocumentEntity> UpdatePropertyDocumentCheckListItemsAsync(FloodPropertyDocumentEntity doc);
+    Task<FloodPropertyDocumentEntity> SavePropertyDocumentChecklistAsync(FloodPropertyDocumentEntity doc);
 
     /// <summary>
     /// Procedure to get Property document checklist
@@ -39,6 +39,6 @@ public interface IPropertyDocumentRepository
     /// <param name="applicationId"></param>
     /// <param name="pamsPin"></param>
     /// <returns></returns>
-    Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentCheckListAsync(int applicationId, string pamsPin);
+    Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentChecklistAsync(int applicationId, string pamsPin);
 }
 

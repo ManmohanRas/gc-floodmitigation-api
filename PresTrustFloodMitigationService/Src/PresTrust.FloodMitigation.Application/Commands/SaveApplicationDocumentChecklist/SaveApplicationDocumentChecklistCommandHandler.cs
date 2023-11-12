@@ -17,7 +17,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
     /// <summary>
     /// This class handles the command to update data and build response
     /// </summary>
-    public class UpdateDocumentCheckListCommandHandler : BaseHandler, IRequestHandler<UpdateDocumentCheckListCommand, Unit>
+    public class SaveApplicationDocumentChecklistCommandHandler : BaseHandler, IRequestHandler<SaveApplicationDocumentChecklistCommand, Unit>
     {
         private IMapper mapper;
         private readonly IPresTrustUserContext userContext;
@@ -28,7 +28,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         // private readonly IBrokenRuleRepository repoBrokenRules;
 
 
-        public UpdateDocumentCheckListCommandHandler
+        public SaveApplicationDocumentChecklistCommandHandler
         (
             IMapper mapper,
             IPresTrustUserContext userContext,
@@ -54,7 +54,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<Unit> Handle(UpdateDocumentCheckListCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(SaveApplicationDocumentChecklistCommand request, CancellationToken cancellationToken)
         {
             // get application details
             var application = await GetIfApplicationExists(request.ApplicationId);
@@ -74,10 +74,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
             {
                 foreach (var doc in entityDocuments)
                 {
-                    //if (doc.IsPropertyDocument)
-                    //    await repoDocument.UpdatePropertyDocumentCheckListItemsAsync(doc);
-                    //else
-                        await repoDocument.UpdateDocumentCheckListItemsAsync(doc);
+                    await repoDocument.SaveApplicationDocumentChecklistAsync(doc);
                 }
                 //await repoBrokenRules.DeleteBrokenRulesAsync(application.Id, ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST);
                 //await repoBrokenRules.SaveBrokenRules(await brokenRules);
@@ -94,7 +91,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         /// <param name="application"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        //private async Task<List<BrokenRuleEntity>> ReturnBrokenRulesIfAny(FloodApplicationEntity application, UpdateDocumentCheckListCommand request)
+        //private async Task<List<BrokenRuleEntity>> ReturnBrokenRulesIfAny(FloodApplicationEntity application, UpdateDocumentChecklistCommand request)
         //{
 
         //    int sectionId = (int)ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST;

@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveContactCommandHandler : IRequestHandler<SaveContactCommand,int>
+public class SaveContactsCommandHandler : BaseHandler, IRequestHandler<SaveContactsCommand,bool>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -8,14 +8,14 @@ public class SaveContactCommandHandler : IRequestHandler<SaveContactCommand,int>
     private readonly IApplicationRepository repoApplication;
     private readonly IContactRepository repoContact;
 
-    public SaveContactCommandHandler
+    public SaveContactsCommandHandler
         (
          IMapper mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         IContactRepository repoContact
-        )
+        ) : base (repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
@@ -24,15 +24,19 @@ public class SaveContactCommandHandler : IRequestHandler<SaveContactCommand,int>
         this.repoContact = repoContact;
     }
 
-    public async Task<int> Handle(SaveContactCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(SaveContactsCommand request, CancellationToken cancellationToken)
     {
-        var reqContact = mapper.Map<SaveContactCommand, FloodContactEntity>(request);
+        var application = await GetIfApplicationExists(request.ApplicationId);
 
+        foreach(var contact in request.Contacts)
+        {
+            var reqContact = mapper.Map<SaveContactsModel, FloodContactEntity>(contact);
+            reqContact.ApplicationId = application.Id;
+            reqContact.LastUpdatedBy = userContext.Email;
 
-        // save contact
-        FloodContactEntity contact = default;
-        contact = await this.repoContact.SaveAsync(reqContact);
+            await this.repoContact.SaveAsync(reqContact);
+        }
 
-        return contact.Id;
+        return true;
     }
 }

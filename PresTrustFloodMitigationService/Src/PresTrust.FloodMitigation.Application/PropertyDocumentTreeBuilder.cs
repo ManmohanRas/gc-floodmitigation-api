@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application;
 
-    public class PropertyDocumentTreeBuilder
+public class PropertyDocumentTreeBuilder
 {
     #region " Members ... "
 
@@ -8,8 +8,7 @@
     private IEnumerable<FloodPropertyDocumentEntity> documents = default;
     private MapperConfiguration _autoMapperConfig;
 
-    public List<PropertyDocumentCheckListSectionViewModel> documentCheckListItems = default;
-
+    public List<PropertyDocumentChecklistSectionViewModel> documentChecklistItems = new();
 
     #endregion
 
@@ -29,7 +28,7 @@
 
         if (buildPropChecklist == true)
         {
-            BuildDocumentCheckListTree();
+            BuildDocumentChecklistTree();
         }
         else
         {
@@ -78,16 +77,17 @@
         }
     }
 
-    private void BuildDocumentCheckListTree()
+    private void BuildDocumentChecklistTree()
     {
         if (!documents.Any())
             return;
 
         var mapper = _autoMapperConfig.CreateMapper();
-        documentCheckListItems = documents.OrderBy(s => s.SectionId).Where(s => s.Id > 0).GroupBy(s => s.Section).Select(s => new PropertyDocumentCheckListSectionViewModel()
+        documentChecklistItems = documents.OrderBy(s => s.SectionId).Where(s => s.Id > 0).GroupBy(s => s.Section).Select(s => new PropertyDocumentChecklistSectionViewModel()
         {
             Section = SetSectionTitle(s.Key),
-            PropertyDocumentCheckListDocTypeItems = s.GroupBy(d => d.DocumentType).Select(d => {
+            PropertyDocumentChecklistDocTypeItems = s.GroupBy(d => d.DocumentType).Select(d =>
+            {
                 var item = d.FirstOrDefault();
                 return new PropertyDocumentChecklistDocTypeViewModel()
                 {
@@ -96,14 +96,15 @@
                     PamsPin = item.PamsPin.ToString(),
                     Section = item.Section.ToString(),
                     DocumentType = item.DocumentType.ToString(),
-                    Documents = d.Select(o => {
+                    Documents = d.Select(o =>
+                    {
                         return mapper.Map<FloodPropertyDocumentEntity, PropertyDocumentViewModel>(o);
                     }).ToList() ?? new List<PropertyDocumentViewModel>()
                 };
             }).ToList() ?? new List<PropertyDocumentChecklistDocTypeViewModel>()
-        }).ToList() ?? new List<PropertyDocumentCheckListSectionViewModel>();
-        if (documentCheckListItems.Count > 0)
-            documentCheckListItems = documentCheckListItems.Where(o => !string.IsNullOrWhiteSpace(o.Section)).ToList();
+        }).ToList() ?? new List<PropertyDocumentChecklistSectionViewModel>();
+        if (documentChecklistItems.Count > 0)
+            documentChecklistItems = documentChecklistItems.Where(o => !string.IsNullOrWhiteSpace(o.Section)).ToList();
     }
 
     private string SetSectionTitle(PropertySectionEnum enumSection)
@@ -115,16 +116,10 @@
                 title = "Property";
                 break;
             case PropertySectionEnum.OTHER_DOCUMENTS:
-                title = "OtherDocuments";
+                title = "Other Documents";
                 break;
             case PropertySectionEnum.SOFT_COSTS:
-                title = "SoftCosts";
-                break;
-            case PropertySectionEnum.ADMIN_DETAILS:
-                title = "AdminDetails";
-                break;
-            case PropertySectionEnum.ADMIN_DOCUMENT_CHECKLIST:
-                title = "AdminDocumentCheckList";
+                title = "Soft Costs";
                 break;
         }
         return title;

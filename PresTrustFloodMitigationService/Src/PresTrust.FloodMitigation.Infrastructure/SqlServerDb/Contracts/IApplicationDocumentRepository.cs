@@ -28,12 +28,12 @@ public interface IApplicationDocumentRepository
     /// </summary>
     /// <param name="doc"></param>
     /// <returns></returns>
-    Task<FloodApplicationDocumentEntity> UpdateDocumentCheckListItemsAsync(FloodApplicationDocumentEntity doc);
+    Task<FloodApplicationDocumentEntity> SaveApplicationDocumentChecklistAsync(FloodApplicationDocumentEntity doc);
 
     /// <summary>
     /// Procedure to get Property document checklist
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    Task<List<FloodApplicationDocumentEntity>> GetDocumentCheckListAsync(int applicationId);
+    Task<List<FloodApplicationDocumentEntity>> GetApplicationDocumentChecklistAsync(int applicationId);
 }

@@ -1,11 +1,11 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands
 {
-    public class UpdatePropertyDocumentCheckListCommandMappingProfile : Profile
+    public class SavePropertyDocumentChecklistCommandMappingProfile : Profile
     {
         /// <summary>
         /// 
         /// </summary>
-        public UpdatePropertyDocumentCheckListCommandMappingProfile()
+        public SavePropertyDocumentChecklistCommandMappingProfile()
         {
             CreateMap<PropertyDocumentViewModel, FloodPropertyDocumentEntity>()
               .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => MapDocumentType(src.DocumentType)));

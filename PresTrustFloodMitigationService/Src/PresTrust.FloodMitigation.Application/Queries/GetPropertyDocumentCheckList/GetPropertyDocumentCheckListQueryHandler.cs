@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace PresTrust.FloodMitigation.Application.Queries
 {
-    public class GetPropertyDocumentCheckListQueryHandler : BaseHandler, IRequestHandler<GetPropertyDocumentCheckListQuery, IEnumerable<PropertyDocumentCheckListSectionViewModel>>
+    public class GetPropertyDocumentChecklistQueryHandler : BaseHandler, IRequestHandler<GetPropertyDocumentChecklistQuery, IEnumerable<PropertyDocumentChecklistSectionViewModel>>
     {
         private readonly IMapper mapper;
         private readonly IApplicationRepository repoApplication;
         private readonly IPropertyDocumentRepository repoDocuments;
        
 
-        public GetPropertyDocumentCheckListQueryHandler
+        public GetPropertyDocumentChecklistQueryHandler
         (
             IMapper mapper,
             IApplicationRepository repoApplication,
@@ -32,14 +32,14 @@ namespace PresTrust.FloodMitigation.Application.Queries
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<PropertyDocumentCheckListSectionViewModel>> Handle(GetPropertyDocumentCheckListQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PropertyDocumentChecklistSectionViewModel>> Handle(GetPropertyDocumentChecklistQuery request, CancellationToken cancellationToken)
         {
             // get documents 
-            var documents = await repoDocuments.GetPropertyDocumentCheckListAsync(request.ApplicationId, request.PamsPin);
+            var documents = await repoDocuments.GetPropertyDocumentChecklistAsync(request.ApplicationId, request.PamsPin);
 
             // build checklist view model
             var docBuilder = new PropertyDocumentTreeBuilder(documents, buildPropChecklist: true);
-            return docBuilder.documentCheckListItems;
+            return docBuilder.documentChecklistItems;
         }
     }
 }

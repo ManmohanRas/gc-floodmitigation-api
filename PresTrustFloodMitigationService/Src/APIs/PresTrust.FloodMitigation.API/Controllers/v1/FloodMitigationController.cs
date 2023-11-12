@@ -1,6 +1,3 @@
-using PresTrust.FloodMitigation.Application.Commands;
-using PresTrust.FloodMitigation.Application.Queries;
-
 namespace PresTrust.FloodMitigation.API.Controllers.v1;
 
 [Authorize()]
@@ -557,12 +554,12 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("getDocumentChecklist")]
-    [ProducesResponseType(typeof(IEnumerable<DocumentCheckListSectionViewModel>), (int)HttpStatusCode.OK)]
+    [HttpPost("getApplicationDocumentChecklist")]
+    [ProducesResponseType(typeof(IEnumerable<ApplicationDocumentChecklistSectionViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<DocumentCheckListSectionViewModel>>> GetDocumentChecklist([FromBody] GetDocumentCheckListQuery query)
+    public async Task<ActionResult<IEnumerable<ApplicationDocumentChecklistSectionViewModel>>> GetApplicationDocumentChecklist([FromBody] GetApplicationDocumentChecklistQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -572,12 +569,12 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     /// </summary>
     /// <param name="command"> Query Command.</param>
     /// <returns> Returns Document Checklist Reponse.</returns>
-    [HttpPost("saveDocumentCheckList")]
+    [HttpPost("saveApplicationDocumentChecklist")]
     [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<Unit>> SaveDocumentCheckList([FromBody] UpdateDocumentCheckListCommand command)
+    public async Task<ActionResult<Unit>> SaveApplicationDocumentChecklist([FromBody] SaveApplicationDocumentChecklistCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -626,12 +623,12 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("saveContact")]
-    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [HttpPost("saveContacts")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SaveContact([FromBody] SaveContactCommand command)
+    public async Task<ActionResult<bool>> SaveContacts([FromBody] SaveContactsCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -782,11 +779,11 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     /// <param name="query"></param>
     /// <returns></returns>
     [HttpPost("getPropertyDocumentChecklist")]
-    [ProducesResponseType(typeof(IEnumerable<PropertyDocumentCheckListSectionViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<PropertyDocumentChecklistSectionViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<PropertyDocumentCheckListSectionViewModel>>> GetPropertyDocumentChecklist([FromBody] GetPropertyDocumentCheckListQuery query)
+    public async Task<ActionResult<IEnumerable<PropertyDocumentChecklistSectionViewModel>>> GetPropertyDocumentChecklist([FromBody] GetPropertyDocumentChecklistQuery query)
     {
         return Single(await QueryAsync(query));
     }
@@ -796,12 +793,12 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     /// </summary>
     /// <param name="command"> Query Command.</param>
     /// <returns> Returns Document Checklist Reponse.</returns>
-    [HttpPost("savePropertyDocumentCheckList")]
+    [HttpPost("savePropertyDocumentChecklist")]
     [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<Unit>> UpdatePropertyDocumentCheckListItemsAsync([FromBody] UpdatePropertyDocumentCheckListCommand command)
+    public async Task<ActionResult<Unit>> SavePropertyDocumentChecklistAsync([FromBody] SavePropertyDocumentChecklistCommand command)
     {
         return Single(await CommandAsync(command));
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PresTrust.FloodMitigation.Application.CommonViewModels
 {
-    public class DocumentCheckListDocTypeViewModel
+    public class ApplicationDocumentChecklistDocTypeViewModel
     {
         public int Id { get; set; }
         public int ApplicationId { get; set; }

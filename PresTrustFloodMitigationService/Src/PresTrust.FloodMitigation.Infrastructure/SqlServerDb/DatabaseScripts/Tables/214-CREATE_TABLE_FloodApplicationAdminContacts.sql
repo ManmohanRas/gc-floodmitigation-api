@@ -15,12 +15,12 @@ GO
 CREATE TABLE [Flood].[FloodContacts](
 	[Id]					[integer]			IDENTITY(1,1)	NOT NULL,
 	[ApplicationId]			[integer]							NOT NULL,
-	[ContactName]			[varchar](76)						NOT NULL,
-	[Agency]				[varchar](128)						NOT NULL,
-	[Email]					[varchar](128)						NOT NULL,
-	[MainNumber]			[varchar](128)						NOT NULL,
-	[AlternateNumber]		[varchar](128)						NOT NULL,
-	[SelectContact]			[bit]								NOT NULL,
+	[ContactName]			[varchar](76)						NULL,
+	[Agency]				[varchar](128)						NULL,
+	[Email]					[varchar](128)						NULL,
+	[MainNumber]			[varchar](128)						NULL,
+	[AlternateNumber]		[varchar](128)						NULL,
+	[SelectContact]			[bit]								NULL,
 	[LastUpdatedBy]			[varchar](128)						NULL	,
 	[LastUpdatedOn]			[DateTime]							NOT NULL,
 CONSTRAINT [PK_FloodContacts_Id] PRIMARY KEY CLUSTERED 
