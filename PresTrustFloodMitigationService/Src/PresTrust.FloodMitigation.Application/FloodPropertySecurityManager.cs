@@ -11,6 +11,7 @@ public class FloodPropertySecurityManager
     private UserRoleEnum userRole = default;
     private PropertyStatusEnum propertyStatus = default;
     private PropertyStatusEnum propertyPrevStatus = default;
+    private ApplicationStatusEnum applicationStatus = default;
     private PropertyPermissionEntity permission = default;
     private List<NavigationItemEntity> navigationItems = default;
     private List<NavigationItemEntity> adminNavigationItems = default;
@@ -18,11 +19,12 @@ public class FloodPropertySecurityManager
     private NavigationItemEntity defaultNavigationItem = default;
     private List<FloodPropertyFeedbackEntity> corrections = new List<FloodPropertyFeedbackEntity>();
 
-    public FloodPropertySecurityManager(UserRoleEnum userRole, PropertyStatusEnum propertyStatus, PropertyStatusEnum propertyPrevStatus, List<FloodPropertyFeedbackEntity> corrections = null)
+    public FloodPropertySecurityManager(UserRoleEnum userRole, PropertyStatusEnum propertyStatus, PropertyStatusEnum propertyPrevStatus, ApplicationStatusEnum applicationStatus, List<FloodPropertyFeedbackEntity> corrections = null)
     {
         this.userRole = userRole;
         this.propertyStatus = propertyStatus;
         this.propertyPrevStatus = propertyPrevStatus;
+        this.applicationStatus = applicationStatus;
         this.corrections = corrections ?? new List<FloodPropertyFeedbackEntity>();
 
         ConfigurePermissions();
@@ -41,7 +43,7 @@ public class FloodPropertySecurityManager
         adminNavigationItems = new List<NavigationItemEntity>();
         postApprovedNavigationItems = new List<NavigationItemEntity>();
 
-        if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
+        if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
         {
             permission.CanCreateProperty = true;
         }
@@ -93,7 +95,7 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
                     permission.CanSubmitProperty = true;
                 }
@@ -167,9 +169,9 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
-                    permission.CanSubmitProperty = true;
+                    permission.CanReviewProperty = true;
                 }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
@@ -223,9 +225,10 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
-                    permission.CanSubmitProperty = true;
+                    permission.CanPendProperty = true;
+                    permission.CanRejectProperty = true;
                 }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
@@ -279,9 +282,11 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
-                    permission.CanSubmitProperty = true;
+                    permission.CanApproveProperty = true;
+                    permission.CanWithdrawProperty = true;
+                    permission.CanTransferProperty = true;
                 }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
@@ -316,6 +321,22 @@ public class FloodPropertySecurityManager
                     Tech();
                     //Finance
                     Finance();
+                }
+                if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.AGENCY_EDITOR)
+                {
+                    permission.CanSaveDocument = true;
+                    permission.CanDeleteDocument = true;
+                    //Other Documents
+                    OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                    //Soft Costs
+                    SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                }
+                if (userRole == UserRoleEnum.AGENCY_SIGNATORY || userRole == UserRoleEnum.AGENCY_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
                 }
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
@@ -335,9 +356,9 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
             case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
+                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
-                    permission.CanSubmitProperty = true;
+                    permission.CanPreserveProperty = true;
                 }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
@@ -372,6 +393,22 @@ public class FloodPropertySecurityManager
                     Tech();
                     //Finance
                     Finance();
+                }
+                if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.AGENCY_EDITOR)
+                {
+                    permission.CanSaveDocument = true;
+                    permission.CanDeleteDocument = true;
+                    //Other Documents
+                    OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                    //Soft Costs
+                    SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                }
+                if (userRole == UserRoleEnum.AGENCY_SIGNATORY || userRole == UserRoleEnum.AGENCY_READONLY)
+                {
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
                 }
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
@@ -386,57 +423,122 @@ public class FloodPropertySecurityManager
 
     private void DerivePreservedStatePermissions()
     {
-        switch (userRole)
+        if (applicationStatus == ApplicationStatusEnum.CLOSED)
         {
-            case UserRoleEnum.SYSTEM_ADMIN:
-            case UserRoleEnum.PROGRAM_ADMIN:
-            case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
-                {
-                    permission.CanSubmitProperty = true;
-                }
-                permission.CanSaveDocument = true;
-                permission.CanDeleteDocument = true;
-                //Property
-                Property(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Soft Costs
-                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Tech
-                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
-                //Finance
-                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = PropertyNavigationItemTitles.PROPERTY,
-                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
-                    SortOrder = 1
-                };
-                break;
-            default:
-                //Property
-                Property();
-                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
-                {
+            switch (userRole)
+            {
+                case UserRoleEnum.SYSTEM_ADMIN:
+                case UserRoleEnum.PROGRAM_ADMIN:
+                    permission.CanSaveDocument = true;
+                    permission.CanDeleteDocument = true;
+                    //Property
+                    Property(enumViewOrEdit: ViewOrEdit.EDIT);
                     //Other Documents
                     OtherDocuments();
                     //Soft Costs
                     SoftCosts();
                     //Tech
-                    Tech();
+                    Tech(enumViewOrEdit: ViewOrEdit.EDIT);
                     //Finance
                     Finance();
-                }
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = PropertyNavigationItemTitles.PROPERTY,
-                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
-                    SortOrder = 1
-                };
-                break;
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = PropertyNavigationItemTitles.PROPERTY,
+                        RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                        SortOrder = 1
+                    };
+                    break;
+                default:
+                    //Property
+                    Property();
+                    //Other Documents
+                    OtherDocuments();
+                    //Soft Costs
+                    SoftCosts();
+                    if (userRole == UserRoleEnum.PROGRAM_EDITOR || userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                    {
+                        //Tech
+                        Tech();
+                        //Finance
+                        Finance();
+                    }
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = PropertyNavigationItemTitles.PROPERTY,
+                        RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                        SortOrder = 1
+                    };
+                    break;
+            }
+        }
+        else
+        {
+            switch (userRole)
+            {
+                case UserRoleEnum.SYSTEM_ADMIN:
+                case UserRoleEnum.PROGRAM_ADMIN:
+                case UserRoleEnum.PROGRAM_EDITOR:
+                    permission.CanSaveDocument = true;
+                    permission.CanDeleteDocument = true;
+                    //Property
+                    Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                    //Other Documents
+                    OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                    //Soft Costs
+                    SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                    //Tech
+                    Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                    //Finance
+                    Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = PropertyNavigationItemTitles.PROPERTY,
+                        RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                        SortOrder = 1
+                    };
+                    break;
+                default:
+                    //Property
+                    Property();
+                    if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                    {
+                        //Other Documents
+                        OtherDocuments();
+                        //Soft Costs
+                        SoftCosts();
+                        //Tech
+                        Tech();
+                        //Finance
+                        Finance();
+                    }
+                    if (userRole == UserRoleEnum.AGENCY_ADMIN || userRole == UserRoleEnum.AGENCY_EDITOR)
+                    {
+                        permission.CanSaveDocument = true;
+                        permission.CanDeleteDocument = true;
+                        //Other Documents
+                        OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                        //Soft Costs
+                        SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                    }
+                    if (userRole == UserRoleEnum.AGENCY_SIGNATORY || userRole == UserRoleEnum.AGENCY_READONLY)
+                    {
+                        //Other Documents
+                        OtherDocuments();
+                        //Soft Costs
+                        SoftCosts();
+                    }
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = PropertyNavigationItemTitles.PROPERTY,
+                        RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                        SortOrder = 1
+                    };
+                    break;
+            }
         }
     }
 
@@ -446,23 +548,18 @@ public class FloodPropertySecurityManager
         {
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
-            case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
-                {
-                    permission.CanSubmitProperty = true;
-                }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 //Property
                 Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                OtherDocuments();
                 //Soft Costs
-                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                SoftCosts();
                 //Tech
                 Tech(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Finance
-                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                Finance();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -474,12 +571,12 @@ public class FloodPropertySecurityManager
             default:
                 //Property
                 Property();
-                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                //Other Documents
+                OtherDocuments();
+                //Soft Costs
+                SoftCosts();
+                if (userRole == UserRoleEnum.PROGRAM_EDITOR || userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
-                    //Other Documents
-                    OtherDocuments();
-                    //Soft Costs
-                    SoftCosts();
                     //Tech
                     Tech();
                     //Finance
@@ -502,23 +599,18 @@ public class FloodPropertySecurityManager
         {
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
-            case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
-                {
-                    permission.CanSubmitProperty = true;
-                }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 //Property
                 Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                OtherDocuments();
                 //Soft Costs
-                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                SoftCosts();
                 //Tech
-                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                Tech();
                 //Finance
-                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                Finance();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -530,7 +622,7 @@ public class FloodPropertySecurityManager
             default:
                 //Property
                 Property();
-                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                if (userRole == UserRoleEnum.PROGRAM_EDITOR || userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
                     //Other Documents
                     OtherDocuments();
@@ -558,23 +650,18 @@ public class FloodPropertySecurityManager
         {
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
-            case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
-                {
-                    permission.CanSubmitProperty = true;
-                }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 //Property
                 Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                OtherDocuments();
                 //Soft Costs
-                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                SoftCosts();
                 //Tech
                 Tech(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Finance
-                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                Finance();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -586,12 +673,12 @@ public class FloodPropertySecurityManager
             default:
                 //Property
                 Property();
-                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                //Other Documents
+                OtherDocuments();
+                //Soft Costs
+                SoftCosts();
+                if (userRole == UserRoleEnum.PROGRAM_EDITOR || userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
-                    //Other Documents
-                    OtherDocuments();
-                    //Soft Costs
-                    SoftCosts();
                     //Tech
                     Tech();
                     //Finance
@@ -614,23 +701,18 @@ public class FloodPropertySecurityManager
         {
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
-            case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
-                {
-                    permission.CanSubmitProperty = true;
-                }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 //Property
                 Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                OtherDocuments();
                 //Soft Costs
-                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                SoftCosts();
                 //Tech
                 Tech(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Finance
-                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                Finance();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -642,12 +724,12 @@ public class FloodPropertySecurityManager
             default:
                 //Property
                 Property();
-                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                //Other Documents
+                OtherDocuments();
+                //Soft Costs
+                SoftCosts();
+                if (userRole == UserRoleEnum.PROGRAM_EDITOR || userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
-                    //Other Documents
-                    OtherDocuments();
-                    //Soft Costs
-                    SoftCosts();
                     //Tech
                     Tech();
                     //Finance
@@ -670,23 +752,18 @@ public class FloodPropertySecurityManager
         {
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
-            case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.PROGRAM_ADMIN)
-                {
-                    permission.CanSubmitProperty = true;
-                }
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 //Property
                 Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                OtherDocuments();
                 //Soft Costs
-                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                SoftCosts();
                 //Tech
                 Tech(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Finance
-                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                Finance();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -698,12 +775,12 @@ public class FloodPropertySecurityManager
             default:
                 //Property
                 Property();
-                if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
+                //Other Documents
+                OtherDocuments();
+                //Soft Costs
+                SoftCosts();
+                if (userRole == UserRoleEnum.PROGRAM_EDITOR || userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
-                    //Other Documents
-                    OtherDocuments();
-                    //Soft Costs
-                    SoftCosts();
                     //Tech
                     Tech();
                     //Finance
