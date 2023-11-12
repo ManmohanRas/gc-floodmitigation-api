@@ -9,6 +9,6 @@ namespace PresTrust.FloodMitigation.Application.CommonViewModels
     public class PropertyDocumentChecklistSectionViewModel
     {
         public string Section { get; set; }
-        public List<PropertyDocumentChecklistDocTypeViewModel> PropertyDocumentChecklistDocTypeItems { get; set; }
+        public List<PropertyDocumentChecklistDocTypeViewModel> DocumentChecklistDocTypeItems { get; set; }
     }
 }

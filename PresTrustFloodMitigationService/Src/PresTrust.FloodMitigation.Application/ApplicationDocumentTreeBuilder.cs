@@ -87,7 +87,7 @@ public class ApplicationDocumentTreeBuilder
         documentChecklistItems = documents.OrderBy(s => s.SectionId).Where(s => s.Id > 0).GroupBy(s => s.Section).Select(s => new ApplicationDocumentChecklistSectionViewModel()
         {
             Section = SetSectionTitle(s.Key),
-            ApplicationDocumentChecklistDocTypeItems = s.GroupBy(d => d.DocumentType).Select(d =>
+            DocumentChecklistDocTypeItems = s.GroupBy(d => d.DocumentType).Select(d =>
             {
                 var item = d.FirstOrDefault();
                 return new ApplicationDocumentChecklistDocTypeViewModel()
