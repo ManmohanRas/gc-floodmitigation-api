@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PresTrust.FloodMitigation.Application.Commands
 {
-    public class UpdateDocumentCheckListCommandViewModel
+    public class SaveApplicationDocumentChecklistCommandViewModel
     {
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands
 {
-    public class GetPropertyDocumentCheckListSqlCommand
+    public class GetPropertyDocumentChecklistSqlCommand
     {
         private readonly string _sqlCommand = string.Empty;
 
-        public GetPropertyDocumentCheckListSqlCommand()
+        public GetPropertyDocumentChecklistSqlCommand()
         {
 
             _sqlCommand =

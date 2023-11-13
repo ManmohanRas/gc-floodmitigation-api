@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands
 { 
-    public class UpdatePropertyDocumentCheckListCommandViewModel
+    public class SavePropertyDocumentChecklistCommandViewModel
     {
     }
 }

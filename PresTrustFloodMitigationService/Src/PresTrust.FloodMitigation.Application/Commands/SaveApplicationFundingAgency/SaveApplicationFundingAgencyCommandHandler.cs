@@ -27,7 +27,7 @@ public class SaveApplicationFundingAgencyCommandHandler :BaseHandler, IRequestHa
         foreach( var doc in documents) 
         {
             doc.OtherFundingSourceId = fundingAgency.Id;
-            await repoDocument.UpdateDocumentCheckListItemsAsync(doc);
+            await repoDocument.SaveApplicationDocumentChecklistAsync(doc);
         }
 
         return fundingAgency.Id;

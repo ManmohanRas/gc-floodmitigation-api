@@ -10,7 +10,7 @@ public class BaseHandler
     private readonly IApplicationParcelRepository repoProperty;
 
     public BaseHandler(IApplicationRepository repoApplication = null, IApplicationParcelRepository repoProperty = null)
-    { 
+    {
         this.repoApplication = repoApplication;
         this.repoProperty = repoProperty;
     }

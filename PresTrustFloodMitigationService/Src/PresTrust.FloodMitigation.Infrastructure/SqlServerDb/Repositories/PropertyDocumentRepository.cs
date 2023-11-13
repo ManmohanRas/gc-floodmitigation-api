@@ -77,11 +77,11 @@ public class PropertyDocumentRepository: IPropertyDocumentRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new { @p_Id = id });
     }
-    public async Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentCheckListAsync(int applicationId, string pamsPin)
+    public async Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentChecklistAsync(int applicationId, string pamsPin)
     {
         List<FloodPropertyDocumentEntity> results = default;
         using var conn = context.CreateConnection();
-        var sqlCommand = new GetPropertyDocumentCheckListSqlCommand();
+        var sqlCommand = new GetPropertyDocumentChecklistSqlCommand();
         results = (await conn.QueryAsync<FloodPropertyDocumentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -90,10 +90,10 @@ public class PropertyDocumentRepository: IPropertyDocumentRepository
         return results ?? new();
     }
 
-    public async Task<FloodPropertyDocumentEntity> UpdatePropertyDocumentCheckListItemsAsync(FloodPropertyDocumentEntity doc)
+    public async Task<FloodPropertyDocumentEntity> SavePropertyDocumentChecklistAsync(FloodPropertyDocumentEntity doc)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdatePropertyDocumentCheckListSqlCommand();
+        var sqlCommand = new UpdatePropertyDocumentChecklistSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,

@@ -2,12 +2,12 @@
 
 namespace PresTrust.FloodMitigation.Application.Commands
 {
-    public class UpdatePropertyDocumentCheckListCommandValidator : AbstractValidator<UpdatePropertyDocumentCheckListCommand> 
+    public class SavePropertyDocumentChecklistCommandValidator : AbstractValidator<SavePropertyDocumentChecklistCommand> 
     { 
 
 
 
-    public UpdatePropertyDocumentCheckListCommandValidator()
+    public SavePropertyDocumentChecklistCommandValidator()
     {
         RuleFor(command => command.ApplicationId)
            .GreaterThan(0).WithMessage("Not a valid Application Id");

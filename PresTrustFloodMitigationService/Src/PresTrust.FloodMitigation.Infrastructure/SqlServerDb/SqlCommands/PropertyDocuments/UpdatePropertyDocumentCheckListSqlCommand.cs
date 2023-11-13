@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb
 {
-        public class UpdatePropertyDocumentCheckListSqlCommand
+        public class UpdatePropertyDocumentChecklistSqlCommand
         {
             private readonly string _sqlCommand =
               @" UPDATE [Flood].[FloodParcelDocument]
@@ -15,7 +15,7 @@
 					,[LastUpdatedBy] = @p_LastUpdatedBy
 				WHERE Id = @p_Id;";
 
-            public UpdatePropertyDocumentCheckListSqlCommand() { }
+            public UpdatePropertyDocumentChecklistSqlCommand() { }
 
             public override string ToString()
             {

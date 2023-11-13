@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace PresTrust.FloodMitigation.Application.CommonViewModels
 {
 
-    public class DocumentCheckListSectionViewModel
+    public class ApplicationDocumentChecklistSectionViewModel
     {
         public string Section { get; set; }
-        public List<DocumentCheckListDocTypeViewModel> DocumentCheckListDocTypeItems { get; set; }
+        public List<ApplicationDocumentChecklistDocTypeViewModel> DocumentChecklistDocTypeItems { get; set; }
     }
 }
