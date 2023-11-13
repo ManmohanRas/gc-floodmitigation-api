@@ -45,7 +45,7 @@ public class SavePropFeedbackCommandHandler : IRequestHandler<SavePropFeedbackCo
 
         var feedback = mapper.Map<SavePropFeedbackCommand, FloodPropertyFeedbackEntity>(request);
         feedback.LastUpdatedBy = userContext.Email;
-        feedback.CorrectionStatus = feedback.Section == ApplicationSectionEnum.NONE ? ApplicationCorrectionStatusEnum.NONE.ToString() : ApplicationCorrectionStatusEnum.PENDING.ToString();
+        feedback.CorrectionStatus = feedback.Section == PropertySectionEnum.NONE ? PropertyCorrectionStatusEnum.NONE.ToString() : PropertyCorrectionStatusEnum.PENDING.ToString();
         feedback = await repoFeedback.SavePropFeedbackAsync(feedback);
         return feedback.Id;
     }

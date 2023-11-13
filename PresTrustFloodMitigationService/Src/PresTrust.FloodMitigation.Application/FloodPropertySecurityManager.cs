@@ -164,15 +164,60 @@ public class FloodPropertySecurityManager
 
     private void DeriveSubmittedStatePermissions()
     {
+        FloodPropertyFeedbackEntity correction = default;
         switch (userRole)
         {
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
-            case UserRoleEnum.PROGRAM_EDITOR:
-                if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
+                permission.CanReviewProperty = true;
+                permission.CanRequestForAPropertyCorrection = true;
+                permission.CanRespondToTheRequestForAPropertyCorrection = true;
+                permission.CanEditFeedback = true;
+                permission.CanDeleteFeedback = true;
+                permission.CanViewFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
+                permission.CanSaveDocument = true;
+                permission.CanDeleteDocument = true;
+                //Property
+                correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
+                if (correction == null)
+                    Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Soft Costs
+                SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Tech
+                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Finance
+                Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Document Checklist
+                AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Survey
+                AdminSurvey(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Details
+                AdminDetails(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Release of Funds
+                AdminReleaseOfFunds(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Tracking
+                AdminTracking(enumViewOrEdit: ViewOrEdit.EDIT);
+                // Default Navigation Item
+                this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    permission.CanReviewProperty = true;
-                }
+                    Title = PropertyNavigationItemTitles.PROPERTY,
+                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    SortOrder = 1
+                };
+                break;
+            case UserRoleEnum.PROGRAM_EDITOR:
+                permission.CanViewFeedback = true;
+                permission.CanViewComments = true;
+                permission.CanEditComments = true;
+                permission.CanDeleteComments = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 //Property
@@ -185,6 +230,16 @@ public class FloodPropertySecurityManager
                 Tech(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Finance
                 Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Document Checklist
+                AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Survey
+                AdminSurvey(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Details
+                AdminDetails(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Release of Funds
+                AdminReleaseOfFunds(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Admin Tracking
+                AdminTracking(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -194,10 +249,15 @@ public class FloodPropertySecurityManager
                 };
                 break;
             default:
+                if (userRole != UserRoleEnum.AGENCY_READONLY)
+                {
+                    permission.CanViewFeedback = true;
+                }
                 //Property
                 Property();
                 if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
+                    permission.CanViewComments = true;
                     //Other Documents
                     OtherDocuments();
                     //Soft Costs
