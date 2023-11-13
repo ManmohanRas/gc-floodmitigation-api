@@ -2,7 +2,7 @@
 
 namespace PresTrust.FloodMitigation.Application.Commands
 {
-    public class UpdatePropertyDocumentCheckListCommandHandler : BaseHandler, IRequestHandler<UpdatePropertyDocumentCheckListCommand, Unit>
+    public class SavePropertyDocumentChecklistCommandHandler : BaseHandler, IRequestHandler<SavePropertyDocumentChecklistCommand, Unit>
     {
 
 
@@ -12,7 +12,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         private readonly IApplicationRepository repoApplication;
         private readonly IPropertyDocumentRepository repoDocument;
 
-        public UpdatePropertyDocumentCheckListCommandHandler
+        public SavePropertyDocumentChecklistCommandHandler
         (
             IMapper mapper,
             IPresTrustUserContext userContext,
@@ -36,7 +36,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<Unit> Handle(UpdatePropertyDocumentCheckListCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(SavePropertyDocumentChecklistCommand request, CancellationToken cancellationToken)
         {
             // get application details
             var application = await GetIfApplicationExists(request.ApplicationId);
@@ -52,7 +52,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
             {
                 foreach (var doc in entityDocuments)
                 {
-                    await repoDocument.UpdatePropertyDocumentCheckListItemsAsync(doc);
+                    await repoDocument.SavePropertyDocumentChecklistAsync(doc);
                 }
 
                 scope.Complete();

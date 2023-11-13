@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands
 {
-    public class UpdateDocumentCheckListItemsSqlCommand
+    public class UpdateApplicationDocumentChecklistSqlCommand
 	{
 		private readonly string _sqlCommand =
           @" UPDATE [Flood].[FloodApplicationDocument]
@@ -15,7 +15,7 @@
 					,[OtherFundingSourceId] = @p_OtherFundingSourceId
 				WHERE Id = @p_Id;";
 
-		public UpdateDocumentCheckListItemsSqlCommand() { }
+		public UpdateApplicationDocumentChecklistSqlCommand() { }
 
 		public override string ToString()
 		{

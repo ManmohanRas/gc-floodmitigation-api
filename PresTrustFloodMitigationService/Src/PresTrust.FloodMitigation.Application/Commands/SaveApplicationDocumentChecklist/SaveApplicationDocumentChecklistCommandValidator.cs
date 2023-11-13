@@ -11,12 +11,12 @@ namespace PresTrust.FloodMitigation.Application.Commands
     /// <remarks>
     /// Returns BadRequest Response if any failures occured
     /// </remarks>
-    public class UpdateDocumentCheckListCommandValidator : AbstractValidator<UpdateDocumentCheckListCommand>
+    public class SaveApplicationDocumentChecklistCommandValidator : AbstractValidator<SaveApplicationDocumentChecklistCommand>
     {
         /// <summary>
         /// create rules for attributes
         /// </summary>
-        public UpdateDocumentCheckListCommandValidator()
+        public SaveApplicationDocumentChecklistCommandValidator()
         {
             RuleFor(command => command.ApplicationId)
                .GreaterThan(0).WithMessage("Not a valid Application Id");
