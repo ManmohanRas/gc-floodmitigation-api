@@ -13,7 +13,7 @@ public class GetTechDetailsQueryViewModel
     public int? Claim10Years { get; set; }
     public decimal? TotalOfClaims { get; set; }
     public decimal? BenefitCostRatio { get; set; }
-    public int? FEMACommunityId { get; set; }
+    public string? FEMACommunityId { get; set; }
     public DateTime? FirmEffectiveDate { get; set; }
     public string FirmPanel { get; set; }
     public string FirmPanelFinal { get; set; }
