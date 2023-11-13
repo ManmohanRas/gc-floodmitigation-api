@@ -111,7 +111,7 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
             {
                 brokenRules.Add(new FloodBrokenRuleEntity()
                 {
-                    ApplicationId = application.Id
+                    ApplicationId = application.Id,
                     SectionId = sectionId,
                     Message = "LOI required field on overview tab have not been filled.",
                     IsApplicantFlow = true
