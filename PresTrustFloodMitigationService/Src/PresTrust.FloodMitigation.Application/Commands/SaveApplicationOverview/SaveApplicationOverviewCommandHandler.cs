@@ -81,53 +81,49 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
         List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
         // add based on the empty check conditions
-        if (application.Status == ApplicationStatusEnum.SUBMITTED) 
-        {
+       
             if (reqOverviewDetails?.NatlDisaster == null)
             {
                 brokenRules.Add(new FloodBrokenRuleEntity()
                 {
-                    ApplicationId = reqOverviewDetails.ApplicationId,
+                    ApplicationId = application.Id,
                     SectionId = sectionId,
                     Message = "national distar required field on overview tab have not been filled.",
                     IsApplicantFlow = true
                 });
             }
 
-            if (reqOverviewDetails.NatlDisaster == true)
+            if (reqOverviewDetails?.NatlDisaster == true)
             {
                 if (string.IsNullOrEmpty(reqOverviewDetails.NatlDisasterName) || reqOverviewDetails.NatlDisasterYear == 0 || reqOverviewDetails.NatlDisasterMonth <= 0)
                 {
                     brokenRules.Add(new FloodBrokenRuleEntity()
                     {
-                        ApplicationId = reqOverviewDetails.ApplicationId,
+                        ApplicationId = application.Id,
                         SectionId = sectionId,
                         Message = "Name,Month and year required field on overview tab have not been filled.",
                         IsApplicantFlow = true
                     });
                 }
             }
-            //if (reqOverviewDetails.NatlDisaster == true)
-            //{
-            //    if (reqOverviewDetails.NatlDisasterYear == 0)
-            //    {
-            //        brokenRules.Add(new FloodBrokenRuleEntity()
-            //        {
-            //            ApplicationId = reqOverviewDetails.ApplicationId,
-            //            SectionId = sectionId,
-            //            Message = "Name,Month and year required field on overview tab have not been filled.",
-            //            IsApplicantFlow = true
-            //        });
-            //    }
-            //}
 
             if (reqOverviewDetails?.LOI == null)
             {
                 brokenRules.Add(new FloodBrokenRuleEntity()
                 {
-                    ApplicationId = reqOverviewDetails.ApplicationId,
+                    ApplicationId = application.Id
                     SectionId = sectionId,
                     Message = "LOI required field on overview tab have not been filled.",
+                    IsApplicantFlow = true
+                });
+            }
+
+            if (string.IsNullOrEmpty(reqOverviewDetails.LOIStatus)) {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "LOI status required field on overview tab have not been filled.",
                     IsApplicantFlow = true
                 });
             }
@@ -140,13 +136,102 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
                     {
                         brokenRules.Add(new FloodBrokenRuleEntity()
                         {
-                            ApplicationId = reqOverviewDetails.ApplicationId,
+                            ApplicationId = application.Id,
                             SectionId = sectionId,
                             Message = "LOI Approved Date required field on overview tab have not been filled.",
                             IsApplicantFlow = true
                         });
                     }
                 }
+            }
+
+        if (reqOverviewDetails.FEMA_OR_NJDEP_Applied == true)
+        {
+            if (reqOverviewDetails.FEMAApplied == true)
+            {
+                if (string.IsNullOrEmpty(reqOverviewDetails.FEMAStatus))
+                {
+                    brokenRules.Add(new FloodBrokenRuleEntity()
+                    {
+                        ApplicationId = application.Id,
+                        SectionId = sectionId,
+                        Message = " FEMA status required field on overview tab have not been filled.",
+                        IsApplicantFlow = true
+                    });
+                }
+
+                if (reqOverviewDetails.FEMAStatus == "Approved")
+                {
+                    if (reqOverviewDetails.FEMAApprovedDate == null)
+                    {
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = application.Id,
+                            SectionId = sectionId,
+                            Message = " FEMA Approved Date required field on overview tab have not been filled.",
+                            IsApplicantFlow = true
+                        });
+
+                    }
+                }
+            }
+
+            if (reqOverviewDetails.GreenAcresApplied == true)
+            {
+                if (string.IsNullOrEmpty(reqOverviewDetails.GreenAcresStatus))
+                {
+                    brokenRules.Add(new FloodBrokenRuleEntity()
+                    {
+                        ApplicationId = application.Id,
+                        SectionId = sectionId,
+                        Message = " green acers status required field on overview tab have not been filled.",
+                        IsApplicantFlow = true
+                    });
+                }
+
+                if (reqOverviewDetails.GreenAcresStatus == "Approved")
+                {
+                    if (reqOverviewDetails.GreenAcresApprovedDate == null)
+                    {
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = application.Id,
+                            SectionId = sectionId,
+                            Message = " Green acers Approved Date required field on overview tab have not been filled.",
+                            IsApplicantFlow = true
+                        });
+
+                    }
+                }
+            }
+             if (reqOverviewDetails.BlueAcresApplied == true)
+            {
+                if (string.IsNullOrEmpty(reqOverviewDetails.GreenAcresStatus))
+                {
+                    brokenRules.Add(new FloodBrokenRuleEntity()
+                    {
+                        ApplicationId = application.Id,
+                        SectionId = sectionId,
+                        Message = " Blue acers status required field on overview tab have not been filled.",
+                        IsApplicantFlow = true
+                    });
+                }
+
+                if (reqOverviewDetails.BlueAcresStatus == "Approved")
+                {
+                    if (reqOverviewDetails.BlueAcresApprovedDate == null)
+                    {
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = application.Id,
+                            SectionId = sectionId,
+                            Message = " Blue acers Approved Date required field on overview tab have not been filled.",
+                            IsApplicantFlow = true
+                        });
+
+                    }
+                }
+
             }
         }
 
