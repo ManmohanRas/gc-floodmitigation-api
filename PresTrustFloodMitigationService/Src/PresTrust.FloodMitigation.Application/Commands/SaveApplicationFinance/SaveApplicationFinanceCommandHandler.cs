@@ -120,7 +120,9 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         var priorityCheck = lineItems.Select(x => x.Priority == 0).FirstOrDefault();
         var valueEstCheck = lineItems.Select(x => x.ValueEstimate == 0).FirstOrDefault();
 
-       if (application.Status == ApplicationStatusEnum.IN_REVIEW)
+        var LineItemAmount = fundingSources.ToList().Sum(s => s.Amount );
+
+        if (application.Status == ApplicationStatusEnum.IN_REVIEW)
         {
 
             if (priorityCheck)
@@ -149,17 +151,17 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
             }
         }
 
-        if (fundingSources.Count() <= 0)
-        {
-            brokenRules.Add(new FloodBrokenRuleEntity()
-            {
-                ApplicationId = application.Id,
-                SectionId = sectionId,
-                Message = "Atleast one funding source mustbe selected.",
-                IsApplicantFlow = true
-            });
+        //if (LineItemAmount == request.FundingSources)
+        //{
+        //    brokenRules.Add(new FloodBrokenRuleEntity()
+        //    {
+        //        ApplicationId = application.Id,
+        //        SectionId = sectionId,
+        //        Message = "Atleast one funding source mustbe selected.",
+        //        IsApplicantFlow = true
+        //    });
 
-        }
+        //}
 
        return Task.FromResult(brokenRules);
     }
