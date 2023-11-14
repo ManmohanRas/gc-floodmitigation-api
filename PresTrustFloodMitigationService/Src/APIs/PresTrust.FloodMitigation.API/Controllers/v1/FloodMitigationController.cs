@@ -613,6 +613,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("deleteParcelSoftCost")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteParcelSoftCost([FromBody] DeleteParcelSoftCostCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("getContacts")]
     [ProducesResponseType(typeof(IEnumerable<GetContactsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

@@ -84,6 +84,23 @@ public class SoftCostRepository : ISoftCostRepository
 
         return softcost;
     }
-    
+
+    /// <summary>
+    /// Delete Funding Source.
+    /// </summary>
+    /// <returns></returns>
+    public async Task DeleteAsync(FloodParcelSoftCostEntity softCost)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new DeleteSoftCostLineItemsSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_Id = softCost.Id
+            });
+    }
+
 }
 
