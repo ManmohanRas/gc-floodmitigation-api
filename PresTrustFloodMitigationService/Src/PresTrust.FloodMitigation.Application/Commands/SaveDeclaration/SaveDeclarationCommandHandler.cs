@@ -87,6 +87,9 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
             await repoApplicationUser.DeleteApplicationUsersByApplicationIdAsync(application.Id);
             await repoApplicationUser.SaveAsync(reqAppUsers);
 
+            await repoBrokenRule.DeleteBrokenRulesAsync(application.Id, ApplicationSectionEnum.DECLARATION_OF_INTENT);
+            await repoBrokenRule.SaveBrokenRules(await brokenRules);
+
             scope.Complete();
             result = true;
         }

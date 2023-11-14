@@ -1,4 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using Microsoft.AspNetCore.Builder;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
 public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<ApproveDeclarationCommand, ApproveDeclarationCommandViewModel>
 {
     private readonly IMapper mapper;
@@ -66,10 +68,10 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
             await repoApplication.SaveStatusLogAsync(appStatusLog);
             //change properties statuses to DOI_SUBMITTED in future
 
-            // returns broken rules  
-            //var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
-            // save broken rules
-            //await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+            //// returns broken rules  
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
+            //// save broken rules
+            await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
 
             scope.Complete();
             result.IsSuccess = true;
@@ -94,59 +96,44 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
     /// <param name="request"></param>
     /// <param name="application"></param>
     /// <returns></returns>
-    //private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application)
-    //{
-    //    List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+    private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application)
+    {
+        List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
-    //    // add default broken rule while initiating application flow
-    //    brokenRules.Add(new FloodBrokenRuleEntity()
-    //    {
-    //        ApplicationId = application.Id,
-    //        SectionId = (int)ApplicationSectionEnum.ROLES,
-    //        Message = "All required fields on DOI tab have not been filled.",
-    //        IsApplicantFlow = true
-    //    });
-    //    brokenRules.Add(new FloodBrokenRuleEntity()
-    //    {
-    //        ApplicationId = application.Id,
-    //        SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
-    //        Message = "All required fields on DOI tab have not been filled.",
-    //        IsApplicantFlow = true
-    //    });
+        // add default broken rule while initiating application flow
+        brokenRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+            Message = "All required fields on Project Area tab have not been filled.",
+            IsApplicantFlow = true
+        });
 
-    //    brokenRules.Add(new FloodBrokenRuleEntity()
-    //    {
-    //        ApplicationId = application.Id,
-    //        SectionId = (int)ApplicationSectionEnum.OVERVIEW,
-    //        Message = "All required fields on DOI tab have not been filled.",
-    //        IsApplicantFlow = true
-    //    });
+        brokenRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.OVERVIEW,
+            Message = "All required fields on OverView tab have not been filled.",
+            IsApplicantFlow = true
+        });
 
-    //    brokenRules.Add(new FloodBrokenRuleEntity()
-    //    {
-    //        ApplicationId = application.Id,
-    //        SectionId = (int)ApplicationSectionEnum.FINANCE,
-    //        Message = "All required fields on DOI tab have not been filled.",
-    //        IsApplicantFlow = true
-    //    });
+        brokenRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.FINANCE,
+            Message = "All required fields on Finance tab have not been filled.",
+            IsApplicantFlow = true
+        });
 
-    //    brokenRules.Add(new FloodBrokenRuleEntity()
-    //    {
-    //        ApplicationId = application.Id,
-    //        SectionId = (int)ApplicationSectionEnum.SIGNATORY,
-    //        Message = "All required fields on DOI tab have not been filled.",
-    //        IsApplicantFlow = true
-    //    });
+        brokenRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.SIGNATORY,
+            Message = "All required fields on Signatory tab have not been filled.",
+            IsApplicantFlow = true
+        });
 
-    //    brokenRules.Add(new FloodBrokenRuleEntity()
-    //    {
-    //        ApplicationId = application.Id,
-    //        SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
-    //        Message = "All required fields on DOI tab have not been filled.",
-    //        IsApplicantFlow = true
-    //    });
-
-    //    return brokenRules;
-    //}
+        return brokenRules;
+    }
 
 }

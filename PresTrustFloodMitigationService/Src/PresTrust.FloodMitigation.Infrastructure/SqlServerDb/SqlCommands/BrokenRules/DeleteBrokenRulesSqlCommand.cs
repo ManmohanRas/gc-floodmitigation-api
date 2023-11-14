@@ -6,7 +6,7 @@ public class DeleteBrokenRulesSqlCommand
 
 		  @" DELETE 
 			 FROM [Flood].[FloodApplicationBrokenRules]
-			 WHERE	ApplicationId = @p_ApplicationId;";
+			 WHERE	ApplicationId = @p_ApplicationId AND SectionId = @p_SectionId;";
     public DeleteBrokenRulesSqlCommand() { }
 
     public override string ToString()
