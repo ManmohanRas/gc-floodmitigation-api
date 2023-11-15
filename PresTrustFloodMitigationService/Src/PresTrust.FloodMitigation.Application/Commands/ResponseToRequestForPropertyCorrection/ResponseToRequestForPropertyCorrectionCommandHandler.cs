@@ -48,14 +48,14 @@ public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler,
         AuthorizationCheck(application);
 
         // get feedback where the status is "Request Sent"
-        var corrections = await repoFeedback.GetPropFeedbackAsync(application.Id, Pamspin: ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString());
+        var corrections = await repoFeedback.GetPropFeedbackAsync(application.Id, Pamspin: PropertyCorrectionStatusEnum.REQUEST_SENT.ToString());
 
         // update feedback status as response received and send email to an applicant
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             foreach (var section in request.Sections)
             {
-                Enum.TryParse(value: section, ignoreCase: true, out ApplicationSectionEnum enumSection);
+                Enum.TryParse(value: section, ignoreCase: true, out PropertySectionEnum enumSection);
                 await repoFeedback.ResponseToRequestForPropertyCorrectionAsync(application.Id, (int)enumSection);
             }
 
@@ -66,9 +66,9 @@ public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler,
                 {
                     Id = 0,
                     ApplicationId = application.Id,
-                    CorrectionStatus = ApplicationCorrectionStatusEnum.NONE.ToString(),
+                    CorrectionStatus = PropertyCorrectionStatusEnum.NONE.ToString(),
                     Feedback = request.Feedback,
-                    Section = ApplicationSectionEnum.NONE,
+                    Section = PropertySectionEnum.NONE,
                     RequestForCorrection = false,
                     LastUpdatedBy = userContext.Name
                 };

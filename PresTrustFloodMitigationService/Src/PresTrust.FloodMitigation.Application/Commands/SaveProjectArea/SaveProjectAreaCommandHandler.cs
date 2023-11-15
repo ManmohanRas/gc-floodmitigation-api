@@ -13,6 +13,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IApplicationOverviewRepository repoOverview;
+    private readonly IBrokenRuleRepository repoBrokenRules;
 
     public SaveProjectAreaCommandHandler(
         IMapper mapper,
@@ -20,7 +21,9 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         IApplicationParcelRepository repoApplicationParcel,
-        IApplicationOverviewRepository repoOverview
+        IApplicationOverviewRepository repoOverview,
+        IBrokenRuleRepository repoBrokenRules
+
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
@@ -29,12 +32,14 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         this.repoApplication = repoApplication;
         this.repoApplicationParcel = repoApplicationParcel;
         this.repoOverview = repoOverview;
+        this.repoBrokenRules = repoBrokenRules;
     }
 
     public async Task<SaveProjectAreaCommandViewModel> Handle(SaveProjectAreaCommand request, CancellationToken cancellationToken)
     {
         // check if application exists
         var application = await GetIfApplicationExists(request.Id);
+
         
         // update application
         application.ApplicationSubTypeId = request.ApplicationSubTypeId;
@@ -55,9 +60,15 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         reqAppOverview.NoOfHomes = request.NoOfHomes;
         reqAppOverview.NoOfContiguousHomes = request.NoOfContiguousHomes;
         reqAppOverview.LastUpdatedBy = userContext.Email;
+        // Check Broken Rules
+        var brokenRules = ReturnBrokenRulesIfAny(application, reqAppOverview);
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
-        {
+        {   // Delete old Broken Rules, if any
+            await repoBrokenRules.DeleteBrokenRulesAsync(application.Id, ApplicationSectionEnum.PROJECT_AREA);
+            // Save current Broken Rules, if any
+            await repoBrokenRules.SaveBrokenRules(brokenRules);
+
             await repoApplication.SaveAsync(application);
             await repoApplicationParcel.DeleteApplicationParcelsByApplicationIdAsync(application.Id);
             await repoApplicationParcel.SaveAsync(reqAppParcels);
@@ -68,7 +79,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
 
         // get application details
         var result = mapper.Map<FloodApplicationEntity, SaveProjectAreaCommandViewModel>(application);
-
+        
         // apply security
         FloodApplicationSecurityManager securityMgr = default;
         // derive user's role for a given agency
@@ -93,5 +104,36 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         result.PostApprovedNavigationItems = securityMgr.PostApprovedNavigationItems;
         result.DefaultNavigationItem = securityMgr.DefaultNavigationItem;
         return result;
+    }
+
+    private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application, FloodApplicationOverviewEntity reqAppOverview)
+    {
+        int sectionId = (int)ApplicationSectionEnum.PROJECT_AREA;
+        List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+
+        // add based on the empty check conditions
+        if (reqAppOverview.NoOfHomes == null)
+        {
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = sectionId,
+                Message = "No. Of Homes required field on Project Area tab have not been filled.",
+                IsApplicantFlow = true
+            });
+        }
+
+        if (reqAppOverview.NoOfContiguousHomes == null)
+        {
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = sectionId,
+                Message = "No. Of Contiguous Homes required field on Project Area tab have not been filled.",
+                IsApplicantFlow = true
+            });
+        }
+
+        return brokenRules;
     }
 }

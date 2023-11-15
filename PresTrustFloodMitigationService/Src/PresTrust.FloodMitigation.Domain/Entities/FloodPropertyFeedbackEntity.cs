@@ -12,11 +12,11 @@ public class FloodPropertyFeedbackEntity
     public bool MarkRead { get; set; }
     public string LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedOn { get; set; }
-    public ApplicationSectionEnum Section
+    public PropertySectionEnum Section
     {
         get
         {
-            return (ApplicationSectionEnum)SectionId;
+            return (PropertySectionEnum)SectionId;
         }
         set
         {

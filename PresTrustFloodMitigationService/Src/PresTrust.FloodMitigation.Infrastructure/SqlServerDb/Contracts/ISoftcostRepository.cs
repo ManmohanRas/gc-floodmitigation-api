@@ -4,4 +4,9 @@ public interface ISoftCostRepository
 {
     Task<List<FloodParcelSoftCostEntity>> GetAllSoftCostLineItemsAsync(int applicationId, string pamsPin);
     Task<FloodParcelSoftCostEntity> SaveAsync(FloodParcelSoftCostEntity softcost);
+    /// <summary>
+    /// Delete Soft cost.
+    /// </summary>
+    /// <returns></returns>
+    Task DeleteAsync(FloodParcelSoftCostEntity softCost);
 }

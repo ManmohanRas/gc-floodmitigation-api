@@ -24,7 +24,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
-        this.repoApplication = repoApplication; 
+        this.repoApplication = repoApplication;
         this.repoApplicationDocument = repoApplicationDocument;
         this.repoBrokenRules = repoBrokenRules;
     }
@@ -37,7 +37,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
     /// <returns></returns>
     public async Task<SubmitApplicationCommandViewModel> Handle(SubmitApplicationCommand request, CancellationToken cancellationToken)
     {
-        SubmitApplicationCommandViewModel result = new ();
+        SubmitApplicationCommandViewModel result = new();
 
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
@@ -101,58 +101,22 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
 
     private async Task<bool> CheckApplicationOtherDocs(int applicationId, int applicationTypeId, int sectionId)
     {
-        bool hasOtherDocuments = false;
+        var requiredDocumentTypes =
+            (applicationTypeId == (int)ApplicationTypeEnum.CORE) ? 
+                new int[] {
+                    (int)ApplicationDocumentTypeEnum.APPLICATION_CHECKLIST,
+                    (int)ApplicationDocumentTypeEnum.PUBLIC_HEARING_CERTIFICATE,
+                    (int)ApplicationDocumentTypeEnum.MINUTES_FROM_PUBLIC_HEARING,
+                    (int)ApplicationDocumentTypeEnum.MUNICIPAL_RESOLUTION_OF_SUPPORT
+                } :
+            (applicationTypeId == (int)ApplicationTypeEnum.MATCH) ?
+                new int[] {
+                    (int)ApplicationDocumentTypeEnum.NON_COUNTY_AGENCY_RESOLUTION
+                } : new int[] {};
 
         var documents = await repoApplicationDocument.GetApplicationDocumentsAsync(applicationId, sectionId);
+        var savedDocumentTypes = documents.Where(o => requiredDocumentTypes.Contains(o.DocumentTypeId)).Select(o => o.DocumentTypeId).Distinct().ToArray();
 
-        FloodApplicationDocumentEntity applicationChecklist = default;
-        FloodApplicationDocumentEntity publicHearing = default;
-        FloodApplicationDocumentEntity municipalResolution = default;
-        FloodApplicationDocumentEntity minutesFromPublicHearing = default;
-        FloodApplicationDocumentEntity noncountyAgancyResolution = default;
-
-        if (documents != null && documents.Count() > 0)
-        {
-            applicationChecklist = documents.Where(d => d.DocumentTypeId == (int)ApplicationDocumentTypeEnum.APPLICATION_CHECKLIST).FirstOrDefault();
-            publicHearing = documents.Where(d => d.DocumentTypeId == (int)ApplicationDocumentTypeEnum.PUBLIC_HEARING_CERTIFICATE).FirstOrDefault();
-            municipalResolution = documents.Where(d => d.DocumentTypeId == (int)ApplicationDocumentTypeEnum.MUNICIPAL_RESOLUTION_OF_SUPPORT).FirstOrDefault();
-            minutesFromPublicHearing = documents.Where(d => d.DocumentTypeId == (int)ApplicationDocumentTypeEnum.MINUTES_FROM_PUBLIC_HEARING).FirstOrDefault();
-            noncountyAgancyResolution = documents.Where(d => d.DocumentTypeId == (int)ApplicationDocumentTypeEnum.NON_COUNTY_AGENCY_RESOLUTION).FirstOrDefault();
-        }
-
-        if (applicationTypeId == (int)ApplicationTypeEnum.CORE)
-        {
-            if (applicationChecklist == null || publicHearing == null || municipalResolution == null || minutesFromPublicHearing == null)
-            {
-                hasOtherDocuments = false;
-            }
-            else
-            {
-                hasOtherDocuments = true;
-            }
-        }
-        else
-        {
-            hasOtherDocuments = true;
-        }
-
-        if(applicationTypeId ==  (int)ApplicationTypeEnum.MATCH)
-        {
-            if (noncountyAgancyResolution == null)
-            {
-                hasOtherDocuments = false;
-            }
-            else
-            {
-                hasOtherDocuments = true;
-            }
-
-        }
-        else
-        {
-            hasOtherDocuments = true;
-        }
-
-        return hasOtherDocuments;
+        return requiredDocumentTypes.Except(savedDocumentTypes).Count() == 0;
     }
 }

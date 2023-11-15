@@ -25,15 +25,19 @@ public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHand
         var releaseOfFunds = await repoApplicationROF.GetReleaseOfFundsAsync(application.Id);
 
         var payments = await repoApplicationROF.GetApplicationPaymentsAsync(application.Id);
-
+        decimal amountSpent = 0;
         //Amounts released
-        var amountSpent =  payments.Where(x => x.HardCostPaymentStatusId == 1 || x.SoftCostPaymentStatusId == 1).Sum(y => y.SoftCostFMPAmt  + y.HardCostFMPAmt);
-        
+        if (payments.Count() > 0)
+        {
+            amountSpent = payments.Where(x => x.SoftCostPaymentStatusId == 1).Sum(y => y.SoftCostFMPAmt);
+            amountSpent += payments.Where(x => x.HardCostPaymentStatusId == 1).Sum(y => y.HardCostFMPAmt);
+        }
+
         //mapping data
         var result = mapper.Map<FloodApplicationReleaseOfFundsEntity, GetApplicationReleaseOfFundsQueryViewModel>(releaseOfFunds);
         result.CAFAmount = 0;
         result.AmountSpent = amountSpent;
-        result.Balance = amountSpent;
+        result.Balance = (result.CAFAmount) - (result.AmountSpent);
         result.Payments = mapper.Map<IEnumerable<FloodPropReleaseOfFundsEntity>, IEnumerable<FloodParcelReleaseOfFundsViewModel>>(payments);
 
         return result;

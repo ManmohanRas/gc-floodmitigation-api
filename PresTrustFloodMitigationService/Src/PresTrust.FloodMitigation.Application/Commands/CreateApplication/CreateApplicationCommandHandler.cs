@@ -48,13 +48,10 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
         reqApplication.CreatedByProgramAdmin = userContext.Role == UserRoleEnum.PROGRAM_ADMIN;
         reqApplication.LastUpdatedBy = userContext.Email;
 
-        // check if any broken rules exists, if yes then return
-        //var brokenRules = await repoBrokenRules.GetBrokenRulesAsync(reqApplication.Id);
+        
 
-        //// returns broken rules  
-        //var defaultBrokenRules = ReturnBrokenRulesIfAny(reqApplication);
-        //// save broken rules
-        //await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+        
+       
 
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
@@ -83,6 +80,11 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
                     await repoApplicationUser.SaveAsync(new List<FloodApplicationUserEntity>() { agencyAdmin });
                 }
             }
+            //// returns broken rules  
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(reqApplication);
+            //// save broken rules
+            await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+
 
             scope.Complete();
         }
@@ -158,18 +160,18 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
             return new List<FloodApplicationUserViewModel>();
         }
     }
-    //private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application)
-    //{
-    //    List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+    private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application)
+    {
+        List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
-    //    // add default broken rule while initiating application flow
-    //    brokenRules.Add(new FloodBrokenRuleEntity()
-    //    {
-    //        ApplicationId = application.Id,
-    //        SectionId = (int)ApplicationSectionEnum.DECLARATION_OF_INTENT,
-    //        Message = "All required fields on DOI tab have not been filled.",
-    //        IsApplicantFlow = true
-    //    });
-    //    return brokenRules;
-    //}
+        // add default broken rule while initiating application flow
+        brokenRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.DECLARATION_OF_INTENT,
+            Message = "All required fields on DOI tab have not been filled.",
+            IsApplicantFlow = true
+        });
+        return brokenRules;
+    }
 }
