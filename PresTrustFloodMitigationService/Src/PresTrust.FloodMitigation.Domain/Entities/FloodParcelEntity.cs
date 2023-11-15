@@ -30,6 +30,7 @@ public class FloodParcelEntity
     public bool IsLocked { get; set; }
     public bool AlreadyExists { get; set; }
     public int Priority { get; set; }
+    public decimal ValueEstimate { get; set; }
     public string CommentsJSON { get; set; }
     public string FeedbacksJSON { get; set; }
     public PropertyStatusEnum Status

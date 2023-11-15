@@ -12,5 +12,9 @@ public class GetApplicationPropertiesQueryViewModel
     public string QCode { get; set; }
     public string LandOwner { get; set; }
     public int Priority { get; set; }
+    public decimal ValueEstimate { get; set; }
+    public int StatusId { get; set; }
+    public string Status {  get; set; }
+
 
 }

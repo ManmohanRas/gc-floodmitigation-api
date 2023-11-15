@@ -10,6 +10,7 @@ public class GetApplicationParcelsSqlCommand
 						StatusId,
 						IsLocked,
 						PP.[Priority],
+						PP.[ValueEstimate],
 						CASE WHEN OtherPamsPin IS NULL THEN 0 ELSE 1 END AS AlreadyExists
 					FROM
 						(SELECT * FROM [Flood].[FloodApplicationParcel] WHERE [ApplicationId] = @p_ApplicationId) AppParcels
@@ -17,7 +18,7 @@ public class GetApplicationParcelsSqlCommand
 						(SELECT DISTINCT PamsPin AS OtherPamsPin FROM [Flood].[FloodApplicationParcel] WHERE [ApplicationId] != @p_ApplicationId) OtherAppParcels
 					ON AppParcels.PamsPin = OtherAppParcels.OtherPamsPin
 					LEFT JOIN [Flood].[FloodParcelProperty] PP
-					ON (AppParcels.ApplicationId != @p_ApplicationId AND AppParcels.PamsPin = PP.PamsPin)
+					ON (AppParcels.ApplicationId = @p_ApplicationId AND AppParcels.PamsPin = PP.PamsPin)
 				)
 				SELECT
 					AP.[PamsPin],
@@ -25,6 +26,7 @@ public class GetApplicationParcelsSqlCommand
 					AP.[IsLocked],
 					AP.[AlreadyExists],
 					AP.[Priority],
+					AP.[ValueEstimate],
 					CONCAT(CP.[StreetNo], ' ', CP.[StreetAddress]) AS [PropertyAddress],
 					NULL AS [TargetArea],
 					CP.[Block],
