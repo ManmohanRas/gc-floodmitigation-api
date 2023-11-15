@@ -19,7 +19,7 @@ GO
 CREATE TABLE [Flood].[FloodApplicationPayment](
 [Id]	                                [integer]     IDENTITY(1,1)               NOT NULL,
 [ApplicationId]                         [integer] 								  NOT NULL,
-[CAFNumber]                             [integer]                                 NOT NULL,
+[CAFNumber]                             [varchar](128)                            NOT NULL,
 [CAFClosed]                             [bit]                                     NOT NULL,
 [LastUpdatedBy]							[varchar](128)					          NULL,
 [LastUpdatedOn]							[dateTime]						          NOT NULL,

@@ -119,8 +119,8 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         var lineItems = request.FinanceLineItems ?? new List<FloodFinanceLineItemViewModel>();
         var priorityCheck = lineItems.Select(x => x.Priority == 0).FirstOrDefault();
         var valueEstCheck = lineItems.Select(x => x.ValueEstimate == 0).FirstOrDefault();
-
-        var LineItemAmount = fundingSources.ToList().Sum(s => s.Amount );
+        var fundingSourceAmount = fundingSources.ToList().Sum(s => s.Amount);
+        var lineItemMunicipalMatch = lineItems.Where(x => x.Priority == 1).Sum(x => x.MunicipalMatch);
 
         if (application.Status == ApplicationStatusEnum.IN_REVIEW)
         {
@@ -131,7 +131,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
                 {
                     ApplicationId = application.Id,
                     SectionId = sectionId,
-                    Message = "Priority is empty.",
+                    Message = "Priority is empty in Finance tab.",
                     IsApplicantFlow = true
                 });
             }
@@ -145,24 +145,24 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
                 {
                     ApplicationId = application.Id,
                     SectionId = sectionId,
-                    Message = "Value estimate is empty.",
+                    Message = "Value estimate is empty in Finance tab.",
                     IsApplicantFlow = true
                 });
             }
         }
 
-        //if (LineItemAmount == request.FundingSources)
-        //{
-        //    brokenRules.Add(new FloodBrokenRuleEntity()
-        //    {
-        //        ApplicationId = application.Id,
-        //        SectionId = sectionId,
-        //        Message = "Atleast one funding source mustbe selected.",
-        //        IsApplicantFlow = true
-        //    });
+        if (fundingSourceAmount  < lineItemMunicipalMatch)
+        {
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = sectionId,
+                Message = "Total Funding Source Amount must equal the Municipal Match in Finance tab.",
+                IsApplicantFlow = true
+            });
 
-        //}
+        }
 
-       return Task.FromResult(brokenRules);
+        return Task.FromResult(brokenRules);
     }
 }
