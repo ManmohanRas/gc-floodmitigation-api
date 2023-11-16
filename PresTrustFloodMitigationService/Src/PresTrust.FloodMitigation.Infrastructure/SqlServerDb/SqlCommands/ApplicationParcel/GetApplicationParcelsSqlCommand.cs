@@ -3,28 +3,36 @@
 public class GetApplicationParcelsSqlCommand
 {
     private readonly string _sqlCommand =
-            @"  WITH ApplicationParcelCTE AS (
+            @"  WITH ApplicationParcelCTE AS
+				(
 					SELECT
-						AppParcels.ApplicationId,
-						AppParcels.PamsPin,
-						StatusId,
-						IsLocked,
-						PP.[Priority],
-						PP.[ValueEstimate],
-						CASE WHEN OtherPamsPin IS NULL THEN 0 ELSE 1 END AS AlreadyExists
+						*
 					FROM
-						(SELECT * FROM [Flood].[FloodApplicationParcel] WHERE [ApplicationId] = @p_ApplicationId) AppParcels
-					LEFT JOIN
-						(SELECT DISTINCT PamsPin AS OtherPamsPin FROM [Flood].[FloodApplicationParcel] WHERE [ApplicationId] != @p_ApplicationId) OtherAppParcels
-					ON AppParcels.PamsPin = OtherAppParcels.OtherPamsPin
-					LEFT JOIN [Flood].[FloodParcelProperty] PP
-					ON (AppParcels.ApplicationId = @p_ApplicationId AND AppParcels.PamsPin = PP.PamsPin)
+					(
+						SELECT DISTINCT
+							AP.[ApplicationId],
+							AP.[PamsPin],
+							AP.[StatusId],
+							AP.[IsLocked],
+							PP.[Priority],
+							PP.[ValueEstimate]
+						FROM [Flood].[FloodApplicationParcel] AP
+						LEFT JOIN [Flood].[FloodParcelProperty] PP ON AP.[ApplicationId] = PP.[ApplicationId] AND AP.[PamsPin] = PP.[PamsPin]
+						WHERE AP.[ApplicationId] = @p_ApplicationId
+					) ApplicationParcels
+					LEFT JOIN 
+					(
+						SELECT DISTINCT
+							[PamsPin] AS [OtherPamsPin]
+						FROM [Flood].[FloodApplicationParcel]
+						WHERE [ApplicationId] != @p_ApplicationId
+					) OtherParcels ON ApplicationParcels.[PamsPin] = OtherParcels.[OtherPamsPin]
 				)
-				SELECT
+				SELECT DISTINCT
 					AP.[PamsPin],
 					AP.[StatusId],
 					AP.[IsLocked],
-					AP.[AlreadyExists],
+					CASE WHEN AP.[OtherPamsPin] IS NULL THEN 0 ELSE 1 END AS [AlreadyExists],
 					AP.[Priority],
 					AP.[ValueEstimate],
 					CONCAT(CP.[StreetNo], ' ', CP.[StreetAddress]) AS [PropertyAddress],
@@ -33,8 +41,8 @@ public class GetApplicationParcelsSqlCommand
 					CP.[Lot],
 					CP.[QualificationCode] AS [QCode],
 					CP.[OwnersName] AS [LandOwner]
-				FROM		[ApplicationParcelCTE] AP
-				JOIN		[Flood].[FloodParcel] CP ON AP.PamsPin = CP.PamsPin;";
+				FROM [ApplicationParcelCTE] AP
+				JOIN [Flood].[FloodParcel] CP ON AP.[PamsPin] = CP.[PamsPin];";
 
     public GetApplicationParcelsSqlCommand() { }
 
