@@ -45,8 +45,9 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
         application.ApplicationSubTypeId = reqApp.ApplicationSubTypeId;
 
         //check for new parcels
-        var newParcels = request.Parcels.Where(o => o.IsNewProperty).Select(o => new FloodParcelEntity()
+        var newParcels = request.Parcels.Where(o => !o.IsValidPamsPin).Select(o => new FloodParcelEntity()
         {
+            Id = o.Id,
             PamsPin = o.PamsPin,
             AgencyId = request.AgencyId,
             Block = o.Block,

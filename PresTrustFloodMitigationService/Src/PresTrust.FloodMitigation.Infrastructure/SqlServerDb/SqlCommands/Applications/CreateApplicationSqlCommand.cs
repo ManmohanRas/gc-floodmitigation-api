@@ -22,7 +22,7 @@ public class CreateApplicationSqlCommand
                ,@p_ApplicationTypeId
                ,@p_ApplicationSubTypeId
                ,@p_StatusId
-               ,DATEADD(YEAR, 3, GETDATE())
+               ,NULL
                ,@p_CreatedByProgramAdmin
                ,@p_LastUpdatedBy
                ,GetDate()

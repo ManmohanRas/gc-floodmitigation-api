@@ -2,6 +2,7 @@
 
 public class GetPropertyDetailsQueryViewModel
 {
+    public int Id { get; set; }
     public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
     public int AgencyId { get; set; }
@@ -25,6 +26,7 @@ public class GetPropertyDetailsQueryViewModel
     public string TargetArea { get; set; }
     public bool IsFLAP { get; set; }
     public DateTime DateOfFLAP { get; set; }
+    public bool IsValidPamsPin { get; set; }
     public string Status { get; set; }
     public string PrevStatus { get; set; }
     public bool IsLocked { get; set; }

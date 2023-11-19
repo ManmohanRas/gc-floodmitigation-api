@@ -94,6 +94,7 @@ public class ApplicationRepository: IApplicationRepository
                     @p_AgencyId = application.AgencyId,
                     @p_ApplicationTypeId = application.ApplicationTypeId,
                     @p_ApplicationSubTypeId = application.ApplicationSubTypeId,
+                    @p_ExpirationDate = application.ExpirationDate,
                     @p_LastUpdatedBy = application.LastUpdatedBy
                 });
         }

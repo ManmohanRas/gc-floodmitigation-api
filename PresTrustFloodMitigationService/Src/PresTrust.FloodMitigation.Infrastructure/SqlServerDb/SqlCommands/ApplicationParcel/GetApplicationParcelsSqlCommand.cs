@@ -29,6 +29,7 @@ public class GetApplicationParcelsSqlCommand
 					) OtherParcels ON ApplicationParcels.[PamsPin] = OtherParcels.[OtherPamsPin]
 				)
 				SELECT DISTINCT
+					CP.[Id],
 					AP.[PamsPin],
 					AP.[StatusId],
 					AP.[IsLocked],
@@ -40,7 +41,8 @@ public class GetApplicationParcelsSqlCommand
 					CP.[Block],
 					CP.[Lot],
 					CP.[QualificationCode] AS [QCode],
-					CP.[OwnersName] AS [LandOwner]
+					CP.[OwnersName] AS [LandOwner],
+					CP.[IsValidPamsPin]
 				FROM [ApplicationParcelCTE] AP
 				JOIN [Flood].[FloodParcel] CP ON AP.[PamsPin] = CP.[PamsPin];";
 

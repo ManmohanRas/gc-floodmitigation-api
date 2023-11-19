@@ -48,12 +48,6 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
         reqApplication.CreatedByProgramAdmin = userContext.Role == UserRoleEnum.PROGRAM_ADMIN;
         reqApplication.LastUpdatedBy = userContext.Email;
 
-        
-
-        
-       
-
-
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             reqApplication = await repoApplication.SaveAsync(reqApplication);

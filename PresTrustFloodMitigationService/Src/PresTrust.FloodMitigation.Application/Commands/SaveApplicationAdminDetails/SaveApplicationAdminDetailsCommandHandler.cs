@@ -51,6 +51,9 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
            
             var AppDetails = await repoAppDetails.SaveAsync(reqAppDetails);
 
+            application.ExpirationDate = AppDetails.SecondFundingExpirationDate ?? AppDetails.FirstFundingExpirationDate ?? AppDetails.FundingExpirationDate ?? application.ExpirationDate;
+            application = await repoApplication.SaveAsync(application);
+
             AppDetailsId = AppDetails.Id;
             scope.Complete();
         }

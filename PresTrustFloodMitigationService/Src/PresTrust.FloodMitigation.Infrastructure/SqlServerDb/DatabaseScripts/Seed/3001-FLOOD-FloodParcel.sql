@@ -22,6 +22,7 @@ WITH CoreParcelCTE AS
 			YearConstructed AS YearOfConstruction,
 			0 AS IsFLAP,
 			NULL AS DateOfFLAP,
+			1 AS IsValidPamsPin,
 			'flood-admin' AS LastUpdatedBy,
 			GetDate() AS LastUpdatedOn,
 			1 AS IsActive
@@ -50,6 +51,7 @@ INSERT INTO [Flood].[FloodParcel]
 	YearOfConstruction,
 	IsFLAP,
 	DateOfFLAP,
+	IsValidPamsPin,
 	LastUpdatedBy,
 	LastUpdatedOn,
 	IsActive
@@ -75,6 +77,7 @@ SELECT
 	YearOfConstruction,
 	IsFLAP,
 	DateOfFLAP,
+	IsValidPamsPin,
 	LastUpdatedBy,
 	LastUpdatedOn,
 	IsActive
