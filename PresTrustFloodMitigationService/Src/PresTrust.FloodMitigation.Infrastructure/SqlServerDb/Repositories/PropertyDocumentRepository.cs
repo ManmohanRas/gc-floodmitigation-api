@@ -23,7 +23,7 @@ public class PropertyDocumentRepository: IPropertyDocumentRepository
     }
 
     #endregion
-    public async Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentsAsync(int applicationId, int sectionId, string pamsPin)
+    public async Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentsAsync(int applicationId, string pamsPin, int sectionId)
     {
         List<FloodPropertyDocumentEntity> results = default;
         using var conn = context.CreateConnection();

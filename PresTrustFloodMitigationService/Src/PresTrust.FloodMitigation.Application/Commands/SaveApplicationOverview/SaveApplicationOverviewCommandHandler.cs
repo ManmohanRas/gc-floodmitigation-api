@@ -118,17 +118,23 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
                 });
             }
 
-            if (string.IsNullOrEmpty(reqOverviewDetails.LOIStatus)) {
-                brokenRules.Add(new FloodBrokenRuleEntity()
+            if (reqOverviewDetails?.LOI == true)
+            {
+
+                if (string.IsNullOrEmpty(reqOverviewDetails.LOIStatus))
                 {
-                    ApplicationId = application.Id,
-                    SectionId = sectionId,
-                    Message = "LOI status required field on overview tab have not been filled.",
-                    IsApplicantFlow = true
-                });
+                     brokenRules.Add(new FloodBrokenRuleEntity()
+                     {
+                        ApplicationId = application.Id,
+                        SectionId = sectionId,
+                        Message = "LOI status required field on overview tab have not been filled.",
+                        IsApplicantFlow = true
+                     });
+                }
+
             }
 
-            if (reqOverviewDetails.LOI == true)
+            if (reqOverviewDetails?.LOI == true)
             {
                 if (reqOverviewDetails.LOIStatus == "Approved")
                 {
@@ -205,7 +211,7 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
                 }
             }
              if (reqOverviewDetails.BlueAcresApplied == true)
-            {
+             {
                 if (string.IsNullOrEmpty(reqOverviewDetails.GreenAcresStatus))
                 {
                     brokenRules.Add(new FloodBrokenRuleEntity()
@@ -232,7 +238,7 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
                     }
                 }
 
-            }
+             }
         }
 
         return brokenRules;

@@ -28,6 +28,8 @@ global using Dapper;
 global using PresTrust.FloodMitigation.Domain.Configurations;
 global using PresTrust.FloodMitigation.Domain.Constants;
 global using PresTrust.FloodMitigation.Domain.Entities;
+global using PresTrust.FloodMitigation.Domain.Enums;
+
 
 //---------------------------------------------- PresTrust.FloodMitigation.Infrastructure Namespaces ----------------------------------------------//
 //=================================================================================================================================================//

@@ -39,7 +39,7 @@ public class GetParcelTrackingQueryHandler : BaseHandler, IRequestHandler<GetPar
     /// <returns></returns>
     private async Task<List<PropertyDocumentTypeViewModel>> GetPropertyDocument(int applicationId, string pamsPin)
     {
-        var documents = await repoDocument.GetPropertyDocumentsAsync(applicationId, (int)PropertySectionEnum.ADMIN_TRACKING, pamsPin);
+        var documents = await repoDocument.GetPropertyDocumentsAsync(applicationId, pamsPin, (int)PropertySectionEnum.ADMIN_TRACKING);
 
         List<PropertyDocumentTypeViewModel> documentsTree = new List<PropertyDocumentTypeViewModel>();
         if (documents != null)

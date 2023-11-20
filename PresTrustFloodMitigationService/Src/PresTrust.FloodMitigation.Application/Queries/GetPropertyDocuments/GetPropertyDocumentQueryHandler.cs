@@ -20,8 +20,8 @@
             // get application details
             var application = await GetIfApplicationExists(request.ApplicationId);
 
-            var documents = await repoDocument.GetPropertyDocumentsAsync(application.Id, (int)PropertySectionEnum.OTHER_DOCUMENTS, request.Pamspin);
-            var adminDocuments = await repoDocument.GetPropertyDocumentsAsync(application.Id, (int)PropertySectionEnum.ADMIN_DETAILS, request.Pamspin);
+            var documents = await repoDocument.GetPropertyDocumentsAsync(application.Id, request.Pamspin, (int)PropertySectionEnum.OTHER_DOCUMENTS);
+            var adminDocuments = await repoDocument.GetPropertyDocumentsAsync(application.Id, request.Pamspin, (int)PropertySectionEnum.ADMIN_DETAILS);
            
             List<PropertyDocumentTypeViewModel>? documentsTree = new List<PropertyDocumentTypeViewModel>();
 

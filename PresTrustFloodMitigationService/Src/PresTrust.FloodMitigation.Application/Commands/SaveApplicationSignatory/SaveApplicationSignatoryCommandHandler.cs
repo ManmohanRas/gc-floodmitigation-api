@@ -106,4 +106,4 @@ public class SaveApplicationSignatoryCommandHandler : BaseHandler, IRequestHandl
 
         return brokenRules;
     }
-    }
+}
