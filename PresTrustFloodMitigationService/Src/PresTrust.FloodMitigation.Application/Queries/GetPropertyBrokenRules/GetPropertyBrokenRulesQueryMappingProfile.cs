@@ -4,6 +4,6 @@ public class GetPropertyBrokenRulesQueryMappingProfile: Profile
 {
     public GetPropertyBrokenRulesQueryMappingProfile()
     {
-        CreateMap<FloodBrokenRuleEntity, GetPropertyBrokenRulesQueryViewModel>();
+        CreateMap<FloodPropertyBrokenRuleEntity, GetPropertyBrokenRulesQueryViewModel>();
     }
 }

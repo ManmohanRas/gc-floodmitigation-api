@@ -19,7 +19,7 @@ CREATE TABLE [Flood].[FloodApplicationFinance](
 	[MatchPercent]							[decimal](18,2)					NOT NULL,
  
 	[LastUpdatedBy]							[varchar](128)					NULL	,
-	[LastUpdatedOn]							[DateTime]						NOT NULL,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
 		
 CONSTRAINT [PK_FloodApplicationFinance_Id] PRIMARY KEY CLUSTERED 
 (

@@ -37,7 +37,7 @@ CREATE TABLE [Flood].[FloodParcelProperty](
 	[RentPerMonth]				[decimal](18,2)							NULL,
 	[NeedSoftCost]				[bit]									NULL,
 	[LastUpdatedBy]				[varchar](128)							NULL,
-	[LastUpdatedOn]				[DateTime]								NOT NULL
+	[LastUpdatedOn]				[datetime]								NOT NULL
 	
 CONSTRAINT [PK_FloodParcelProperty_Id] PRIMARY KEY CLUSTERED 
 (

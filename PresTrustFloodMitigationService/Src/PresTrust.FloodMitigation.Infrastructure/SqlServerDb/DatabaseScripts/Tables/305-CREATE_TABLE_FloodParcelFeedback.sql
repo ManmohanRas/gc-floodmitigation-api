@@ -23,7 +23,7 @@ CREATE TABLE [Flood].[FloodParcelFeedback](
 	[CorrectionStatus]						[varchar](100)					NOT NULL,
 	[MarkRead]								[bit]							NOT NULL, 
 	[LastUpdatedBy]							[varchar](128)					NULL	,
-	[LastUpdatedOn]							[DateTime]						NOT NULL,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
 	
 	
 CONSTRAINT [PK_FloodParcelFeedback_Id] PRIMARY KEY CLUSTERED 

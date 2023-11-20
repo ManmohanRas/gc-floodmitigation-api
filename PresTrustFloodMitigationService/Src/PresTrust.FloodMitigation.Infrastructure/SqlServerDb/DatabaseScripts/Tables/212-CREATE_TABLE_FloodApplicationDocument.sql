@@ -32,7 +32,7 @@ CREATE TABLE [Flood].[FloodApplicationDocument](
 	[Approved]					[bit]							NOT NULL,
 	[ReviewComment]				[varchar](2000)					NULL,
 	[LastUpdatedBy]				[varchar](128)					NULL,
-	[LastUpdatedOn]				[dateTime]						NOT NULL,
+	[LastUpdatedOn]				[datetime]						NOT NULL,
 CONSTRAINT [PK_FloodApplicationDocument_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

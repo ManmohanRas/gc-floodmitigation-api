@@ -22,10 +22,10 @@ CREATE TABLE [Flood].[FloodApplicationFinanceFund](
 	[FundingSourceTypeId]                   [integer]                       NOT NULL,
 	[Title]									[varchar](256)				    NULL    ,
 	[Amount]								[decimal](18,2)					NOT NULL,
-	[AwardDate]								[DateTime]						NULL    ,
+	[AwardDate]								[datetime]						NULL    ,
 
 	[LastUpdatedBy]							[varchar](128)					NULL,
-	[LastUpdatedOn]							[DateTime]						NOT NULL,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
 		
 CONSTRAINT [PK_FloodApplicationFinanceFund_Id] PRIMARY KEY CLUSTERED 
 (

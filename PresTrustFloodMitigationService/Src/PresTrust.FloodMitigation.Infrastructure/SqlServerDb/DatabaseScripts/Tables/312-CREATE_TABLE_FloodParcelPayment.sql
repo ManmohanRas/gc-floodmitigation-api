@@ -23,13 +23,13 @@ CREATE TABLE [Flood].[FloodParcelPayment](
 [ApplicationId]                         [integer] 								  NOT NULL,
 [PamsPin]					            [varchar](76)							  NOT NULL,
 [HardCostPaymentTypeId]                 [integer]                                 NULL    ,
-[HardCostPaymentDate]                   [dateTime]                                NULL    ,
+[HardCostPaymentDate]                   [datetime]                                NULL    ,
 [HardCostPaymentStatusId]               [bit]                                     NOT NULL,
 [SoftCostPaymentTypeId]                 [integer]                                 NULL    ,
-[SoftCostPaymentDate]                   [dateTime]                                NULL    ,
+[SoftCostPaymentDate]                   [datetime]                                NULL    ,
 [SoftCostPaymentStatusId]               [bit]                                     NOT NULL,
 [LastUpdatedBy]							[varchar](128)					          NULL	  ,
-[LastUpdatedOn]							[dateTime]						          NULL	  ,
+[LastUpdatedOn]							[datetime]						          NOT NULL,
 CONSTRAINT [PK_FloodParcelPayment_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

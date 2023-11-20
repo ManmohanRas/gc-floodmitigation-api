@@ -30,7 +30,7 @@ CREATE TABLE [Flood].[FloodParcelFinance](
 [AppraisersFee]                         [decimal](18,2)					          NULL    ,
 [SurveyorsFee]                          [decimal](18,2)					          NULL    ,
 [LastUpdatedBy]							[varchar](128)					          NULL	  ,
-[LastUpdatedOn]							[dateTime]						          NULL	  ,
+[LastUpdatedOn]							[datetime]						          NOT NULL,
 CONSTRAINT [PK_FloodParcelFinance_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

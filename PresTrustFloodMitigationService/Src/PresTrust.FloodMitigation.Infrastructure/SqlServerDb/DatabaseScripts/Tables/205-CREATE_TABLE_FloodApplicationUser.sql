@@ -33,7 +33,7 @@ CREATE TABLE [Flood].[FloodApplicationUser](
 	[IsPrimaryContact]				[bit]							NOT NULL,
 	[IsAlternateContact]			[bit]							NOT NULL,
 	[LastUpdatedBy]					[varchar](128)					NULL	,
-	[LastUpdatedOn]					[DateTime]						NOT NULL,
+	[LastUpdatedOn]					[datetime]						NOT NULL,
 CONSTRAINT [PK_FloodRole_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

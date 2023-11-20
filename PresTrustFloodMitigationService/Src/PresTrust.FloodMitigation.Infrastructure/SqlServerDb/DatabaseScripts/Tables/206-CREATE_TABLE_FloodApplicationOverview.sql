@@ -29,27 +29,27 @@ CREATE TABLE [Flood].[FloodApplicationOverview](
 
 	[LOI]									[bit]							DEFAULT 0,
 	[LOIStatus]								[varchar](50)					NULL	,
-	[LOIApprovedDate]						[DateTime]						NULL	,
+	[LOIApprovedDate]						[datetime]						NULL	,
 
 	[FEMA_OR_NJDEP_Applied]					[bit]							DEFAULT 0,
 
 	[FEMAApplied]							[bit]							DEFAULT 0,
 	[FEMAStatus]							[varchar](50)					NULL	,
-	[FEMAApprovedDate]						[DateTime]						NULL	,
+	[FEMAApprovedDate]						[datetime]						NULL	,
 	[FEMADenialReason]						[varchar](max)					NULL	,
 
 	[GreenAcresApplied]						[bit]							DEFAULT 0,
 	[GreenAcresStatus]						[varchar](50)					NULL	,
-	[GreenAcresApprovedDate]				[DateTime]						NULL	,
+	[GreenAcresApprovedDate]				[datetime]						NULL	,
 
 	[BlueAcresApplied]						[bit]							DEFAULT 0,
 	[BlueAcresStatus]						[varchar](50)					NULL	,
-	[BlueAcresApprovedDate]					[DateTime]						NULL	,
+	[BlueAcresApprovedDate]					[datetime]						NULL	,
 
 	[FundingAgenciesApplied]				[bit]							DEFAULT 0,
  
 	[LastUpdatedBy]							[varchar](128)					NULL	,
-	[LastUpdatedOn]							[DateTime]						NOT NULL,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
 	
 	
 CONSTRAINT [PK_FloodApplicationOverview_Id] PRIMARY KEY CLUSTERED 

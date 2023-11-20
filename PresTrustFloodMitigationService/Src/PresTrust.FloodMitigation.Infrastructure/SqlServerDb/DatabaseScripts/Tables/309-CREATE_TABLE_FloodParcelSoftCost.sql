@@ -24,7 +24,7 @@ CREATE TABLE [Flood].[FloodParcelSoftCost](
 	[InvoiceAmount]				[decimal](18,2)							NOT NULL,
 	[PaymentAmount]				[decimal](18,2)							NOT NULL,
 	[LastUpdatedBy]				[varchar](128)							NULL	,
-	[LastUpdatedOn]				[DateTime]								NOT NULL,
+	[LastUpdatedOn]				[datetime]								NOT NULL,
 	
 CONSTRAINT [PK_FloodParcelSoftCost_Id] PRIMARY KEY CLUSTERED 
 (

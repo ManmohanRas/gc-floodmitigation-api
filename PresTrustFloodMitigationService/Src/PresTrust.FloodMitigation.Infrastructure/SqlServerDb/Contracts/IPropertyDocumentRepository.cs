@@ -17,7 +17,7 @@ public interface IPropertyDocumentRepository
     /// <param name="sectionId"></param>
     /// <param name="pamsPin"></param>
     /// <returns></returns>
-    Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentsAsync(int applicationId, int sectionId , string pamsPin);
+    Task<List<FloodPropertyDocumentEntity>> GetPropertyDocumentsAsync(int applicationId, string pamsPin, int sectionId);
 
     /// <summary>
     /// 
