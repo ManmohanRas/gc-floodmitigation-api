@@ -71,7 +71,7 @@
         /// <summary>
         /// Documentype Type for recordedDeed -OtherDocumentTab
         /// </summary>
-        RECORDEDDEED = 16,
+        RECORDED_DEED = 16,
         /// <summary>
         /// Documentype Type for executed -OtherDocumentTab
         /// </summary>

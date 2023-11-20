@@ -152,7 +152,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
                     break;
                 case (int)PropertyStatusEnum.GRANT_EXPIRED:
                     requiredDocumentTypes = new int[] {
-                       (int)PropertyDocumentTypeEnum.RECORDEDDEED,
+                       (int)PropertyDocumentTypeEnum.RECORDED_DEED,
                        (int)PropertyDocumentTypeEnum.EXECUTED,
                        (int)PropertyDocumentTypeEnum.TITLE_INSURANCE_POLICY
                     };
