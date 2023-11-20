@@ -12,6 +12,7 @@ public class SaveDeclarationCommand : IRequest<bool>
 
     public class SaveDeclarationFloodParcel
     {
+        public int Id { get; set; }
         public string PamsPin { get; set; }
         public string? PropertyAddress { get; set; }
         public string? TargetArea { get; set; }
@@ -19,7 +20,7 @@ public class SaveDeclarationCommand : IRequest<bool>
         public string Lot { get; set; }
         public string? QCode { get; set; }
         public string LandOwner { get; set; }
-        public bool IsNewProperty { get; set; }
+        public bool IsValidPamsPin { get; set; }
     }
 
 }

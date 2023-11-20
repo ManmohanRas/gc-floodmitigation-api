@@ -3,7 +3,7 @@
 public class GetApplicationPaymentsSqlCommand
 {
     private readonly string _sqlCommand =
-                    @"    SELECT
+                    @"    SELECT DISTINCT
                           ISNULL(PP.[Id], 0) AS [Id],
                          AP.[ApplicationId],
                           AP.[PamsPin],

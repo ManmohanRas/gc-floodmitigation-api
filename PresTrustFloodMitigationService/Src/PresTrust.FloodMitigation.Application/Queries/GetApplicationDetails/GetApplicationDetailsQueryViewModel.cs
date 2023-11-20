@@ -10,7 +10,7 @@ public class GetApplicationDetailsQueryViewModel
     public string ApplicationType { get; set; }
     public int ApplicationSubTypeId { get; set; }
     public string ApplicationSubType { get; set; }
-    public DateTime ExpirationDate { get; set; }
+    public DateTime? ExpirationDate { get; set; }
     public string Status { get; set; }
     public string PrevStatus { get; set; }
     public bool CreatedByProgramAdmin { get; set; }

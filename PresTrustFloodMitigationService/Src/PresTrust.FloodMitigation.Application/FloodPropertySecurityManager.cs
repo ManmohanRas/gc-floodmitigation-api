@@ -186,7 +186,6 @@ public class FloodPropertySecurityManager
                     Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
-                Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
                 OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Soft Costs
@@ -317,7 +316,6 @@ public class FloodPropertySecurityManager
                     Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
-                Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
                 OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Soft Costs

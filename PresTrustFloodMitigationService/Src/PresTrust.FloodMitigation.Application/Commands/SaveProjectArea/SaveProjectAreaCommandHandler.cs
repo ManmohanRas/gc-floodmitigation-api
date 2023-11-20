@@ -49,7 +49,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         var reqAppParcels = request.Parcels.Select(o => new FloodApplicationParcelEntity()
         {
             ApplicationId = application.Id,
-            PamsPin = o.PamsPin,
+            PamsPin = o,
             Status = PropertyStatusEnum.NONE,
             IsLocked = false
         }).ToList();

@@ -44,6 +44,7 @@ public class GetParcelSqlCommand
 						P.[YearOfConstruction],
 						P.[IsFLAP],
 						P.[DateOfFLAP],
+						P.[IsValidPamsPin],
 						AP.[StatusId],
 						ISNULL(PSL.[StatusId], 0) AS [PrevStatusId],
 						C.[CommentsJSON],

@@ -10,16 +10,6 @@ public class SaveProjectAreaCommand : IRequest<SaveProjectAreaCommandViewModel>
     public int ApplicationSubTypeId { get; set; }
     public int? NoOfHomes { get; set; }
     public int? NoOfContiguousHomes { get; set; }
-    public List<SaveProjectAreaFloodParcel> Parcels { get; set; } = new List<SaveProjectAreaFloodParcel>();
-    public class SaveProjectAreaFloodParcel
-    {
-        public string PamsPin { get; set; }
-        public string? PropertyAddress { get; set; }
-        public string? TargetArea { get; set; }
-        public string Block { get; set; }
-        public string Lot { get; set; }
-        public string? QCode { get; set; }
-        public string LandOwner { get; set; }
-    }
+    public List<string> Parcels { get; set; } = new List<string>();
 }
 

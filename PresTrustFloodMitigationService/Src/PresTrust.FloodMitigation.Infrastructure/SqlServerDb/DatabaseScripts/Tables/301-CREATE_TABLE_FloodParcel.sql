@@ -3,6 +3,8 @@ BEGIN
 	-- Drop Constraints
 	ALTER TABLE [Flood].[FloodParcel] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodParcel];
 
+	ALTER TABLE [Flood].[FloodParcel] DROP CONSTRAINT IF EXISTS  [DF_IsValidPamsPin_FloodParcel];
+
 	ALTER TABLE [Flood].[FloodParcel] DROP CONSTRAINT IF EXISTS  [DF_IsActive_FloodParcel];
 
 END;
@@ -35,6 +37,7 @@ CREATE TABLE [Flood].[FloodParcel](
 	[YearOfConstruction]		[smallint]								NULL,
 	[IsFLAP]					[bit]									NULL,
 	[DateOfFLAP]				[DateTime]								NULL,
+	[IsValidPamsPin]			[bit]									NOT NULL,
 	[LastUpdatedBy]				[varchar](128)							NULL,
 	[LastUpdatedOn]				[DateTime]								NOT NULL,
 	[IsActive]					[bit]									NOT NULL,
@@ -48,6 +51,9 @@ CONSTRAINT [PK_FloodParcel_Id] PRIMARY KEY CLUSTERED
 GO
 
 ALTER TABLE [Flood].[FloodParcel] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodParcel]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+GO  
+
+ALTER TABLE [Flood].[FloodParcel] WITH NOCHECK ADD  CONSTRAINT [DF_IsValidPamsPin_FloodParcel]  DEFAULT (0) FOR [IsValidPamsPin]
 GO  
 
 ALTER TABLE [Flood].[FloodParcel] WITH NOCHECK ADD  CONSTRAINT [DF_IsActive_FloodParcel]  DEFAULT (1) FOR [IsActive]

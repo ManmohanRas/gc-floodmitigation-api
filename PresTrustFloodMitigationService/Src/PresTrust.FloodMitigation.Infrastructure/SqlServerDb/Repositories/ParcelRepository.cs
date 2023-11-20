@@ -20,21 +20,43 @@ public class ParcelRepository : IParcelRepository
         foreach (var parcel in parcels)
         {
             var streetNo = parcel.PropertyAddress.Split(" ")[0];
-            var sqlCommand = new CreateParcelSqlCommand();
-            await conn.ExecuteAsync(sqlCommand.ToString(),
-                commandType: CommandType.Text,
-                commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                param: new
-                {
-                    @p_PamsPin = parcel.PamsPin,
-                    @p_AgencyId = parcel.AgencyId,
-                    @p_Block = parcel.Block,
-                    @p_Lot = parcel.Lot,
-                    @p_QualificationCode = parcel.QCode,
-                    @p_StreetNo = streetNo,
-                    @p_StreetAddress = parcel.PropertyAddress.Substring(streetNo.Length + 1),
-                    @p_OwnersName = parcel.LandOwner
-                });
+            if(parcel.Id > 0)
+            {
+                var sqlCommand = new UpdateParcelSqlCommand();
+                await conn.ExecuteAsync(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new
+                    {
+                        @p_Id = parcel.Id,
+                        @p_PamsPin = parcel.PamsPin,
+                        @p_AgencyId = parcel.AgencyId,
+                        @p_Block = parcel.Block,
+                        @p_Lot = parcel.Lot,
+                        @p_QualificationCode = parcel.QCode,
+                        @p_StreetNo = streetNo,
+                        @p_StreetAddress = parcel.PropertyAddress.Substring(streetNo.Length + 1),
+                        @p_OwnersName = parcel.LandOwner
+                    });
+            }
+            else
+            {
+                var sqlCommand = new CreateParcelSqlCommand();
+                await conn.ExecuteAsync(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new
+                    {
+                        @p_PamsPin = parcel.PamsPin,
+                        @p_AgencyId = parcel.AgencyId,
+                        @p_Block = parcel.Block,
+                        @p_Lot = parcel.Lot,
+                        @p_QualificationCode = parcel.QCode,
+                        @p_StreetNo = streetNo,
+                        @p_StreetAddress = parcel.PropertyAddress.Substring(streetNo.Length + 1),
+                        @p_OwnersName = parcel.LandOwner
+                    });
+            }
         }
     }
 

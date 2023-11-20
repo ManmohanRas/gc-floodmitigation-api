@@ -3,13 +3,15 @@
 public class GetFloodParcelsByFilterSqlCommand
 {
     private readonly string _sqlCommand =
-            @"  SELECT		TOP 50		[PamsPin],
+            @"  SELECT		TOP 50		[Id],
+										[PamsPin],
 										CONCAT([StreetNo], ' ', [StreetAddress]) AS [PropertyAddress],
 										NULL AS [TargetArea],
 										[Block],
 										[Lot],
 										[QualificationCode] AS [QCode],
-										[OwnersName] AS [LandOwner]
+										[OwnersName] AS [LandOwner],
+										[IsValidPamsPin]
 				FROM					[Flood].[FloodParcel]
 				WHERE					[AgencyID] = @p_AgencyId AND
 										[PamsPin] NOT IN @p_ExistingPamsPins AND
