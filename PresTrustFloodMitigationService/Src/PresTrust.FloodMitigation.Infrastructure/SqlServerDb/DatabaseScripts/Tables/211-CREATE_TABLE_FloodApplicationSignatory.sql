@@ -17,10 +17,10 @@ CREATE TABLE [Flood].[FloodApplicationSignatory](
 	[ApplicationId]					[integer]						NOT NULL,
 	[Designation]					[varchar](128)					NULL	,
 	[Title]							[varchar](128)					NULL	, 
-	[SignedOn]						[DateTime]						NULL	, 
+	[SignedOn]						[datetime]						NULL	, 
 	[SignatoryType]					[varchar](128)					NOT NULL,
 	[LastUpdatedBy]					[varchar](128)					NULL	, 
-	[LastUpdatedOn]					[DateTime]						NOT NULL, 
+	[LastUpdatedOn]					[datetime]						NOT NULL, 
 CONSTRAINT [PK_FloodApplicationSignatory_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

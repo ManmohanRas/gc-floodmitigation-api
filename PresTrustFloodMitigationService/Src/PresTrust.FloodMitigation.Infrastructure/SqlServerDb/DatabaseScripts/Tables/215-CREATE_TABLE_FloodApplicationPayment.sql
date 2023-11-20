@@ -22,7 +22,7 @@ CREATE TABLE [Flood].[FloodApplicationPayment](
 [CAFNumber]                             [varchar](128)                            NOT NULL,
 [CAFClosed]                             [bit]                                     NOT NULL,
 [LastUpdatedBy]							[varchar](128)					          NULL,
-[LastUpdatedOn]							[dateTime]						          NOT NULL,
+[LastUpdatedOn]							[datetime]						          NOT NULL,
 CONSTRAINT [PK_FloodApplicationPayment_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

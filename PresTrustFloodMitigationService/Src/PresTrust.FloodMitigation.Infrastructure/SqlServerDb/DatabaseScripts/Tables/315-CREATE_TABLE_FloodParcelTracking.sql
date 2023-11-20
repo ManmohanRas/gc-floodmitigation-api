@@ -13,19 +13,19 @@ CREATE TABLE [Flood].[FloodParcelTracking](
 	[Id]					[integer]			IDENTITY(1,1)	NOT NULL,
 	[ApplicationId]			[integer]							NOT NULL,
 	[PamsPin]				[varchar](76)						NOT NULL,
-	[ClosingDate]			[DateTime]							NULL,
+	[ClosingDate]			[datetime]							NULL,
 	[DeedBook]				[varchar](128)						NULL,
 	[DeedPage]				[varchar](128)						NULL,
-	[DeedDate]				[DateTime]							NULL,
-	[DemolitionDate]		[DateTime]							NULL,
-	[SiteVisitConfirmDate]	[DateTime]							NULL,
+	[DeedDate]				[datetime]							NULL,
+	[DemolitionDate]		[datetime]							NULL,
+	[SiteVisitConfirmDate]	[datetime]							NULL,
 	[PublicPark]			[Bit]								NULL,
 	[RainGarden]			[Bit]								NULL,
 	[CommunityGarden]		[Bit]								NULL,
 	[ActiveRecreation]		[Bit]								NULL,
 	[NaturalHabitat]		[Bit]								NULL,
 	[LastUpdatedBy]			[varchar](128)						NULL,
-	[LastUpdatedOn]			[DateTime]							NOT NULL
+	[LastUpdatedOn]			[datetime]							NOT NULL
  
 CONSTRAINT [PK_FloodParcelTracking_Id] PRIMARY KEY CLUSTERED 
 (
