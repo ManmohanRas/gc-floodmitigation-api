@@ -97,8 +97,8 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
             parcelProperty.ApplicationId = entity.ApplicationId;
             parcelProperty.PamsPin = entity.PamsPin;
             parcelProperty.Priority = lineItem.Priority;
+            parcelProperty.ValueEstimate = lineItem.ValueEstimate;
 
-            await repoFinanceLineItem.SaveAsync(entity);
             await repoParcelProperty.SavePropertyAsync(parcelProperty);
         }
     }
@@ -117,15 +117,13 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
 
         var fundingSources = request.FundingSources ?? new  List<FloodFundingSourceViewModel>();
         var lineItems = request.FinanceLineItems ?? new List<FloodFinanceLineItemViewModel>();
-        var priorityCheck = lineItems.Select(x => x.Priority == 0).FirstOrDefault();
-        var valueEstCheck = lineItems.Select(x => x.ValueEstimate == 0).FirstOrDefault();
         var fundingSourceAmount = fundingSources.ToList().Sum(s => s.Amount);
         var lineItemMunicipalMatch = lineItems.Where(x => x.Priority == 1).Sum(x => x.MunicipalMatch);
 
         if (application.Status == ApplicationStatusEnum.IN_REVIEW)
         {
 
-            if (priorityCheck)
+            if (lineItems.Where(x => x.Priority == 0).Count() > 0)
             {
                 brokenRules.Add(new FloodBrokenRuleEntity()
                 {
@@ -139,7 +137,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
 
         if (application.Status == ApplicationStatusEnum.DRAFT)
         {
-            if (valueEstCheck)
+            if (lineItems.Where(x => x.ValueEstimate == 0).Count() > 0)
             {
                 brokenRules.Add(new FloodBrokenRuleEntity()
                 {

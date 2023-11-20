@@ -45,7 +45,7 @@ GO
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (15, 'MUNICIPAL_ORDINANCE_PURCHASE', 'Municipal Ordinance Purchase document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (16, 'RECORDEDDEED', 'Recorded Deed document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (16, 'RECORDED_DEED', 'Recorded Deed document', 2);
 GO
 
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (17, 'EXECUTED', 'Executed document', 2);
