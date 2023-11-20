@@ -29,10 +29,10 @@ CREATE TABLE [Flood].[FloodApplication](
 	[ApplicationTypeId]			[smallint]						NOT NULL,
 	[ApplicationSubTypeId]		[smallint]						NOT NULL,
 	[StatusId]					[smallint]						NOT NULL,
-	[ExpirationDate]			[DateTime]						NULL	,
+	[ExpirationDate]			[datetime]						NULL	,
 	[CreatedByProgramAdmin]		[bit]							NOT NULL,
 	[LastUpdatedBy]				[varchar](128)					NULL	,
-	[LastUpdatedOn]				[DateTime]						NOT NULL,
+	[LastUpdatedOn]				[datetime]						NOT NULL,
 	[IsActive]					[bit]							NOT NULL,
 	
 CONSTRAINT [PK_FloodApplication_Id] PRIMARY KEY CLUSTERED 

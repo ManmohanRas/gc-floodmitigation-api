@@ -33,9 +33,9 @@ CREATE TABLE [Flood].[FloodParcelAudit](
 	[ImprovementValue]			[integer]								NULL,
 	[AnnualTaxes]				[decimal](18,2)							NULL,
 	[IsFLAP]					[bit]									NULL,
-	[DateOfFLAP]				[DateTime]								NULL,
+	[DateOfFLAP]				[datetime]								NULL,
 	[LastUpdatedBy]				[varchar](128)							NULL,
-	[LastUpdatedOn]				[DateTime]								NOT NULL,
+	[LastUpdatedOn]				[datetime]								NOT NULL,
 	[IsActive]					[bit]									NOT NULL,
 	
 CONSTRAINT [PK_FloodParcelAudit_Id] PRIMARY KEY CLUSTERED 

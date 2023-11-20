@@ -36,10 +36,10 @@ CREATE TABLE [Flood].[FloodParcel](
 	[SquareFootage]				[integer]								NULL,
 	[YearOfConstruction]		[smallint]								NULL,
 	[IsFLAP]					[bit]									NULL,
-	[DateOfFLAP]				[DateTime]								NULL,
+	[DateOfFLAP]				[datetime]								NULL,
 	[IsValidPamsPin]			[bit]									NOT NULL,
 	[LastUpdatedBy]				[varchar](128)							NULL,
-	[LastUpdatedOn]				[DateTime]								NOT NULL,
+	[LastUpdatedOn]				[datetime]								NOT NULL,
 	[IsActive]					[bit]									NOT NULL,
 	
 CONSTRAINT [PK_FloodParcel_Id] PRIMARY KEY CLUSTERED 

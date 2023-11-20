@@ -14,11 +14,11 @@ CREATE TABLE [Flood].[FloodParcelSurvey](
 	[ApplicationId]			[integer]							NOT NULL,
 	[PamsPin]				[varchar](76)						NOT NULL,
 	[Surveyor]				[varchar](256)						NULL,
-	[SurveyDate]			[DateTime]							NULL,
-	[LastRevision]			[DateTime]							NULL,
-	[DateCorrected]			[DateTime]							NULL,
+	[SurveyDate]			[datetime]							NULL,
+	[LastRevision]			[datetime]							NULL,
+	[DateCorrected]			[datetime]							NULL,
 	[LastUpdatedBy]			[varchar](128)						NULL,
-	[LastUpdatedOn]			[DateTime]							NOT NULL
+	[LastUpdatedOn]			[datetime]							NOT NULL
 
 CONSTRAINT [PK_FloodParcelSurvey_Id] PRIMARY KEY CLUSTERED 
 (

@@ -21,7 +21,7 @@ CREATE TABLE [Flood].[FloodApplicationFinanceLineItems](
 [PamsPin]					            [nvarchar](76)							  NOT NULL,
 [ValueEstimate]				            [decimal](18,2)				              NULL    ,
 [LastUpdatedBy]							[varchar](128)					          NULL	  ,
-[LastUpdatedOn]							[dateTime]						          NULL	  ,
+[LastUpdatedOn]							[datetime]						          NOT NULL,
 CONSTRAINT [PK_FloodApplicationFinanceLineItems_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
