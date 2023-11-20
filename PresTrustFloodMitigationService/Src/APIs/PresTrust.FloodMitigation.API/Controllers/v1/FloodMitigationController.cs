@@ -831,6 +831,19 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
+    /// Get PropertyBroken rules
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getPropertyBrokenRules")]
+    [ProducesResponseType(typeof(IEnumerable<GetPropertyBrokenRulesQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetPropertyBrokenRulesQueryViewModel>>> GetPropertyBrokenRules([FromBody] GetPropertyBrokenRulesQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController

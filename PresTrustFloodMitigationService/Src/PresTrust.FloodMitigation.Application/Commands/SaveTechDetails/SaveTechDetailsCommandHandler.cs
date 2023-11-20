@@ -1,14 +1,19 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
 
 namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class SaveTechDetailsCommandHandler : IRequestHandler<SaveTechDetailsCommand, int>
+public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTechDetailsCommand, int>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private ITechDetailsRepository repoTechDetails;
+    private readonly IPropertyBrokenRuleRepository repoBrokenRules;
+    private readonly IParcelRepository repoParcel;
+    private readonly IApplicationParcelRepository repoAppParcel;
+
 
     public SaveTechDetailsCommandHandler
    (
@@ -16,14 +21,20 @@ public class SaveTechDetailsCommandHandler : IRequestHandler<SaveTechDetailsComm
        IPresTrustUserContext userContext,
        IOptions<SystemParameterConfiguration> systemParamOptions,
        IApplicationRepository repoApplication,
-       ITechDetailsRepository repoTechDetails
-   )
+       ITechDetailsRepository repoTechDetails,
+       IPropertyBrokenRuleRepository repoBrokenRules,
+      IParcelRepository repoParcel,
+      IApplicationParcelRepository repoAppParcel
+    ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
         this.repoTechDetails = repoTechDetails;
+        this.repoBrokenRules = repoBrokenRules;
+        this.repoParcel = repoParcel;
+        this.repoAppParcel = repoAppParcel;
     }
 
     /// <summary>
@@ -34,12 +45,303 @@ public class SaveTechDetailsCommandHandler : IRequestHandler<SaveTechDetailsComm
     /// <returns></returns>
     public async Task<int> Handle(SaveTechDetailsCommand request, CancellationToken cancellationToken)
     {
-        // map command object to the FloodTechDetailsEntity
+        // get application details
+        var application = await GetIfApplicationExists(request.ApplicationId);
+        var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
+
         var reqTechDetails = mapper.Map<SaveTechDetailsCommand, FloodTechDetailsEntity>(request);
-        reqTechDetails.LastUpdatedBy = userContext.Email;
+        // Check Broken Rules
+        var brokenRules = ReturnBrokenRulesIfAny(application, property, reqTechDetails);
 
-        var techDetails = await repoTechDetails.SaveTechAsync(reqTechDetails);
-        return techDetails.Id;
+        using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
+        {
+            // Delete old Broken Rules, if any
+            await repoBrokenRules.DeletePropertyBrokenRulesAsync(application.Id, PropertySectionEnum.TECH, property.PamsPin);
+            // Save current Broken Rules, if any
+            await repoBrokenRules.SavePropertyBrokenRules(brokenRules);
+            reqTechDetails = await repoTechDetails.SaveTechAsync(reqTechDetails);
+            reqTechDetails.LastUpdatedBy = userContext.Email;
+            scope.Complete();
+
+        }
+        return reqTechDetails.Id;
     }
+    private List<FloodPropertyBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity applcation, FloodApplicationParcelEntity property, FloodTechDetailsEntity reqTechDetails)
+    {
+        int sectionId = (int)PropertySectionEnum.TECH;
+        List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
 
+        if (applcation.ApplicationType == ApplicationTypeEnum.CORE)
+        {
+            if (reqTechDetails.Claim10Years == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "# Claims (10Years) required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.TotalOfClaims == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "# Claims (10Years) required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.BenefitCostRatio == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "BenefitCostRatio required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (string.IsNullOrEmpty(reqTechDetails.FEMACommunityId))
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "FEMA Community required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.FirmEffectiveDate == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Firm Effective Date required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (string.IsNullOrEmpty(reqTechDetails.FirmPanel))
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Firm Pannel Initial required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+            if (string.IsNullOrEmpty(reqTechDetails.FirmPanelFinal))
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Firm Pannel Final required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (string.IsNullOrEmpty(reqTechDetails.FloodZoneDesignation))
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Flood Zone Designation required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.BaseFloodElevation == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Base Flood Elevation Initial required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.BaseFloodElevationFinal == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Base Flood Elevation Final required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.RiverId == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "River X-Section ID Initial required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.RiverIdFinal == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "River X-Section ID Final required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.FisEffectiveDate == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Fis Effective Date required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (string.IsNullOrEmpty(reqTechDetails.FloodProfile))
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Flood Profile Initial required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (string.IsNullOrEmpty(reqTechDetails.FloodProfileFinal))
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Flood Profile Final required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (string.IsNullOrEmpty(reqTechDetails.FloodSource))
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Flood Source required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.FirstFloodElevation == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "First Flood Elevation required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.FirstFloodElevationFinal == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "First Flood Elevation Final required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.StreambedElevation == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Stream Bed Elevation required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.StreambedElevationFinal == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Stream Bed Elevation Final required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.ElevationBeforeMitigation == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Elevation Before Mitigation Initial required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.ElevationBeforeMitigationFinal == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Elevation Before Mitigation Final required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (string.IsNullOrEmpty(reqTechDetails.FloodType))
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Flood Type required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.TenPercent == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Ten Percent required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.TwoPercent == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Two Percent required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.OnePercent == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "One Percent required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+
+            if (reqTechDetails.PointOnePercent == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Point One Percent required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+        }
+        return brokenRules;
+    }
 }
