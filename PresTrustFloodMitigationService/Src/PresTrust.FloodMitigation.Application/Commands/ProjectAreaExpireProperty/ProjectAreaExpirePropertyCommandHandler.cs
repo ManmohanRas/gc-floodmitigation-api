@@ -1,5 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class ProjectAreaExpirePropertyCommandHandler : BaseHandler, IRequestHandler<PendingPropertyCommand, PendingPropertyCommandViewModel>
+public class ProjectAreaExpirePropertyCommandHandler : BaseHandler, IRequestHandler<ProjectAreaExpirePropertyCommand, ProjectAreaExpirePropertyCommandViewModel>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -27,9 +27,9 @@ public class ProjectAreaExpirePropertyCommandHandler : BaseHandler, IRequestHand
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<PendingPropertyCommandViewModel> Handle(PendingPropertyCommand request, CancellationToken cancellationToken)
+    public async Task<ProjectAreaExpirePropertyCommandViewModel> Handle(ProjectAreaExpirePropertyCommand request, CancellationToken cancellationToken)
     {
-        PendingPropertyCommandViewModel result = new ();
+        ProjectAreaExpirePropertyCommandViewModel result = new ();
 
         // check if Property exists
         var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);

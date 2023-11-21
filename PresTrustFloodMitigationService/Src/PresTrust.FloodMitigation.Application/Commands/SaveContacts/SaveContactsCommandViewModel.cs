@@ -10,6 +10,4 @@ public class SaveContactsCommandViewModel
     public string? MainNumber { get; set; }
     public string? AlternateNumber { get; set; }
     public bool SelectContact { get; set; }
-    public string LastUpdatedBy { get; set; } = "";
-    public DateTime LastUpdatedOn { get; set; } = DateTime.MinValue;
 }

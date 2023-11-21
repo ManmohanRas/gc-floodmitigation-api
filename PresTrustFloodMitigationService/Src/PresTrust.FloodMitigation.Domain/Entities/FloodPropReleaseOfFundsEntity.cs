@@ -7,10 +7,10 @@ public class FloodPropReleaseOfFundsEntity
     public string Property { get; set; } = "";
     public string CAFNumber { get; set; } = "";
     public int HardCostPaymentTypeId { get; set; }
-    public DateTime HardCostPaymentDate { get; set; }
+    public DateTime? HardCostPaymentDate { get; set; }
     public int HardCostPaymentStatusId { get; set; }
     public int SoftCostPaymentTypeId { get; set; }
-    public DateTime SoftCostPaymentDate { get; set; }
+    public DateTime? SoftCostPaymentDate { get; set; }
     public int SoftCostPaymentStatusId { get; set; }
     public decimal HardCostFMPAmt { get; set; }
     public decimal SoftCostFMPAmt { get; set; }

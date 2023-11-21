@@ -7,8 +7,8 @@ public class FloodParcelReleaseOfFundsViewModel
     public string PamsPin { get; set; }
     public string? Property { get; set; } = "";
     public string? CAFNumber { get; set; }
-    public DateTime HardCostPaymentDate { get; set; }
-    public DateTime SoftCostPaymentDate { get; set; }
+    public DateTime? HardCostPaymentDate { get; set; }
+    public DateTime? SoftCostPaymentDate { get; set; }
     public decimal HardCostFMPAmt { get; set; }
     public decimal SoftCostFMPAmt { get; set; }
     public string? HardCostPaymentStatus { get; set; }

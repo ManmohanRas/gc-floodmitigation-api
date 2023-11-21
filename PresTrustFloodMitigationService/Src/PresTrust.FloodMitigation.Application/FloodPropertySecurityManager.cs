@@ -299,7 +299,7 @@ public class FloodPropertySecurityManager
         {
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
-                permission.CanReviewProperty = true;
+                permission.CanPendProperty = true;
                 permission.CanRequestForAPropertyCorrection = true;
                 permission.CanRespondToTheRequestForAPropertyCorrection = true;
                 permission.CanEditFeedback = true;

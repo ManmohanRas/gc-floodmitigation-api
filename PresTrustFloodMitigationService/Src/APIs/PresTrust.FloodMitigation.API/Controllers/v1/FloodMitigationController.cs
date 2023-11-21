@@ -1034,7 +1034,7 @@ public class FloodMitigationWorkflowController : ApiBaseController
     }
 
     [HttpPost("transferProperty")]
-    [ProducesResponseType(typeof(PendingPropertyCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(TransferPropertyCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]

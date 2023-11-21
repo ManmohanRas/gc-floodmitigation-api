@@ -1,12 +1,6 @@
 IF OBJECT_ID('[Flood].[FloodApplication]') IS NOT NULL
 BEGIN
 	-- Drop Constraints
-	--ALTER TABLE [Flood].[FloodApplication] DROP CONSTRAINT IF EXISTS  [FK_StatusId_FloodApplication];
-
-	--ALTER TABLE [Flood].[FloodApplication] DROP CONSTRAINT IF EXISTS  [FK_ApplicationTypeId_FloodApplication];
-	
-	--ALTER TABLE [Flood].[FloodApplication] DROP CONSTRAINT IF EXISTS  [FK_ApplicationSubTypeId_FloodApplication];
-	
 	ALTER TABLE [Flood].[FloodApplication] DROP CONSTRAINT IF EXISTS  [DF_CreatedByProgramAdmin_FloodApplication];
 
 	ALTER TABLE [Flood].[FloodApplication] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodApplication];
@@ -44,15 +38,6 @@ CONSTRAINT [PK_FloodApplication_Id] PRIMARY KEY CLUSTERED
 GO
 
 -- Create Constraints
---ALTER TABLE [Flood].[FloodApplication] ADD CONSTRAINT FK_StatusId_FloodApplication  FOREIGN KEY (StatusId) REFERENCES [Flood].FloodApplicationStatus(Id);
---GO 
-
---ALTER TABLE [Flood].[FloodApplication] ADD CONSTRAINT FK_ApplicationTypeId_FloodApplication  FOREIGN KEY (ApplicationTypeId) REFERENCES [Flood].FloodApplicationType(Id);
---GO 
-
---ALTER TABLE [Flood].[FloodApplication] ADD CONSTRAINT [FK_ApplicationSubTypeId_FloodApplication]  FOREIGN KEY (ApplicationSubTypeId) REFERENCES [Flood].FloodApplicationSubType(Id);
---GO 
-
 ALTER TABLE [Flood].[FloodApplication] WITH NOCHECK ADD  CONSTRAINT [DF_CreatedByProgramAdmin_FloodApplication]  DEFAULT (0) FOR [CreatedByProgramAdmin]
 GO
 

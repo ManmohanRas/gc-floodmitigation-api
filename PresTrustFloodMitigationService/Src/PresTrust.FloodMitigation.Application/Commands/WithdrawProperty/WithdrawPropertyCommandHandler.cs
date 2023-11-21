@@ -1,5 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class WithdrawPropertyCommandHandler : BaseHandler, IRequestHandler<PendingPropertyCommand, PendingPropertyCommandViewModel>
+public class WithdrawPropertyCommandHandler : BaseHandler, IRequestHandler<WithdrawPropertyCommand, WithdrawPropertyCommandViewModel>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -27,9 +27,9 @@ public class WithdrawPropertyCommandHandler : BaseHandler, IRequestHandler<Pendi
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<PendingPropertyCommandViewModel> Handle(PendingPropertyCommand request, CancellationToken cancellationToken)
+    public async Task<WithdrawPropertyCommandViewModel> Handle(WithdrawPropertyCommand request, CancellationToken cancellationToken)
     {
-        PendingPropertyCommandViewModel result = new ();
+        WithdrawPropertyCommandViewModel result = new ();
 
         // check if Property exists
         var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);

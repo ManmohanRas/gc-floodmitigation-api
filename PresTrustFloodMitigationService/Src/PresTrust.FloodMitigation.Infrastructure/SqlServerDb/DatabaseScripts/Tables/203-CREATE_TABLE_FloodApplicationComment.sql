@@ -20,8 +20,7 @@ CREATE TABLE [Flood].[FloodApplicationComment](
 	[CommentTypeId]							[smallint]						NOT NULL,
 	[LastUpdatedBy]							[varchar](128)					NULL	,
 	[LastUpdatedOn]							[datetime]						NOT NULL,
-	
-	
+
 CONSTRAINT [PK_FloodApplicationComment_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

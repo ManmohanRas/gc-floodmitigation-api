@@ -1,8 +1,6 @@
 IF OBJECT_ID('[Flood].[FloodApplicationUser]') IS NOT NULL
 BEGIN
 	-- Drop Constraints
-	--ALTER TABLE [Flood].[FloodApplicationUser] DROP CONSTRAINT IF EXISTS  [FK_ApplicationId_FloodApplicationUser];
-
 	ALTER TABLE [Flood].[FloodApplicationUser] DROP CONSTRAINT IF EXISTS  [DF_IsPrimaryContact_FloodApplicationUser];
 
 	ALTER TABLE [Flood].[FloodApplicationUser] DROP CONSTRAINT IF EXISTS  [DF_IsAlternateContact_FloodApplicationUser];
@@ -43,9 +41,6 @@ CONSTRAINT [PK_FloodRole_Id] PRIMARY KEY CLUSTERED
 GO
 
 -- Create Constraint
---ALTER TABLE [Flood].[FloodApplicationUser] ADD CONSTRAINT [FK_ApplicationId_FloodApplicationUser]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
---GO 
-
 ALTER TABLE [Flood].[FloodApplicationUser] WITH NOCHECK ADD  CONSTRAINT [DF_IsPrimaryContact_FloodApplicationUser]  DEFAULT (0) FOR [IsPrimaryContact]
 GO  
 

@@ -4,9 +4,11 @@ public class GetApplicationParcelSqlCommand
 {
     private readonly string _sqlCommand =
             @" SELECT
-					FA.[ApplicationId],	FA.[PamsPin], FA.[StatusId], FP.[LastUpdatedBy]
-				FROM	[Flood].[FloodApplicationParcel] FA, [Flood].[FloodParcelProperty] FP
-				where	FA.[ApplicationId] = FP.[ApplicationId] and FA.[PamsPin] = FP.[PamsPin] and FA.[ApplicationId] = @p_ApplicationId and FA.[PamsPin] = @p_PamsPin;";
+	            FA.[ApplicationId],
+	            FA.[PamsPin],
+	            FA.[StatusId]
+            FROM	[Flood].[FloodApplicationParcel] FA
+            WHERE	FA.[ApplicationId] = @p_ApplicationId and FA.[PamsPin] = @p_PamsPin;";
 
     public GetApplicationParcelSqlCommand() { }
 

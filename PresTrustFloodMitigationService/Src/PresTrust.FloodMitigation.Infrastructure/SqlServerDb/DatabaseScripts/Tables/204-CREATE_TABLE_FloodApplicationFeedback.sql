@@ -23,8 +23,7 @@ CREATE TABLE [Flood].[FloodApplicationFeedback](
 	[MarkRead]								[bit]							NOT NULL, 
 	[LastUpdatedBy]							[varchar](128)					NULL	,
 	[LastUpdatedOn]							[datetime]						NOT NULL,
-	
-	
+
 CONSTRAINT [PK_FloodApplicationFeedback_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

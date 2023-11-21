@@ -26,6 +26,4 @@ public class GetParcelPropertyQueryViewModel
     public bool IsRentalProperty { get; set; }
     public decimal RentPerMonth { get; set; }
     public bool NeedSoftCost { get; set; }
-    public string? LastUpdatedBy { get; set; }
-    public DateTime LastUpdatedOn { get; set; }
 }

@@ -6,6 +6,4 @@ public class SavePropCommentCommandViewModel
     public int ApplicationId { get; set; } = 0;
     public string PamsPin { get; set; }
     public string Comment { get; set; } = "";
-    public string LastUpdatedBy { get; set; } = "";
-    public DateTime LastUpdatedOn { get; set; } = DateTime.MinValue;
 }

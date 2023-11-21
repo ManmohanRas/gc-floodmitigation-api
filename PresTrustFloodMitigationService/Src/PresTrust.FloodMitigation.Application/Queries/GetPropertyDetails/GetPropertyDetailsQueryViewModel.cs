@@ -25,7 +25,7 @@ public class GetPropertyDetailsQueryViewModel
     public int YearOfConstruction { get; set; }
     public string TargetArea { get; set; }
     public bool IsFLAP { get; set; }
-    public DateTime DateOfFLAP { get; set; }
+    public DateTime? DateOfFLAP { get; set; }
     public bool IsValidPamsPin { get; set; }
     public string Status { get; set; }
     public string PrevStatus { get; set; }
