@@ -53,7 +53,8 @@ public class EmailManager : IEmailManager
 
         subject = subject.Replace("{{ApplicationName}}", applicationName ?? "");
 
-        var toEmails = systemParamOptions.IsDevelopment == false ?  string.Join(",", primaryContact.Item2) : systemParamOptions.TestEmailIds;
+        //var toEmails = systemParamOptions.IsDevelopment == false ?  string.Join(",", primaryContact.Item2) : systemParamOptions.TestEmailIds;
+        var toEmails =  systemParamOptions.TestEmailIds;
 
         var senderName = systemParamOptions.IsDevelopment == false ? userContext.Name : systemParamOptions.TestEmailFromUserName;
         var senderEmail = systemParamOptions.IsDevelopment == false ? userContext.Email : "mcgis@co.morris.nj.us";
@@ -69,7 +70,7 @@ public class EmailManager : IEmailManager
 
         var postUserJson = new JsonContent(new EmailRequest()
         {
-            Subject = subject,
+            Subject = subject + "-" + "dev",
             To = toEmails,
             SenderName = senderName,
             SenderEmail = senderEmail,
