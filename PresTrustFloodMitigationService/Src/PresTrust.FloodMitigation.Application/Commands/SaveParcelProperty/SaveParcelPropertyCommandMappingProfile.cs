@@ -6,5 +6,6 @@ public class SaveParcelPropertyCommandMappingProfile : Profile
     public SaveParcelPropertyCommandMappingProfile()
     {
         CreateMap<SaveParcelPropertyCommand, FloodParcelPropertyEntity>();
+        CreateMap<SaveParcelPropertyCommand, FloodParcelEntity>();
     }
 }

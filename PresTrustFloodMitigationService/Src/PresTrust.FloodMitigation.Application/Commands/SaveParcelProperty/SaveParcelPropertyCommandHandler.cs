@@ -52,7 +52,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
 
         // map command object to the FloodParcelPropertyEntity
         var reqParcelProperty = mapper.Map<SaveParcelPropertyCommand, FloodParcelPropertyEntity>(request);
-        var reqFloodParcel = mapper.Map< SaveParcelPropertyCommand ,FloodParcelEntity>(request);
+        var reqFloodParcel = mapper.Map<SaveParcelPropertyCommand ,FloodParcelEntity>(request);
         // Check Broken Rules
         var brokenRules =  ReturnBrokenRulesIfAny(application,property, reqParcelProperty,reqFloodParcel);
 

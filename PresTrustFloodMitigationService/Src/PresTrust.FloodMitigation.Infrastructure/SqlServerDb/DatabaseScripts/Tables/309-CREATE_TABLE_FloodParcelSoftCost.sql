@@ -23,6 +23,8 @@ CREATE TABLE [Flood].[FloodParcelSoftCost](
 	[VendorName]				[varchar](256)							NOT NULL,
 	[InvoiceAmount]				[decimal](18,2)							NOT NULL,
 	[PaymentAmount]				[decimal](18,2)							NOT NULL,
+	[IsSubmitted]			    [bit]								    DEFAULT 0,
+	[IsApproved]			    [bit]								    DEFAULT 0,
 	[LastUpdatedBy]				[varchar](128)							NULL	,
 	[LastUpdatedOn]				[datetime]								NOT NULL,
 	
