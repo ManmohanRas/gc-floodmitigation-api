@@ -71,27 +71,26 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
         int sectionId = (int)PropertySectionEnum.TECH;
         List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
 
-        if (applcation.ApplicationType == ApplicationTypeEnum.CORE)
-        {
-            if (reqTechDetails.Claim10Years == null)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "# Claims (10Years) required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
-                });
+       
+            //if (reqTechDetails.Claim10Years == null)
+            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            //    {
+            //        ApplicationId = applcation.Id,
+            //        PamsPin = property.PamsPin,
+            //        SectionId = sectionId,
+            //        Message = "# Claims (10Years) required field on Tech tab have not been filled.",
+            //        IsPropertyFlow = true
+            //    });
 
-            if (reqTechDetails.TotalOfClaims == null)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "# Claims (10Years) required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
-                });
+            //if (reqTechDetails.TotalOfClaims == null)
+            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            //    {
+            //        ApplicationId = applcation.Id,
+            //        PamsPin = property.PamsPin,
+            //        SectionId = sectionId,
+            //        Message = "Total Of Claims required field on Tech tab have not been filled.",
+            //        IsPropertyFlow = true
+            //    });
 
             if (reqTechDetails.BenefitCostRatio == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
@@ -132,6 +131,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     Message = "Firm Pannel Initial required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
+
             if (string.IsNullOrEmpty(reqTechDetails.FirmPanelFinal))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
@@ -341,7 +341,6 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     Message = "Point One Percent required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
-        }
         return brokenRules;
     }
 }

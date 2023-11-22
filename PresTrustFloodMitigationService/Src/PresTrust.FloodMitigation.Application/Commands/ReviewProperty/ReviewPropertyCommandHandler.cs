@@ -1,10 +1,13 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
 public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewPropertyCommand, ReviewPropertyCommandViewModel>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationParcelRepository repoProperty;
+    private readonly IPropertyBrokenRuleRepository repoPropBrokenRules;
 
     public ReviewPropertyCommandHandler
     (
@@ -30,7 +33,8 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
     public async Task<ReviewPropertyCommandViewModel> Handle(ReviewPropertyCommand request, CancellationToken cancellationToken)
     {
         ReviewPropertyCommandViewModel result = new ();
-
+        // check if application exists
+        var Application = await GetIfApplicationExists(request.ApplicationId);
         // check if Property exists
         var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
 
@@ -55,11 +59,36 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
             };
             await repoProperty.SaveStatusLogAsync(appStatusLog);
             //change properties statuses to in-review in future
+            // returns broken rules  
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(Application, Property);
+            // Save current Broken Rules, if any
+            await repoPropBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
 
             scope.Complete();
             result.IsSuccess = true;
         }
 
         return result;
+    }
+    /// <summary>
+    /// Return broken rules in case of any business rule failure
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    private List<FloodPropertyBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity Application, FloodApplicationParcelEntity Property)
+    {
+        List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
+
+        // add default broken rule while initiating application flow
+        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+        {
+            ApplicationId = Application.Id,
+            SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
+            PamsPin = Property.PamsPin,
+            Message = "All required fields on Property tab have not been filled.",
+            IsPropertyFlow = true
+        });
+        return brokenRules;
     }
 }
