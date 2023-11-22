@@ -170,6 +170,7 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
                 permission.CanReviewProperty = true;
+                permission.CanTransferProperty = true;
                 permission.CanRequestForAPropertyCorrection = true;
                 permission.CanRespondToTheRequestForAPropertyCorrection = true;
                 permission.CanEditFeedback = true;
@@ -300,6 +301,8 @@ public class FloodPropertySecurityManager
             case UserRoleEnum.SYSTEM_ADMIN:
             case UserRoleEnum.PROGRAM_ADMIN:
                 permission.CanPendProperty = true;
+                permission.CanRejectProperty = true;
+                permission.CanTransferProperty = true;
                 permission.CanRequestForAPropertyCorrection = true;
                 permission.CanRespondToTheRequestForAPropertyCorrection = true;
                 permission.CanEditFeedback = true;
@@ -435,6 +438,7 @@ public class FloodPropertySecurityManager
                     permission.CanApproveProperty = true;
                     permission.CanWithdrawProperty = true;
                     permission.CanTransferProperty = true;
+                    permission.CanProjectAreaExpireProperty = true;
                     permission.CanRequestForAPropertyCorrection = true;
                     permission.CanRespondToTheRequestForAPropertyCorrection = true;
                 }
@@ -550,6 +554,7 @@ public class FloodPropertySecurityManager
                 if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
                     permission.CanPreserveProperty = true;
+                    permission.CanGrantExpireProperty = true;
                     permission.CanRequestForAPropertyCorrection = true;
                     permission.CanRespondToTheRequestForAPropertyCorrection = true;
                 }
