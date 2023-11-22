@@ -471,7 +471,7 @@ CREATE TABLE [Flood].[FloodApplicationOverview](
 	[NoOfContiguousHomes]					[integer]						NULL,
 
 	[NatlDisaster]							[bit]							DEFAULT 0,
-	[NatlDisasterId]						[int]							NULL	,	 
+	[NatlDisasterId]						[varchar](256)							NULL	,	 
 	[NatlDisasterName]						[varchar](256)					NULL	,	 
 	[NatlDisasterYear]						[smallint] 						NULL	,
 	[NatlDisasterMonth]						[smallint] 						NULL	,

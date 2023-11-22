@@ -82,8 +82,8 @@ public class ParcelRepository : IParcelRepository
         List<FloodParcelStatusLogEntity> results = default;
 
         using var conn = context.CreateConnection();
-        string sqlCommand = new GetParcelStatusLogSqlCommand().ToString();
-        results = (await conn.QueryAsync<FloodParcelStatusLogEntity>(sqlCommand,
+        var sqlCommand = new GetParcelStatusLogSqlCommand();
+        results = (await conn.QueryAsync<FloodParcelStatusLogEntity>(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new
