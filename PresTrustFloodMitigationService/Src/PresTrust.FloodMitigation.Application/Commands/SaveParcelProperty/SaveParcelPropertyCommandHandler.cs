@@ -73,7 +73,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
         List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
 
         
-            if (reqParcelProperty.ValueEstimate > 0)
+            if (reqParcelProperty.ValueEstimate == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
@@ -95,7 +95,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
      
         if (property.Status == PropertyStatusEnum.SUBMITTED)
         {
-            if (reqParcelProperty.EstimatedPurchasePrice > 0)
+            if (reqParcelProperty.EstimatedPurchasePrice == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
@@ -104,7 +104,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     Message = "Estimate Purchase Price required field on property tab have not been Filled.",
                     IsPropertyFlow = true
                 });
-            if (reqParcelProperty.TotalAssessedValue > 0)
+            if (reqParcelProperty.TotalAssessedValue == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
@@ -113,7 +113,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     Message = "Total Assessed value required field on property tab have not been Filled.",
                     IsPropertyFlow = true
                 });
-            if (reqParcelProperty.LandValue > 0)
+            if (reqParcelProperty.LandValue == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
@@ -122,7 +122,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     Message = "Land value required field on property tab have not been Filled.",
                     IsPropertyFlow = true
                 });
-            if (reqParcelProperty.ImprovementValue > 0)
+            if (reqParcelProperty.ImprovementValue == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
@@ -141,7 +141,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     IsPropertyFlow = true
                 });
 
-            if (reqFloodParcel.SquareFootage > 0)
+            if (reqFloodParcel.SquareFootage == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
@@ -150,7 +150,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     Message = "Square Footage value required field on property tab have not been Filled.",
                     IsPropertyFlow = true
                 });
-            if (reqFloodParcel.YearOfConstruction > 0)
+            if (reqFloodParcel.YearOfConstruction == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
@@ -186,7 +186,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     Message = "Occupancy Class required field on property tab have not been Filled.",
                     IsPropertyFlow = true
                 });
-            if (reqParcelProperty?.AnnualTaxes > 0)
+            if (reqParcelProperty?.AnnualTaxes == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
@@ -197,7 +197,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 });
             if (reqParcelProperty?.IsRentalProperty == true)
             {
-                if (reqParcelProperty.RentPerMonth > 0)
+                if (reqParcelProperty.RentPerMonth == 0)
                 {
                     brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                     {
