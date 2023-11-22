@@ -106,7 +106,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
         var requiredDocumentTypes = new int[] { };
 
         if (applicationStatusId == (int)ApplicationStatusEnum.ACTIVE)
-        {
+        { 
             var adminDetails = await repoPropertyAdminDetails.GetAsync(applicationId, pamsPin);
 
             switch (propertyStatusId)
@@ -114,10 +114,11 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
                 case (int)PropertyStatusEnum.PENDING:
                     requiredDocumentTypes = new int[] {
                         (int)PropertyDocumentTypeEnum.APPRAISAL,
-                        (int)PropertyDocumentTypeEnum.COUNTY_APPRAISAL_REPORT,
+                        (int)PropertyDocumentTypeEnum.COUNTY_APPRAISAL_REPORT,//match and fast track option
                         (int)PropertyDocumentTypeEnum.VOLUNTARY_PARTICIPATION_FORM,
                         (int)PropertyDocumentTypeEnum.SETTLEMENT_SHEET,
-                        (int)PropertyDocumentTypeEnum.FINAL_MITIGATION_OFFER
+                        (int)PropertyDocumentTypeEnum.FINAL_MITIGATION_OFFER,
+                        (int)PropertyDocumentTypeEnum.MUNICIPAL_ORDINANCE_PURCHASE
                     };
                     if (adminDetails.DoesHomeOwnerHaveNFIPInsurance == true)
                     {
@@ -167,4 +168,6 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
 
         return true;
     }
+
+
 }

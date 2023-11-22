@@ -112,28 +112,30 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
         // add based on the empty check conditions
-        if (reqAppOverview.NoOfHomes == null)
+        if (application.Status == ApplicationStatusEnum.SUBMITTED || application.Status == ApplicationStatusEnum.IN_REVIEW || application.Status == ApplicationStatusEnum.ACTIVE || application.Status == ApplicationStatusEnum.CLOSED)
         {
-            brokenRules.Add(new FloodBrokenRuleEntity()
+            if (reqAppOverview.NoOfHomes == null)
             {
-                ApplicationId = application.Id,
-                SectionId = sectionId,
-                Message = "No. Of Homes required field on Project Area tab have not been filled.",
-                IsApplicantFlow = true
-            });
-        }
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "No. Of Homes required field on Project Area tab have not been filled.",
+                    IsApplicantFlow = true
+                });
+            }
 
-        if (reqAppOverview.NoOfContiguousHomes == null)
-        {
-            brokenRules.Add(new FloodBrokenRuleEntity()
+            if (reqAppOverview.NoOfContiguousHomes == null)
             {
-                ApplicationId = application.Id,
-                SectionId = sectionId,
-                Message = "No. Of Contiguous Homes required field on Project Area tab have not been filled.",
-                IsApplicantFlow = true
-            });
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "No. Of Contiguous Homes required field on Project Area tab have not been filled.",
+                    IsApplicantFlow = true
+                });
+            }
         }
-
         return brokenRules;
     }
 }

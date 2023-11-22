@@ -109,13 +109,13 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
             IsApplicantFlow = true
         });
 
-        brokenRules.Add(new FloodBrokenRuleEntity()
-        {
-            ApplicationId = application.Id,
-            SectionId = (int)ApplicationSectionEnum.OVERVIEW,
-            Message = "All required fields on OverView tab have not been filled.",
-            IsApplicantFlow = true
-        });
+        //brokenRules.Add(new FloodBrokenRuleEntity()
+        //{
+        //    ApplicationId = application.Id,
+        //    SectionId = (int)ApplicationSectionEnum.OVERVIEW,
+        //    Message = "All required fields on OverView tab have not been filled.",
+        //    IsApplicantFlow = true
+        //});
 
         brokenRules.Add(new FloodBrokenRuleEntity()
         {

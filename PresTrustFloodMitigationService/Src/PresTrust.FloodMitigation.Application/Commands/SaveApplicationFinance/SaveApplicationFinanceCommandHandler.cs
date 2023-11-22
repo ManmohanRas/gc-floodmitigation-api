@@ -10,7 +10,6 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
     private readonly IPresTrustUserContext userContext;
     private readonly IFinanceRepository repoFinance;
     private readonly IFundingSourceRepoitory repoFundingSource;
-    private readonly IFinanceLineItemRepository repoFinanceLineItem;
     private readonly IApplicationRepository repoApplication;
     private readonly IBrokenRuleRepository repoBrokenRules;
     private readonly IParcelPropertyRepository repoParcelProperty;
@@ -22,7 +21,6 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IFinanceRepository repoFinance,
         IFundingSourceRepoitory repoFundingSource,
-        IFinanceLineItemRepository repoFinanceLineItem,
         IApplicationRepository repoApplication,
         IBrokenRuleRepository repoBrokenRules,
         IParcelPropertyRepository repoParcelProperty
@@ -33,7 +31,6 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         this.systemParamOptions = systemParamOptions.Value;
         this.repoFinance = repoFinance;
         this.repoFundingSource = repoFundingSource;
-        this.repoFinanceLineItem = repoFinanceLineItem;
         this.repoApplication = repoApplication;
         this.repoBrokenRules = repoBrokenRules;
         this.repoParcelProperty = repoParcelProperty;
@@ -120,7 +117,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         var fundingSourceAmount = fundingSources.ToList().Sum(s => s.Amount);
         var lineItemMunicipalMatch = lineItems.Where(x => x.Priority == 1).Sum(x => x.MunicipalMatch);
 
-        if (application.Status == ApplicationStatusEnum.IN_REVIEW)
+        if (application.Status == ApplicationStatusEnum.IN_REVIEW || application.Status == ApplicationStatusEnum.SUBMITTED)
         {
 
             if (lineItems.Where(x => x.Priority == 0).Count() > 0)
