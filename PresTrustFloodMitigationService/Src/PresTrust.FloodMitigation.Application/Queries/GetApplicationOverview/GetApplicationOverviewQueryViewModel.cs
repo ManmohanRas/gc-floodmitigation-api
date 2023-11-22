@@ -7,7 +7,7 @@ public class GetApplicationOverviewQueryViewModel
     public int? NoOfHomes { get; set; }
     public int? NoOfContiguousHomes { get; set; }
     public bool NatlDisaster { get; set; }
-    public int NatlDisasterId { get; set; }
+    public string? NatlDisasterId { get; set; }
     public string NatlDisasterName { get; set; }
     public int NatlDisasterYear { get; set; }
     public int NatlDisasterMonth { get; set; }

@@ -22,7 +22,7 @@ CREATE TABLE [Flood].[FloodApplicationOverview](
 	[NoOfContiguousHomes]					[integer]						NULL,
 
 	[NatlDisaster]							[bit]							DEFAULT 0,
-	[NatlDisasterId]						[int]							NULL	,	 
+	[NatlDisasterId]						[varchar](256)					NULL	,	 
 	[NatlDisasterName]						[varchar](256)					NULL	,	 
 	[NatlDisasterYear]						[smallint] 						NULL	,
 	[NatlDisasterMonth]						[smallint] 						NULL	,
@@ -36,7 +36,7 @@ CREATE TABLE [Flood].[FloodApplicationOverview](
 	[FEMAApplied]							[bit]							DEFAULT 0,
 	[FEMAStatus]							[varchar](50)					NULL	,
 	[FEMAApprovedDate]						[datetime]						NULL	,
-	[FEMADenialReason]						[varchar](max)					NULL	,
+	[FEMADenialReason]						[varchar](512)					NULL	,
 
 	[GreenAcresApplied]						[bit]							DEFAULT 0,
 	[GreenAcresStatus]						[varchar](50)					NULL	,

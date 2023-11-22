@@ -34,8 +34,8 @@ public class ApplicationRepository: IApplicationRepository
         }
 
         using var conn = context.CreateConnection();
-        string sqlCommand = new GetApplicationsByAgenciesSqlCommand().ToString();
-        results = (await conn.QueryAsync<FloodApplicationEntity>(sqlCommand,
+        var sqlCommand = new GetApplicationsByAgenciesSqlCommand();
+        results = (await conn.QueryAsync<FloodApplicationEntity>(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new { @p_IdTableType = table.AsTableValuedParameter("[OSTF].[IdTableType]") })).ToList();
@@ -146,8 +146,8 @@ public class ApplicationRepository: IApplicationRepository
         List<FloodApplicationStatusLogEntity> results = default;
        
         using var conn = context.CreateConnection();
-        string sqlCommand = new GetApplicationStatusLogSqlCommand().ToString();
-        results = (await conn.QueryAsync<FloodApplicationStatusLogEntity>(sqlCommand,
+        var sqlCommand = new GetApplicationStatusLogSqlCommand();
+        results = (await conn.QueryAsync<FloodApplicationStatusLogEntity>(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new {
