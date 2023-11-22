@@ -6,8 +6,11 @@ public class GetParcelFinanceSqlCommand
            @"  SELECT		    PF.[Id]
 							   ,PF.[ApplicationId]
                                ,PF.[PamsPin]
-                               ,FAFLI.[ValueEstimate]
-							   ,ISNULL(PF.[EstimatePurchasePrice], FAFLI.[ValueEstimate]) AS EstimatePurchasePrice
+                               ,FPP.[ValueEstimate]
+                               ,CASE 
+									WHEN FPP.[EstimatedPurchasePrice] = 0 THEN FPP.[ValueEstimate]
+                                ELSE FPP.[EstimatedPurchasePrice]
+                                END AS EstimatePurchasePrice
 							   ,FAF.[MatchPercent]
                                ,PF.[AdditionalSoftCostEstimate]
                                ,PF.[AppraisedValue]
@@ -21,10 +24,10 @@ public class GetParcelFinanceSqlCommand
                                ,PF.[SurveyorsFee]
 							   ,PF.[LastUpdatedBy]
 							   ,PF.[LastUpdatedOn]
-                FROM		  [Flood].[FloodParcelFinance] PF
-				LEFT JOIN     [Flood].[FloodApplicationFinanceLineItems] FAFLI ON (PF.ApplicationId = FAFLI.ApplicationId AND PF.PamsPin = FAFLI.PamsPin)
-				LEFT JOIN     [Flood].[FloodApplicationFinance] FAF ON (PF.ApplicationId = FAF.ApplicationId)
-				WHERE		  PF.[ApplicationId] = @p_ApplicationId AND PF.[PamsPin] = @p_PamsPin";
+                FROM		  [Flood].[FloodParcelProperty] FPP
+				LEFT JOIN     [Flood].[FloodParcelFinance] PF ON (PF.ApplicationId = FPP.ApplicationId AND PF.PamsPin = FPP.PamsPin)
+				LEFT JOIN     [Flood].[FloodApplicationFinance] FAF ON (FAF.ApplicationId = FPP.ApplicationId)
+				WHERE		  FPP.[ApplicationId] = @p_ApplicationId AND FPP.[PamsPin] = @p_PamsPin";
 
     public GetParcelFinanceSqlCommand() { }
 
