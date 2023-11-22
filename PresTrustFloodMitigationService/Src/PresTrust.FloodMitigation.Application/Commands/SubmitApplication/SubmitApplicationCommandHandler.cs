@@ -9,6 +9,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationDocumentRepository repoApplicationDocument;
     private readonly IBrokenRuleRepository repoBrokenRules;
+    private readonly IApplicationParcelRepository repoApplicationParcel;
 
     public SubmitApplicationCommandHandler
     (
@@ -17,7 +18,8 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         IApplicationDocumentRepository repoApplicationDocument,
-        IBrokenRuleRepository repoBrokenRules
+        IBrokenRuleRepository repoBrokenRules,
+        IApplicationParcelRepository repoApplicationParcel
 
     ) : base(repoApplication)
     {
@@ -27,6 +29,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         this.repoApplication = repoApplication;
         this.repoApplicationDocument = repoApplicationDocument;
         this.repoBrokenRules = repoBrokenRules;
+        this.repoApplicationParcel = repoApplicationParcel;
     }
 
     /// <summary>
@@ -49,10 +52,25 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
             application.StatusId = (int)ApplicationStatusEnum.SUBMITTED;
             application.LastUpdatedBy = userContext.Email;
         }
-
-
+      
         // check if any broken rules exists, if yes then return
         var brokenRules = (await repoBrokenRules.GetBrokenRulesAsync(application.Id))?.ToList();
+
+        bool hasNonSubmittedParcels = false;
+        var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
+        hasNonSubmittedParcels = parcels.Count(o => o.Status != PropertyStatusEnum.SUBMITTED) > 0;
+
+       if (hasNonSubmittedParcels)
+        {
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                Message = "All the Propeorty must be subitted"
+            });
+        }
+
+        var statusChangeRules = await repoBrokenRules.GetBrokenRulesAsync(application.Id);
+
 
         var hasOtherDocuments = await CheckApplicationOtherDocs(application.Id, application.ApplicationTypeId, (int)ApplicationSectionEnum.OTHER_DOCUMENTS);
         if (!hasOtherDocuments)
@@ -73,6 +91,10 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
+            // returns broken rules  
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
+            // save broken rules
+            await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
             await repoApplication.SaveApplicationWorkflowStatusAsync(application);
             FloodApplicationStatusLogEntity appStatusLog = new()
             {
@@ -118,5 +140,61 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         var savedDocumentTypes = documents.Where(o => requiredDocumentTypes.Contains(o.DocumentTypeId)).Select(o => o.DocumentTypeId).Distinct().ToArray();
 
         return requiredDocumentTypes.Except(savedDocumentTypes).Count() == 0;
+    }
+
+
+
+    /// <summary>
+    /// Return broken rules in case of any business rule failure
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application)
+    {
+        List<FloodBrokenRuleEntity> statusChangeRules = new List<FloodBrokenRuleEntity>();
+
+        // add default broken rule while initiating application flow
+          //statusChangeRules.Add(new FloodBrokenRuleEntity()
+          //  {
+          //  ApplicationId = application.Id,
+          //  SectionId = (int)ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST,
+          //  Message = "All required fields on ADMIN_DOCUMENT_CHECKLIST tab have not been filled.",
+          //  IsApplicantFlow = true
+          //  });
+
+            statusChangeRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
+                Message = "All required fields on Admin Details tab have not been filled.",
+                IsApplicantFlow = false
+            });
+
+            statusChangeRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = (int)ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS,
+                Message = "All required fields on ADMIN_RELEASE_OF_FUNDS tab have not been filled.",
+                IsApplicantFlow = false
+            });
+
+            statusChangeRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = (int)ApplicationSectionEnum.OVERVIEW,
+                Message = "All required fields on OVERVIEW tab have not been filled.",
+                IsApplicantFlow = false
+            });
+
+            statusChangeRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+                Message = "All required fields on PROJECT_AREA tab have not been filled.",
+                IsApplicantFlow = false
+            });
+
+        return statusChangeRules;
     }
 }

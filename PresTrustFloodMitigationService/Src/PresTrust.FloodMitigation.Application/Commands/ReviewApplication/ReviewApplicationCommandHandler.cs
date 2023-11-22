@@ -5,19 +5,22 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
+    private readonly IBrokenRuleRepository repoBrokenRules;
 
     public ReviewApplicationCommandHandler
     (
         IMapper mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
-        IApplicationRepository repoApplication
+        IApplicationRepository repoApplication,
+        IBrokenRuleRepository repoBrokenRules
     ) : base(repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
-        this.repoApplication = repoApplication;        
+        this.repoApplication = repoApplication;   
+        this.repoBrokenRules = repoBrokenRules;
     }
 
     /// <summary>
@@ -54,10 +57,45 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
             await repoApplication.SaveStatusLogAsync(appStatusLog);
             //change properties statuses to in-review in future
 
+            //// returns broken rules  
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
+            //// save broken rules
+            await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+
             scope.Complete();
             result.IsSuccess = true;
         }
 
         return result;
     }
+    /// <summary>
+    /// Return broken rules in case of any business rule failure
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application)
+    {
+        List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+
+        // add default broken rule while initiating application flow
+        brokenRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
+            Message = "All required fields on ADMIN DETAILS tab have not been filled.",
+            IsApplicantFlow = false
+        });
+
+        brokenRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS,
+            Message = "All required fields on ADMIN RELEASE OF FUNDS have not been filled.",
+            IsApplicantFlow = false
+        });
+
+        return brokenRules;
+    }
+
 }

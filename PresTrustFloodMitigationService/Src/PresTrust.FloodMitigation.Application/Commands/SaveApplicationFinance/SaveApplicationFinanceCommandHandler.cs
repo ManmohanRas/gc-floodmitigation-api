@@ -120,7 +120,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
         var fundingSourceAmount = fundingSources.ToList().Sum(s => s.Amount);
         var lineItemMunicipalMatch = lineItems.Where(x => x.Priority == 1).Sum(x => x.MunicipalMatch);
 
-        if (application.Status == ApplicationStatusEnum.IN_REVIEW)
+        if (application.Status == ApplicationStatusEnum.IN_REVIEW || application.Status == ApplicationStatusEnum.SUBMITTED)
         {
 
             if (lineItems.Where(x => x.Priority == 0).Count() > 0)

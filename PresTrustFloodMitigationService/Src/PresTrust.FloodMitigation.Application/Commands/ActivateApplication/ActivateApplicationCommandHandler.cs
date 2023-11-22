@@ -5,19 +5,23 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
+    private readonly IBrokenRuleRepository repoBrokenRules;
 
     public ActivateApplicationCommandHandler
     (
         IMapper mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
-        IApplicationRepository repoApplication
+        IApplicationRepository repoApplication,
+        IBrokenRuleRepository repoBrokenRules
+
     ) : base(repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
-        this.repoApplication = repoApplication;        
+        this.repoApplication = repoApplication;  
+        this.repoBrokenRules = repoBrokenRules;
     }
 
     /// <summary>
@@ -51,8 +55,12 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
                 Notes = string.Empty,
                 LastUpdatedBy = application.LastUpdatedBy
             };
-            await repoApplication.SaveStatusLogAsync(appStatusLog);
             //change properties statuses to active in future
+            //// returns broken rules  
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
+            //// save broken rules
+            await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+            await repoApplication.SaveStatusLogAsync(appStatusLog);
 
             scope.Complete();
             result.IsSuccess = true;
@@ -60,4 +68,34 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
 
         return result;
     }
+    /// <summary>
+    /// Return broken rules in case of any business rule failure
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    private List<FloodBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application)
+    {
+        List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+
+        // add default broken rule while initiating application flow
+        brokenRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
+            Message = "All required fields on ADMIN DETAILS tab have not been filled.",
+            IsApplicantFlow = false
+        });
+
+        brokenRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS,
+            Message = "All required fields on ADMIN RELEASE OF FUNDS have not been filled.",
+            IsApplicantFlow = false
+        });
+
+        return brokenRules;
+    }
+
 }
