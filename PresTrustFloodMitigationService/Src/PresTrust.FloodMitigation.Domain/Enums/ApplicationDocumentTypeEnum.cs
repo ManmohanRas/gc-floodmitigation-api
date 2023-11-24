@@ -11,7 +11,7 @@ public enum ApplicationDocumentTypeEnum
     /// <summary>
     /// DocumentType Type for LOE - OVERVIEW TAB
     /// </summary>
-    LOE = 1,
+    LOI = 1,
 
     /// <summary>
     /// DocumentType Type for FEMA - OVERVIEW TAB
