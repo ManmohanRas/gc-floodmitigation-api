@@ -67,7 +67,7 @@ public class GetParcelSqlCommand
 													FOR JSON PATH,
 													WITHOUT_ARRAY_WRAPPER) AS [CommentJSON]
 									FROM		[Flood].[FloodParcelComment]
-									WHERE		[ApplicationId] = @p_ApplicationId AND [PamsPin] = @p_PamsPin AND [CommentTypeId] IN (2)) FLOOD_COMMENT
+									WHERE		[ApplicationId] = @p_ApplicationId AND [PamsPin] = @p_PamsPin) FLOOD_COMMENT
 						GROUP BY	[ApplicationId], [PamsPin]) C ON AP.ApplicationId = C.ApplicationId AND P.PamsPin = C.PamsPin
 			LEFT JOIN	(SELECT		[ApplicationId],
 									[PamsPin],

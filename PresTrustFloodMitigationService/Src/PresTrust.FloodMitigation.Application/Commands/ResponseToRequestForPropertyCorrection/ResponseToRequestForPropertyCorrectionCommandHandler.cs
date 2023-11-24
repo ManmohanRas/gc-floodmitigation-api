@@ -3,7 +3,7 @@
 /// <summary>
 /// This class handles the command to update data and build response
 /// </summary>
-public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestHandler<ResponseToRequestForPropertyCommand, bool>
+public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestHandler<ResponseToRequestForPropertyCorrectionCommand, bool>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
@@ -41,14 +41,14 @@ public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler,
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<bool> Handle(ResponseToRequestForPropertyCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(ResponseToRequestForPropertyCorrectionCommand request, CancellationToken cancellationToken)
     {
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
-        AuthorizationCheck(application);
+        //AuthorizationCheck(application);
 
         // get feedback where the status is "Request Sent"
-        var corrections = await repoFeedback.GetPropFeedbackAsync(application.Id, Pamspin: PropertyCorrectionStatusEnum.REQUEST_SENT.ToString());
+        var corrections = await repoFeedback.GetPropertyFeedbackAsync(application.Id, request.PamsPin, PropertyCorrectionStatusEnum.REQUEST_SENT.ToString());
 
         // update feedback status as response received and send email to an applicant
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
@@ -56,7 +56,7 @@ public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler,
             foreach (var section in request.Sections)
             {
                 Enum.TryParse(value: section, ignoreCase: true, out PropertySectionEnum enumSection);
-                await repoFeedback.ResponseToRequestForPropertyCorrectionAsync(application.Id, (int)enumSection);
+                await repoFeedback.ResponseToRequestForPropertyCorrectionAsync(application.Id, request.PamsPin, (int)enumSection);
             }
 
             // If reponse's description/feedback is not empty
@@ -66,6 +66,7 @@ public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler,
                 {
                     Id = 0,
                     ApplicationId = application.Id,
+                    PamsPin = request.PamsPin,
                     CorrectionStatus = PropertyCorrectionStatusEnum.NONE.ToString(),
                     Feedback = request.Feedback,
                     Section = PropertySectionEnum.NONE,
@@ -73,7 +74,7 @@ public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler,
                     LastUpdatedBy = userContext.Name
                 };
 
-                await repoFeedback.SavePropFeedbackAsync(feedback);
+                await repoFeedback.SavePropertyFeedbackAsync(feedback);
             }
 
             // TODO: Email

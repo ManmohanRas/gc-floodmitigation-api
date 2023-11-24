@@ -2,7 +2,7 @@
 
 public interface IPropertyAdminDetailsRepository
 {
-    Task<FloodPropertyAdminDetailsEntity> GetAsync(int applicationId, string Pamspin);
+    Task<FloodPropertyAdminDetailsEntity> GetAsync(int applicationId, string PamsPin);
 
     Task<FloodPropertyAdminDetailsEntity> SaveAsync(FloodPropertyAdminDetailsEntity floodPropertyAdminDetails);
 }

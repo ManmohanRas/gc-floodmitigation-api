@@ -8,8 +8,8 @@ public class DeleteParcelSoftCostCommandValidator: AbstractValidator<DeleteParce
             .GreaterThan(0)
             .WithMessage("Not a valid Application Id");
 
-        RuleFor(command => command.Pamspin)
+        RuleFor(command => command.PamsPin)
            .NotEmpty()
-           .WithMessage("Not a valid Pamspin");
+           .WithMessage("Not a valid PamsPin");
     }
 }

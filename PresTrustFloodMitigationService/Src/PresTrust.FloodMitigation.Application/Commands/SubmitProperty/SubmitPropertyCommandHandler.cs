@@ -40,7 +40,7 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
         // check if application exists
         var Application = await GetIfApplicationExists(request.ApplicationId);
         // check if application exists
-        var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
+        var Property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
        
 
         //update application

@@ -19,7 +19,7 @@ public class UpdateParcelTrackingSqlCommand
                   ,[NaturalHabitat] = @p_NaturalHabitat
                   ,[LastUpdatedBy] = @p_LastUpdatedBy
 			      ,[LastUpdatedOn] = GETDATE()
-             WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId AND PamsPin = @p_Pamspin;";
+             WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId AND PamsPin = @p_PamsPin;";
 
     public UpdateParcelTrackingSqlCommand() { }
 

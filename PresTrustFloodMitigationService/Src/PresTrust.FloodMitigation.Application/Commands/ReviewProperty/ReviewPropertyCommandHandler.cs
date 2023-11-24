@@ -36,7 +36,7 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
         // check if application exists
         var Application = await GetIfApplicationExists(request.ApplicationId);
         // check if Property exists
-        var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
+        var Property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
 
         //update Property
         if (Property != null)

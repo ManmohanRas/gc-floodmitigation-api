@@ -28,7 +28,7 @@ public class RequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestH
            IOptions<SystemParameterConfiguration> systemParamOptions,
            IApplicationRepository repoApplication,
            IFeedbackPropRepository repoFeedback
-       )
+       ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
@@ -46,11 +46,11 @@ public class RequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestH
     public async Task<bool> Handle(RequestForPropertyCorrectionCommand request, CancellationToken cancellationToken)
     {
         var application = await GetIfApplicationExists(request.ApplicationId);
-        AuthorizationCheck(application);
+        //AuthorizationCheck(application);
         // update feedback status and send email to an applicant
         //  using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         //{
-          await repoFeedback.RequestForPropertyCorrectionAsync(application.Id);
+          await repoFeedback.RequestForPropertyCorrectionAsync(application.Id, request.PamsPin);
 
            // var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.FEEDBACK_EMAIL.ToString());
            // if (template != null)

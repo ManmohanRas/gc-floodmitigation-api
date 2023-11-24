@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
-public class ResponseToRequestForPropertyCorrectionCommandValidator : AbstractValidator<ResponseToRequestForPropertyCommand>
+public class ResponseToRequestForPropertyCorrectionCommandValidator : AbstractValidator<ResponseToRequestForPropertyCorrectionCommand>
 {
     /// <summary>
     /// create rules for attributes
@@ -14,9 +14,9 @@ public class ResponseToRequestForPropertyCorrectionCommandValidator : AbstractVa
             .NotNull().Must(list => list.Count > 0).WithMessage("Please include at least one corrected section name.");
 
 
-        RuleFor(command => command.Pamspin)
+        RuleFor(command => command.PamsPin)
            .NotEmpty()
-           .WithMessage("Not a valid Pamspin");
+           .WithMessage("Not a valid PamsPin");
 
         RuleForEach(query => query.Sections).ChildRules(section =>
         {
@@ -34,7 +34,7 @@ public class ResponseToRequestForPropertyCorrectionCommandValidator : AbstractVa
     public bool ValidSectionType(string section)
     {
         bool result = false;
-        ApplicationSectionEnum enumSectionType;
+        PropertySectionEnum enumSectionType;
         Enum.TryParse(section, ignoreCase: true, out enumSectionType);
         if (enumSectionType > 0)
             result = true;

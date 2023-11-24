@@ -32,7 +32,7 @@ public class GrantExpirePropertyCommandHandler : BaseHandler, IRequestHandler<Gr
         GrantExpirePropertyCommandViewModel result = new ();
 
         // check if Property exists
-        var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
+        var Property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
 
         //update Property
         if (Property != null)

@@ -25,7 +25,7 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
     }
 
     #endregion
-    public async Task<FloodPropReleaseOfFundsEntity> GetReleaseOfFundsAsync(int applicationId, string Pamspin)
+    public async Task<FloodPropReleaseOfFundsEntity> GetReleaseOfFundsAsync(int applicationId, string PamsPin)
     {
         FloodPropReleaseOfFundsEntity result = default;
         using var conn = context.CreateConnection();
@@ -36,7 +36,7 @@ public class PropReleaseOfFundsRepository : IPropReleaseOfFundsRepository
                             param: new
                             {
                                 @p_ApplicationId = applicationId,
-                                @p_PamsPin = Pamspin
+                                @p_PamsPin = PamsPin
                             });
 
         result = results.FirstOrDefault();

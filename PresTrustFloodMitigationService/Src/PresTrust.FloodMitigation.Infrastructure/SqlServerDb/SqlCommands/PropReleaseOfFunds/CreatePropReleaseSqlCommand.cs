@@ -22,7 +22,7 @@ public class CreatePropReleaseSqlCommand
                    ,[LastUpdatedOn])
              VALUES
                    (@P_ApplicationId
-                   ,@P_Pamspin
+                   ,@P_PamsPin
                    ,@P_HardCostPaymentTypeId
                    ,@P_HardCostPaymentDate
                    ,@P_HardCostPaymentStatusId

@@ -34,7 +34,7 @@ public class TransferPropertyCommandHandler : BaseHandler, IRequestHandler<Trans
         TransferPropertyCommandViewModel result = new();
 
         // check if application exists
-        var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
+        var Property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
 
         //update application
         if (Property != null)

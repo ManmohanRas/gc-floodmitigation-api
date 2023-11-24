@@ -49,7 +49,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
 
         // check if Property exists
         var application = await GetIfApplicationExists(request.ApplicationId);
-        var property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
+        var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
 
         // check if any broken rules exists, if yes then return
         var brokenRules = await repoPropertyBrokenRules.GetPropertyBrokenRulesAsync(property.ApplicationId, property.PamsPin);

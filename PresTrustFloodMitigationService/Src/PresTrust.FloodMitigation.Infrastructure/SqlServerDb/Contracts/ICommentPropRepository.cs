@@ -7,7 +7,7 @@ public interface ICommentPropRepository
     /// </summary>
     /// <param name="applicationId"> Application Id.</param>
     /// <returns> Returns Comments.</returns>
-    Task<List<FloodPropertyCommentEntity>> GetCommentsAsync(int applicationId, string Pamspin);
+    Task<List<FloodPropertyCommentEntity>> GetCommentsAsync(int applicationId, string PamsPin);
     /// <summary>
     /// Save Comment.
     /// </summary>

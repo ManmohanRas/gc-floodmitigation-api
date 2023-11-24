@@ -3,5 +3,5 @@
 public class ApprovePropertyCommand : IRequest<ApprovePropertyCommandViewModel>
 {
     public int ApplicationId { get; set; }
-    public required string Pamspin { get; set; }
+    public required string PamsPin { get; set; }
 }

@@ -31,12 +31,12 @@ public class BaseHandler
         return application;
     }
 
-    public async Task<FloodApplicationParcelEntity> GetIfPropertyExists(int applicationId, string pamspin)
+    public async Task<FloodApplicationParcelEntity> GetIfPropertyExists(int applicationId, string pamsPin)
     {
-        var parcelProperty = await repoProperty.GetApplicationPropertyAsync(applicationId, pamspin);
+        var parcelProperty = await repoProperty.GetApplicationPropertyAsync(applicationId, pamsPin);
 
         if (parcelProperty == null)
-            throw new EntityNotFoundException($" Parcel Property (ApplicationId: {applicationId}, Pamspin : {pamspin} ) does not exist or invalid");
+            throw new EntityNotFoundException($" Parcel Property (ApplicationId: {applicationId}, PamsPin : {pamsPin} ) does not exist or invalid");
 
         return parcelProperty;
     }

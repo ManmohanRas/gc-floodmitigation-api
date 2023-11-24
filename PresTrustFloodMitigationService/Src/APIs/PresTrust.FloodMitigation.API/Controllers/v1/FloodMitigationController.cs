@@ -132,42 +132,42 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getPropComments")]
+    [HttpPost("getPropertyComments")]
     [ProducesResponseType(typeof(IEnumerable<GetApplicationCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<GetPropCommentsQueryViewModel>>> GetPropComments([FromBody] GetPropCommentsQuery query)
+    public async Task<ActionResult<IEnumerable<GetPropertyCommentsQueryViewModel>>> GetPropertyComments([FromBody] GetPropertyCommentsQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("savePropComment")]
+    [HttpPost("savePropertyComment")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SavePropComment([FromBody] SavePropCommentCommand command)
+    public async Task<ActionResult<int>> SavePropertyComment([FromBody] SavePropertyCommentCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("deletePropComment")]
+    [HttpPost("deletePropertyComment")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeletePropComment([FromBody] DeletePropCommentCommand command)
+    public async Task<ActionResult<bool>> DeletePropertyComment([FromBody] DeletePropertyCommentCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("markPropCommentsAsRead")]
+    [HttpPost("markPropertyCommentsAsRead")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> MarkPropCommentsAsRead([FromBody] MarkPropFeedbackAsReadCommand command)
+    public async Task<ActionResult<bool>> MarkPropertyCommentsAsRead([FromBody] MarkPropertyFeedbackAsReadCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -232,43 +232,43 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("getPropFeedbacks")]
-    [ProducesResponseType(typeof(IEnumerable<GetPropFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
+    [HttpPost("getPropertyFeedbacks")]
+    [ProducesResponseType(typeof(IEnumerable<GetPropertyFeedbacksQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<GetPropFeedbacksQueryViewModel>>> getPropFeedbacks([FromBody] GetPropFeedbacksQuery query)
+    public async Task<ActionResult<IEnumerable<GetPropertyFeedbacksQueryViewModel>>> getPropertyFeedbacks([FromBody] GetPropertyFeedbacksQuery query)
     {
         return Single(await QueryAsync(query));
     }
 
-    [HttpPost("savePropFeedback")]
+    [HttpPost("savePropertyFeedback")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SavePropFeedback([FromBody] SavePropFeedbackCommand command)
+    public async Task<ActionResult<int>> SavePropertyFeedback([FromBody] SavePropertyFeedbackCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
 
-    [HttpPost("deletePropFeedback")]
+    [HttpPost("deletePropertyFeedback")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> DeletePropFeedback([FromBody] DeletePropFeedbackCommand command)
+    public async Task<ActionResult<bool>> DeletePropertyFeedback([FromBody] DeletePropertyFeedbackCommand command)
     {
         return Single(await CommandAsync(command));
     }
 
-    [HttpPost("markPropFeedbacksAsRead")]
+    [HttpPost("markPropertyFeedbacksAsRead")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> MarkPropFeedbacksAsRead([FromBody] MarkPropFeedbackAsReadCommand command)
+    public async Task<ActionResult<bool>> MarkPropertyFeedbacksAsRead([FromBody] MarkPropertyFeedbackAsReadCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -288,7 +288,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<bool>> ResponseToRequestForPropertyCorrectionCommand([FromBody] ResponseToRequestForPropertyCommand command)
+    public async Task<ActionResult<bool>> ResponseToRequestForPropertyCorrectionCommand([FromBody] ResponseToRequestForPropertyCorrectionCommand command)
     {
         return Single(await CommandAsync(command));
     }

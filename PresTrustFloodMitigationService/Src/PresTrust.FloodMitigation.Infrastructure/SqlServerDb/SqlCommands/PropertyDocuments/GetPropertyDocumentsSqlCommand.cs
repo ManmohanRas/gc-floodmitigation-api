@@ -19,7 +19,7 @@ public class GetPropertyDocumentsSqlCommand
             INNER JOIN	[Flood].[FloodParcelDocumentType] DT
 			            ON (DT.Id = D.DocumentTypeId)
             WHERE		DT.SectionId = CASE WHEN @p_SectionId > 0 THEN @p_SectionId ELSE DT.SectionId END
-			            AND D.ApplicationId = @p_ApplicationId AND D.PamsPin = @p_Pamspin;";
+			            AND D.ApplicationId = @p_ApplicationId AND D.PamsPin = @p_PamsPin;";
             public GetPropertyDocumentsSqlCommand()
             {
             }

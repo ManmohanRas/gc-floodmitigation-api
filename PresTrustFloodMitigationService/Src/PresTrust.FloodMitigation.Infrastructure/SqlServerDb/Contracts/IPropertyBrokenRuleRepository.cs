@@ -28,5 +28,5 @@ public interface IPropertyBrokenRuleRepository
     /// <param name="applicationId"></param>
     /// <param name="section"></param>
     /// <returns></returns>
-    Task DeletePropertyBrokenRulesAsync(int applicationId, PropertySectionEnum section, string pamspin);
+    Task DeletePropertyBrokenRulesAsync(int applicationId, PropertySectionEnum section, string pamsPin);
 }

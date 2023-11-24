@@ -58,7 +58,7 @@ public class PropertyDocumentRepository: IPropertyDocumentRepository
                 @p_ReviewComment = parcelDoc.ReviewComment,
                 @p_UseInReport = parcelDoc.UseInReport,
                 @p_DocumentTypeId = (int)parcelDoc.DocumentType,
-                @p_Pamspin = parcelDoc.PamsPin,
+                @p_PamsPin = parcelDoc.PamsPin,
                 @p_ApplicationId = parcelDoc.ApplicationId,
                 @p_LastUpdatedBy = parcelDoc.LastUpdatedBy,
             });

@@ -29,11 +29,11 @@ public class CommentPropRepository : ICommentPropRepository
     /// </summary>
     /// <param name="applicationId"> Id.</param>
     /// <returns> Returns Comments Entity.</returns>
-    public async Task<List<FloodPropertyCommentEntity>> GetCommentsAsync(int applicationId, string Pamspin)
+    public async Task<List<FloodPropertyCommentEntity>> GetCommentsAsync(int applicationId, string PamsPin)
     {
         List<FloodPropertyCommentEntity> results;
         using var conn = context.CreateConnection();
-        var sqlCommand = new GetPropCommentsSqlCommend();
+        var sqlCommand = new GetPropertyCommentsSqlCommend();
         results = (await conn.QueryAsync<FloodPropertyCommentEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -64,7 +64,7 @@ public class CommentPropRepository : ICommentPropRepository
         int id = default;
 
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreatePropCommentSqlCommand();
+        var sqlCommand = new CreatePropertyCommentSqlCommand();
         id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -73,7 +73,7 @@ public class CommentPropRepository : ICommentPropRepository
                 @p_Comment = comment.Comment,
                 @p_CommentTypeId = comment.CommentTypeId,
                 @p_ApplicationId = comment.ApplicationId,
-                @p_Pamspin = comment.Pamspin,
+                @p_PamsPin = comment.PamsPin,
                 @p_MarkRead = comment.MarkRead,
                 @p_LastUpdatedBy = comment.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
@@ -91,7 +91,7 @@ public class CommentPropRepository : ICommentPropRepository
     private async Task<FloodPropertyCommentEntity> UpdateAsync(FloodPropertyCommentEntity comment)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdatePropCommentSqlCommand();
+        var sqlCommand = new UpdatePropertyCommentSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -99,7 +99,7 @@ public class CommentPropRepository : ICommentPropRepository
             {
                 @p_Id = comment.Id,
                 @p_ApplicationId = comment.ApplicationId,
-                @p_Pamspin = comment.Pamspin,
+                @p_PamsPin = comment.PamsPin,
                 @p_Comment = comment.Comment,
                 @p_CommentTypeId = comment.CommentTypeId,
                 @p_LastUpdatedBy = comment.LastUpdatedBy,
@@ -117,7 +117,7 @@ public class CommentPropRepository : ICommentPropRepository
     public async Task DeleteCommentAsync(FloodPropertyCommentEntity comment)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new DeletePropCommentSqlCommand();
+        var sqlCommand = new DeletePropertyCommentSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -125,7 +125,7 @@ public class CommentPropRepository : ICommentPropRepository
             {
                 @p_Id = comment.Id,
                 @p_ApplicationId = comment.ApplicationId,
-                @p_Pamspin = comment.Pamspin,
+                @p_PamsPin = comment.PamsPin,
             });
     }
 }
