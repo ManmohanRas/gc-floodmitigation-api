@@ -3,5 +3,5 @@
 public class PreservePropertyCommandViewModel
 {
     public bool IsSuccess { get; set; } = false;
-    public IEnumerable<ApplicationBrokenRuleViewModel> BrokenRules { get; set; } = new List<ApplicationBrokenRuleViewModel>();
+    public IEnumerable<PropertyBrokenRulesViewModel> BrokenRules { get; set; } = new List<PropertyBrokenRulesViewModel>();
 }

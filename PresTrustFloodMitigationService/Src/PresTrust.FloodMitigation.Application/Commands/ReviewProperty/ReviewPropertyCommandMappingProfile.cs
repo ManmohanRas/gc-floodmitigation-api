@@ -4,5 +4,6 @@ public class ReviewPropertyCommandMappingProfile : Profile
 {
     public ReviewPropertyCommandMappingProfile()
     {
+        CreateMap<FloodPropertyBrokenRuleEntity, PropertyBrokenRulesViewModel>();
     }
 }

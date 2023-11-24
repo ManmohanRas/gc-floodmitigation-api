@@ -60,9 +60,6 @@ public class FloodBrokenRuleEntity
                 case ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS:
                     val = ApplicationRouterLinks.ADMIN_RELEASE_OF_FUNDS_EDIT;
                     break;
-                //case ApplicationSectionEnum.CONSULTANT_COMMENT:
-                //    val = "CONSULTANT_COMMENT";
-                //    break;
                 default:
                     break;
             }
