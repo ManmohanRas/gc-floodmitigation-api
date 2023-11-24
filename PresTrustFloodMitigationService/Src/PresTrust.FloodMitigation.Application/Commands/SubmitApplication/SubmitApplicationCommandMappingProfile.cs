@@ -3,6 +3,7 @@
 public class SubmitApplicationCommandMappingProfile : Profile
 {
     public SubmitApplicationCommandMappingProfile()
-    {
+    { 
+        CreateMap<FloodBrokenRuleEntity, ApplicationBrokenRuleViewModel>();
     }
 }

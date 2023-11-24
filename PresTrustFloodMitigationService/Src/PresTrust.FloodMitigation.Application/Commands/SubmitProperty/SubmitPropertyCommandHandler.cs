@@ -41,7 +41,14 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
         var Application = await GetIfApplicationExists(request.ApplicationId);
         // check if application exists
         var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
-       
+        // check if any broken rules exists, if yes then return
+        var brokenRules = await repoPropBrokenRules.GetPropertyBrokenRulesAsync(Property.ApplicationId, Property.PamsPin);
+
+        if (brokenRules != null && brokenRules.Any())
+        {
+            result.BrokenRules = mapper.Map<IEnumerable<FloodPropertyBrokenRuleEntity>, IEnumerable<PropertyBrokenRulesViewModel>>(brokenRules);
+            return result;
+        }
 
         //update application
         if (Property != null)
@@ -52,6 +59,9 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(Application,Property);
+            // Save current Broken Rules, if any
+            await repoPropBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(Property);
            
             FloodParcelStatusLogEntity appStatusLog = new()
@@ -66,9 +76,6 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
             await repoProperty.SaveStatusLogAsync(appStatusLog);
             //change properties statuses to submitted in future
             // returns broken rules  
-            var defaultBrokenRules = ReturnBrokenRulesIfAny(Application,Property);
-            // Save current Broken Rules, if any
-            await repoPropBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
             scope.Complete();
             result.IsSuccess = true;
         }
@@ -99,8 +106,8 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
             ApplicationId = Application.Id,
             SectionId = (int)PropertySectionEnum.TECH,
             PamsPin = Property.PamsPin,
-            Message = "All required fields on Property tab have not been filled.",
-            IsPropertyFlow = true
+            Message = "All required fields on Tech tab have not been filled.",
+            IsPropertyFlow = false
         });
         return brokenRules;
     }

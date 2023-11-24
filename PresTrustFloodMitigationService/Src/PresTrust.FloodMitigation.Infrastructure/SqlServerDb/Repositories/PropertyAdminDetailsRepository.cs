@@ -23,7 +23,7 @@ public class PropertyAdminDetailsRepository : IPropertyAdminDetailsRepository
     }
 
     #endregion
-    public async Task<FloodPropertyAdminDetailsEntity> GetAsync(int applicationId, string Pamspin)
+    public async Task<FloodPropertyAdminDetailsEntity> GetAsync(int applicationId, string pamsPin)
     {
         FloodPropertyAdminDetailsEntity result = default;
         using var conn = context.CreateConnection();
@@ -34,7 +34,7 @@ public class PropertyAdminDetailsRepository : IPropertyAdminDetailsRepository
                             param: new
                             {
                                 @p_ApplicationId = applicationId,
-                                @p_Pamspin = Pamspin,
+                                @p_Pamspin = pamsPin,
                             });
 
         result = results.FirstOrDefault();

@@ -66,12 +66,12 @@ public class SaveApplicationReleaseOfFundsCommandHandler: BaseHandler, IRequestH
         {
             if (application.Status == ApplicationStatusEnum.IN_REVIEW)
             {
-                if (reqReleaseOfFunds?.CAFNumber == null)
+                if (string.IsNullOrEmpty(reqReleaseOfFunds?.CAFNumber))
                     brokenRules.Add(new FloodBrokenRuleEntity()
                     {
                         ApplicationId = application.Id,
                         SectionId = sectionId,
-                        Message = "CAF Number required field on Signatory tab have not been filled.",
+                        Message = "CAF Number required field on Project Area Release Of Funds tab have not been filled.",
                         IsApplicantFlow = false
                     });
             }
@@ -84,7 +84,7 @@ public class SaveApplicationReleaseOfFundsCommandHandler: BaseHandler, IRequestH
                 {
                     ApplicationId = application.Id,
                     SectionId = sectionId,
-                    Message = "CAF Closed required field on Signatory tab have not been filled.",
+                    Message = "CAF Closed required field on Project Area Release Of Funds tab have not been filled.",
                     IsApplicantFlow = false
                 });
         }

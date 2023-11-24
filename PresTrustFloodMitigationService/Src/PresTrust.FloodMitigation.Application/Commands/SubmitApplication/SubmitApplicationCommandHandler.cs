@@ -65,7 +65,8 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
             brokenRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = application.Id,
-                Message = "All the Propeorty must be subitted"
+                SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+                Message = "All the Properties must be submitted"
             });
         }
 
@@ -178,15 +179,17 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
                 Message = "All required fields on ADMIN_RELEASE_OF_FUNDS tab have not been filled.",
                 IsApplicantFlow = false
             });
-
-            statusChangeRules.Add(new FloodBrokenRuleEntity()
+            if (application.ApplicationType == ApplicationTypeEnum.MATCH || application.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
             {
-                ApplicationId = application.Id,
-                SectionId = (int)ApplicationSectionEnum.OVERVIEW,
-                Message = "All required fields on OVERVIEW tab have not been filled.",
-                IsApplicantFlow = false
-            });
+                statusChangeRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = (int)ApplicationSectionEnum.OVERVIEW,
+                    Message = "All required fields on OVERVIEW tab have not been filled.",
+                    IsApplicantFlow = false
+                });
 
+            }
             statusChangeRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = application.Id,

@@ -37,6 +37,15 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
 
+        // check if any broken rules exists, if yes then return
+        var brokenRules = (await repoBrokenRules.GetBrokenRulesAsync(application.Id))?.ToList();
+
+        if (brokenRules != null && brokenRules.Any())
+        {
+            result.BrokenRules = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<ApplicationBrokenRuleViewModel>>(brokenRules);
+            return result;
+        }
+
         //update application
         if (application != null)
         {

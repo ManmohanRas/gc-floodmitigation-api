@@ -108,15 +108,17 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                 Message = "Municipal Resolution Number required field on AdminDetails tab have not been filled.",
                 IsApplicantFlow = false
             });
-        if (docsCafCloseOutSummary == null)
-            brokenRules.Add(new FloodBrokenRuleEntity()
-            {
-                ApplicationId = AppDetails.ApplicationId,
-                SectionId = sectionId,
-                Message = "Caf Close out summary required field on AdminDetails tab have not been filled.",
-                IsApplicantFlow = false
-            });
-
+        if (application.Status == ApplicationStatusEnum.ACTIVE)
+        {
+            if (docsCafCloseOutSummary == null)
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = AppDetails.ApplicationId,
+                    SectionId = sectionId,
+                    Message = "Caf Close out summary required field on AdminDetails tab have not been filled.",
+                    IsApplicantFlow = false
+                });
+        }
         if (application.Status == ApplicationStatusEnum.SUBMITTED)
         {
             if (string.IsNullOrEmpty(AppDetails.ProjectDescription))
@@ -225,7 +227,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "FMC Preliminary Approval Resolution required field on AdminDetails tab have not been filled.",
+                        Message = "FMC Preliminary Approval Resolution document required on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
                 if (docBccPreliminaryApprovalResolution == null)
@@ -233,7 +235,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "BCC Preliminary Approval Resolution required field on AdminDetails tab have not been filled.",
+                        Message = "BCC Preliminary Approval Resolution document required on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
                 if (docsNotificationOfapproval == null)
@@ -241,7 +243,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "Notification Of approval required field on AdminDetails tab have not been filled.",
+                        Message = "Notification Of approval document required on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
                }
@@ -257,7 +259,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "Project Area Application Map required field on AdminDetails tab have not been filled.",
+                        Message = "Project Area Application Map required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
                 if (docCoreReviewReport == null)
@@ -265,7 +267,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "Core Review Report required field on AdminDetails tab have not been filled.",
+                        Message = "Core Review Report required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
                 if (docCoreApplicationReport == null)
@@ -273,7 +275,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "Core Application Report required field on AdminDetails tab have not been filled.",
+                        Message = "Core Application Report required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
             }
@@ -316,7 +318,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "FMC Preliminary Approval Resolution required field on AdminDetails tab have not been filled.",
+                        Message = "FMC Preliminary Approval Resolution required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
                 if (docBccPreliminaryApprovalResolution == null)
@@ -324,7 +326,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "BCC Preliminary Approval Resolution required field on AdminDetails tab have not been filled.",
+                        Message = "BCC Preliminary Approval Resolution required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
                 if (docsNotificationOfapproval == null)
@@ -332,7 +334,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "Notification Of approval required field on AdminDetails tab have not been filled.",
+                        Message = "Notification Of approval required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
             }

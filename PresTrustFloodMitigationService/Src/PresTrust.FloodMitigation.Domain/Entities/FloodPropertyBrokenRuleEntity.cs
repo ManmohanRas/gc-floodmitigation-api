@@ -46,6 +46,9 @@ namespace PresTrust.FloodMitigation.Domain.Entities
                     case PropertySectionEnum.ADMIN_DOCUMENT_CHECKLIST:
                         val = PropertyRouterLinks.ADMIN_DOCUMENT_CHECKLIST_EDIT;
                         break;
+                    case PropertySectionEnum.ADMIN_DETAILS:
+                        val = PropertyRouterLinks.ADMIN_DETAILS_EDIT;
+                        break;
                     case PropertySectionEnum.ADMIN_SURVEY:
                         val = PropertyRouterLinks.ADMIN_SURVEY_EDIT;
                         break;

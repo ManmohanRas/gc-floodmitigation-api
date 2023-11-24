@@ -4,5 +4,6 @@ public class SubmitPropertyCommandMappingProfile : Profile
 {
     public SubmitPropertyCommandMappingProfile()
     {
+        CreateMap<FloodPropertyBrokenRuleEntity, PropertyBrokenRulesViewModel>();
     }
 }
