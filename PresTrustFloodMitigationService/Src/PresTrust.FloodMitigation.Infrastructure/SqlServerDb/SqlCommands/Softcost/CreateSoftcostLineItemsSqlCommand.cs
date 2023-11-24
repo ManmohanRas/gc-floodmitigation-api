@@ -11,6 +11,8 @@ public class CreateSoftCostLineItemsSqlCommand
              ,[VendorName]
              ,[InvoiceAmount]
              ,[PaymentAmount]
+             ,[IsSubmitted]
+             ,[IsApproved]
              ,[LastUpdatedBy]
              ,[LastUpdatedOn]
             )
@@ -22,6 +24,8 @@ public class CreateSoftCostLineItemsSqlCommand
                ,@p_VendorName
                ,@p_InvoiceAmount
                ,@p_PaymentAmount
+               ,@p_IsSubmitted
+               ,@p_IsApproved
                ,@p_LastUpdatedBy
                ,GetDate()
             );

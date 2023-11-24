@@ -9,6 +9,8 @@ public class UpdateSoftCostLineItemsSqlCommand
                    ,VendorName = @p_VendorName
                    ,InvoiceAmount = @p_InvoiceAmount
                    ,PaymentAmount = @p_PaymentAmount
+                   ,IsSubmitted = @p_IsSubmitted
+                   ,IsApproved = @p_IsApproved
                    ,LastUpdatedBy = @p_LastUpdatedBy
                    ,LastUpdatedOn = GETDATE()
                 WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId;";
