@@ -141,24 +141,24 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     IsPropertyFlow = true
                 });
 
-            if (reqFloodParcel.SquareFootage == 0)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Square Footage value required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
-                });
-            if (reqFloodParcel.YearOfConstruction == 0)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Year Constructed value required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
-                });
+            //if (reqFloodParcel.SquareFootage == 0)
+            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            //    {
+            //        ApplicationId = applcation.Id,
+            //        PamsPin = property.PamsPin,
+            //        SectionId = sectionId,
+            //        Message = "Square Footage value required field on property tab have not been Filled.",
+            //        IsPropertyFlow = true
+            //    });
+            //if (reqFloodParcel.YearOfConstruction == 0)
+            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            //    {
+            //        ApplicationId = applcation.Id,
+            //        PamsPin = property.PamsPin,
+            //        SectionId = sectionId,
+            //        Message = "Year Constructed value required field on property tab have not been Filled.",
+            //        IsPropertyFlow = true
+            //    });
             if (reqParcelProperty?.StructureType == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
