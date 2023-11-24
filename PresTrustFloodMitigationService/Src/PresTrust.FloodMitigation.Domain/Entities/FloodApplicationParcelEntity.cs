@@ -6,6 +6,8 @@ public class FloodApplicationParcelEntity
     public string PamsPin { get; set; }
     public int StatusId { get; set; }
     public bool IsLocked { get; set; }
+    public int IsSoftCostSubmitted { get; set; }
+    public int IsSooftCostApproved { get; set; } 
     public string? LastUpdatedBy { get; set; }
     public PropertyStatusEnum Status
     {

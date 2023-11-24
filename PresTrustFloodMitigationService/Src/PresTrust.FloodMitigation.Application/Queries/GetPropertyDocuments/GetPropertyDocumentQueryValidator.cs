@@ -8,7 +8,7 @@
             RuleFor(query => query.ApplicationId)
                .GreaterThan(0).WithMessage("Not a valid Application Id");
 
-            RuleFor(query => query.Pamspin).NotEmpty().WithMessage("Not a valid PamsPin");
+            RuleFor(query => query.PamsPin).NotEmpty().WithMessage("Not a valid PamsPin");
         }    
     }
 }

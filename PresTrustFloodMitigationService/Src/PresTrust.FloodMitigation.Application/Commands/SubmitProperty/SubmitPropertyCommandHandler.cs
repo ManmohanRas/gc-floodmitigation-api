@@ -38,37 +38,45 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
     {
         SubmitPropertyCommandViewModel result = new ();
         // check if application exists
-        var Application = await GetIfApplicationExists(request.ApplicationId);
+        var application = await GetIfApplicationExists(request.ApplicationId);
+
         // check if application exists
-        var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
-       
+        var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
+        // check if any broken rules exists, if yes then return
+        var brokenRules = await repoPropBrokenRules.GetPropertyBrokenRulesAsync(property.ApplicationId, property.PamsPin);
+
+        if (brokenRules != null && brokenRules.Any())
+        {
+            result.BrokenRules = mapper.Map<IEnumerable<FloodPropertyBrokenRuleEntity>, IEnumerable<PropertyBrokenRulesViewModel>>(brokenRules);
+            return result;
+        }
 
         //update application
-        if (Property != null)
+        if (property != null)
         {
-            Property.StatusId = (int)PropertyStatusEnum.SUBMITTED;
-            Property.LastUpdatedBy = userContext.Email;
+            property.StatusId = (int)PropertyStatusEnum.SUBMITTED;
+            property.LastUpdatedBy = userContext.Email;
         }
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
-            await repoProperty.SaveApplicationParcelWorkflowStatusAsync(Property);
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(application,property);
+            // Save current Broken Rules, if any
+            await repoPropBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
+            await repoProperty.SaveApplicationParcelWorkflowStatusAsync(property);
            
             FloodParcelStatusLogEntity appStatusLog = new()
             {
-                ApplicationId = Property.ApplicationId,
-                PamsPin = Property.PamsPin,
-                StatusId = Property.StatusId,
+                ApplicationId = property.ApplicationId,
+                PamsPin = property.PamsPin,
+                StatusId = property.StatusId,
                 StatusDate = DateTime.Now,
                 Notes = string.Empty,
-                LastUpdatedBy = Property.LastUpdatedBy
+                LastUpdatedBy = property.LastUpdatedBy
             };
             await repoProperty.SaveStatusLogAsync(appStatusLog);
             //change properties statuses to submitted in future
             // returns broken rules  
-            var defaultBrokenRules = ReturnBrokenRulesIfAny(Application,Property);
-            // Save current Broken Rules, if any
-            await repoPropBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
             scope.Complete();
             result.IsSuccess = true;
         }
@@ -99,8 +107,8 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
             ApplicationId = Application.Id,
             SectionId = (int)PropertySectionEnum.TECH,
             PamsPin = Property.PamsPin,
-            Message = "All required fields on Property tab have not been filled.",
-            IsPropertyFlow = true
+            Message = "All required fields on Tech tab have not been filled.",
+            IsPropertyFlow = false
         });
         return brokenRules;
     }

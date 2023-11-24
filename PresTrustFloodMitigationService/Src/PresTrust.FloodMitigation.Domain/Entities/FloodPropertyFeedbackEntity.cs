@@ -4,7 +4,7 @@ public class FloodPropertyFeedbackEntity
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
-    public string Pamspin { get; set; }
+    public string PamsPin { get; set; }
     public int SectionId { get; set; }
     public string Feedback { get; set; }
     public bool RequestForCorrection { get; set; }

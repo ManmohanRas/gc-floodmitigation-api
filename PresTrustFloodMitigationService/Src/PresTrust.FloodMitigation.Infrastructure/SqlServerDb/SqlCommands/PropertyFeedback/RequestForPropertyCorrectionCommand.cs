@@ -1,0 +1,20 @@
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
+
+public class RequestForPropertyCorrectionCommand
+{
+    private readonly string _sqlCommand =
+           @"UPDATE		       [Flood].[FloodParcelFeedback]
+             SET			   [CorrectionStatus] = @p_CorrectionStatus
+			                  ,[LastUpdatedOn] = GETDATE()
+             WHERE		       ApplicationId = @p_ApplicationId
+                               AND PamsPin = @p_PamsPin
+                               AND ISNULL(RequestForCorrection,0) = 1 
+                               AND ISNULL(CorrectionStatus, '') = 'PENDING';";
+
+    public RequestForPropertyCorrectionCommand() { }
+
+    public override string ToString()
+    {
+        return _sqlCommand;
+    }
+}

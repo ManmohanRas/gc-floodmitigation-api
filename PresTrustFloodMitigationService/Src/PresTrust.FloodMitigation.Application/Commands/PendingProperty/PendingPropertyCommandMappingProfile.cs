@@ -4,5 +4,6 @@ public class PendingPropertyCommandMappingProfile : Profile
 {
     public PendingPropertyCommandMappingProfile()
     {
+        CreateMap<FloodPropertyBrokenRuleEntity, PropertyBrokenRulesViewModel>();
     }
 }

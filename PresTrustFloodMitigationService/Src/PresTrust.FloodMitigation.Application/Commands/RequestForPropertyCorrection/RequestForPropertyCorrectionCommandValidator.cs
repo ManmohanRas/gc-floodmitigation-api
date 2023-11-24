@@ -8,13 +8,15 @@
 /// </remarks>
 public class RequestForPropertyCorrectionCommandValidator : AbstractValidator<RequestForPropertyCorrectionCommand>
 {
-        /// <summary>
-        /// create rules for attributes
-        /// </summary>
-        public RequestForPropertyCorrectionCommandValidator()
-        {
-            RuleFor(command => command.ApplicationId)
-               .GreaterThan(0).WithMessage("Not a valid Application Id");
-        }
-    
+    /// <summary>
+    /// create rules for attributes
+    /// </summary>
+    public RequestForPropertyCorrectionCommandValidator()
+    {
+        RuleFor(command => command.ApplicationId)
+            .GreaterThan(0).WithMessage("Not a valid Application Id");
+        RuleFor(command => command.PamsPin)
+            .NotEmpty().WithMessage("Not a valid PamsPin");
+    }
+
 }

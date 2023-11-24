@@ -6,6 +6,7 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IBrokenRuleRepository repoBrokenRules;
+    private readonly IApplicationParcelRepository repoApplicationParcel;
 
     public ReviewApplicationCommandHandler
     (
@@ -13,7 +14,8 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IBrokenRuleRepository repoBrokenRules
+        IBrokenRuleRepository repoBrokenRules,
+        IApplicationParcelRepository repoApplicationParcel
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -21,6 +23,7 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;   
         this.repoBrokenRules = repoBrokenRules;
+        this.repoApplicationParcel = repoApplicationParcel;
     }
 
     /// <summary>
@@ -36,12 +39,39 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
 
+        
+
+        // check if any broken rules exists, if yes then return
+        var brokenRules = (await repoBrokenRules.GetBrokenRulesAsync(application.Id))?.ToList();
+
+        //// IN CASE IF WE WANT TO USE THIS FEATURE 
+        //bool hasNonReviewParcels = false;
+        //var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
+        //hasNonReviewParcels = parcels.Count(o => o.Status != PropertyStatusEnum.IN_REVIEW) > 0;
+        //if (hasNonReviewParcels)
+        //{
+        //    brokenRules.Add(new FloodBrokenRuleEntity()
+        //    {
+        //        ApplicationId = application.Id,
+        //        SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+        //        Message = "All the Properties must be InReview"
+        //    });
+        //}
+
+        if (brokenRules != null && brokenRules.Any())
+        {
+            result.BrokenRules = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<ApplicationBrokenRuleViewModel>>(brokenRules);
+            return result;
+        }
+
         //update application
         if (application != null)
         {
             application.StatusId = (int)ApplicationStatusEnum.IN_REVIEW;
             application.LastUpdatedBy = userContext.Email;
         }
+
+        var statusChangeRules = await repoBrokenRules.GetBrokenRulesAsync(application.Id);
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
@@ -97,5 +127,7 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
 
         return brokenRules;
     }
+
+
 
 }

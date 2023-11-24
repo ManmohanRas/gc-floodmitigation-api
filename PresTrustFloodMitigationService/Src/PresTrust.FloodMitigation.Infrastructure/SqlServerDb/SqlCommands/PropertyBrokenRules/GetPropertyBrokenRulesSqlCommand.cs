@@ -9,7 +9,7 @@
 							,[Message]
 							,[IsPropertyFlow]
 				FROM		 [Flood].[FloodParcelBrokenRules]
-				WHERE		 ApplicationId = @p_ApplicationId AND PamsPin = @p_Pamspin
+				WHERE		 ApplicationId = @p_ApplicationId AND PamsPin = @p_PamsPin
 				ORDER BY	 SectionId ASC;";
 
         public GetPropertyBrokenRulesSqlCommand() { }

@@ -10,7 +10,7 @@ public class UpdateParcelSurveySqlCommand
                   ,[DateCorrected] = @p_DateCorrected
 			      ,[LastUpdatedBy] = @p_LastUpdatedBy
 			      ,[LastUpdatedOn] = GETDATE()
-             WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId AND PamsPin = @p_Pamspin;";
+             WHERE Id = @p_Id AND ApplicationId = @p_ApplicationId AND PamsPin = @p_PamsPin;";
 
     public UpdateParcelSurveySqlCommand() { }
 

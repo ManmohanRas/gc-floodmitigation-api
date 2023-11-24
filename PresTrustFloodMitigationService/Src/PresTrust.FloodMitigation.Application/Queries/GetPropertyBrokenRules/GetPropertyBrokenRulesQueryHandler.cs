@@ -29,7 +29,7 @@ public class GetPropertyBrokenRulesQueryHandler: BaseHandler, IRequestHandler<Ge
     {
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
-        var pamspin = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
+        var pamsPin = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
 
         userContext.DeriveRole(application.AgencyId);
         bool isPropertyFlow = userContext.Role != UserRoleEnum.PROGRAM_ADMIN;

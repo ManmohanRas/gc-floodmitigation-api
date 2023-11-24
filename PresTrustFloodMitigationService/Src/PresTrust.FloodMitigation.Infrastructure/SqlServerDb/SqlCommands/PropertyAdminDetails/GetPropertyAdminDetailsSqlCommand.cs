@@ -3,7 +3,8 @@
 public class GetPropertyAdminDetailsSqlCommand
 {
     private readonly string _sqlCommand =
-     @" SELECT PAD.[ApplicationId],
+     @" SELECT  PAD.[Id],
+				PAD.[ApplicationId],
 				PAD.[PamsPin],
 				 AAD.[MunicipalResolutionDate],
 				 AAD.[MunicipalResolutionNumber],

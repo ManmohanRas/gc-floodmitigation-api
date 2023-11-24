@@ -32,15 +32,19 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// <param name="applicationId"></param>
     /// <param name="correctionStatus"></param>
     /// <returns></returns>
-    public async Task<List<FloodPropertyFeedbackEntity>> GetPropFeedbackAsync(int applicationId, string correctionStatus)
+    public async Task<List<FloodPropertyFeedbackEntity>> GetPropertyFeedbackAsync(int applicationId, string pamsPin, string correctionStatus)
     {
         List<FloodPropertyFeedbackEntity> results = default;
         using var conn = context.CreateConnection();
-        var sqlCommand = new GetPropFeedbackSqlCommand();
+        var sqlCommand = new GetPropertyFeedbackSqlCommand();
         results = (await conn.QueryAsync<FloodPropertyFeedbackEntity>(sqlCommand.ToString(),
                             commandType: CommandType.Text,
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                            param: new { @p_ApplicationId = applicationId, @p_CorrectionStatus = correctionStatus })).ToList();
+                            param: new {
+                                @p_ApplicationId = applicationId,
+                                @p_PamsPin = pamsPin,
+                                @p_CorrectionStatus = correctionStatus
+                            })).ToList();
 
         return results ?? new();
     }
@@ -50,7 +54,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// </summary>
     /// <param name="feedback"></param>
     /// <returns></returns>
-    public async Task<FloodPropertyFeedbackEntity> SavePropFeedbackAsync(FloodPropertyFeedbackEntity feedback)
+    public async Task<FloodPropertyFeedbackEntity> SavePropertyFeedbackAsync(FloodPropertyFeedbackEntity feedback)
     {
         if (feedback.Id > 0)
             return await UpdateAsync(feedback);
@@ -68,14 +72,14 @@ public class FeedbackPropRepository : IFeedbackPropRepository
         int id = default;
 
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreatePropFeedbackSqlCommand();
+        var sqlCommand = new CreatePropertyFeedbackSqlCommand();
         id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
                 @p_ApplicationId = feedback.ApplicationId,
-                @P_Pamspin = feedback.Pamspin,
+                @P_PamsPin = feedback.PamsPin,
                 @p_SectionId = feedback.SectionId,
                 @p_Feedback = feedback.Feedback,
                 @p_RequestForCorrection = feedback.RequestForCorrection,
@@ -97,7 +101,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     private async Task<FloodPropertyFeedbackEntity> UpdateAsync(FloodPropertyFeedbackEntity feedback)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdatePropFeedbackSqlCommand();
+        var sqlCommand = new UpdatePropertyFeedbackSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -105,7 +109,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
             {
                 @p_Id = feedback.Id,
                 @p_ApplicationId = feedback.ApplicationId,
-                @P_Pamspin = feedback.Pamspin,
+                @P_PamsPin = feedback.PamsPin,
                 @p_SectionId = feedback.SectionId,
                 @p_Feedback = feedback.Feedback,
                 @p_RequestForCorrection = feedback.RequestForCorrection,
@@ -122,25 +126,25 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// </summary>
     /// <param name="feedback"></param>
     /// <returns></returns>
-    public async Task DeletePropFeedbackAsync(FloodPropertyFeedbackEntity feedback)
+    public async Task DeletePropertyFeedbackAsync(FloodPropertyFeedbackEntity feedback)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new DeletePropFeedbackSqlCommand();
+        var sqlCommand = new DeletePropertyFeedbackSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
                 @p_Id = feedback.Id,
-                @P_Pamspin = feedback.Pamspin,
+                @P_PamsPin = feedback.PamsPin,
                 @p_ApplicationId = feedback.ApplicationId,
 
             });
     }
-    public async Task MarkPropFeedbackAsReadAsync(List<int> feedbackIds)
+    public async Task MarkPropertyFeedbackAsReadAsync(List<int> feedbackIds)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new MarkPropFeedbackAsReadSqlCommand();
+        var sqlCommand = new MarkPropertyFeedbackAsReadSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -156,7 +160,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// </summary>
     /// <param name="applicationId"></param>
     /// <returns></returns>
-    public async Task RequestForPropertyCorrectionAsync(int applicationId)
+    public async Task RequestForPropertyCorrectionAsync(int applicationId, string pamsPin)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new RequestForPropertyCorrectionCommand();
@@ -166,6 +170,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
             param: new
             {
                 @p_ApplicationId = applicationId,
+                @p_PamsPin = pamsPin,
                 @p_CorrectionStatus = ApplicationCorrectionStatusEnum.REQUEST_SENT.ToString(),
             });
     }
@@ -176,7 +181,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
     /// <param name="applicationId"></param>
     /// <param name="sectionId"></param>
     /// <returns></returns>
-    public async Task ResponseToRequestForPropertyCorrectionAsync(int applicationId, int sectionId)
+    public async Task ResponseToRequestForPropertyCorrectionAsync(int applicationId, string pamsPin, int sectionId)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new ResponseToRequestForPropertyCorrectionCommand();
@@ -186,6 +191,7 @@ public class FeedbackPropRepository : IFeedbackPropRepository
             param: new
             {
                 @p_ApplicationId = applicationId,
+                @p_PamsPin = pamsPin,
                 @p_SectionId = sectionId,
                 @p_CorrectionStatus = ApplicationCorrectionStatusEnum.RESPONSE_RECEIVED.ToString(),
             });

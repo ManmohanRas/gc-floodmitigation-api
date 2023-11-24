@@ -4,5 +4,6 @@ public class ActivateApplicationCommandMappingProfile : Profile
 {
     public ActivateApplicationCommandMappingProfile()
     {
+        CreateMap<FloodBrokenRuleEntity, ApplicationBrokenRuleViewModel>();
     }
 }

@@ -246,32 +246,32 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                     IsPropertyFlow = false
                 });
         }
+        if (property.Status == PropertyStatusEnum.APPROVED)
+        {
+            if (reqPropDetails.GrantAgreementDate == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Grant Agreement Date required field on AdminDetails tab have not been filled.",
+                    IsPropertyFlow = false
+                });
+            if (reqPropDetails.GrantAgreementExpirationDate == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applcation.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Grant Agreement Expiration Date required field on AdminDetails tab have not been filled.",
+                    IsPropertyFlow = false
+                });
+        }
         return brokenRules;
     }
 }
 
-            //if (property.Status == PropertyStatusEnum.APPROVED)
-            //{
-            //    if (reqPropDetails.GrantAgreementDate == null)
-            //        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //        {
-            //            ApplicationId = applcation.Id,
-            //            PamsPin = property.PamsPin,
-            //            SectionId = sectionId,
-            //            Message = "Grant Agreement Date required field on AdminDetails tab have not been filled.",
-            //            IsPropertyFlow = false
-            //        });
-            //    if (reqPropDetails.GrantAgreementExpirationDate == null)
-            //        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //        {
-            //            ApplicationId = applcation.Id,
-            //            PamsPin = property.PamsPin,
-            //            SectionId = sectionId,
-            //            Message = "Grant Agreement Expiration Date required field on AdminDetails tab have not been filled.",
-            //            IsPropertyFlow = false
-            //        });
-
-            //}
+          
             ///Need to very with priyanka and charan about soft cost submitted status 
 
             //if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)

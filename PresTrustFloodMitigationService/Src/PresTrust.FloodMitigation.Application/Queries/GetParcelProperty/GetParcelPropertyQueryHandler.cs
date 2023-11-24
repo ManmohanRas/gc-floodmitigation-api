@@ -22,7 +22,7 @@ public class GetParcelPropertyQueryHandler : BaseHandler, IRequestHandler<GetPar
         var application = await GetIfApplicationExists(request.ApplicationId);
 
         // get tech details
-        var Property = await repoProperty.GetAsync(request.ApplicationId, request.Pamspin);
+        var Property = await repoProperty.GetAsync(request.ApplicationId, request.PamsPin);
         var result = mapper.Map<FloodParcelPropertyEntity, GetParcelPropertyQueryViewModel>(Property);
 
         return result;

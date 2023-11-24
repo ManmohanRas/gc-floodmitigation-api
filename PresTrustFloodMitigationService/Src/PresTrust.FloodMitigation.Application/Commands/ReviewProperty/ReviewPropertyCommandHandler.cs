@@ -15,13 +15,15 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IApplicationParcelRepository repoProperty
+        IApplicationParcelRepository repoProperty,
+        IPropertyBrokenRuleRepository repoPropBrokenRules
     ) : base(repoApplication, repoProperty)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
-        this.repoProperty = repoProperty;        
+        this.repoProperty = repoProperty;     
+        this.repoPropBrokenRules = repoPropBrokenRules; 
     }
 
     /// <summary>
@@ -36,8 +38,16 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
         // check if application exists
         var Application = await GetIfApplicationExists(request.ApplicationId);
         // check if Property exists
-        var Property = await GetIfPropertyExists(request.ApplicationId, request.Pamspin);
+        var Property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
 
+        // check if any broken rules exists, if yes then return
+        var brokenRules = await repoPropBrokenRules.GetPropertyBrokenRulesAsync(Property.ApplicationId, Property.PamsPin);
+
+        if (brokenRules != null && brokenRules.Any())
+        {
+            result.BrokenRules = mapper.Map<IEnumerable<FloodPropertyBrokenRuleEntity>, IEnumerable<PropertyBrokenRulesViewModel>>(brokenRules);
+            return result;
+        }
         //update Property
         if (Property != null)
         {
@@ -86,8 +96,8 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
             ApplicationId = Application.Id,
             SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
             PamsPin = Property.PamsPin,
-            Message = "All required fields on Property tab have not been filled.",
-            IsPropertyFlow = true
+            Message = "All required fields on Property Admin Details tab have not been filled.",
+            IsPropertyFlow = false
         });
         return brokenRules;
     }
