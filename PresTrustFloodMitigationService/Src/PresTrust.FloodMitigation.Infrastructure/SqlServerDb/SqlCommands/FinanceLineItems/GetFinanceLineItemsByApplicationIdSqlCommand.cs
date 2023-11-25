@@ -7,7 +7,7 @@ public class GetFinanceLineItemsByApplicationIdSqlCommand
                  SELECT FLI.[Id]
                        ,FAP.[ApplicationId]
                        ,FAP.[PamsPin]
-                       ,FPP.[Priority]
+                       ,ISNULL(FPP.[Priority], 1) AS Priority
                        ,FPP.[ValueEstimate]
                  FROM [Flood].[FloodApplicationParcel] FAP 
                  LEFT JOIN [Flood].[FloodApplicationFinanceLineItems] FLI ON (FAP.ApplicationId = FLI.ApplicationId AND FAP.PamsPin = FLI.PamsPin) 

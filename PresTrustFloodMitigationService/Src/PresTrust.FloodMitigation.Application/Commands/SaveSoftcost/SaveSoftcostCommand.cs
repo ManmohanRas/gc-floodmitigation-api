@@ -16,6 +16,4 @@ public class SaveSoftCostModel
     public decimal InvoiceAmount { get; set; }
     public decimal PaymentAmount { get; set; }
     public decimal CostShare { get; set; }
-    public bool IsSubmitted { get; set; }
-    public bool IsApproved { get; set; }
 }
