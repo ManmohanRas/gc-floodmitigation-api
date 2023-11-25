@@ -11,6 +11,8 @@ public class FloodParcelSoftCostEntity
         public decimal PaymentAmount { get; set; }
         public decimal CostShare { get; set; }
         public decimal SoftCostTotal { get; set; }
+        public bool IsSubmitted { get; set; }
+        public bool IsApproved { get; set; }
         public string? LastUpdatedBy { get; set; }
         public DateTime LastUpdatedOn { get; set; }
 }

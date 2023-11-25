@@ -98,18 +98,6 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
                 @p_StatusId = property.StatusId,
                 @p_LastUpdatedBy = property.LastUpdatedBy,
             });
-
-        var sqlCommand2 = new UpdateApplicationParcelWorkflowDateSqlCommand();
-        await conn.ExecuteAsync(sqlCommand2.ToString(),
-            commandType: CommandType.Text,
-            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-            param: new
-            {
-                @p_ApplicationId = property.ApplicationId,
-                @p_PamsPin = property.PamsPin,
-                @p_StatusId = property.StatusId,
-                @p_LastUpdatedBy = property.LastUpdatedBy,
-            });
         return property;
     }
 
@@ -131,6 +119,43 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
                 @p_StatusDate = applicationStatusLog.StatusDate,
                 @p_Notes = applicationStatusLog.Notes,
                 @p_LastUpdatedBy = applicationStatusLog.LastUpdatedBy,
+            });
+
+        result = true;
+        return result;
+    }
+
+    public async Task<List<FloodApplicationParcelEntity>> GetApplicationParcelsByApplicationIdAsync(int applicationId)
+    {
+        List<FloodApplicationParcelEntity> results = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetApplicationParcelsSqlCommand();
+        results = (await conn.QueryAsync<FloodApplicationParcelEntity>(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new
+                    {
+                        @p_ApplicationId = applicationId
+                    })).ToList();
+
+        return results ?? new();
+    }
+
+    public async Task<bool> UpdateApplicationParcelSoftCostStatus(FloodApplicationParcelEntity applicationParcel)
+    {
+        bool result = false;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new UpdateApplicationParcelSoftCostStatusSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationParcel.ApplicationId,
+                @p_PamsPin = applicationParcel.PamsPin,
+                @p_IsSubmitted = applicationParcel.IsSubmitted,
+                @p_IsApproved = applicationParcel.IsApproved
             });
 
         result = true;

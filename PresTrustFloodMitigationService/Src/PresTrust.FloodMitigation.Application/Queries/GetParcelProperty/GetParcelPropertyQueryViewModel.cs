@@ -8,10 +8,6 @@ public class GetParcelPropertyQueryViewModel
     public int Priority { get; set; }
     public decimal ValueEstimate { get; set; }
     public decimal EstimatedPurchasePrice { get; set; }
-    public decimal TotalAssessedValue { get; set; }
-    public decimal LandValue { get; set; }
-    public decimal ImprovementValue { get; set; }
-    public decimal AnnualTaxes { get; set; }
     public decimal BRV { get; set; }
     public string? NfipPolicyNo { get; set; }
     public string? SourceOfValueEstimate { get; set; }
@@ -26,4 +22,5 @@ public class GetParcelPropertyQueryViewModel
     public bool IsRentalProperty { get; set; }
     public decimal RentPerMonth { get; set; }
     public bool NeedSoftCost { get; set; }
+    public bool IsPreIrenePropertyOwner { get; set; }
 }

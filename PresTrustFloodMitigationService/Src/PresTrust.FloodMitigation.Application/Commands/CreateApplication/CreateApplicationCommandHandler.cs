@@ -74,9 +74,9 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
                     await repoApplicationUser.SaveAsync(new List<FloodApplicationUserEntity>() { agencyAdmin });
                 }
             }
-            //// returns broken rules  
+            // returns broken rules  
             var defaultBrokenRules = ReturnBrokenRulesIfAny(reqApplication);
-            //// save broken rules
+            // save broken rules
             await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
 
 

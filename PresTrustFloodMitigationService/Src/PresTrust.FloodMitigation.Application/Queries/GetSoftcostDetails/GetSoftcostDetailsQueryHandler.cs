@@ -7,29 +7,33 @@ public class GetSoftCostDetailsQueryHandler : BaseHandler, IRequestHandler<GetSo
     private readonly ISoftCostRepository repoSoftCost;
     private readonly IPropertyDocumentRepository repoDocument;
     private readonly IApplicationRepository repoApplication;
-    private readonly IParcelRepository repoParcel;
+    private readonly IApplicationParcelRepository repoApplicationParcel;
     public GetSoftCostDetailsQueryHandler(
          IMapper mapper,
          IFinanceRepository repoFinance,
          IApplicationRepository repoApplication,
-         IParcelRepository repoParcel,
          IPropertyDocumentRepository repoDocument,
-         ISoftCostRepository repoSoftCost) : base(repoApplication: repoApplication)
+         ISoftCostRepository repoSoftCost,
+         IApplicationParcelRepository repoApplicationParcel) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.repoFinance = repoFinance;
         this.repoSoftCost = repoSoftCost;
-        this.repoParcel = repoParcel;
         this.repoApplication = repoApplication;
         this.repoDocument = repoDocument;
+        this.repoApplicationParcel = repoApplicationParcel;
     }
 
     public async Task<GetSoftCostDetailsQueryViewModel> Handle(GetSoftCostDetailsQuery request, CancellationToken cancellationToken)
     {
-        var finance = await repoFinance.GetFinanceAsync(request.ApplicationId);
-        var softCostLineItems = await repoSoftCost.GetAllSoftCostLineItemsAsync(request.ApplicationId, request.PamsPin);
+        // get application details
+        var application = await GetIfApplicationExists(request.ApplicationId);
+
+        var finance = await repoFinance.GetFinanceAsync(application.Id);
+        var softCostLineItems = await repoSoftCost.GetAllSoftCostLineItemsAsync(application.Id, request.PamsPin);
         var softCosts = mapper.Map<IEnumerable<FloodParcelSoftCostEntity>, IEnumerable<FloodParcelSoftCostViewModel>>(softCostLineItems);
-        var documents = await GetPropertyDocument(request.ApplicationId, request.PamsPin);
+        var documents = await GetPropertyDocument(application.Id, request.PamsPin);
+        var appParcel = await repoApplicationParcel.GetApplicationPropertyAsync(application.Id, request.PamsPin);
 
         var result = new GetSoftCostDetailsQueryViewModel()
         {
@@ -37,6 +41,8 @@ public class GetSoftCostDetailsQueryHandler : BaseHandler, IRequestHandler<GetSo
             PamsPin = request.PamsPin,
             CostShare = finance.MatchPercent,
             SoftCostLineItems = softCosts,
+            IsSubmitted = appParcel.IsSubmitted,
+            IsApproved = appParcel.IsApproved,
             DocumentsTree = documents ?? new List<PropertyDocumentTypeViewModel>()
         };
         return result;

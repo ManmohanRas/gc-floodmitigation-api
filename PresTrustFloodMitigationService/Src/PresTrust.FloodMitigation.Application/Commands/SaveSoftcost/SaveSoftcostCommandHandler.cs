@@ -26,7 +26,8 @@ public class SaveSoftCostCommandHandler : BaseHandler, IRequestHandler<SaveSoftC
             ISoftCostRepository repoSoftCost,
             IParcelFinanceRepository repoParcelFinance,
             IApplicationParcelRepository repoAppParcel,
-            IPropertyDocumentRepository repoPropertyDocument
+            IPropertyDocumentRepository repoPropertyDocument,
+            IPropertyBrokenRuleRepository repoBrokenRules
         ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
     {
         this.mapper = mapper;
@@ -37,6 +38,7 @@ public class SaveSoftCostCommandHandler : BaseHandler, IRequestHandler<SaveSoftC
         this.repoParcelFinance = repoParcelFinance;
         this.repoAppParcel = repoAppParcel;
         this.repoPropertyDocument = repoPropertyDocument;
+        this.repoBrokenRules = repoBrokenRules;
     }
 
     public async Task<Unit> Handle(SaveSoftCostCommand request, CancellationToken cancellationToken)

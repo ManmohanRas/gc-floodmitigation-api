@@ -956,8 +956,12 @@ CREATE TABLE [Flood].[FloodParcel](
 	[OwnersCity]				[varchar](128)							NULL,
 	[OwnersState]				[varchar](128)							NULL,
 	[OwnersZipcode]				[varchar](20)							NULL,
-	[SquareFootage]				[integer]								NULL,
+	[SquareFootage]				[decimal](18,2)							NULL,
 	[YearOfConstruction]		[smallint]								NULL,
+	[TotalAssessedValue]		[decimal](18,2)							NULL,
+	[LandValue]					[decimal](18,2)							NULL,
+	[ImprovementValue]			[decimal](18,2)							NULL,
+	[AnnualTaxes]				[decimal](18,2)							NULL,
 	[IsFLAP]					[bit]									NULL,
 	[DateOfFLAP]				[datetime]								NULL,
 	[IsValidPamsPin]			[bit]									NOT NULL,
@@ -981,6 +985,8 @@ GO
 
 ALTER TABLE [Flood].[FloodParcel] WITH NOCHECK ADD  CONSTRAINT [DF_IsActive_FloodParcel]  DEFAULT (1) FOR [IsActive]
 GO  
+
+
 IF OBJECT_ID('[Flood].[FloodParcelAudit]') IS NOT NULL
 BEGIN
 	-- Drop Constraints
@@ -1009,7 +1015,7 @@ CREATE TABLE [Flood].[FloodParcelAudit](
 	[OwnersName]				[varchar](70)							NULL,
 	[OwnersAddress1]			[varchar](128)							NULL,
 	[OwnersAddress2]			[varchar](128)							NULL,
-	[SquareFootage]				[integer]								NULL,
+	[SquareFootage]				[decimal](18,2)							NULL,
 	[YearOfConstruction]		[smallint]								NULL,
 	[TotalAssessedValue]		[integer]								NULL,
 	[LandValue]					[integer]								NULL,
@@ -1142,6 +1148,7 @@ GO
 
 ALTER TABLE [Flood].[FloodParcelFeedback] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodParcelFeedback]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
 GO  
+
 IF OBJECT_ID('[Flood].[FloodParcelProperty]') IS NOT NULL
 BEGIN
 	-- Drop Constraints
@@ -1162,10 +1169,6 @@ CREATE TABLE [Flood].[FloodParcelProperty](
 	[Priority]			        [integer]								NOT NULL,
 	[ValueEstimate]				[decimal](18,2)				            NULL,
 	[EstimatedPurchasePrice]	[decimal](18,2)				            NULL,
-	[TotalAssessedValue]		[decimal](18,2)							NULL,
-	[LandValue]					[decimal](18,2)							NULL,
-	[ImprovementValue]			[decimal](18,2)							NULL,
-	[AnnualTaxes]				[decimal](18,2)							NULL,
 	[BRV]						[decimal](18,2)							NULL,
 	[NfipPolicyNo]				[varchar](128)							NULL,
 	[SourceOfValueEstimate]		[varchar](128)							NULL,
@@ -1180,6 +1183,7 @@ CREATE TABLE [Flood].[FloodParcelProperty](
 	[IsRentalProperty]			[bit]									NULL,
 	[RentPerMonth]				[decimal](18,2)							NULL,
 	[NeedSoftCost]				[bit]									NULL,
+	[IsPreIrenePropertyOwner]	[bit]									NULL,
 	[LastUpdatedBy]				[varchar](128)							NULL,
 	[LastUpdatedOn]				[datetime]								NOT NULL
 	
@@ -1193,6 +1197,7 @@ GO
 
 ALTER TABLE [Flood].[FloodParcelProperty] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodParcelProperty]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
 GO
+
 
 IF OBJECT_ID('[Flood].[FloodApplicationFinanceLineItems]') IS NOT NULL
 BEGIN

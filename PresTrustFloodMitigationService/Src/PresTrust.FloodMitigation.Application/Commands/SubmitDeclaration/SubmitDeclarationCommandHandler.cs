@@ -73,7 +73,6 @@ public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<Subm
                 LastUpdatedBy = application.LastUpdatedBy
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to DOI_SUBMITTED in future
 
             // returns broken rules  
             //var defaultBrokenRules = ReturnBrokenRulesIfAny(application);

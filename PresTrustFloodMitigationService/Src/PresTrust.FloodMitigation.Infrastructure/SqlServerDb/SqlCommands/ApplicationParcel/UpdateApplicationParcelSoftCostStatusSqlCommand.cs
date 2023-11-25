@@ -1,14 +1,14 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class UpdateApplicationParcelWorkflowDateSqlCommand
+public class UpdateApplicationParcelSoftCostStatusSqlCommand
 {
     private readonly string _sqlCommand =
-            @" UPDATE [Flood].[FloodParcelProperty]
-               SET  [LastUpdatedBy] = @p_LastUpdatedBy,
-                        [LastUpdatedOn] = GetDate()
+            @" UPDATE   [Flood].[FloodApplicationParcel]
+               SET      [IsSubmitted] = @p_IsSubmitted,
+                        [IsApproved] = @p_IsApproved
                WHERE    [ApplicationId] = @p_ApplicationId and [PamsPin] = @p_PamsPin;";
 
-    public UpdateApplicationParcelWorkflowDateSqlCommand() { }
+    public UpdateApplicationParcelSoftCostStatusSqlCommand() { }
 
     public override string ToString()
     {

@@ -30,6 +30,7 @@ public class GetApplicationParcelsSqlCommand
 				)
 				SELECT DISTINCT
 					CP.[Id],
+					AP.[ApplicationId],
 					AP.[PamsPin],
 					AP.[StatusId],
 					AP.[IsLocked],

@@ -84,7 +84,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(property);
-            FloodParcelStatusLogEntity appStatusLog = new()
+            FloodParcelStatusLogEntity appParcelStatusLog = new()
             {
                 ApplicationId = property.ApplicationId,
                 PamsPin = property.PamsPin,
@@ -93,8 +93,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
                 Notes = string.Empty,
                 LastUpdatedBy = property.LastUpdatedBy
             };
-            await repoProperty.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to in-Pending in future
+            await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
             // returns broken rules  
             var defaultBrokenRules = ReturnBrokenRulesIfAny(application, property);
             // Save current Broken Rules, if any

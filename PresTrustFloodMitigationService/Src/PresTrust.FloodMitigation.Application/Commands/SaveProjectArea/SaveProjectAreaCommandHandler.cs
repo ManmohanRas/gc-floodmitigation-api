@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 /// <summary>
 /// This class handles the command to update data and build response
@@ -40,17 +38,20 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         // check if application exists
         var application = await GetIfApplicationExists(request.Id);
 
-        
+
         // update application
         application.ApplicationSubTypeId = request.ApplicationSubTypeId;
         application.LastUpdatedBy = userContext.Email;
 
+        //get application parcels
+        var reqAppParcels = await repoApplicationParcel.GetApplicationParcelsByApplicationIdAsync(application.Id);
+
         //update application parcels
-        var reqAppParcels = request.Parcels.Select(o => new FloodApplicationParcelEntity()
+        reqAppParcels = reqAppParcels.Where(o => request.Parcels.Contains(o.PamsPin)).Select(o => new FloodApplicationParcelEntity()
         {
             ApplicationId = application.Id,
-            PamsPin = o,
-            Status = PropertyStatusEnum.NONE,
+            PamsPin = o.PamsPin,
+            Status = o.Status,
             IsLocked = false
         }).ToList();
 
@@ -79,7 +80,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
 
         // get application details
         var result = mapper.Map<FloodApplicationEntity, SaveProjectAreaCommandViewModel>(application);
-        
+
         // apply security
         FloodApplicationSecurityManager securityMgr = default;
         // derive user's role for a given agency
@@ -112,30 +113,30 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
         // add based on the empty check conditions
-        if (application.Status == ApplicationStatusEnum.SUBMITTED || application.Status == ApplicationStatusEnum.IN_REVIEW || application.Status == ApplicationStatusEnum.ACTIVE || application.Status == ApplicationStatusEnum.CLOSED)
-        {
-            if (reqAppOverview.NoOfHomes == null)
-            {
-                brokenRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = application.Id,
-                    SectionId = sectionId,
-                    Message = "No. Of Homes required field on Project Area tab have not been filled.",
-                    IsApplicantFlow = true
-                });
-            }
+        //if (application.Status == ApplicationStatusEnum.SUBMITTED || application.Status == ApplicationStatusEnum.IN_REVIEW || application.Status == ApplicationStatusEnum.ACTIVE || application.Status == ApplicationStatusEnum.CLOSED)
+        //{
+        //    if (reqAppOverview.NoOfHomes == null)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = application.Id,
+        //            SectionId = sectionId,
+        //            Message = "No. Of Homes required field on Project Area tab have not been filled.",
+        //            IsApplicantFlow = true
+        //        });
+        //    }
 
-            if (reqAppOverview.NoOfContiguousHomes == null)
-            {
-                brokenRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = application.Id,
-                    SectionId = sectionId,
-                    Message = "No. Of Contiguous Homes required field on Project Area tab have not been filled.",
-                    IsApplicantFlow = true
-                });
-            }
-        }
+        //    if (reqAppOverview.NoOfContiguousHomes == null)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = application.Id,
+        //            SectionId = sectionId,
+        //            Message = "No. Of Contiguous Homes required field on Project Area tab have not been filled.",
+        //            IsApplicantFlow = true
+        //        });
+        //    }
+        //}
         return brokenRules;
     }
 }

@@ -26,7 +26,7 @@ CREATE TABLE [Flood].[FloodParcelAudit](
 	[OwnersName]				[varchar](70)							NULL,
 	[OwnersAddress1]			[varchar](128)							NULL,
 	[OwnersAddress2]			[varchar](128)							NULL,
-	[SquareFootage]				[integer]								NULL,
+	[SquareFootage]				[decimal](18,2)							NULL,
 	[YearOfConstruction]		[smallint]								NULL,
 	[TotalAssessedValue]		[integer]								NULL,
 	[LandValue]					[integer]								NULL,

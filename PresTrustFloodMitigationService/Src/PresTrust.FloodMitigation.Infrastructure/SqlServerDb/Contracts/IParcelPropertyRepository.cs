@@ -21,6 +21,6 @@ Task<FloodParcelPropertyEntity> GetAsync(int applicationId, string pamsPin);
 /// </summary>
 /// <param name="parcelFinance"></param>
 /// <returns></returns>
-Task<FloodParcelPropertyEntity> SavePropertyAsync(FloodParcelPropertyEntity parcelFinance);
+Task<FloodParcelPropertyEntity> SaveParcelPropertyAsync(FloodParcelPropertyEntity parcelFinance);
 }
 

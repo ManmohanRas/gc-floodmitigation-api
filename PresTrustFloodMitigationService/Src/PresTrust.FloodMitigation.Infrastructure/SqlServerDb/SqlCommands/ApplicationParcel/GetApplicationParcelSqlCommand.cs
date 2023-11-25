@@ -6,7 +6,9 @@ public class GetApplicationParcelSqlCommand
             @" SELECT
 	            FA.[ApplicationId],
 	            FA.[PamsPin],
-	            FA.[StatusId]
+	            FA.[StatusId],
+                FA.[IsSubmitted],
+                FA.[IsApproved]
             FROM	[Flood].[FloodApplicationParcel] FA
             WHERE	FA.[ApplicationId] = @p_ApplicationId and FA.[PamsPin] = @p_PamsPin;";
 
