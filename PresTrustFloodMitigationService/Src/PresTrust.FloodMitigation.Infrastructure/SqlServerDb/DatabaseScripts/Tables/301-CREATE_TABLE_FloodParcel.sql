@@ -33,7 +33,7 @@ CREATE TABLE [Flood].[FloodParcel](
 	[OwnersCity]				[varchar](128)							NULL,
 	[OwnersState]				[varchar](128)							NULL,
 	[OwnersZipcode]				[varchar](20)							NULL,
-	[SquareFootage]				[integer]								NULL,
+	[SquareFootage]				[decimal](18,2)							NULL,
 	[YearOfConstruction]		[smallint]								NULL,
 	[TotalAssessedValue]		[decimal](18,2)							NULL,
 	[LandValue]					[decimal](18,2)							NULL,

@@ -58,7 +58,7 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(Property);
-            FloodParcelStatusLogEntity appStatusLog = new()
+            FloodParcelStatusLogEntity appParcelStatusLog = new()
             {
                 ApplicationId = Property.ApplicationId,
                 PamsPin = Property.PamsPin,
@@ -67,8 +67,7 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
                 Notes = string.Empty,
                 LastUpdatedBy = Property.LastUpdatedBy
             };
-            await repoProperty.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to in-review in future
+            await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
             // returns broken rules  
             var defaultBrokenRules = ReturnBrokenRulesIfAny(Application, Property);
             // Save current Broken Rules, if any

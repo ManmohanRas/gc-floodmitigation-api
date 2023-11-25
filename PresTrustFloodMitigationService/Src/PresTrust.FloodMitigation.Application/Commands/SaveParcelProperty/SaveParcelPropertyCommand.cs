@@ -5,6 +5,7 @@ public class SaveParcelPropertyCommand : IRequest<int>
     public int Id { get; set; }
     public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
+    public int AgencyId { get; set; }
 
     //Flood Parcel Property
     public int Priority { get; set; }
@@ -41,7 +42,7 @@ public class SaveParcelPropertyCommand : IRequest<int>
     public string? OwnersCity { get; set; }
     public string? OwnersState { get; set; }
     public string? OwnersZipcode { get; set; }
-    public int? SquareFootage { get; set; }
+    public decimal? SquareFootage { get; set; }
     public int? YearOfConstruction { get; set; }
     public decimal? TotalAssessedValue { get; set; }
     public decimal? LandValue { get; set; }

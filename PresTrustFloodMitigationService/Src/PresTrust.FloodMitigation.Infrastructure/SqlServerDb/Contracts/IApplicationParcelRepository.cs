@@ -39,4 +39,10 @@ public interface IApplicationParcelRepository
     /// <param name="application"></param>
     /// <returns></returns>
     Task<bool> SaveStatusLogAsync(FloodParcelStatusLogEntity applicationStatusLog);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+    Task<List<FloodApplicationParcelEntity>> GetApplicationParcelsByApplicationIdAsync(int applicationId);
 }

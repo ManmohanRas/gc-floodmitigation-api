@@ -60,12 +60,8 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
-            var defaultBrokenRules = ReturnBrokenRulesIfAny(application,property);
-            // Save current Broken Rules, if any
-            await repoPropBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(property);
-           
-            FloodParcelStatusLogEntity appStatusLog = new()
+            FloodParcelStatusLogEntity appParcelStatusLog = new()
             {
                 ApplicationId = property.ApplicationId,
                 PamsPin = property.PamsPin,
@@ -74,9 +70,13 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
                 Notes = string.Empty,
                 LastUpdatedBy = property.LastUpdatedBy
             };
-            await repoProperty.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to submitted in future
-            // returns broken rules  
+            await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
+
+            // returns broken rules
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(application, property);
+            // Save current Broken Rules, if any
+            await repoPropBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
+
             scope.Complete();
             result.IsSuccess = true;
         }

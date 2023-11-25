@@ -44,22 +44,17 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         application.LastUpdatedBy = userContext.Email;
 
         //get application parcels
-        var appParcels = await repoApplicationParcel.GetApplicationPropertiesAsync(application.Id);
-        appParcels = appParcels.Where(o => request.Parcels.Contains(o.PamsPin)).ToList();
-        
-        //update application parcels
-        var reqAppParcels = new List<FloodApplicationParcelEntity>();
-        foreach(var appParcel in appParcels)
-        {
-            reqAppParcels.Add(new FloodApplicationParcelEntity()
-            {
-                ApplicationId = application.Id,
-                PamsPin = appParcel.PamsPin,
-                Status = appParcel.Status,
-                IsLocked = false
-            });
-        }
+        var reqAppParcels = await repoApplicationParcel.GetApplicationParcelsByApplicationIdAsync(application.Id);
 
+        //update application parcels
+        reqAppParcels = reqAppParcels.Where(o => request.Parcels.Contains(o.PamsPin)).Select(o => new FloodApplicationParcelEntity()
+        {
+            ApplicationId = application.Id,
+            PamsPin = o.PamsPin,
+            Status = o.Status,
+            IsLocked = false
+        }).ToList();
+        
         // update overview
         var reqAppOverview = await repoOverview.GetOverviewDetailsAsync(application.Id);
         reqAppOverview.ApplicationId = application.Id;
@@ -118,30 +113,30 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
         // add based on the empty check conditions
-        if (application.Status == ApplicationStatusEnum.SUBMITTED || application.Status == ApplicationStatusEnum.IN_REVIEW || application.Status == ApplicationStatusEnum.ACTIVE || application.Status == ApplicationStatusEnum.CLOSED)
-        {
-            if (reqAppOverview.NoOfHomes == null)
-            {
-                brokenRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = application.Id,
-                    SectionId = sectionId,
-                    Message = "No. Of Homes required field on Project Area tab have not been filled.",
-                    IsApplicantFlow = true
-                });
-            }
+        //if (application.Status == ApplicationStatusEnum.SUBMITTED || application.Status == ApplicationStatusEnum.IN_REVIEW || application.Status == ApplicationStatusEnum.ACTIVE || application.Status == ApplicationStatusEnum.CLOSED)
+        //{
+        //    if (reqAppOverview.NoOfHomes == null)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = application.Id,
+        //            SectionId = sectionId,
+        //            Message = "No. Of Homes required field on Project Area tab have not been filled.",
+        //            IsApplicantFlow = true
+        //        });
+        //    }
 
-            if (reqAppOverview.NoOfContiguousHomes == null)
-            {
-                brokenRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = application.Id,
-                    SectionId = sectionId,
-                    Message = "No. Of Contiguous Homes required field on Project Area tab have not been filled.",
-                    IsApplicantFlow = true
-                });
-            }
-        }
+        //    if (reqAppOverview.NoOfContiguousHomes == null)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = application.Id,
+        //            SectionId = sectionId,
+        //            Message = "No. Of Contiguous Homes required field on Project Area tab have not been filled.",
+        //            IsApplicantFlow = true
+        //        });
+        //    }
+        //}
         return brokenRules;
     }
 }

@@ -7,19 +7,22 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
+    private readonly IApplicationParcelRepository repoApplicationParcel;
 
     public WithdrawApplicationCommandHandler
     (
         IMapper mapper,
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
-        IApplicationRepository repoApplication
+        IApplicationRepository repoApplication,
+        IApplicationParcelRepository repoApplicationParcel
     ) : base(repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
-        this.repoApplication = repoApplication;        
+        this.repoApplication = repoApplication;
+        this.repoApplicationParcel = repoApplicationParcel;
     }
 
     /// <summary>
@@ -40,6 +43,15 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
             application.LastUpdatedBy = userContext.Email;
         }
 
+        // get application parcels
+        var appParcels = await repoApplicationParcel.GetApplicationParcelsByApplicationIdAsync(application.Id);
+
+        //update application parcels
+        foreach (var appParcel in appParcels)
+        {
+            appParcel.StatusId = (int)PropertyStatusEnum.WITHDRAWN;
+        }
+
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoApplication.SaveApplicationWorkflowStatusAsync(application);
@@ -52,7 +64,21 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
                 LastUpdatedBy = application.LastUpdatedBy
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to withdrawn in future
+
+            foreach (var appParcel in appParcels)
+            {
+                await repoApplicationParcel.SaveApplicationParcelWorkflowStatusAsync(appParcel);
+                FloodParcelStatusLogEntity appParcelStatusLog = new()
+                {
+                    ApplicationId = appParcel.ApplicationId,
+                    PamsPin = appParcel.PamsPin,
+                    StatusId = appParcel.StatusId,
+                    StatusDate = DateTime.Now,
+                    Notes = string.Empty,
+                    LastUpdatedBy = appParcel.LastUpdatedBy
+                };
+                await repoApplicationParcel.SaveStatusLogAsync(appParcelStatusLog);
+            }
 
             scope.Complete();
         }

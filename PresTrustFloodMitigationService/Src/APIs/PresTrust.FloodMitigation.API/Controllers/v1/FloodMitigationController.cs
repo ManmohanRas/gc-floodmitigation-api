@@ -940,9 +940,6 @@ public class FloodMitigationWorkflowController : ApiBaseController
         return Single(await CommandAsync(command));
     }
 
-    //// Property Status Workflow
-    ///
-
     [HttpPost("reviewProperty")]
     [ProducesResponseType(typeof(ReviewPropertyCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

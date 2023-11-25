@@ -11,7 +11,7 @@ public class UpdateParcelSqlCommand
 					[QualificationCode] = @p_QualificationCode,
 					[StreetNo] = @p_StreetNo,
 					[StreetAddress] = @p_StreetAddress,
-					[OwnersName] = @p_OwnersName,
+					[OwnersName] = @p_OwnersName
 				WHERE [Id] = @p_Id";
 
     public UpdateParcelSqlCommand(bool updatePropertyTab = false)
@@ -42,7 +42,7 @@ public class UpdateParcelSqlCommand
 					[LandValue] = @p_LandValue,
 					[ImprovementValue] = @p_ImprovementValue,
 					[AnnualTaxes] = @p_AnnualTaxes
-				WHERE [Id] = @p_Id";
+				WHERE [PamsPin] = @p_PamsPin";
         }
     }
 

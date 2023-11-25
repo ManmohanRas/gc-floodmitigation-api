@@ -21,7 +21,7 @@ public class FloodParcelEntity
     public string OwnersCity { get; set; }
     public string OwnersState { get; set; }
     public string OwnersZipcode { get; set; }
-    public int SquareFootage { get; set; }
+    public decimal SquareFootage { get; set; }
     public int YearOfConstruction { get; set; }
     public decimal TotalAssessedValue { get; set; }
     public decimal LandValue { get; set; }

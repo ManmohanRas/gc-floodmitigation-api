@@ -59,7 +59,7 @@ public class PendingPropertyCommandHandler : BaseHandler, IRequestHandler<Pendin
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(Property);
-            FloodParcelStatusLogEntity appStatusLog = new()
+            FloodParcelStatusLogEntity appParcelStatusLog = new()
             {
                 ApplicationId = Property.ApplicationId,
                 PamsPin = Property.PamsPin,
@@ -68,7 +68,7 @@ public class PendingPropertyCommandHandler : BaseHandler, IRequestHandler<Pendin
                 Notes = string.Empty,
                 LastUpdatedBy = Property.LastUpdatedBy
             };
-            await repoProperty.SaveStatusLogAsync(appStatusLog);
+            await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
             // returns broken rules  
             var defaultBrokenRules = ReturnBrokenRulesIfAny(Application, Property);
             // Save current Broken Rules, if any

@@ -46,7 +46,7 @@ public class TransferPropertyCommandHandler : BaseHandler, IRequestHandler<Trans
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(Property);
-            FloodParcelStatusLogEntity appStatusLog = new()
+            FloodParcelStatusLogEntity appParcelStatusLog = new()
             {
                 ApplicationId = Property.ApplicationId,
                 PamsPin = Property.PamsPin,
@@ -55,8 +55,7 @@ public class TransferPropertyCommandHandler : BaseHandler, IRequestHandler<Trans
                 Notes = string.Empty,
                 LastUpdatedBy = Property.LastUpdatedBy
             };
-            await repoProperty.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to submitted in future
+            await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
 
             scope.Complete();
             result.IsSuccess = true;
