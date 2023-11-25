@@ -16,7 +16,10 @@ CREATE TABLE [Flood].[FloodApplicationParcel](
 	[ApplicationId]					[integer]						NOT NULL,
 	[PamsPin]						[varchar](76)					NOT NULL,
 	[StatusId]						[smallint]						NOT NULL,
-	[IsLocked]						[bit]							NOT NULL)
+	[IsLocked]						[bit]							NOT NULL,
+	[IsSubmitted]                   [bit]                           DEFAULT 0,
+	[IsApproved]                    [bit]                           DEFAULT 0
+	)
 GO
 
 -- Create Constraint

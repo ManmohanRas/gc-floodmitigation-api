@@ -140,4 +140,25 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
 
         return results ?? new();
     }
+
+    public async Task<bool> UpdateApplicationParcelSoftCostStatus(FloodApplicationParcelEntity applicationParcel)
+    {
+        bool result = false;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new UpdateApplicationParcelSoftCostStatusSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationParcel.ApplicationId,
+                @p_PamsPin = applicationParcel.PamsPin,
+                @p_IsSubmitted = applicationParcel.IsSubmitted,
+                @p_IsApproved = applicationParcel.IsApproved
+            });
+
+        result = true;
+        return result;
+    }
 }

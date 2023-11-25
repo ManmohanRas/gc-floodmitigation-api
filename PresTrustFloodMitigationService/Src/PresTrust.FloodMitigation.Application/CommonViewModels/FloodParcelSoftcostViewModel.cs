@@ -9,4 +9,6 @@ public class FloodParcelSoftCostViewModel
     public string? VendorName { get; set; }
     public decimal InvoiceAmount { get; set; }
     public decimal PaymentAmount { get; set; }
+    public bool IsSubmitted { get; set; }
+    public bool IsApproved { get; set; }
 }

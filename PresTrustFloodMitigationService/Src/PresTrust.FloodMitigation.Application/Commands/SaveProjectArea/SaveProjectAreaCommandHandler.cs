@@ -38,7 +38,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         // check if application exists
         var application = await GetIfApplicationExists(request.Id);
 
-        
+
         // update application
         application.ApplicationSubTypeId = request.ApplicationSubTypeId;
         application.LastUpdatedBy = userContext.Email;
@@ -54,7 +54,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
             Status = o.Status,
             IsLocked = false
         }).ToList();
-        
+
         // update overview
         var reqAppOverview = await repoOverview.GetOverviewDetailsAsync(application.Id);
         reqAppOverview.ApplicationId = application.Id;
@@ -80,7 +80,7 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
 
         // get application details
         var result = mapper.Map<FloodApplicationEntity, SaveProjectAreaCommandViewModel>(application);
-        
+
         // apply security
         FloodApplicationSecurityManager securityMgr = default;
         // derive user's role for a given agency

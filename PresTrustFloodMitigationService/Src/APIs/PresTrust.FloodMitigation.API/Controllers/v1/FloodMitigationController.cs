@@ -844,6 +844,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
+
+    [HttpPost("submitApproveParcelSoftCostStatus")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> SubmitApproveParcelSoftCostStatus([FromBody] SubmitApproveParcelSoftCostStatusCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController
