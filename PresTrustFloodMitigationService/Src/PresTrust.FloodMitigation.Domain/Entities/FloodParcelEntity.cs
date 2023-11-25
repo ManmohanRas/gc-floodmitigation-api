@@ -23,6 +23,10 @@ public class FloodParcelEntity
     public string OwnersZipcode { get; set; }
     public int SquareFootage { get; set; }
     public int YearOfConstruction { get; set; }
+    public decimal TotalAssessedValue { get; set; }
+    public decimal LandValue { get; set; }
+    public decimal ImprovementValue { get; set; }
+    public decimal AnnualTaxes { get; set; }
     public string TargetArea { get; set; }
     public bool IsFLAP { get; set; }
     public DateTime DateOfFLAP { get; set; }

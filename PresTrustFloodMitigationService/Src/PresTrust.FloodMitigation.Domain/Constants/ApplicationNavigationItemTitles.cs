@@ -42,7 +42,7 @@ public partial class FloodMitigationDomainConstants
         /// <summary>
         /// Constant to hold title for Admin Details 
         /// </summary>
-        public const string ADMIN_DETAILS = "Details";
+        public const string ADMIN_DETAILS = "Admin Details";
         /// <summary>
         /// Constant to hold title for Admin Contacts 
         /// </summary>

@@ -96,7 +96,7 @@ public class SaveApplicationFinanceCommandHandler : BaseHandler, IRequestHandler
             parcelProperty.Priority = lineItem.Priority;
             parcelProperty.ValueEstimate = lineItem.ValueEstimate;
 
-            await repoParcelProperty.SavePropertyAsync(parcelProperty);
+            await repoParcelProperty.SaveParcelPropertyAsync(parcelProperty);
         }
     }
 

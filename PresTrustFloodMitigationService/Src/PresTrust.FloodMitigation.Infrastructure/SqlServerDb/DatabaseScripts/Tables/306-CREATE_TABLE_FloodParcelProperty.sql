@@ -18,10 +18,6 @@ CREATE TABLE [Flood].[FloodParcelProperty](
 	[Priority]			        [integer]								NOT NULL,
 	[ValueEstimate]				[decimal](18,2)				            NULL,
 	[EstimatedPurchasePrice]	[decimal](18,2)				            NULL,
-	[TotalAssessedValue]		[decimal](18,2)							NULL,
-	[LandValue]					[decimal](18,2)							NULL,
-	[ImprovementValue]			[decimal](18,2)							NULL,
-	[AnnualTaxes]				[decimal](18,2)							NULL,
 	[BRV]						[decimal](18,2)							NULL,
 	[NfipPolicyNo]				[varchar](128)							NULL,
 	[SourceOfValueEstimate]		[varchar](128)							NULL,
@@ -36,6 +32,7 @@ CREATE TABLE [Flood].[FloodParcelProperty](
 	[IsRentalProperty]			[bit]									NULL,
 	[RentPerMonth]				[decimal](18,2)							NULL,
 	[NeedSoftCost]				[bit]									NULL,
+	[IsPreIrenePropertyOwner]	[bit]									NULL,
 	[LastUpdatedBy]				[varchar](128)							NULL,
 	[LastUpdatedOn]				[datetime]								NOT NULL
 	

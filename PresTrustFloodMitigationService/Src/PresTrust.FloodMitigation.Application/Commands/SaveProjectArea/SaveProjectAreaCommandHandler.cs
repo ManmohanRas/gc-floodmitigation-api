@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 /// <summary>
 /// This class handles the command to update data and build response
@@ -45,14 +43,22 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
         application.ApplicationSubTypeId = request.ApplicationSubTypeId;
         application.LastUpdatedBy = userContext.Email;
 
+        //get application parcels
+        var appParcels = await repoApplicationParcel.GetApplicationPropertiesAsync(application.Id);
+        appParcels = appParcels.Where(o => request.Parcels.Contains(o.PamsPin)).ToList();
+        
         //update application parcels
-        var reqAppParcels = request.Parcels.Select(o => new FloodApplicationParcelEntity()
+        var reqAppParcels = new List<FloodApplicationParcelEntity>();
+        foreach(var appParcel in appParcels)
         {
-            ApplicationId = application.Id,
-            PamsPin = o,
-            Status = PropertyStatusEnum.NONE,
-            IsLocked = false
-        }).ToList();
+            reqAppParcels.Add(new FloodApplicationParcelEntity()
+            {
+                ApplicationId = application.Id,
+                PamsPin = appParcel.PamsPin,
+                Status = appParcel.Status,
+                IsLocked = false
+            });
+        }
 
         // update overview
         var reqAppOverview = await repoOverview.GetOverviewDetailsAsync(application.Id);

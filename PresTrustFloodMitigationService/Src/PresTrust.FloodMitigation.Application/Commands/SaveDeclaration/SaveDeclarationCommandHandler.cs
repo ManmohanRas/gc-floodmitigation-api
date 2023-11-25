@@ -81,7 +81,7 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
             await repoApplication.SaveAsync(application);
             if(newParcels.Count > 0)
             {
-                await repoParcel.SaveAsync(newParcels);
+                await repoParcel.SaveParcelsAsync(newParcels);
             }
             await repoApplicationParcel.DeleteApplicationParcelsByApplicationIdAsync(application.Id);
             await repoApplicationParcel.SaveAsync(reqAppParcels);
