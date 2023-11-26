@@ -14,6 +14,10 @@ public class FloodPropReleaseOfFundsEntity
     public int SoftCostPaymentStatusId { get; set; }
     public decimal HardCostFMPAmt { get; set; }
     public decimal SoftCostFMPAmt { get; set; }
+    public decimal? AdditionalSoftCostEstimate { get; set; }
+    public decimal? SoftEstimate { get; set; }
+    public decimal? MatchPercent { get; set; }
+    public decimal? EstimatePurchasePrice { get; set; }
     public string LastUpdatedBy { get; set; } = "";
 
     public PaymentStatusEnum HardCostPaymentStatus
