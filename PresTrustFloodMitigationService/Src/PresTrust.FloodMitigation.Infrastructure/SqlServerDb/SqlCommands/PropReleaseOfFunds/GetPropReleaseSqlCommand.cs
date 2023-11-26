@@ -6,11 +6,19 @@ public class GetPropReleaseSqlCommand
          @" SELECT
                   ISNULL(PP.[Id], 0) AS [Id],
                   PY.[CAFNumber],
-                  PF.[HardCostFMPAmt],
+                 CASE 
+                       WHEN AP.[StatusId] < 4 
+                       THEN  0
+                       ELSE PF.[HardCostFMPAmt]
+                        END AS [HardCostFMPAmt],
+                 CASE 
+                       WHEN AP.[StatusId] < 4 
+                       THEN  0
+                       ELSE PF.[SoftCostFMPAmt]
+                       END AS [SoftCostFMPAmt],
                   PP.[HardCostPaymentTypeId],
                   PP.[HardCostPaymentDate],
                   PP.[HardCostPaymentStatusId],
-                  PF.[SoftCostFMPAmt],
                   PP.[SoftCostPaymentTypeId],
                   PP.[SoftCostPaymentDate],
                   PP.[SoftCostPaymentStatusId]
