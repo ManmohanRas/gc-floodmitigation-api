@@ -23,7 +23,7 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
        IParcelPropertyRepository repoProperty,
        IPropertyBrokenRuleRepository repoBrokenRules,
        IApplicationParcelRepository repoAppParcel
-    )
+    ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
     {
         this.mapper = mapper;
         this.userContext = userContext;

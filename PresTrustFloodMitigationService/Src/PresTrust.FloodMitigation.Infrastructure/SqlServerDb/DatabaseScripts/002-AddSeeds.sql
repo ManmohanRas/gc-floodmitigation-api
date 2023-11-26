@@ -659,7 +659,7 @@ GO
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (21, 'OTHER_DOCUMENTS', 'Other Documents ', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (22, 'FMC_FINAL_APPROVAL', 'Fmc Final Approval document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (22, 'FMC_FINAL_APPROVAL', 'Fmc Final Approval document', 8);
 GO
 
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (23, 'CONGRATULATION_LETTER_HOMEOWNER', 'Congratuation letter to home owner', 8);
@@ -683,17 +683,14 @@ GO
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (29, 'BANK_VERIFICATION_FORM', 'Bank Verification Form document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (30, 'VOLUNTARY_PARTICIPATIONS_FORM', 'Voluntary Participations Form document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (30, 'STEP_TO_CLOSING', 'Step To Closing document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (31, 'STEP_TO_CLOSING', 'Step To Closing document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (31, 'BENEFITS_PROCESS', 'Benefits Process document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (32, 'BENEFITS_PROCESS', 'Benefits Process document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (32, 'SURVEY_REVIEW_LETTER', 'Survey Review Letter document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (33, 'SURVEY_REVIEW_LETTER', 'Survey Review Letter document', 2);
-GO
-
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (34, 'POST_ACQUISITION', 'Post Acquisition Picture document', 10);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (33, 'POST_ACQUISITION', 'Post Acquisition Picture document', 10);
 GO

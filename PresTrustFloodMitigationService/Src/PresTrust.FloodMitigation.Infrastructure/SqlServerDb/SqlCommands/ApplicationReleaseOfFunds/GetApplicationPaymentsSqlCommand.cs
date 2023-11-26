@@ -17,21 +17,21 @@ public class GetApplicationPaymentsSqlCommand
                           PP.[SoftCostPaymentDate],
                           PP.[SoftCostPaymentStatusId],
                           PR.[Priority],
-                         PF.[EstimatePurchasePrice],
+                         ISNULL(PF.[EstimatePurchasePrice], PR.[ValueEstimate]) AS EstimatePurchasePrice,
 						 PF.[AdditionalSoftCostEstimate],
 						 AF.[MatchPercent]
                     FROM [Flood].[FloodApplicationParcel] AP
                     LEFT JOIN [Flood].[FloodParcel] P
-                          ON AP.[PamsPin] = P.[PamsPin]
+                          ON (AP.[PamsPin] = P.[PamsPin])
                     LEFT JOIN [Flood].[FloodParcelFinance] PF
-                          ON AP.[ApplicationId] = PF.[ApplicationId] AND AP.[PamsPin] = PF.[PamsPin]
+                          ON (AP.[ApplicationId] = PF.[ApplicationId] AND AP.[PamsPin] = PF.[PamsPin])
                     LEFT JOIN [Flood].[FloodParcelPayment] PP
-                          ON AP.[ApplicationId] = PP.[ApplicationId] AND AP.[PamsPin] = PP.[PamsPin]
+                          ON (AP.[ApplicationId] = PP.[ApplicationId] AND AP.[PamsPin] = PP.[PamsPin])
                     LEFT JOIN [Flood].[FloodParcelProperty] PR
-                          ON AP.[ApplicationId] = PR.[ApplicationId] AND AP.[PamsPin] = PR.[PamsPin] AND PR.[Priority] = 1
+                          ON (AP.[ApplicationId] = PR.[ApplicationId] AND AP.[PamsPin] = PR.[PamsPin])
                     LEFT JOIN [Flood].[FloodApplicationFinance] AF 
 				         ON (AP.ApplicationId = AF.ApplicationId)
-                    WHERE AP.[ApplicationId] = @p_ApplicationId;";
+                    WHERE AP.[ApplicationId] = @p_ApplicationId AND PR.[Priority] = 1;";
 
     public GetApplicationPaymentsSqlCommand()
     {
