@@ -7,7 +7,7 @@ public interface IParcelRepository
     /// </summary>
     /// <param name="parcels"></param>
     /// <returns></returns>
-    Task SaveAsync(List<FloodParcelEntity> parcels);
+    Task SaveParcelsAsync(List<FloodParcelEntity> parcels);
 
     /// <summary>
     /// Get Parcel
@@ -24,4 +24,11 @@ public interface IParcelRepository
     /// <param name="pamsPin"></param>
     /// <returns></returns>
     Task<List<FloodParcelStatusLogEntity>> GetParcelStatusLogAsync(int applicationId, string pamsPin);
+    /// <summary>
+    /// Update Parcel
+    /// </summary>
+    /// <param name="parcels"></param>
+    /// <returns></returns>
+    Task<FloodParcelEntity> UpdateAsync(FloodParcelEntity parcels);
+
 }

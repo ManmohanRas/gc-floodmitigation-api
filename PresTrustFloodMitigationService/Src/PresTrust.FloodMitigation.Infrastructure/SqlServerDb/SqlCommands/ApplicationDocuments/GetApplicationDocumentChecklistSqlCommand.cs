@@ -18,8 +18,8 @@
 			                        ,D.[ReviewComment]		AS	ReviewComment
 		                            ,DT.[Id]				AS	DocumentTypeId	
                                     ,DT.[SectionId]			AS  SectionId
-                    FROM			 [Flood].[FloodApplicationDocument] D
-                    INNER JOIN		 [Flood].[FloodApplicationDocumentType] DT
+                    FROM			 [Flood].[FloodApplicationDocumentType] DT
+                    LEFT OUTER JOIN		 [Flood].[FloodApplicationDocument] D
 				                     ON DT.Id = D.DocumentTypeId  AND D.ApplicationId = @p_ApplicationId;";
         }
 

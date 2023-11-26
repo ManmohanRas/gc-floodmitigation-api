@@ -13,5 +13,8 @@ public class SaveParcelPropertyCommandValidator : AbstractValidator<SaveParcelPr
         RuleFor(query => query.ApplicationId)
                 .GreaterThan(0)
                 .WithMessage("Not a valid Application Id.");
+        RuleFor(query => query.PamsPin)
+                .NotEmpty()
+                .WithMessage("Not a valid PamsPin.");
     }
 }

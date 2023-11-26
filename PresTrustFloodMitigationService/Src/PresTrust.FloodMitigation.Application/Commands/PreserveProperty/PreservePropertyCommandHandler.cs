@@ -48,7 +48,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
 
         // check if any broken rules exists, if yes then return
         var brokenRules = await repoPropertyBrokenRules.GetPropertyBrokenRulesAsync(property.ApplicationId, property.PamsPin);
-        var hasOtherDocuments = await CheckApplicationOtherDocs(application.Id, application.StatusId, property.PamsPin, property.StatusId, (int)PropertySectionEnum.OTHER_DOCUMENTS);
+        var hasOtherDocuments = await CheckPropertyOtherDocs(application.Id, application.StatusId, property.PamsPin, property.StatusId, (int)PropertySectionEnum.OTHER_DOCUMENTS);
         if (!hasOtherDocuments)
         {
             brokenRules.Add(new FloodPropertyBrokenRuleEntity()
@@ -77,7 +77,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(property);
-            FloodParcelStatusLogEntity appStatusLog = new()
+            FloodParcelStatusLogEntity appParcelStatusLog = new()
             {
                 ApplicationId = property.ApplicationId,
                 PamsPin = property.PamsPin,
@@ -86,8 +86,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
                 Notes = string.Empty,
                 LastUpdatedBy = property.LastUpdatedBy
             };
-            await repoProperty.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to in-Preserve in future
+            await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
 
             scope.Complete();
             result.IsSuccess = true;
@@ -95,7 +94,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
 
         return result;
     }
-    private async Task<bool> CheckApplicationOtherDocs(int applicationId, int applicationStatusId, string pamsPin, int propertyStatusId, int sectionId)
+    private async Task<bool> CheckPropertyOtherDocs(int applicationId, int applicationStatusId, string pamsPin, int propertyStatusId, int sectionId)
     {
         var requiredDocumentTypes = new int[] { };
 
@@ -136,10 +135,3 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
     }
 
 }
- //case (int) PropertyStatusEnum.PRESERVED:
- //                   requiredDocumentTypes = new int[] {
- //                      (int)PropertyDocumentTypeEnum.RECORDED_DEED,
- //                      (int)PropertyDocumentTypeEnum.EXECUTED,
- //                      (int)PropertyDocumentTypeEnum.TITLE_INSURANCE_POLICY
- //                   };
- //                   break;

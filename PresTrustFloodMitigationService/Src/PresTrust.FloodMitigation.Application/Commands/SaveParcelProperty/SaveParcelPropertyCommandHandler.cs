@@ -15,7 +15,8 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private IParcelPropertyRepository repoParcelProperty;
+    private readonly IParcelRepository repoParcel;
+    private readonly IParcelPropertyRepository repoParcelProperty;
     private readonly IPropertyBrokenRuleRepository repoBrokenRules;
     private readonly IApplicationParcelRepository repoAppParcel;
 
@@ -25,6 +26,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
        IPresTrustUserContext userContext,
        IOptions<SystemParameterConfiguration> systemParamOptions,
        IApplicationRepository repoApplication,
+       IParcelRepository repoParcel,
        IParcelPropertyRepository repoParcelProperty,
        IApplicationParcelRepository repoAppParcel,
        IPropertyBrokenRuleRepository repoBrokenRules
@@ -34,6 +36,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
+        this.repoParcel = repoParcel;
         this.repoParcelProperty = repoParcelProperty;
         this.repoBrokenRules = repoBrokenRules;
     }
@@ -51,48 +54,51 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
         var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
 
         // map command object to the FloodParcelPropertyEntity
-        var reqParcelProperty = mapper.Map<SaveParcelPropertyCommand, FloodParcelPropertyEntity>(request);
-        var reqFloodParcel = mapper.Map<SaveParcelPropertyCommand ,FloodParcelEntity>(request);
+        FloodParcelEntity reqParcel = new();
+        reqParcel = mapper.Map<SaveParcelPropertyCommand, FloodParcelEntity>(request);
+        FloodParcelPropertyEntity reqParcelProperty = new();
+        reqParcelProperty = mapper.Map<SaveParcelPropertyCommand, FloodParcelPropertyEntity>(request);
         // Check Broken Rules
-        var brokenRules =  ReturnBrokenRulesIfAny(application,property, reqParcelProperty,reqFloodParcel);
+        var brokenRules = ReturnBrokenRulesIfAny(application, property, reqParcelProperty, reqParcel);
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {   // Delete old Broken Rules, if any
             await repoBrokenRules.DeletePropertyBrokenRulesAsync(application.Id, PropertySectionEnum.PROPERTY, property.PamsPin);
             // Save current Broken Rules, if any
             await repoBrokenRules.SavePropertyBrokenRules(brokenRules);
-            reqParcelProperty = await repoParcelProperty.SavePropertyAsync(reqParcelProperty);
+            reqParcel = await repoParcel.UpdateAsync(reqParcel);
+            reqParcelProperty = await repoParcelProperty.SaveParcelPropertyAsync(reqParcelProperty);
             reqParcelProperty.LastUpdatedBy = userContext.Email;
             scope.Complete();
         }
         return reqParcelProperty.Id;
     }
-    private  List<FloodPropertyBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity applcation, FloodApplicationParcelEntity property, FloodParcelPropertyEntity reqParcelProperty, FloodParcelEntity reqFloodParcel)
+    private List<FloodPropertyBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity applcation, FloodApplicationParcelEntity property, FloodParcelPropertyEntity reqParcelProperty, FloodParcelEntity reqFloodParcel)
     {
         int sectionId = (int)PropertySectionEnum.PROPERTY;
         List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
 
-        
-            if (reqParcelProperty.ValueEstimate == 0)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "value estimate required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
-                });
 
-            if (string.IsNullOrEmpty(reqParcelProperty.SourceOfValueEstimate))
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Source of value estimate required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
-                });
-     
+        if (reqParcelProperty.ValueEstimate == 0)
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "value estimate required field on property tab have not been Filled.",
+                IsPropertyFlow = true
+            });
+
+        if (string.IsNullOrEmpty(reqParcelProperty.SourceOfValueEstimate))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "Source of value estimate required field on property tab have not been Filled.",
+                IsPropertyFlow = true
+            });
+
         if (property.Status == PropertyStatusEnum.SUBMITTED)
         {
             if (reqParcelProperty.EstimatedPurchasePrice == 0)
@@ -104,33 +110,33 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     Message = "Estimate Purchase Price required field on property tab have not been Filled.",
                     IsPropertyFlow = true
                 });
-            if (reqParcelProperty.TotalAssessedValue == 0)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Total Assessed value required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
-                });
-            if (reqParcelProperty.LandValue == 0)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Land value required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
-                });
-            if (reqParcelProperty.ImprovementValue == 0)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Improvement value required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
-                });
+            //if (reqParcelProperty.TotalAssessedValue == 0)
+            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            //    {
+            //        ApplicationId = applcation.Id,
+            //        PamsPin = property.PamsPin,
+            //        SectionId = sectionId,
+            //        Message = "Total Assessed value required field on property tab have not been Filled.",
+            //        IsPropertyFlow = true
+            //    });
+            //if (reqParcelProperty.LandValue == 0)
+            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            //    {
+            //        ApplicationId = applcation.Id,
+            //        PamsPin = property.PamsPin,
+            //        SectionId = sectionId,
+            //        Message = "Land value required field on property tab have not been Filled.",
+            //        IsPropertyFlow = true
+            //    });
+            //if (reqParcelProperty.ImprovementValue == 0)
+            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            //    {
+            //        ApplicationId = applcation.Id,
+            //        PamsPin = property.PamsPin,
+            //        SectionId = sectionId,
+            //        Message = "Improvement value required field on property tab have not been Filled.",
+            //        IsPropertyFlow = true
+            //    });
             if (string.IsNullOrEmpty(reqParcelProperty.NfipPolicyNo))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
@@ -186,15 +192,15 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     Message = "Occupancy Class required field on property tab have not been Filled.",
                     IsPropertyFlow = true
                 });
-            if (reqParcelProperty?.AnnualTaxes == 0)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Annual Taxes required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
-                });
+            //if (reqParcelProperty?.AnnualTaxes == 0)
+            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            //    {
+            //        ApplicationId = applcation.Id,
+            //        PamsPin = property.PamsPin,
+            //        SectionId = sectionId,
+            //        Message = "Annual Taxes required field on property tab have not been Filled.",
+            //        IsPropertyFlow = true
+            //    });
             if (reqParcelProperty?.IsRentalProperty == true)
             {
                 if (reqParcelProperty.RentPerMonth == 0)

@@ -1,4 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using Newtonsoft.Json.Linq;
+using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
 public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<ActivateApplicationCommand, ActivateApplicationCommandViewModel>
 {
     private readonly IMapper mapper;
@@ -6,6 +9,8 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IBrokenRuleRepository repoBrokenRules;
+    private readonly IApplicationParcelRepository repoApplicationParcel;
+    private readonly IPropertyBrokenRuleRepository repoPropBrokenRules;
 
     public ActivateApplicationCommandHandler
     (
@@ -13,8 +18,9 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IBrokenRuleRepository repoBrokenRules
-
+        IBrokenRuleRepository repoBrokenRules,
+        IApplicationParcelRepository repoApplicationParcel,
+        IPropertyBrokenRuleRepository repoPropBrokenRules
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -22,6 +28,8 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;  
         this.repoBrokenRules = repoBrokenRules;
+        this.repoApplicationParcel = repoApplicationParcel;
+        this.repoPropBrokenRules = repoPropBrokenRules;
     }
 
     /// <summary>
@@ -39,7 +47,6 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
 
         // check if any broken rules exists, if yes then return
         var brokenRules = (await repoBrokenRules.GetBrokenRulesAsync(application.Id))?.ToList();
-
         if (brokenRules != null && brokenRules.Any())
         {
             result.BrokenRules = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<ApplicationBrokenRuleViewModel>>(brokenRules);
@@ -53,6 +60,29 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
             application.LastUpdatedBy = userContext.Email;
         }
 
+        // get application parcels
+        var appParcels = await repoApplicationParcel.GetApplicationParcelsByApplicationIdAsync(application.Id);
+
+        //update application parcels
+        foreach (var appParcel in appParcels)
+        {
+            var propBrokenRules = (await repoPropBrokenRules.GetPropertyBrokenRulesAsync(application.Id, appParcel.PamsPin))?.ToList();
+            if (propBrokenRules != null && propBrokenRules.Any())
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+                    Message = "One or more properties are incomplete",
+                    IsApplicantFlow = true
+                });
+                result.BrokenRules = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<ApplicationBrokenRuleViewModel>>(brokenRules);
+                return result;
+            }
+
+            appParcel.StatusId = (int)PropertyStatusEnum.PENDING;
+        }
+
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoApplication.SaveApplicationWorkflowStatusAsync(application);
@@ -64,12 +94,29 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
                 Notes = string.Empty,
                 LastUpdatedBy = application.LastUpdatedBy
             };
-            //change properties statuses to active in future
-            //// returns broken rules  
-            var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
-            //// save broken rules
-            await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
             await repoApplication.SaveStatusLogAsync(appStatusLog);
+
+            foreach (var appParcel in appParcels)
+            {
+                await repoApplicationParcel.SaveApplicationParcelWorkflowStatusAsync(appParcel);
+                FloodParcelStatusLogEntity appParcelStatusLog = new()
+                {
+                    ApplicationId = appParcel.ApplicationId,
+                    PamsPin = appParcel.PamsPin,
+                    StatusId = appParcel.StatusId,
+                    StatusDate = DateTime.Now,
+                    Notes = string.Empty,
+                    LastUpdatedBy = appParcel.LastUpdatedBy
+                };
+                await repoApplicationParcel.SaveStatusLogAsync(appParcelStatusLog);
+            }
+
+            // returns broken rules  
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
+            var defaultPropertyBrokenRules = ReturnPropertyBrokenRulesIfAny(application.Id, appParcels.Select(o => o.PamsPin).ToList());
+            // save broken rules
+            await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+            await repoPropBrokenRules.SavePropertyBrokenRules(defaultPropertyBrokenRules);
 
             scope.Complete();
             result.IsSuccess = true;
@@ -107,4 +154,45 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
         return brokenRules;
     }
 
+    /// <summary>
+    /// Return broken rules in case of any business rule failure
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    private List<FloodPropertyBrokenRuleEntity> ReturnPropertyBrokenRulesIfAny(int applicationId, List<string> pamsPins)
+    {
+        List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
+
+        foreach (var pamsPin in pamsPins)
+        {
+            // add default broken rule while initiating application flow
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applicationId,
+                SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
+                PamsPin = pamsPin,
+                Message = "All required fields on ADMIN_DETAILSb have not been filled.",
+                IsPropertyFlow = false
+            });
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applicationId,
+                SectionId = (int)PropertySectionEnum.FINANCE,
+                PamsPin = pamsPin,
+                Message = "All required fields on FINANCE tab have not been filled.",
+                IsPropertyFlow = false
+            });
+            //brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            //{
+            //    ApplicationId = applicationId,
+            //    SectionId = (int)PropertySectionEnum.ADMIN_DOCUMENT_CHECKLIST,
+            //    PamsPin = Property.PamsPin,
+            //    Message = "All required fields on Property tab have not been filled.",
+            //    IsPropertyFlow = false
+            //});
+        }
+
+        return brokenRules;
+    }
 }

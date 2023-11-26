@@ -84,7 +84,7 @@ public class ApplicationDocumentTreeBuilder
             return;
 
         var mapper = _autoMapperConfig.CreateMapper();
-        documentChecklistItems = documents.OrderBy(s => s.SectionId).Where(s => s.Id > 0).GroupBy(s => s.Section).Select(s => new ApplicationDocumentChecklistSectionViewModel()
+        documentChecklistItems = documents.OrderBy(s => s.SectionId).GroupBy(s => s.Section).Select(s => new ApplicationDocumentChecklistSectionViewModel()
         {
             Section = SetSectionTitle(s.Key),
             DocumentChecklistDocTypeItems = s.GroupBy(d => d.DocumentType).Select(d =>
@@ -99,14 +99,15 @@ public class ApplicationDocumentTreeBuilder
                     Documents = d.Select(o =>
                     {
                         return mapper.Map<FloodApplicationDocumentEntity, ApplicationDocumentViewModel>(o);
-                    }).ToList() ?? new List<ApplicationDocumentViewModel>()
+                    }).Where(o => o.Id > 0).ToList() ?? new List<ApplicationDocumentViewModel>()
                 };
             }).ToList() ?? new List<ApplicationDocumentChecklistDocTypeViewModel>()
         }).ToList() ?? new List<ApplicationDocumentChecklistSectionViewModel>();
         if (documentChecklistItems.Count > 0)
             documentChecklistItems = documentChecklistItems.Where(o => !string.IsNullOrWhiteSpace(o.Section)).ToList();
-    }
 
+
+    }
     private string SetSectionTitle(ApplicationSectionEnum enumSection)
     {
         string title = string.Empty;
@@ -132,6 +133,9 @@ public class ApplicationDocumentTreeBuilder
                 break;
             case ApplicationSectionEnum.SIGNATORY:
                 title = "Signatory";
+                break;
+            case ApplicationSectionEnum.ADMIN_DETAILS:
+                title = "Admin Details";
                 break;
         }
         return title;

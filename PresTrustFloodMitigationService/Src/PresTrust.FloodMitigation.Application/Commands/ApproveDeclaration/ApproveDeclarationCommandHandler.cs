@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Newtonsoft.Json.Linq;
+using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PresTrust.FloodMitigation.Application.Commands;
 public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<ApproveDeclarationCommand, ApproveDeclarationCommandViewModel>
@@ -7,7 +9,9 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
+    private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IBrokenRuleRepository repoBrokenRules;
+    private readonly IPropertyBrokenRuleRepository repoPropBrokenRules;
 
     public ApproveDeclarationCommandHandler
     (
@@ -15,14 +19,18 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IBrokenRuleRepository repoBrokenRules
+        IApplicationParcelRepository repoApplicationParcel,
+        IBrokenRuleRepository repoBrokenRules,
+        IPropertyBrokenRuleRepository repoPropBrokenRules
     ) : base(repoApplication)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
-        this.repoApplication = repoApplication;  
-        this.repoBrokenRules = repoBrokenRules; 
+        this.repoApplication = repoApplication;
+        this.repoApplicationParcel = repoApplicationParcel;
+        this.repoBrokenRules = repoBrokenRules;
+        this.repoPropBrokenRules = repoPropBrokenRules;
     }
 
     /// <summary>
@@ -54,6 +62,8 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
             application.LastUpdatedBy = userContext.Email;
         }
 
+        var appParcels = await repoApplicationParcel.GetApplicationParcelsByApplicationIdAsync(application.Id);
+
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoApplication.SaveApplicationWorkflowStatusAsync(application);
@@ -66,12 +76,13 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
                 LastUpdatedBy = application.LastUpdatedBy
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
-            //change properties statuses to DOI_SUBMITTED in future
 
-            //// returns broken rules  
+            // returns broken rules  
             var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
-            //// save broken rules
+            var defaultPropertyBrokenRules = ReturnPropertyBrokenRulesIfAny(application.Id, appParcels.Select(o => o.PamsPin).ToList());
+            // save broken rules
             await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
+            await repoPropBrokenRules.SavePropertyBrokenRules(defaultPropertyBrokenRules);
 
             scope.Complete();
             result.IsSuccess = true;
@@ -101,13 +112,13 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
         List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
         // add default broken rule while initiating application flow
-        brokenRules.Add(new FloodBrokenRuleEntity()
-        {
-            ApplicationId = application.Id,
-            SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
-            Message = "All required fields on Project Area tab have not been filled.",
-            IsApplicantFlow = true
-        });
+        //brokenRules.Add(new FloodBrokenRuleEntity()
+        //{
+        //    ApplicationId = application.Id,
+        //    SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+        //    Message = "All required fields on Project Area tab have not been filled.",
+        //    IsApplicantFlow = true
+        //});
 
         //brokenRules.Add(new FloodBrokenRuleEntity()
         //{
@@ -136,4 +147,22 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
         return brokenRules;
     }
 
+    private List<FloodPropertyBrokenRuleEntity> ReturnPropertyBrokenRulesIfAny(int applicationId, List<string> pamsPins)
+    {
+        List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
+        
+        foreach(var pamsPin in pamsPins)
+        {
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applicationId,
+                SectionId = (int)PropertySectionEnum.PROPERTY,
+                PamsPin = pamsPin,
+                Message = "All required fields on Property tab have not been filled.",
+                IsPropertyFlow = true
+            });
+        }
+
+        return brokenRules;
+    }
 }
