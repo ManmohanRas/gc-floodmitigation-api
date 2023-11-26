@@ -262,13 +262,38 @@ public class FloodPropertySecurityManager
                 {
                     correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                     if (correction == null)
+                    {
                         Property();
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = PropertyNavigationItemTitles.PROPERTY,
+                            RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                            SortOrder = 1
+                        };
+                    }
                     else
+                    {
                         Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = PropertyNavigationItemTitles.PROPERTY,
+                            RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                            SortOrder = 1
+                        };
+                    }
                 }
                 else
                 {
                     Property();
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = PropertyNavigationItemTitles.PROPERTY,
+                        RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                        SortOrder = 1
+                    };
                 }
                 if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
@@ -282,13 +307,6 @@ public class FloodPropertySecurityManager
                     //Finance
                     Finance();
                 }
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = PropertyNavigationItemTitles.PROPERTY,
-                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
-                    SortOrder = 1
-                };
                 break;
         }
     }
@@ -394,13 +412,38 @@ public class FloodPropertySecurityManager
                 {
                     correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                     if (correction == null)
+                    {
                         Property();
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = PropertyNavigationItemTitles.PROPERTY,
+                            RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                            SortOrder = 1
+                        };
+                    }
                     else
+                    {
                         Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = PropertyNavigationItemTitles.PROPERTY,
+                            RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                            SortOrder = 1
+                        };
+                    }
                 }
                 else
                 {
                     Property();
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = PropertyNavigationItemTitles.PROPERTY,
+                        RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                        SortOrder = 1
+                    };
                 }
                 if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
@@ -414,13 +457,6 @@ public class FloodPropertySecurityManager
                     //Finance
                     Finance();
                 }
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = PropertyNavigationItemTitles.PROPERTY,
-                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
-                    SortOrder = 1
-                };
                 break;
         }
     }
@@ -496,13 +532,38 @@ public class FloodPropertySecurityManager
                 {
                     correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                     if (correction == null)
+                    {
                         Property();
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = PropertyNavigationItemTitles.PROPERTY,
+                            RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                            SortOrder = 1
+                        };
+                    }
                     else
+                    {
                         Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = PropertyNavigationItemTitles.PROPERTY,
+                            RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                            SortOrder = 1
+                        };
+                    }
                 }
                 else
                 {
                     Property();
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = PropertyNavigationItemTitles.PROPERTY,
+                        RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                        SortOrder = 1
+                    };
                 }
                 if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
@@ -532,13 +593,6 @@ public class FloodPropertySecurityManager
                     //Soft Costs
                     SoftCosts();
                 }
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = PropertyNavigationItemTitles.PROPERTY,
-                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
-                    SortOrder = 1
-                };
                 break;
         }
     }
@@ -612,13 +666,38 @@ public class FloodPropertySecurityManager
                 {
                     correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                     if (correction == null)
+                    {
                         Property();
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = PropertyNavigationItemTitles.PROPERTY,
+                            RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                            SortOrder = 1
+                        };
+                    }
                     else
+                    {
                         Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = PropertyNavigationItemTitles.PROPERTY,
+                            RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                            SortOrder = 1
+                        };
+                    }
                 }
                 else
                 {
                     Property();
+                    // Default Navigation Item
+                    this.defaultNavigationItem = new NavigationItemEntity()
+                    {
+                        Title = PropertyNavigationItemTitles.PROPERTY,
+                        RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                        SortOrder = 1
+                    };
                 }
                 if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                 {
@@ -648,13 +727,6 @@ public class FloodPropertySecurityManager
                     //Soft Costs
                     SoftCosts();
                 }
-                // Default Navigation Item
-                this.defaultNavigationItem = new NavigationItemEntity()
-                {
-                    Title = PropertyNavigationItemTitles.PROPERTY,
-                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
-                    SortOrder = 1
-                };
                 break;
         }
     }
@@ -816,13 +888,38 @@ public class FloodPropertySecurityManager
                     {
                         correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                         if (correction == null)
+                        {
                             Property();
+                            // Default Navigation Item
+                            this.defaultNavigationItem = new NavigationItemEntity()
+                            {
+                                Title = PropertyNavigationItemTitles.PROPERTY,
+                                RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                                SortOrder = 1
+                            };
+                        }
                         else
+                        {
                             Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                            // Default Navigation Item
+                            this.defaultNavigationItem = new NavigationItemEntity()
+                            {
+                                Title = PropertyNavigationItemTitles.PROPERTY,
+                                RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                                SortOrder = 1
+                            };
+                        }
                     }
                     else
                     {
                         Property();
+                        // Default Navigation Item
+                        this.defaultNavigationItem = new NavigationItemEntity()
+                        {
+                            Title = PropertyNavigationItemTitles.PROPERTY,
+                            RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
+                            SortOrder = 1
+                        };
                     }
                     if (userRole == UserRoleEnum.PROGRAM_COMMITTEE || userRole == UserRoleEnum.PROGRAM_READONLY)
                     {
@@ -852,13 +949,6 @@ public class FloodPropertySecurityManager
                         //Soft Costs
                         SoftCosts();
                     }
-                    // Default Navigation Item
-                    this.defaultNavigationItem = new NavigationItemEntity()
-                    {
-                        Title = PropertyNavigationItemTitles.PROPERTY,
-                        RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
-                        SortOrder = 1
-                    };
                     break;
             }
         }
