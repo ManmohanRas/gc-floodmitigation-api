@@ -62,10 +62,8 @@ public class SaveApplicationReleaseOfFundsCommandHandler: BaseHandler, IRequestH
         List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
         // add based on the empty check conditions
-        if (application.ApplicationType == ApplicationTypeEnum.CORE)
-        {
-            if (application.Status == ApplicationStatusEnum.IN_REVIEW)
-            {
+         if (application.Status == ApplicationStatusEnum.IN_REVIEW)
+         {
                 if (string.IsNullOrEmpty(reqReleaseOfFunds?.CAFNumber))
                     brokenRules.Add(new FloodBrokenRuleEntity()
                     {
@@ -74,8 +72,7 @@ public class SaveApplicationReleaseOfFundsCommandHandler: BaseHandler, IRequestH
                         Message = "CAF Number required field on Project Area Release Of Funds tab have not been filled.",
                         IsApplicantFlow = false
                     });
-            }
-        }
+         }
 
         if (application.Status == ApplicationStatusEnum.ACTIVE)
         {
