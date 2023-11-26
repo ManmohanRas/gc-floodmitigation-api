@@ -262,9 +262,9 @@ public class FloodPropertySecurityManager
                 {
                     correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                     if (correction == null)
-                        Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                        Property();
                     else
-                        Property(correction: true);
+                        Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 }
                 else
                 {
@@ -394,9 +394,9 @@ public class FloodPropertySecurityManager
                 {
                     correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                     if (correction == null)
-                        Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                        Property();
                     else
-                        Property(correction: true);
+                        Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 }
                 else
                 {
@@ -496,9 +496,9 @@ public class FloodPropertySecurityManager
                 {
                     correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                     if (correction == null)
-                        Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                        Property();
                     else
-                        Property(correction: true);
+                        Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 }
                 else
                 {
@@ -612,9 +612,9 @@ public class FloodPropertySecurityManager
                 {
                     correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                     if (correction == null)
-                        Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                        Property();
                     else
-                        Property(correction: true);
+                        Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 }
                 else
                 {
@@ -816,9 +816,9 @@ public class FloodPropertySecurityManager
                     {
                         correction = this.corrections.Where(c => c.Section == PropertySectionEnum.PROPERTY).FirstOrDefault();
                         if (correction == null)
-                            Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                            Property();
                         else
-                            Property(correction: true);
+                            Property(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                     }
                     else
                     {
