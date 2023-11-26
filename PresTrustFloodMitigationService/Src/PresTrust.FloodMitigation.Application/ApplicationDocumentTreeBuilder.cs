@@ -99,7 +99,7 @@ public class ApplicationDocumentTreeBuilder
                     Documents = d.Select(o =>
                     {
                         return mapper.Map<FloodApplicationDocumentEntity, ApplicationDocumentViewModel>(o);
-                    }).ToList() ?? new List<ApplicationDocumentViewModel>()
+                    }).Where(o => o.Id > 0).ToList() ?? new List<ApplicationDocumentViewModel>()
                 };
             }).ToList() ?? new List<ApplicationDocumentChecklistDocTypeViewModel>()
         }).ToList() ?? new List<ApplicationDocumentChecklistSectionViewModel>();
