@@ -25,6 +25,7 @@ public class ReCalculateParcelFinanceQueryHandler : IRequestHandler<ReCalculateP
         parcelFinance.DOBAmount = request.TotalFEMABenifits - request.DOBAffidavitAmt;
         parcelFinance.FinalOffer = request.AMV - parcelFinance.DOBAmount;
         parcelFinance.HardCostFMPAmt = parcelFinance.FinalOffer * request.MatchPercent / 100;
+        parcelFinance.SoftCostFMPAmt = request.TotalSoftCost * request.MatchPercent / 100;
 
         return Task.FromResult(parcelFinance);
     }

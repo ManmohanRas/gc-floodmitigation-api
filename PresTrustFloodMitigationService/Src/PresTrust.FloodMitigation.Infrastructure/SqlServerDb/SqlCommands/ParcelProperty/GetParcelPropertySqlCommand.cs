@@ -7,9 +7,13 @@ public class GetParcelPropertySqlCommand
     fp.[Id],
     fp.[ApplicationId],
     fp.[PamsPin],
-    fp.[Priority],
+    CASE WHEN fp.[Priority] = 0 THEN 1
+         ELSE fp.[Priority]
+         END AS Priority,
+CASE WHEN fp.[EstimatedPurchasePrice] = 0 THEN fp.[ValueEstimate]
+         ELSE fp.[EstimatedPurchasePrice]
+         END AS EstimatedPurchasePrice,
     fp.[ValueEstimate],
-    fp.[EstimatedPurchasePrice],
     fp.[IsPreIrenePropertyOwner],
     fp.[BRV],
     fp.[NfipPolicyNo],

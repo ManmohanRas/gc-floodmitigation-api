@@ -3,17 +3,17 @@
 public class GetPropReleaseSqlCommand
 {
     private readonly string _sqlCommand =
-         @" SELECT
+         @" SELECT DISTINCT
                   ISNULL(PP.[Id], 0) AS [Id],
                   PY.[CAFNumber],
                  CASE 
-                       WHEN AP.[StatusId] < 4 
+                       WHEN AP.[StatusId] IN(1,2,3)
                        THEN  0
                        ELSE PF.[HardCostFMPAmt]
                         END AS [HardCostFMPAmt],
                  CASE 
-                       WHEN AP.[StatusId] < 4 
-                       THEN  0
+                       WHEN AP.[StatusId] IN(1,2,3,4)  THEN  0
+					   WHEN AP.[IsApproved] = 0 THEN  0
                        ELSE PF.[SoftCostFMPAmt]
                        END AS [SoftCostFMPAmt],
                   PP.[HardCostPaymentTypeId],
