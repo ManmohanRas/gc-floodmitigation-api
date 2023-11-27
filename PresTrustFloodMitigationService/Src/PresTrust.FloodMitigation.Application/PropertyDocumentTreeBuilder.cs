@@ -83,7 +83,7 @@ public class PropertyDocumentTreeBuilder
             return;
 
         var mapper = _autoMapperConfig.CreateMapper();
-        documentChecklistItems = documents.OrderBy(s => s.SectionId).Where(s => s.Id > 0).GroupBy(s => s.Section).Select(s => new PropertyDocumentChecklistSectionViewModel()
+        documentChecklistItems = documents.OrderBy(s => s.SectionId).GroupBy(s => s.Section).Select(s => new PropertyDocumentChecklistSectionViewModel()
         {
             Section = SetSectionTitle(s.Key),
             DocumentChecklistDocTypeItems = s.GroupBy(d => d.DocumentType).Select(d =>
@@ -99,7 +99,7 @@ public class PropertyDocumentTreeBuilder
                     Documents = d.Select(o =>
                     {
                         return mapper.Map<FloodPropertyDocumentEntity, PropertyDocumentViewModel>(o);
-                    }).ToList() ?? new List<PropertyDocumentViewModel>()
+                    }).Where(o => o.Id > 0).ToList() ?? new List<PropertyDocumentViewModel>()
                 };
             }).ToList() ?? new List<PropertyDocumentChecklistDocTypeViewModel>()
         }).ToList() ?? new List<PropertyDocumentChecklistSectionViewModel>();
@@ -120,6 +120,9 @@ public class PropertyDocumentTreeBuilder
                 break;
             case PropertySectionEnum.SOFT_COSTS:
                 title = "Soft Costs";
+                break;
+            case PropertySectionEnum.ADMIN_DETAILS:
+                title = "Admin Details";
                 break;
         }
         return title;

@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public int ApplicationId { get; set; }
-        public string PamsPin { get; set; }
+        public string? PamsPin { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string FileName { get; set; }
@@ -40,7 +40,7 @@
 
         public bool HardCopy { get; set; }
         public bool Approved { get; set; }
-        public string ReviewComment { get; set; }
+        public string? ReviewComment { get; set; }
         public string LastUpdatedBy { get; set; }
         public DateTime LastUpdatedOn { get; set; }
     }

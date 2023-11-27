@@ -172,7 +172,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "StructureType required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
             if (reqParcelProperty?.FoundationType == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
@@ -181,7 +181,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "FoundationType required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
             if (reqParcelProperty?.OccupancyClass == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
@@ -190,7 +190,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Occupancy Class required field on property tab have not been Filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
             //if (reqParcelProperty?.AnnualTaxes == 0)
             //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
@@ -217,96 +217,87 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
             }
         }
 
-        //if (string.IsNullOrEmpty(reqFloodParcel.Block))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "block required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
-        //if (string.IsNullOrEmpty(reqFloodParcel.Lot))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "Lot required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
-        // if (string.IsNullOrEmpty(reqFloodParcel.StreetNo))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "Street# required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
-        //if (string.IsNullOrEmpty(reqFloodParcel.StreetAddress))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "Street Address required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
-        //if (string.IsNullOrEmpty(reqFloodParcel.OwnersAddress1))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "mailing Address 1 required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
-        //if (string.IsNullOrEmpty(reqFloodParcel.OwnersAddress2))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "Mailing Address 2 required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
-        //if (string.IsNullOrEmpty(reqFloodParcel.OwnersCity))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "City required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
-        //if (string.IsNullOrEmpty(reqFloodParcel.OwnersZipcode))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "ZipCode required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
-        //if (string.IsNullOrEmpty(reqFloodParcel.OwnersState))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "State required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
-        //if (string.IsNullOrEmpty(reqFloodParcel.))
-        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //    {
-        //        ApplicationId = applcation.Id,
-        //        PamsPin = property.PamsPin,
-        //        SectionId = sectionId,
-        //        Message = "Mailing Address 2 required field on property tab have not been Filled.",
-        //        IsPropertyFlow = true
-        //    });
+        if (string.IsNullOrEmpty(reqFloodParcel.Block))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "block required field on property tab have not been Filled.",
+                IsPropertyFlow = false
+            });
+        if (string.IsNullOrEmpty(reqFloodParcel.Lot))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "Lot required field on property tab have not been Filled.",
+                IsPropertyFlow = false
+            });
+        if (string.IsNullOrEmpty(reqFloodParcel.StreetNo))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "Street# required field on property tab have not been Filled.",
+                IsPropertyFlow = false
+            });
+        if (string.IsNullOrEmpty(reqFloodParcel.StreetAddress))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "Street Address required field on property tab have not been Filled.",
+                IsPropertyFlow = false
+            });
+        if (string.IsNullOrEmpty(reqFloodParcel.OwnersAddress1))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "mailing Address 1 required field on property tab have not been Filled.",
+                IsPropertyFlow = false
+            });
+        if (string.IsNullOrEmpty(reqFloodParcel.OwnersAddress2))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "Mailing Address 2 required field on property tab have not been Filled.",
+                IsPropertyFlow = false
+            });
+        if (string.IsNullOrEmpty(reqFloodParcel.OwnersCity))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "City required field on property tab have not been Filled.",
+                IsPropertyFlow = false
+            });
+        if (string.IsNullOrEmpty(reqFloodParcel.OwnersZipcode))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "ZipCode required field on property tab have not been Filled.",
+                IsPropertyFlow = false
+            });
+        if (string.IsNullOrEmpty(reqFloodParcel.OwnersState))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "State required field on property tab have not been Filled.",
+                IsPropertyFlow = false
+            });
 
         return brokenRules;
     }
