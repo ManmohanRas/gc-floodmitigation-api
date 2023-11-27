@@ -68,7 +68,7 @@ public class ParcelPropertyRepository : IParcelPropertyRepository
         if (floodParcelPropertyDetails.Id > 0)
             return await UpdateAsync(floodParcelPropertyDetails);
         else
-            return await SaveAsync(floodParcelPropertyDetails);
+            return await CreateAsync(floodParcelPropertyDetails);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class ParcelPropertyRepository : IParcelPropertyRepository
     /// </summary>
     /// <param name="floodParcelPropertyDetails"></param>
     /// <returns></returns>
-    private async Task<FloodParcelPropertyEntity> SaveAsync(FloodParcelPropertyEntity floodParcelPropertyDetails)
+    private async Task<FloodParcelPropertyEntity> CreateAsync(FloodParcelPropertyEntity floodParcelPropertyDetails)
     {
         using var conn = context.CreateConnection();
         var sqlCommand = new CreateParcelPropertySqlCommand();
