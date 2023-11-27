@@ -129,27 +129,23 @@
         /// </summary>
         BANK_VERIFICATION_FORM = 29,
         /// <summary>
-        /// Documentype Type for voluntaryParticipationsForm -OtherDocumentTab Miscellaneous DocumentsSection
-        /// </summary>
-        VOLUNTARY_PARTICIPATIONS_FORM = 30,
-        /// <summary>
         /// Documentype Type for stepToClosing -OtherDocumentTab Miscellaneous DocumentsSection
         /// </summary>
-        STEP_TO_CLOSING = 31,
+        STEP_TO_CLOSING = 30,
         /// <summary>
         /// Documentype Type for benefitsProcess -OtherDocumentTab Miscellaneous DocumentsSection
         /// </summary>
-        BENEFITS_PROCESS = 32,
+        BENEFITS_PROCESS = 31,
 
         /// <summary>
         ///  Documentype Type for surveyReviewLetter -OtherDocumentTab
         /// </summary>
-        SURVEY_REVIEW_LETTER = 33,
+        SURVEY_REVIEW_LETTER = 32,
 
         /// <summary>
         /// Documentype Type for postAcquisitionPicture -TrackingTab
         /// </summary>
-        POST_ACQUISITION = 34,
+        POST_ACQUISITION = 33,
 
         
 
