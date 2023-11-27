@@ -70,7 +70,7 @@ public class EmailManager : IEmailManager
 
         var postUserJson = new JsonContent(new EmailRequest()
         {
-            Subject = subject + "-" + "dev",
+            Subject = subject,
             To = toEmails,
             SenderName = senderName,
             SenderEmail = senderEmail,
