@@ -8,8 +8,16 @@ public class GetApplicationPaymentsSqlCommand
                          AP.[ApplicationId],
                           AP.[PamsPin],
                           CONCAT(P.StreetNo, ' ' , P.StreetAddress) AS [Property],
-                          PF.[HardCostFMPAmt],
-                          PF.[SoftCostFMPAmt],
+                          CASE 
+                            WHEN AP.[StatusId] IN(1,2,3)
+                            THEN  0
+                            ELSE PF.[HardCostFMPAmt]
+                             END AS [HardCostFMPAmt],
+                         CASE 
+                           WHEN AP.[StatusId] IN(1,2,3,4)  THEN  0
+					       WHEN AP.[IsApproved] = 0 THEN  0
+                           ELSE PF.[SoftCostFMPAmt]
+                           END AS [SoftCostFMPAmt],
                           PP.[HardCostPaymentTypeId],
                           PP.[HardCostPaymentDate],
                           PP.[HardCostPaymentStatusId],
