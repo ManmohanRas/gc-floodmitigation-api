@@ -107,7 +107,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
 
     private async Task<bool> CheckApplicationOtherDocs(int applicationId, int applicationStatusId, string pamsPin, int propertyStatusId, int sectionId, int applicationTypeId)
     {
-        var requiredDocumentTypes = new int[] { };
+        var requiredDocumentTypes = new List<int>();
 
         if (applicationStatusId == (int)ApplicationStatusEnum.ACTIVE)
         { 
@@ -116,7 +116,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
             switch (propertyStatusId)
             {
                 case (int)PropertyStatusEnum.PENDING:
-                    requiredDocumentTypes = new int[] {
+                    requiredDocumentTypes = new List<int>() {
                         (int)PropertyDocumentTypeEnum.APPRAISAL,
                         (int)PropertyDocumentTypeEnum.VOLUNTARY_PARTICIPATION_FORM,
                         (int)PropertyDocumentTypeEnum.SETTLEMENT_SHEET,
@@ -125,15 +125,15 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
                     };
                     if(applicationTypeId == (int)ApplicationTypeEnum.CORE)
                     {
-                        requiredDocumentTypes.Append((int)PropertyDocumentTypeEnum.COUNTY_APPRAISAL_REPORT);
+                        requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.COUNTY_APPRAISAL_REPORT);
                     }
                     if (adminDetails.DoesHomeOwnerHaveNFIPInsurance == true)
                     {
-                        requiredDocumentTypes.Append((int)PropertyDocumentTypeEnum.DUPLICATION_BENEFITS_DOCUMENTS);
+                        requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.DUPLICATION_BENEFITS_DOCUMENTS);
                     }
                     if (adminDetails.DoesHomeOwnerHaveNFIPInsurance == true)
                     {
-                        requiredDocumentTypes.Append((int)PropertyDocumentTypeEnum.HOME_OWNER_AFFIDAVIT);
+                        requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOME_OWNER_AFFIDAVIT);
                     }
                     break;
 
@@ -169,7 +169,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
             }
 
             var documents = await repoPropertyDocuments.GetPropertyDocumentsAsync(applicationId, pamsPin, sectionId);
-            var savedDocumentTypes = documents.Where(o => requiredDocumentTypes.Contains(o.DocumentTypeId)).Select(o => o.DocumentTypeId).Distinct().ToArray();
+            var savedDocumentTypes = documents.Where(o => requiredDocumentTypes.Contains(o.DocumentTypeId)).Select(o => o.DocumentTypeId).Distinct().ToList();
 
             return requiredDocumentTypes.Except(savedDocumentTypes).Count() == 0;
         }

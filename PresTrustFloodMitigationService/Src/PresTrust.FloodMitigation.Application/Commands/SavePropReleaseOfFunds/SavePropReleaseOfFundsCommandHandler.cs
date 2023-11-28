@@ -53,6 +53,10 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
+            // Delete old Broken Rules, if any
+            await repoBrokenRules.DeletePropertyBrokenRulesAsync(application.Id, PropertySectionEnum.ADMIN_RELEASE_OF_FUNDS, property.PamsPin);
+            // Save current Broken Rules, if any
+            await repoBrokenRules.SavePropertyBrokenRules(brokenRules);
             reqPropRof.LastUpdatedBy = userContext.Email;
             reqPropRof = await repoPropReleaseOfFunds.SaveAsync(reqPropRof);
             scope.Complete();
@@ -71,7 +75,7 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Hard CostPayment Status must be released.",
+                    Message = "Hard Cost Payment Status must be released.",
                     IsPropertyFlow = true
                 });
         }
