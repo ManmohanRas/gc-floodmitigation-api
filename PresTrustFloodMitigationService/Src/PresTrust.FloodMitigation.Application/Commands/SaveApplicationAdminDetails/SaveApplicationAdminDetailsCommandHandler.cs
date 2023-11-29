@@ -108,17 +108,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                 Message = "Municipal Resolution Number required field on AdminDetails tab have not been filled.",
                 IsApplicantFlow = false
             });
-        if (application.Status == ApplicationStatusEnum.ACTIVE)
-        {
-            if (docsCafCloseOutSummary == null)
-                brokenRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = AppDetails.ApplicationId,
-                    SectionId = sectionId,
-                    Message = "Caf Close out summary required field on AdminDetails tab have not been filled.",
-                    IsApplicantFlow = false
-                });
-        }
+     
         if (application.Status == ApplicationStatusEnum.SUBMITTED)
         {
             if (string.IsNullOrEmpty(AppDetails.ProjectDescription))
@@ -150,10 +140,19 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "Project Area Funds Expiration Request required field on AdminDetails tab have not been filled.",
+                        Message = "Project Area Funds Expiration Request required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
             }
+
+            if (docsCafCloseOutSummary == null)
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = AppDetails.ApplicationId,
+                    SectionId = sectionId,
+                    Message = "Caf Close out summary required document on AdminDetails tab have not been filled.",
+                    IsApplicantFlow = false
+                });
         }
 
         // Application type is core and Application Type is Submitted (Broken Rules)
@@ -166,7 +165,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "Project Area Application Map required field on AdminDetails tab have not been filled.",
+                        Message = "Project Area Application Map required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
 
@@ -175,7 +174,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "Core Review Report required field on AdminDetails tab have not been filled.",
+                        Message = "Core Review Report required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
 
@@ -184,7 +183,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     {
                         ApplicationId = AppDetails.ApplicationId,
                         SectionId = sectionId,
-                        Message = "Core Application Report required field on AdminDetails tab have not been filled.",
+                        Message = "Core Application Report required document on AdminDetails tab have not been filled.",
                         IsApplicantFlow = false
                     });
             }

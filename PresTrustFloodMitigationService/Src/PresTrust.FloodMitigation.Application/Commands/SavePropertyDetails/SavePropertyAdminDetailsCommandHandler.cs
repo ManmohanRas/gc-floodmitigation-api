@@ -95,11 +95,6 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
             docBccFinalApprovadResolution = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.BCC_FINAL_APPROVAL).FirstOrDefault();
             docGrantAgreement = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.GRANT_AGREEMENT).FirstOrDefault();
             docFmcSoftcostReimbApprovalRes = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.FMC_SOFTCOST).FirstOrDefault();
-
-            //docProjectAreaApplicationMap = documents.Where(d => d.DocumentTypeId == (int)ApplicationDocumentTypeEnum.PROJECT_AREA_APPLICATION_MAP).FirstOrDefault();
-            // docCoreReviewReport = documents.Where(d => d.DocumentTypeId == (int)ApplicationDocumentTypeEnum.CORE_REVIEW_REPORT).FirstOrDefault();
-            // docProjectArea = documents.Where(d => d.DocumentTypeId == (int)ApplicationDocumentTypeEnum.PROJECT_AREA_FUNDS_EXPIRATION_REQUEST).FirstOrDefault();
-
         }
 
 
@@ -267,111 +262,76 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                     IsPropertyFlow = false
                 });
         }
+        if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
+        {
+            if (property.Status == PropertyStatusEnum.PRESERVED)
+            {
+                    if (reqPropDetails?.FmcSoftCostReimbApprovalDate == null)
+                        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                        {
+                            ApplicationId = applcation.Id,
+                            PamsPin = property.PamsPin,
+                            SectionId = sectionId,
+                            Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                            IsPropertyFlow = false
+                        });
+
+                if (reqPropDetails?.FmcSoftCostReimbApprovalNumber == null)
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                        IsPropertyFlow = false
+                    });
+              
+                if (reqPropDetails?.BccSoftCostReimbApprovalDate == null)
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Bcc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                        IsPropertyFlow = false
+                    });
+
+                if (reqPropDetails?.BccSoftCostReimbApprovalNumber == null)
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                        IsPropertyFlow = false
+                    });
+
+                if (docBccSoftReimbApprovalRes == null)
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Bcc SoftCost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
+                        IsPropertyFlow = false
+                    });
+
+                if (docFmcSoftcostReimbApprovalRes == null)
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Fmc Softcost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
+                        IsPropertyFlow = false
+                    });
+            }
+        }
+
+
         return brokenRules;
     }
 }
-
-          
-            ///Need to very with priyanka and charan about soft cost submitted status 
-
-            //if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
-            //{
-            //    if (property.Status == PropertyStatusEnum.PRESERVED)
-            //    {
-            //        if (applcation.Status == ApplicationStatusEnum.CLOSED)
-            //        {
-            //            if (reqPropDetails.FmcSoftCostReimbApprovalDate == null)
-            //                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //                {
-            //                    ApplicationId = applcation.Id,
-            //                    PamsPin = property.PamsPin,
-            //                    SectionId = sectionId,
-            //                    Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
-            //                    IsPropertyFlow = false
-            //                });
-            //        }
-            //    }
-            //}
-
-            //if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
-            //{
-            //    if (property.Status == PropertyStatusEnum.PRESERVED)
-            //    {
-            //        if (applcation.Status == ApplicationStatusEnum.CLOSED)
-            //        {
-            //            if (reqPropDetails.FmcSoftCostReimbApprovalNumber == null)
-            //                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //                {
-            //                    ApplicationId = applcation.Id,
-            //                    PamsPin = property.PamsPin,
-            //                    SectionId = sectionId,
-            //                    Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
-            //                    IsPropertyFlow = false
-            //                });
-            //        }
-            //    }
-            //}
-
-            //if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
-            //{
-            //    if (applcation.Status == ApplicationStatusEnum.CLOSED)
-            //    {
-            //        if (property.Status == PropertyStatusEnum.PRESERVED)
-            //        {
-            //            if (docCongratulationLetterToHomeOwner == null)
-            //                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //                {
-            //                    ApplicationId = applcation.Id,
-            //                    PamsPin = property.PamsPin,
-            //                    SectionId = sectionId,
-            //                    Message = "Congratulation Letter To HomeOwner required Upload on AdminDetails tab have not been Uploaded.",
-            //                    IsPropertyFlow = false
-            //                });
-            //            if (reqPropDetails.BccSoftCostReimbApprovalDate == null)
-            //                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //                {
-            //                    ApplicationId = applcation.Id,
-            //                    PamsPin = property.PamsPin,
-            //                    SectionId = sectionId,
-            //                    Message = "Bcc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
-            //                    IsPropertyFlow = false
-            //                });
-            //            if (reqPropDetails.BccSoftCostReimbApprovalNumber == null)
-            //                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //                {
-            //                    ApplicationId = applcation.Id,
-            //                    PamsPin = property.PamsPin,
-            //                    SectionId = sectionId,
-            //                    Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
-            //                    IsPropertyFlow = false
-            //                });
-            //        }
-            //    }
-            //}
-
-
-            ///For UpLoad slot nned to add into single code later
-        //    if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
-        //    {
-        //        if (property.Status == PropertyStatusEnum.PRESERVED)
-        //        {
-        //            if (applcation.Status == ApplicationStatusEnum.CLOSED)
-        //            {
-        //                if (docBccSoftReimbApprovalRes == null)
-        //                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        //                    {
-        //                        ApplicationId = applcation.Id,
-        //                        PamsPin = property.PamsPin,
-        //                        SectionId = sectionId,
-        //                        Message = "Bcc Soft Reimbursment Approval Resolution required Upload on AdminDetails tab has not been Uploaded.",
-        //                        IsPropertyFlow = false
-        //                    });
-        //            }
-        //        }
-        //    }
-
-            
-        //}
 
 
         
