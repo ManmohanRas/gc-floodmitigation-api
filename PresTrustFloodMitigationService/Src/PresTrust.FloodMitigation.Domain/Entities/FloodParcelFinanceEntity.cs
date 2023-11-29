@@ -21,7 +21,7 @@ public class FloodParcelFinanceEntity
     public decimal DOBAmount { get; set; }
     public decimal FinalOffer { get; set; }
     public decimal HardCostFMPAmt { get; set; }
-    public DateTime HardCostReimbursedDate { get; set; }
+    public DateTime? HardCostReimbursedDate { get; set; }
     public decimal MunicipalAppraisersFee { get; set; }
     public decimal MunicipalSurveyorsFee { get; set; }
     public decimal TitleSrchIns { get; set; }
@@ -30,11 +30,13 @@ public class FloodParcelFinanceEntity
     public decimal OtherSoftCost { get; set; }
     public decimal TotalSoftCost { get; set; }
     public decimal SoftCostFMPAmt { get; set; }
-    public DateTime SoftCostReimbursedDate { get; set; }
+    public DateTime? SoftCostReimbursedDate { get; set; }
     public decimal ReimbursedHardandSoftCosts { get; set; }
     public decimal NetParcelFunds { get; set; }
     public decimal AppraisersFee { get; set; }
     public decimal SurveyorsFee { get; set; }
+    public decimal ReimbursedHardCost { get; set; }
+    public decimal ReimbursedSoftCost { get; set; }
     public string? LastUpdatedBy { get; set; }
     public DateTime LastUpdatedOn { get; set; }
 }

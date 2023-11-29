@@ -26,7 +26,10 @@ public class ReCalculateParcelFinanceQueryHandler : IRequestHandler<ReCalculateP
         parcelFinance.FinalOffer = request.AMV - parcelFinance.DOBAmount;
         parcelFinance.HardCostFMPAmt = parcelFinance.FinalOffer * request.MatchPercent / 100;
         parcelFinance.SoftCostFMPAmt = request.TotalSoftCost * request.MatchPercent / 100;
-
+        if (parcelFinance.ReimbursedHardandSoftCosts > 0)
+        {
+            parcelFinance.NetParcelFunds = (parcelFinance.TotalEncumbresedFunds - parcelFinance.ReimbursedHardandSoftCosts);
+        }
         return Task.FromResult(parcelFinance);
     }
 }

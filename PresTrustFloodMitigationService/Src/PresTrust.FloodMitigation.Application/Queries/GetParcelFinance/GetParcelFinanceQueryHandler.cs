@@ -41,7 +41,7 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
         result.OtherSoftCost = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.OTHER_SOFT_COSTS).Sum(x => x.PaymentAmount);
         result.TotalSoftCost = result.MunicipalAppraisersFee + result.EnvAnalysis + result.TitleSrchIns + result.MunicipalSurveyorsFee + result.DemolitionFee + result.OtherSoftCost;
         result.SoftCostFMPAmt = result.TotalSoftCost * (result.MatchPercent / 100);
-
+        result.ReimbursedHardandSoftCosts = parcelFinance.ReimbursedHardCost + parcelFinance.ReimbursedSoftCost;
 
         return result;
     }
