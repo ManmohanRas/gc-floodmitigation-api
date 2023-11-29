@@ -8,7 +8,7 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private IPropReleaseOfFundsRepository repoPropReleaseOfFunds;
+    private readonly IPropReleaseOfFundsRepository repoPropReleaseOfFunds;
     private readonly IParcelPropertyRepository repoProperty;
     private readonly IPropertyBrokenRuleRepository repoBrokenRules;
     private readonly IApplicationParcelRepository repoAppParcel;
