@@ -14,12 +14,19 @@ public class GetApplicationParcelsSqlCommand
 							AP.[PamsPin],
 							AP.[StatusId],
 							ISNULL(PSL.[StatusId], 0) AS [PrevStatusId],
-							PSL.[LastUpdatedOn],
 							AP.[IsLocked],
 							PP.[Priority],
 							PP.[ValueEstimate]
 						FROM [Flood].[FloodApplicationParcel] AP
-						LEFT JOIN [Flood].[FloodParcelStatusLog] PSL ON PSL.StatusId != AP.StatusId AND AP.ApplicationId = PSL.ApplicationId AND AP.PamsPin = PSL.PamsPin
+						LEFT JOIN (
+							SELECT
+								ApplicationId,
+								PamsPin,
+								StatusId,
+								ROW_NUMBER() OVER(PARTITION BY ApplicationId, PamsPin ORDER BY LastUpdatedOn DESC) AS LastUpdatedOrder
+							FROM [Flood].[FloodParcelStatusLog]
+							WHERE ApplicationId = @p_ApplicationId
+						) PSL ON PSL.LastUpdatedOrder = 2 AND AP.ApplicationId = PSL.ApplicationId AND AP.PamsPin = PSL.PamsPin
 						LEFT JOIN [Flood].[FloodParcelProperty] PP ON AP.[ApplicationId] = PP.[ApplicationId] AND AP.[PamsPin] = PP.[PamsPin]
 						WHERE AP.[ApplicationId] = @p_ApplicationId
 					) ApplicationParcels
@@ -49,14 +56,6 @@ public class GetApplicationParcelsSqlCommand
 					CP.[OwnersName] AS [LandOwner],
 					CP.[IsValidPamsPin]
 				FROM [ApplicationParcelCTE] AP
-				JOIN (SELECT
-						ApplicationId,
-						PamsPin,
-						MAX(LastUpdatedOn) AS LastUpdatedOn
-						FROM [ApplicationParcelCTE]
-						GROUP BY ApplicationId, PamsPin) prevStatusAP
-					ON AP.ApplicationId = prevStatusAP.ApplicationId AND AP.PamsPin = prevStatusAP.PamsPin
-						AND AP.LastUpdatedOn = prevStatusAP.LastUpdatedOn
 				JOIN [Flood].[FloodParcel] CP ON AP.[PamsPin] = CP.[PamsPin];";
 
     public GetApplicationParcelsSqlCommand() { }
