@@ -95,7 +95,7 @@ public class PendingPropertyCommandHandler : BaseHandler, IRequestHandler<Pendin
             ApplicationId = Application.Id,
             SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
             PamsPin = Property.PamsPin,
-            Message = "All required fields on ADMIN_DETAILSb have not been filled.",
+            Message = "All required fields on ADMIN_DETAILS Tab have not been filled.",
             IsPropertyFlow = false
         }); 
         brokenRules.Add(new FloodPropertyBrokenRuleEntity()

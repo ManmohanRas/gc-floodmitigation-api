@@ -88,6 +88,10 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
             };
             await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
 
+            var defaultBrokenRules = ReturnBrokenRulesIfAny(application, property);
+            // Save current Broken Rules, if any
+            await repoPropertyBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
+
             scope.Complete();
             result.IsSuccess = true;
         }
@@ -173,6 +177,41 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
         }
 
         return true;
+    }
+
+    private List<FloodPropertyBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity applcation, FloodApplicationParcelEntity property)
+    {
+        List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
+
+        // add default broken rule while initiating application flow\
+        if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
+        {
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
+                PamsPin = property.PamsPin,
+                Message = "All required fields on ADMIN DETAILS tab have not been filled.",
+                IsPropertyFlow = false
+            });
+        }
+        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+        {
+            ApplicationId = applcation.Id,
+            SectionId = (int)PropertySectionEnum.ADMIN_TRACKING,
+            PamsPin = property.PamsPin,
+            Message = "All required fields on ADMIN TRACKING tab have not been filled.",
+            IsPropertyFlow = false
+        });
+        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+        {
+            ApplicationId = applcation.Id,
+            SectionId = (int)PropertySectionEnum.ADMIN_RELEASE_OF_FUNDS,
+            PamsPin = property.PamsPin,
+            Message = "All required fields on ADMIN RELEASE OF FUNDS tab have not been filled.",
+            IsPropertyFlow = false
+        });
+        return brokenRules;
     }
 
 }

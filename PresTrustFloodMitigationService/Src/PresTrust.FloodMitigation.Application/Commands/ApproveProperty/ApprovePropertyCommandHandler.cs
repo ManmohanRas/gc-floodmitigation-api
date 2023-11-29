@@ -136,36 +136,6 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
                         requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOME_OWNER_AFFIDAVIT);
                     }
                     break;
-
-                //case (int)PropertyStatusEnum.APPROVED:
-                //    requiredDocumentTypes = new int[] {
-                //       (int)PropertyDocumentTypeEnum.SURVEY_LEGAL_DESCRIPTION,
-                //       (int)PropertyDocumentTypeEnum.TITLE_SEARCH_REPORT,
-                //    };
-                //    if (adminDetails.IsDEPInvolved == true)
-                //    {
-                //        requiredDocumentTypes.Append((int)PropertyDocumentTypeEnum.SURVEY_REVIEW_LETTER);
-                //    }
-                //    if (adminDetails.IsPARRequestedbyFunder == true)
-                //    {
-                //        requiredDocumentTypes.Append((int)PropertyDocumentTypeEnum.HOME_OWNERSURVEY);
-                //    }
-                //    if (adminDetails.IsPARRequestedbyFunder == true)
-                //    {
-                //        requiredDocumentTypes.Append((int)PropertyDocumentTypeEnum.PRELIMINARY_ASSESSMENT_REPORT);
-                //    }
-                //    if (adminDetails.IsPARRequestedbyFunder == true)
-                //    {
-                //        requiredDocumentTypes.Append((int)PropertyDocumentTypeEnum.PRELIMINARY_ASSESSMENT_REPORT_REVIEWIETTER);
-                //    }
-                //    break;
-                //case (int)PropertyStatusEnum.GRANT_EXPIRED:
-                //    requiredDocumentTypes = new int[] {
-                //       (int)PropertyDocumentTypeEnum.RECORDED_DEED,
-                //       (int)PropertyDocumentTypeEnum.EXECUTED,
-                //       (int)PropertyDocumentTypeEnum.TITLE_INSURANCE_POLICY
-                //    };
-                //    break;
             }
 
             var documents = await repoPropertyDocuments.GetPropertyDocumentsAsync(applicationId, pamsPin, sectionId);
@@ -185,18 +155,10 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
         brokenRules.Add(new FloodPropertyBrokenRuleEntity()
         {
             ApplicationId = applcation.Id,
-            SectionId = (int)PropertySectionEnum.OTHER_DOCUMENTS,
-            PamsPin = property.PamsPin,
-            Message = "All required fields on OTHER DOCUMENTS tab have not been filled.",
-            IsPropertyFlow = true
-        });
-        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-        {
-            ApplicationId = applcation.Id,
             SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
             PamsPin = property.PamsPin,
             Message = "All required fields on ADMIN DETAILS tab have not been filled.",
-            IsPropertyFlow = true
+            IsPropertyFlow = false
         });
         brokenRules.Add(new FloodPropertyBrokenRuleEntity()
         {
@@ -204,7 +166,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
             SectionId = (int)PropertySectionEnum.ADMIN_TRACKING,
             PamsPin = property.PamsPin,
             Message = "All required fields on ADMIN TRACKING tab have not been filled.",
-            IsPropertyFlow = true
+            IsPropertyFlow = false
         });
         brokenRules.Add(new FloodPropertyBrokenRuleEntity()
         {
@@ -212,7 +174,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
             SectionId = (int)PropertySectionEnum.ADMIN_RELEASE_OF_FUNDS,
             PamsPin = property.PamsPin,
             Message = "All required fields on ADMIN RELEASE OF FUNDS tab have not been filled.",
-            IsPropertyFlow = true
+            IsPropertyFlow = false
         });
         return brokenRules;
     }

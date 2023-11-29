@@ -205,7 +205,7 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
                                 {
                                     ApplicationId = application.Id,
                                     SectionId = sectionId,
-                                    Message = " FEMA Approved Date required field on overview tab have not been filled.",
+                                    Message = " FEMA Denail Reason required field on overview tab have not been filled.",
                                     IsApplicantFlow = true
                                 });
 

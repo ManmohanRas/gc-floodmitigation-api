@@ -13,10 +13,20 @@ public class GetApplicationParcelsSqlCommand
 							AP.[ApplicationId],
 							AP.[PamsPin],
 							AP.[StatusId],
+							ISNULL(PSL.[StatusId], 0) AS [PrevStatusId],
 							AP.[IsLocked],
 							PP.[Priority],
 							PP.[ValueEstimate]
 						FROM [Flood].[FloodApplicationParcel] AP
+						LEFT JOIN (
+							SELECT
+								ApplicationId,
+								PamsPin,
+								StatusId,
+								ROW_NUMBER() OVER(PARTITION BY ApplicationId, PamsPin ORDER BY LastUpdatedOn DESC) AS LastUpdatedOrder
+							FROM [Flood].[FloodParcelStatusLog]
+							WHERE ApplicationId = @p_ApplicationId
+						) PSL ON PSL.LastUpdatedOrder = 2 AND AP.ApplicationId = PSL.ApplicationId AND AP.PamsPin = PSL.PamsPin
 						LEFT JOIN [Flood].[FloodParcelProperty] PP ON AP.[ApplicationId] = PP.[ApplicationId] AND AP.[PamsPin] = PP.[PamsPin]
 						WHERE AP.[ApplicationId] = @p_ApplicationId
 					) ApplicationParcels
@@ -33,6 +43,7 @@ public class GetApplicationParcelsSqlCommand
 					AP.[ApplicationId],
 					AP.[PamsPin],
 					AP.[StatusId],
+					AP.[PrevStatusId],
 					AP.[IsLocked],
 					CASE WHEN AP.[OtherPamsPin] IS NULL THEN 0 ELSE 1 END AS [AlreadyExists],
 					AP.[Priority],
