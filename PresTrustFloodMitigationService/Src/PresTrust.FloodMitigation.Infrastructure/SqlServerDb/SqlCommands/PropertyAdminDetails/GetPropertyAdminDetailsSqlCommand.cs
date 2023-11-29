@@ -34,8 +34,8 @@ public class GetPropertyAdminDetailsSqlCommand
 				 PAD.[IsDEPInvolved],
 				 PAD.[IsPARRequestedbyFunder],
 				 PAD.[DOBDocumentsMissingDate]
-			FROM [Flood].[FloodParcelAdminDetails] PAD
-			LEFT JOIN [Flood].[FloodApplicationAdminDetails] AAD ON (PAD.ApplicationId = AAD.ApplicationId)
+			FROM [Flood].[FloodApplicationAdminDetails] AAD 
+			LEFT JOIN [Flood].[FloodParcelAdminDetails] PAD ON (PAD.ApplicationId = AAD.ApplicationId)
 						WHERE PAD.ApplicationId = @p_ApplicationId AND PamsPin = @p_PamsPin";
 
 
