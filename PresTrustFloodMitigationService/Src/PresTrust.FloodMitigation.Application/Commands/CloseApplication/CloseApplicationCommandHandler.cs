@@ -8,6 +8,8 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationParcelRepository repoApplicationParcel;
+    private readonly IParcelPropertyRepository repoParcelProperty;
+    private readonly IPropReleaseOfFundsRepository repoPropReleaseOfFunds;
     private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRules;
     private readonly IPropertyDocumentRepository repoPropertyDocuments;
 
@@ -18,6 +20,8 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
         IApplicationParcelRepository repoApplicationParcel,
+        IParcelPropertyRepository repoParcelProperty,
+        IPropReleaseOfFundsRepository repoPropReleaseOfFunds,
         IPropertyBrokenRuleRepository repoPropertyBrokenRules,
         IPropertyDocumentRepository repoPropertyDocuments
     ) : base(repoApplication)
@@ -27,6 +31,8 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
         this.repoApplicationParcel = repoApplicationParcel;
+        this.repoParcelProperty = repoParcelProperty;
+        this.repoPropReleaseOfFunds = repoPropReleaseOfFunds;
         this.repoPropertyBrokenRules = repoPropertyBrokenRules;
         this.repoPropertyDocuments = repoPropertyDocuments;
     }
@@ -51,38 +57,80 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
             application.LastUpdatedBy = userContext.Email;
         }
 
-        bool canCloseApplication = true;
-
         // get application parcels
         var appParcels = await repoApplicationParcel.GetApplicationParcelsByApplicationIdAsync(application.Id);
-        foreach (var appParcel in appParcels)
+        var requiredPropertyStatuses = new List<int>()
         {
-            var propBrokenRules = await repoPropertyBrokenRules.GetPropertyBrokenRulesAsync(application.Id, appParcel.PamsPin);
-            if (propBrokenRules.Count > 0)
-                goto stayBack;
-            var hasOtherDocuments = await CheckPropertyOtherDocs(application.Id, application.StatusId, appParcel.PamsPin, appParcel.StatusId);
-            if(!hasOtherDocuments)
-                goto stayBack;
-
-            stayBack:
-            {
-                canCloseApplication = false;
-                break;
-            }
-        }
-
-        if(!canCloseApplication)
+            (int)PropertyStatusEnum.PRESERVED,
+            (int)PropertyStatusEnum.WITHDRAWN,
+            (int)PropertyStatusEnum.PROJECT_AREA_EXPIRED,
+            (int)PropertyStatusEnum.GRANT_EXPIRED,
+            (int)PropertyStatusEnum.TRANSFERRED
+        };
+        if(appParcels.Where(o => !requiredPropertyStatuses.Contains(o.StatusId)).Count() > 0)
         {
             List<FloodBrokenRuleEntity> brokenRules = new();
             brokenRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = application.Id,
                 SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
-                Message = "One or more properties are incomplete",
+                Message = "One or more properties have not reached final statuses",
                 IsApplicantFlow = true
             });
             result.BrokenRules = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<ApplicationBrokenRuleViewModel>>(brokenRules);
             return result;
+        }
+
+        foreach (var appParcel in appParcels)
+        {
+            var propBrokenRules = await repoPropertyBrokenRules.GetPropertyBrokenRulesAsync(application.Id, appParcel.PamsPin);
+            if (propBrokenRules.Count > 0)
+            {
+                List<FloodBrokenRuleEntity> brokenRules = new();
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+                    Message = "One or more properties are incomplete",
+                    IsApplicantFlow = true
+                });
+                result.BrokenRules = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<ApplicationBrokenRuleViewModel>>(brokenRules);
+                return result;
+            }
+
+            var hasOtherDocuments = await CheckPropertyOtherDocs(application.Id, application.StatusId, appParcel.PamsPin, appParcel.StatusId);
+            if(!hasOtherDocuments)
+            {
+                List<FloodBrokenRuleEntity> brokenRules = new();
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+                    Message = "One or more properties are incomplete",
+                    IsApplicantFlow = true
+                });
+                result.BrokenRules = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<ApplicationBrokenRuleViewModel>>(brokenRules);
+                return result;
+            }
+
+            var parcelProperty = await repoParcelProperty.GetAsync(application.Id, appParcel.PamsPin);
+            if(parcelProperty != null && parcelProperty.NeedSoftCost)
+            {
+                var propertyPayment = await repoPropReleaseOfFunds.GetReleaseOfFundsAsync(application.Id, appParcel.PamsPin);
+                if(propertyPayment.SoftCostPaymentStatus != PaymentStatusEnum.FUNDS_RELEASED)
+                {
+                    List<FloodBrokenRuleEntity> brokenRules = new();
+                    brokenRules.Add(new FloodBrokenRuleEntity()
+                    {
+                        ApplicationId = application.Id,
+                        SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+                        Message = "Softcost payments for one or more properties are not released",
+                        IsApplicantFlow = true
+                    });
+                    result.BrokenRules = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<ApplicationBrokenRuleViewModel>>(brokenRules);
+                    return result;
+                }
+            }
         }
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
