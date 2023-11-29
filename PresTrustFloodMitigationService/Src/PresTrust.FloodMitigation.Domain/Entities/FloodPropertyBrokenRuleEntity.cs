@@ -55,6 +55,9 @@ namespace PresTrust.FloodMitigation.Domain.Entities
                     case PropertySectionEnum.ADMIN_RELEASE_OF_FUNDS:
                         val = PropertyRouterLinks.ADMIN_RELEASE_OF_FUNDS_EDIT;
                         break;
+                    case PropertySectionEnum.ADMIN_TRACKING:
+                        val = PropertyRouterLinks.ADMIN_TRACKING_EDIT;
+                        break;
                     default:
                         break;
                 }
