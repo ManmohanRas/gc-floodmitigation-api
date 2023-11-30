@@ -1352,6 +1352,7 @@ public class FloodApplicationSecurityManager
             case UserRoleEnum.PROGRAM_EDITOR:
                 if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                 {
+                    permission.CanCloseApplication = true;
                     permission.CanReinitiateApplication = true;
                 }
                 permission.CanViewFeedback = true;

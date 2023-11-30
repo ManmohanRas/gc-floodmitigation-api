@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
 
 namespace PresTrust.FloodMitigation.Application.Commands;
 public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<WithdrawApplicationCommand, Unit>
@@ -8,6 +9,8 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationParcelRepository repoApplicationParcel;
+    private readonly IBrokenRuleRepository repoApplicationBrokenRule;
+    private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRule;
 
     public WithdrawApplicationCommandHandler
     (
@@ -15,7 +18,9 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IApplicationParcelRepository repoApplicationParcel
+        IApplicationParcelRepository repoApplicationParcel,
+        IBrokenRuleRepository repoApplicationBrokenRule,
+        IPropertyBrokenRuleRepository repoPropertyBrokenRule
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -23,6 +28,8 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
         this.repoApplicationParcel = repoApplicationParcel;
+        this.repoApplicationBrokenRule = repoApplicationBrokenRule;
+        this.repoPropertyBrokenRule = repoPropertyBrokenRule;
     }
 
     /// <summary>
@@ -64,6 +71,7 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
                 LastUpdatedBy = application.LastUpdatedBy
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
+            await repoApplicationBrokenRule.DeleteAllBrokenRulesAsync(application.Id);
 
             foreach (var appParcel in appParcels)
             {
@@ -78,6 +86,7 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
                     LastUpdatedBy = appParcel.LastUpdatedBy
                 };
                 await repoApplicationParcel.SaveStatusLogAsync(appParcelStatusLog);
+                await repoPropertyBrokenRule.DeleteAllPropertyBrokenRulesAsync(application.Id, appParcel.PamsPin);
             }
 
             scope.Complete();

@@ -29,4 +29,10 @@ public interface IBrokenRuleRepository
     /// <param name="section"></param>
     /// <returns></returns>
     Task DeleteBrokenRulesAsync(int applicationId, ApplicationSectionEnum section);
+    /// <summary>
+    /// Delete all broken rules 
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
+    Task DeleteAllBrokenRulesAsync(int applicationId);
 }

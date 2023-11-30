@@ -94,10 +94,11 @@ namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories
         }
 
         /// <summary>
-        /// 
+        /// Delete broken rules 
         /// </summary>
         /// <param name="applicationId"></param>
         /// <param name="section"></param>
+        /// <param name="pamsPin"></param>
         /// <returns></returns>
         public async Task DeletePropertyBrokenRulesAsync(int applicationId, PropertySectionEnum section , string pamsPin)
 
@@ -110,6 +111,26 @@ namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories
                 param: new
                 {
                     @p_SectionId = (int)section,
+                    @p_ApplicationId = applicationId,
+                    @p_PamsPin = pamsPin
+                });
+        }
+        /// <summary>
+        /// Delete all broken rules 
+        /// </summary>
+        /// <param name="applicationId"></param>
+        /// <param name="pamsPin"></param>
+        /// <returns></returns>
+        public async Task DeleteAllPropertyBrokenRulesAsync(int applicationId, string pamsPin)
+
+        {
+            using var conn = context.CreateConnection();
+            var sqlCommand = new DeleteAllPropertyBrokenRulesSqlCommand();
+            await conn.ExecuteAsync(sqlCommand.ToString(),
+                commandType: CommandType.Text,
+                commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                param: new
+                {
                     @p_ApplicationId = applicationId,
                     @p_PamsPin = pamsPin
                 });

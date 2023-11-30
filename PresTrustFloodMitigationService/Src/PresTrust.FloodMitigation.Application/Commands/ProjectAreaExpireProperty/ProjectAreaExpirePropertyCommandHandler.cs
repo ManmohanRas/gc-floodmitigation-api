@@ -1,10 +1,14 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using MediatR;
+using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
 public class ProjectAreaExpirePropertyCommandHandler : BaseHandler, IRequestHandler<ProjectAreaExpirePropertyCommand, ProjectAreaExpirePropertyCommandViewModel>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationParcelRepository repoProperty;
+    private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRule;
 
     public ProjectAreaExpirePropertyCommandHandler
     (
@@ -12,13 +16,15 @@ public class ProjectAreaExpirePropertyCommandHandler : BaseHandler, IRequestHand
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IApplicationParcelRepository repoProperty
+        IApplicationParcelRepository repoProperty,
+        IPropertyBrokenRuleRepository repoPropertyBrokenRule
     ) : base(repoApplication, repoProperty)
     {
         this.mapper = mapper;
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
-        this.repoProperty = repoProperty;        
+        this.repoProperty = repoProperty;
+        this.repoPropertyBrokenRule = repoPropertyBrokenRule;
     }
 
     /// <summary>
@@ -54,6 +60,7 @@ public class ProjectAreaExpirePropertyCommandHandler : BaseHandler, IRequestHand
                 LastUpdatedBy = Property.LastUpdatedBy
             };
             await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
+            await repoPropertyBrokenRule.DeleteAllPropertyBrokenRulesAsync(request.ApplicationId, request.PamsPin);
 
             scope.Complete();
             result.IsSuccess = true;

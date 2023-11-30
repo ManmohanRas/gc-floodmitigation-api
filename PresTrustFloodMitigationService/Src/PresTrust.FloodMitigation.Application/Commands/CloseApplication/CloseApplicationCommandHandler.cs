@@ -50,13 +50,6 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
 
-        //update application
-        if (application != null)
-        {
-            application.StatusId = (int)ApplicationStatusEnum.CLOSED;
-            application.LastUpdatedBy = userContext.Email;
-        }
-
         // get application parcels
         var appParcels = await repoApplicationParcel.GetApplicationParcelsByApplicationIdAsync(application.Id);
         var requiredPropertyStatuses = new List<int>()
@@ -81,6 +74,7 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
             return result;
         }
 
+        appParcels = appParcels.Where(o => o.Status == PropertyStatusEnum.PRESERVED).ToList();
         foreach (var appParcel in appParcels)
         {
             var propBrokenRules = await repoPropertyBrokenRules.GetPropertyBrokenRulesAsync(application.Id, appParcel.PamsPin);
@@ -131,6 +125,13 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
                     return result;
                 }
             }
+        }
+
+        //update application
+        if (application != null)
+        {
+            application.StatusId = (int)ApplicationStatusEnum.CLOSED;
+            application.LastUpdatedBy = userContext.Email;
         }
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))

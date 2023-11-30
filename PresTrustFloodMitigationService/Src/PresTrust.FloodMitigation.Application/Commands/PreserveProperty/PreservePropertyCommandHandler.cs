@@ -100,47 +100,6 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
     }
     private async Task<bool> CheckPropertyOtherDocs(int applicationId, int applicationStatusId, string pamsPin, int propertyStatusId, int sectionId)
     {
-        //var documents = await repoPropertyDocuments.GetPropertyDocumentsAsync(applicationId, pamsPin, sectionId);
-        //var adminDetails = await repoPropertyAdminDetails.GetAsync(applicationId, pamsPin);
-
-        //FloodPropertyDocumentEntity docsSurveyLegalDescription = default;
-        //FloodPropertyDocumentEntity docsSurveyReviewLetter= default;
-        //FloodPropertyDocumentEntity docsHomeOwnerSurvey= default;
-        //FloodPropertyDocumentEntity docsPreliminaryAssessmentReport= default;
-        //FloodPropertyDocumentEntity docsTittleSearchReport = default; 
-        //FloodPropertyDocumentEntity docsPreliminaryAssessmentReportReviewLetter = default; 
-
-        //docsSurveyLegalDescription = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.SURVEY_LEGAL_DESCRIPTION).FirstOrDefault();
-        //docsSurveyReviewLetter = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.SURVEY_REVIEW_LETTER).FirstOrDefault();
-        //docsHomeOwnerSurvey = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.HOME_OWNERSURVEY).FirstOrDefault();
-        //docsPreliminaryAssessmentReport = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.PRELIMINARY_ASSESSMENT_REPORT).FirstOrDefault();
-        //docsTittleSearchReport = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.TITLE_SEARCH_REPORT).FirstOrDefault();
-        //docsPreliminaryAssessmentReportReviewLetter = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.PRELIMINARY_ASSESSMENT_REPORT_REVIEWIETTER).FirstOrDefault();
-
-        //if (applicationStatusId == (int)ApplicationStatusEnum.ACTIVE && propertyStatusId == (int)PropertyStatusEnum.APPROVED)
-        //{
-        //    if (docsSurveyLegalDescription == null || docsTittleSearchReport == null)
-        //    {
-
-        //    }
-        //    if (adminDetails.IsDEPInvolved == true)
-        //    {
-        //        docsSurveyReviewLetter == null
-        //    }
-        //    else 
-        //    if (adminDetails.IsPARRequestedbyFunder == false)
-        //    {
-        //        docsHomeOwnerSurvey == null
-        //    }
-        //    else 
-        //    if (adminDetails.IsPARRequestedbyFunder == true)
-        //    {
-        //        docsPreliminaryAssessmentReport == null || docsPreliminaryAssessmentReportReviewLetter == null
-        //    }
-
-        //}
-        //return true;
-
         var requiredDocumentTypes = new List<int>();
 
         if (applicationStatusId == (int)ApplicationStatusEnum.ACTIVE)
@@ -154,18 +113,18 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
                        (int)PropertyDocumentTypeEnum.SURVEY_LEGAL_DESCRIPTION,
                        (int)PropertyDocumentTypeEnum.TITLE_SEARCH_REPORT,
                     };
-                    if (adminDetails.IsDEPInvolved == true)
+                    if (adminDetails.IsDEPInvolved)
                     {
                         requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.SURVEY_REVIEW_LETTER);
                     }
-                    if (adminDetails.IsPARRequestedbyFunder == false)
-                    {
-                        requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOME_OWNERSURVEY);
-                    }
-                    if (adminDetails.IsPARRequestedbyFunder == true)
+                    if (adminDetails.IsPARRequestedbyFunder)
                     {
                         requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.PRELIMINARY_ASSESSMENT_REPORT);
                         requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.PRELIMINARY_ASSESSMENT_REPORT_REVIEWIETTER);
+                    }
+                    else
+                    {
+                        requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOME_OWNERSURVEY);
                     }
                     break;
             }
