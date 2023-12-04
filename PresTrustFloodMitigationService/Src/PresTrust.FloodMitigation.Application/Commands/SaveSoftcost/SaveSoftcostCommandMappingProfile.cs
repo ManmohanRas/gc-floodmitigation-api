@@ -5,8 +5,5 @@ public class SaveSoftCostCommandMappingProfile : Profile
     public SaveSoftCostCommandMappingProfile() 
     {
         CreateMap<SaveSoftCostModel, FloodParcelSoftCostEntity>();
-        CreateMap<SaveSoftCostCommand, FloodParcelPropertyEntity >();
-        CreateMap<SaveSoftCostCommand, FloodPropReleaseOfFundsEntity>();
-        CreateMap<SaveSoftCostCommand, FloodPropertyAdminDetailsEntity>();
     }
 }

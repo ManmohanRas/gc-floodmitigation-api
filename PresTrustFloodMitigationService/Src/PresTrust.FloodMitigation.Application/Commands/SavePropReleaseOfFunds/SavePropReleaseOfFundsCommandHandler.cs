@@ -23,6 +23,7 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
        IParcelPropertyRepository repoProperty,
        IPropertyBrokenRuleRepository repoBrokenRules,
        IApplicationParcelRepository repoAppParcel
+
     ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
     {
         this.mapper = mapper;
@@ -49,7 +50,7 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
         // Check Broken Rules
         var reqPropRof = mapper.Map<SavePropReleaseOfFundsCommand, FloodPropReleaseOfFundsEntity>(request);
         // map command object to the FloodTechDetailsEntity
-        var brokenRules = ReturnBrokenRulesIfAny(application, property, reqPropRof);
+        var brokenRules = await ReturnBrokenRulesIfAny(application, property, reqPropRof);
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
@@ -63,10 +64,12 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
         }
         return reqPropRof.Id;
     }
-    private List<FloodPropertyBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity applcation, FloodApplicationParcelEntity property, FloodPropReleaseOfFundsEntity reqPropRof)
+    private async Task<List<FloodPropertyBrokenRuleEntity>> ReturnBrokenRulesIfAny(FloodApplicationEntity applcation, FloodApplicationParcelEntity property, FloodPropReleaseOfFundsEntity reqPropRof)
     {
         int sectionId = (int)PropertySectionEnum.ADMIN_RELEASE_OF_FUNDS;
         List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
+        var reqPropDetails = await repoProperty.GetAsync(applcation.Id, property.PamsPin);
+
         if (property.Status == PropertyStatusEnum.APPROVED)
         {
             if (reqPropRof.HardCostPaymentStatus != PaymentStatusEnum.FUNDS_RELEASED)
@@ -78,6 +81,45 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
                     Message = "Hard Cost Payment Status must be released.",
                     IsPropertyFlow = true
                 });
+        }
+
+        if (property.Status == PropertyStatusEnum.PRESERVED)
+        {
+            if (reqPropDetails.NeedSoftCost == true)
+            {
+                if (reqPropRof.SoftCostPaymentStatus == PaymentStatusEnum.FUNDS_NOT_RELEASED)
+                {
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Soft cost Payment must be released in Release of funds tab.",
+                        IsPropertyFlow = false
+                    });
+                }
+            }
+        }
+
+        if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
+        {
+            if (property.Status == PropertyStatusEnum.PRESERVED)
+            {
+                if (reqPropDetails.NeedSoftCost == true)
+                {
+                    if (reqPropRof.SoftCostPaymentStatus == PaymentStatusEnum.FUNDS_NOT_RELEASED)
+                    {
+                        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                        {
+                            ApplicationId = applcation.Id,
+                            PamsPin = property.PamsPin,
+                            SectionId = sectionId,
+                            Message = " Soft Cost Payment must be released in Release of funds tab.",
+                            IsPropertyFlow = false
+                        });
+                    }
+                }
+            }
         }
 
         return brokenRules;

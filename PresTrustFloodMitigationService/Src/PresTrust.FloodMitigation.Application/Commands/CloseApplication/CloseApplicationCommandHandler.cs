@@ -158,13 +158,13 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
     {
         if (applicationStatusId == (int)ApplicationStatusEnum.ACTIVE && propertyStatusId == (int)PropertyStatusEnum.PRESERVED)
         {
-            var requiredDocumentTypes = new int[] {
+            var requiredDocumentTypes = new List<int>() {
                 (int)PropertyDocumentTypeEnum.RECORDED_DEED,
                 (int)PropertyDocumentTypeEnum.EXECUTED,
                 (int)PropertyDocumentTypeEnum.TITLE_INSURANCE_POLICY
             };
             var documents = await repoPropertyDocuments.GetPropertyDocumentsAsync(applicationId, pamsPin, (int)PropertySectionEnum.OTHER_DOCUMENTS);
-            var savedDocumentTypes = documents.Where(o => requiredDocumentTypes.Contains(o.DocumentTypeId)).Select(o => o.DocumentTypeId).Distinct().ToArray();
+            var savedDocumentTypes = documents.Where(o => requiredDocumentTypes.Contains(o.DocumentTypeId)).Select(o => o.DocumentTypeId).Distinct().ToList();
             return requiredDocumentTypes.Except(savedDocumentTypes).Count() == 0;
         }
 
