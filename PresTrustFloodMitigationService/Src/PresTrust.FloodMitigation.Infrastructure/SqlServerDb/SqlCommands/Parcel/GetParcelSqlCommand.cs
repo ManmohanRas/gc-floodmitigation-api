@@ -18,7 +18,7 @@ public class GetParcelSqlCommand
 								[PamsPin],
 								[StatusId],
 								[IsLocked],
-								[IsApproved]
+								ISNULL([IsApproved],0) AS IsApproved
 					FROM		[Flood].[FloodApplicationParcel]
 					WHERE		[ApplicationId]=@p_ApplicationId AND [PamsPin] = @p_PamsPin
 				) FLOOD_APPLICATION_PARCEL ON FLOOD_APPLICATION.[Id] = FLOOD_APPLICATION_PARCEL.[ApplicationId]
@@ -55,7 +55,7 @@ public class GetParcelSqlCommand
 						C.[CommentsJSON],
 						F.[FeedbacksJSON],
 						AP.[IsLocked],
-						AP.[IsApproved]
+						ISNULL([IsApproved],0) AS IsApproved
 			FROM		[ApplicationParcelCTE] AP
 			JOIN		[Flood].[FloodParcel] P ON P.PamsPin = @p_PamsPin AND P.IsActive = 1 AND AP.PamsPin = P.PamsPin
 			LEFT JOIN	[Flood].[FloodParcelStatusLog] PSL ON PSL.StatusId != AP.StatusId AND AP.ApplicationId = PSL.ApplicationId AND P.PamsPin = PSL.PamsPin
