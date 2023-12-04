@@ -14,6 +14,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
     private readonly IParcelRepository repoParcel;
     private readonly IApplicationParcelRepository repoAppParcel;
     private readonly IPropertyDocumentRepository repoPropertyDocument;
+    private readonly IParcelPropertyRepository repoParcelProperty;
 
     public SavePropertyAdminDetailsCommandHandler
     (
@@ -25,7 +26,8 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
        IPropertyBrokenRuleRepository repoBrokenRules,
        IParcelRepository repoParcel,
        IApplicationParcelRepository repoAppParcel,
-       IPropertyDocumentRepository repoPropertyDocument
+       IPropertyDocumentRepository repoPropertyDocument,
+       IParcelPropertyRepository repoParcelProperty
     ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
 
     {
@@ -37,6 +39,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
         this.repoBrokenRules = repoBrokenRules;
         this.repoAppParcel = repoAppParcel;
         this.repoPropertyDocument = repoPropertyDocument;
+        this.repoParcelProperty = repoParcelProperty;
     }
     /// <summary>
     /// 
@@ -49,6 +52,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
+        
 
         // map command object to the FloodPropertyDetailsEntity
         var reqPropDetails = mapper.Map<SavePropertyAdminDetailsCommand, FloodPropertyAdminDetailsEntity>(request);
@@ -73,7 +77,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
     {
         int sectionId = (int)PropertySectionEnum.ADMIN_DETAILS;
         List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
-
+        var reqParcelProperty = await repoParcelProperty.GetAsync(applcation.Id, property.PamsPin);
 
         var documents = await repoPropertyDocument.GetPropertyDocumentsAsync(applcation.Id, property.PamsPin, sectionId);
 
@@ -84,10 +88,6 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
         FloodPropertyDocumentEntity? docFmcSoftcostReimbApprovalRes = default;
         FloodPropertyDocumentEntity? docBccSoftReimbApprovalRes = default;
 
-        //FloodApplicationDocumentEntity docProjectAreaApplicationMap = default;
-        // FloodApplicationDocumentEntity docCoreReviewReport = default;
-        // FloodApplicationDocumentEntity docProjectArea = default;
-
         if (documents != null && documents.Count() > 0)
         {
             docCongratulationLetterToHomeOwner = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.CONGRATULATION_LETTER_HOMEOWNER).FirstOrDefault();
@@ -95,6 +95,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
             docBccFinalApprovadResolution = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.BCC_FINAL_APPROVAL).FirstOrDefault();
             docGrantAgreement = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.GRANT_AGREEMENT).FirstOrDefault();
             docFmcSoftcostReimbApprovalRes = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.FMC_SOFTCOST).FirstOrDefault();
+            docBccSoftReimbApprovalRes = documents.Where(d => d.DocumentTypeId == (int)PropertyDocumentTypeEnum.BCC_SOFTCOST).FirstOrDefault();
         }
 
 
@@ -262,10 +263,14 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                     IsPropertyFlow = false
                 });
         }
-        if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
+
+        if (property.Status == PropertyStatusEnum.PRESERVED)
         {
-            if (property.Status == PropertyStatusEnum.PRESERVED)
+            if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
             {
+            
+                if (reqParcelProperty.NeedSoftCost == true)
+                {
                     if (reqPropDetails?.FmcSoftCostReimbApprovalDate == null)
                         brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                         {
@@ -276,59 +281,58 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                             IsPropertyFlow = false
                         });
 
-                if (reqPropDetails?.FmcSoftCostReimbApprovalNumber == null)
-                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                    {
-                        ApplicationId = applcation.Id,
-                        PamsPin = property.PamsPin,
-                        SectionId = sectionId,
-                        Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
-                        IsPropertyFlow = false
-                    });
+                    if (reqPropDetails?.FmcSoftCostReimbApprovalNumber == null)
+                        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                        {
+                            ApplicationId = applcation.Id,
+                            PamsPin = property.PamsPin,
+                            SectionId = sectionId,
+                            Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                            IsPropertyFlow = false
+                        });
               
-                if (reqPropDetails?.BccSoftCostReimbApprovalDate == null)
-                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                    {
-                        ApplicationId = applcation.Id,
-                        PamsPin = property.PamsPin,
-                        SectionId = sectionId,
-                        Message = "Bcc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
-                        IsPropertyFlow = false
-                    });
+                    if (reqPropDetails?.BccSoftCostReimbApprovalDate == null)
+                        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                        {
+                            ApplicationId = applcation.Id,
+                            PamsPin = property.PamsPin,
+                            SectionId = sectionId,
+                            Message = "Bcc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                            IsPropertyFlow = false
+                        });
 
-                if (reqPropDetails?.BccSoftCostReimbApprovalNumber == null)
-                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                    {
-                        ApplicationId = applcation.Id,
-                        PamsPin = property.PamsPin,
-                        SectionId = sectionId,
-                        Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
-                        IsPropertyFlow = false
-                    });
+                    if (reqPropDetails?.BccSoftCostReimbApprovalNumber == null)
+                        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                        {
+                            ApplicationId = applcation.Id,
+                            PamsPin = property.PamsPin,
+                            SectionId = sectionId,
+                            Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                            IsPropertyFlow = false
+                        });
 
-                if (docBccSoftReimbApprovalRes == null)
-                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                    {
-                        ApplicationId = applcation.Id,
-                        PamsPin = property.PamsPin,
-                        SectionId = sectionId,
-                        Message = "Bcc SoftCost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
-                        IsPropertyFlow = false
-                    });
+                    if (docBccSoftReimbApprovalRes == null)
+                        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                        {
+                            ApplicationId = applcation.Id,
+                            PamsPin = property.PamsPin,
+                            SectionId = sectionId,
+                            Message = "Bcc SoftCost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
+                            IsPropertyFlow = false
+                        });
 
-                if (docFmcSoftcostReimbApprovalRes == null)
-                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                    {
-                        ApplicationId = applcation.Id,
-                        PamsPin = property.PamsPin,
-                        SectionId = sectionId,
-                        Message = "Fmc Softcost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
-                        IsPropertyFlow = false
-                    });
+                    if (docFmcSoftcostReimbApprovalRes == null)
+                        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                        {
+                            ApplicationId = applcation.Id,
+                            PamsPin = property.PamsPin,
+                            SectionId = sectionId,
+                            Message = "Fmc Softcost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
+                            IsPropertyFlow = false
+                        });
+                }
             }
         }
-
-
         return brokenRules;
     }
 }

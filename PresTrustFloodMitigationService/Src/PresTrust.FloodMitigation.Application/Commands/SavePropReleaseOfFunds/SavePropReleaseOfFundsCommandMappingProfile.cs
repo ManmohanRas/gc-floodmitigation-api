@@ -1,4 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Application.Commands;
+﻿using AutoMapper;
+using MediatR;
+
+namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SavePropReleaseOfFundsCommandMappingProfile : Profile
 {
