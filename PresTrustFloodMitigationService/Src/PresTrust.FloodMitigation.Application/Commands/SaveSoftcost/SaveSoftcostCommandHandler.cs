@@ -70,15 +70,6 @@ public class SaveSoftCostCommandHandler : BaseHandler, IRequestHandler<SaveSoftC
                 softCostFMPAmt += softCost.PaymentAmount;
             }
 
-            var parcelFinance = await repoParcelFinance.GetParceFinanceAsync(request.ApplicationId, request.PamsPin);
-            if (parcelFinance != null)
-            {
-                parcelFinance.ApplicationId = request.ApplicationId;
-                parcelFinance.PamsPin = request.PamsPin;
-                parcelFinance.SoftCostFMPAmt = softCostFMPAmt;
-                await repoParcelFinance.SaveAsync(parcelFinance);
-            }
-
             scope.Complete();
         }
         return Unit.Value;

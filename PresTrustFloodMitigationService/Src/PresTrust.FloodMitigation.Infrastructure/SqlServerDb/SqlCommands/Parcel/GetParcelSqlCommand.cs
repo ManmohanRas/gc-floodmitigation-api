@@ -17,7 +17,8 @@ public class GetParcelSqlCommand
 					SELECT		[ApplicationId],
 								[PamsPin],
 								[StatusId],
-								[IsLocked]
+								[IsLocked],
+								[IsApproved]
 					FROM		[Flood].[FloodApplicationParcel]
 					WHERE		[ApplicationId]=@p_ApplicationId AND [PamsPin] = @p_PamsPin
 				) FLOOD_APPLICATION_PARCEL ON FLOOD_APPLICATION.[Id] = FLOOD_APPLICATION_PARCEL.[ApplicationId]
@@ -53,7 +54,8 @@ public class GetParcelSqlCommand
 						ISNULL(PSL.[StatusId], 0) AS [PrevStatusId],
 						C.[CommentsJSON],
 						F.[FeedbacksJSON],
-						AP.[IsLocked]
+						AP.[IsLocked],
+						AP.[IsApproved]
 			FROM		[ApplicationParcelCTE] AP
 			JOIN		[Flood].[FloodParcel] P ON P.PamsPin = @p_PamsPin AND P.IsActive = 1 AND AP.PamsPin = P.PamsPin
 			LEFT JOIN	[Flood].[FloodParcelStatusLog] PSL ON PSL.StatusId != AP.StatusId AND AP.ApplicationId = PSL.ApplicationId AND P.PamsPin = PSL.PamsPin

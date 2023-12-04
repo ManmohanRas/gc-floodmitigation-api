@@ -34,6 +34,8 @@ public class FloodParcelEntity
     public int StatusId { get; set; }
     public int PrevStatusId { get; set; }
     public bool IsLocked { get; set; }
+    public bool? IsSubmitted { get; set; }
+    public bool? IsApproved { get; set; }
     public bool AlreadyExists { get; set; }
     public int Priority { get; set; }
     public decimal ValueEstimate { get; set; }

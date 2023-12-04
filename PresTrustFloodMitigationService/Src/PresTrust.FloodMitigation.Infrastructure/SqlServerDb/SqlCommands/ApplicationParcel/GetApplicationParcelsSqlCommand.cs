@@ -15,6 +15,7 @@ public class GetApplicationParcelsSqlCommand
 							AP.[StatusId],
 							ISNULL(PSL.[StatusId], 0) AS [PrevStatusId],
 							AP.[IsLocked],
+							AP.[IsApproved],
 							PP.[Priority],
 							PP.[ValueEstimate]
 						FROM [Flood].[FloodApplicationParcel] AP
@@ -45,6 +46,7 @@ public class GetApplicationParcelsSqlCommand
 					AP.[StatusId],
 					AP.[PrevStatusId],
 					AP.[IsLocked],
+                    AP.[IsApproved],
 					CASE WHEN AP.[OtherPamsPin] IS NULL THEN 0 ELSE 1 END AS [AlreadyExists],
 					AP.[Priority],
 					AP.[ValueEstimate],

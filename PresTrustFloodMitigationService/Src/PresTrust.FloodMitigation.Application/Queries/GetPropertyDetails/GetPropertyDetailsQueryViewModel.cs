@@ -34,6 +34,8 @@ public class GetPropertyDetailsQueryViewModel
     public string Status { get; set; }
     public string PrevStatus { get; set; }
     public bool IsLocked { get; set; }
+    public bool? IsSubmitted { get; set; }
+    public bool? IsApproved { get; set; }
     public bool AlreadyExists { get; set; }
     public IEnumerable<FloodPropertyCommentEntity> Comments { get; set;}
     public IEnumerable<FloodPropertyFeedbackEntity> Feedbacks { get; set;}

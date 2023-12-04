@@ -9,9 +9,9 @@ public class GetApplicationPaymentsSqlCommand
                           AP.[PamsPin],
                           CONCAT(P.StreetNo, ' ' , P.StreetAddress) AS [Property],
                           CASE 
-                            WHEN AP.[StatusId] IN(1,2,3)
-                            THEN  0
-                            ELSE PF.[HardCostFMPAmt]
+                            WHEN AP.[StatusId] IN(4,5,6)
+                            THEN  PF.[HardCostFMPAmt]
+                            ELSE  0
                              END AS [HardCostFMPAmt],
                          CASE 
                            WHEN AP.[StatusId] IN(1,2,3,4)  THEN  0
