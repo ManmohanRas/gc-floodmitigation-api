@@ -86,7 +86,7 @@ public class GetApplicationSqlCommand
 									WHERE		[ApplicationId] = @p_Id) FLOOD_FEEDBACK
 						GROUP BY	[ApplicationId]) F ON A.Id = F.ApplicationId
 			WHERE		A.[Id]=@p_Id AND A.[IsActive] = 1
-			ORDER BY ASL.LastUpdatedOn DESC;";
+			ORDER BY ASL.StatusDate DESC;";
 
     public GetApplicationSqlCommand() { }
 

@@ -94,7 +94,7 @@ public class GetParcelSqlCommand
 									FROM		[Flood].[FloodParcelFeedback]
 									WHERE		[ApplicationId] = @p_ApplicationId AND [PamsPin] = @p_PamsPin) FLOOD_FEEDBACK
 						GROUP BY	[ApplicationId], [PamsPin]) F ON AP.ApplicationId = F.ApplicationId AND P.PamsPin = F.PamsPin
-			ORDER BY PSL.LastUpdatedOn DESC;";
+			ORDER BY PSL.StatusDate DESC;";
 
     public GetParcelSqlCommand() { }
 

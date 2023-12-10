@@ -30,15 +30,27 @@ public class FloodParcelEntity
     public string TargetArea { get; set; }
     public bool IsFLAP { get; set; }
     public DateTime DateOfFLAP { get; set; }
-    public bool IsValidPamsPin { get; set; }
     public int StatusId { get; set; }
     public int PrevStatusId { get; set; }
     public bool IsLocked { get; set; }
     public bool? IsSubmitted { get; set; }
     public bool? IsApproved { get; set; }
+    public bool IsWaiting { get; set; }
     public bool AlreadyExists { get; set; }
+    public bool IsRejected { get; set; }
+    public bool IsValidPamsPin { get; set; }
     public int Priority { get; set; }
     public decimal ValueEstimate { get; set; }
+    public decimal HardCostFMPAmt { get; set; }
+    public decimal SoftCostFMPAmt { get; set; }
+    public decimal FinalOffer
+    {
+        get
+        {
+            return HardCostFMPAmt + SoftCostFMPAmt;
+        }
+    }
+    public decimal ProgramMatch { get; set; }
     public string CommentsJSON { get; set; }
     public string FeedbacksJSON { get; set; }
     public PropertyStatusEnum Status
