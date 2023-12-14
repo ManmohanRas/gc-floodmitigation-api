@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Application;
-
-namespace PresTrust.FloodMitigation.API.DependencyInjection;
+﻿namespace PresTrust.FloodMitigation.API.DependencyInjection;
 
 public class RegisterContractMappings : IDependencyInjectionService
 {
@@ -41,6 +39,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IParcelSurveyRepository, ParcelSurveyRepository>();
         services.AddTransient<IParcelTrackingRepository, ParcelTrackingRepository>();
         services.AddTransient<IPropertyBrokenRuleRepository, PropertyBrokenRulesRepository>();
+        services.AddTransient<IFlapModuleRepository, FlapModuleRepository>();
 
         services.AddHttpContextAccessor();
     }
