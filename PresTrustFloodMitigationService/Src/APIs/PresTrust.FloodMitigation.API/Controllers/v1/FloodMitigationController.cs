@@ -1,3 +1,5 @@
+using PresTrust.FloodMitigation.Domain.Entities;
+
 namespace PresTrust.FloodMitigation.API.Controllers.v1;
 
 [Authorize()]
@@ -871,6 +873,51 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<Unit>> SaveFlapDetails([FromBody] SaveFlapDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    /// <summary>
+    /// Get County Users 
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getCountyUsers")]
+    [ProducesResponseType(typeof(IEnumerable<PresTrustUserEntity>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<PresTrustUserEntity>>> GetCountyUsers([FromBody] GetCountyUsersQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+    /// <summary>
+    /// Delete County User Role.
+    /// </summary>
+    /// <param name="command"> Query Command.</param>
+    /// <returns></returns>
+    /// 
+    [HttpPost("deleteCountyUserRole")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteCountyUserRole([FromBody] DeleteCountyUserRoleCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+    /// <summary>
+    /// County User Role Change Request.
+    /// </summary>
+    /// <param name="command"> Query Command.</param>
+    /// <returns></returns>
+    /// 
+    [HttpPost("countyUserRoleChangeRequest")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> CountyUserRoleChangeRequest([FromBody] CountyUserRoleChangeRequestCommand command)
     {
         return Single(await CommandAsync(command));
     }

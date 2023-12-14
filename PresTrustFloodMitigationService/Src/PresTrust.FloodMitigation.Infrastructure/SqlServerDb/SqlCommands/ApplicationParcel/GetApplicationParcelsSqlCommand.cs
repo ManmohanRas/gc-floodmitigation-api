@@ -71,7 +71,7 @@ public class GetApplicationParcelsSqlCommand
 					AP.[IsApproved],
 					CASE WHEN AP.[WaitingPamsPin] IS NULL THEN 0 ELSE 1 END AS [IsWaiting],
 					CASE WHEN AP.[DuplicatePamsPin] IS NULL THEN 0 ELSE 1 END AS [AlreadyExists],
-					CASE WHEN AP.[RejectedPamsPin] IS NULL THEN 0 ELSE 1 END AS [AlreadyRejected],
+					CASE WHEN AP.[RejectedPamsPin] IS NULL THEN 0 ELSE 1 END AS [IsRejected],
 					CP.[IsValidPamsPin],
 					AP.[Priority],
 					AP.[ValueEstimate],
