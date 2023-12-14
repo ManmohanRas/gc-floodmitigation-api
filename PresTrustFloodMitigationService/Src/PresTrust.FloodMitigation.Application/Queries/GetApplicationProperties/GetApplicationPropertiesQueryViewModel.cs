@@ -5,7 +5,10 @@ public class GetApplicationPropertiesQueryViewModel
     public int Id { get; set; }
     public string PamsPin { get; set; }
     public bool IsLocked { get; set; }
+    public bool IsWaiting { get; set; }
     public bool AlreadyExists { get; set; }
+    public bool IsRejected { get; set; }
+    public bool IsValidPamsPin { get; set; }
     public string PropertyAddress { get; set; }
     public string TargetArea { get; set; }
     public string Block { get; set; }
@@ -14,7 +17,8 @@ public class GetApplicationPropertiesQueryViewModel
     public string LandOwner { get; set; }
     public int Priority { get; set; }
     public decimal ValueEstimate { get; set; }
+    public decimal FinalOffer { get; set; }
+    public decimal ProgramMatch { get; set; }
     public int StatusId { get; set; }
     public string Status {  get; set; }
-    public bool IsValidPamsPin { get; set; }
 }

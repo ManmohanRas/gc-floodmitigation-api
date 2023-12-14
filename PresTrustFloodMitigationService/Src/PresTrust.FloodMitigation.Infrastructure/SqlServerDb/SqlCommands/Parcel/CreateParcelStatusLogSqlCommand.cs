@@ -1,6 +1,6 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
 
-public class CreateApplicationParcelStatusLogSqlCommand
+public class CreateParcelStatusLogSqlCommand
 {
     private readonly string _sqlCommand =
             @"  DELETE FROM [Flood].[FloodParcelStatusLog]
@@ -27,7 +27,7 @@ public class CreateApplicationParcelStatusLogSqlCommand
                     GetDate()
                 );";
 
-    public CreateApplicationParcelStatusLogSqlCommand() { }
+    public CreateParcelStatusLogSqlCommand() { }
 
     public override string ToString()
     {

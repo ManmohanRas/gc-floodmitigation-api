@@ -107,7 +107,7 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
         bool result = false;
 
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreateApplicationParcelStatusLogSqlCommand();
+        var sqlCommand = new CreateParcelStatusLogSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,

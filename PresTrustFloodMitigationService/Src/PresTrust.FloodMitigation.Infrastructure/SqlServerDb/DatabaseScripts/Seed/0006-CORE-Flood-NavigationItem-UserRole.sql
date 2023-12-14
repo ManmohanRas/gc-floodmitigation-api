@@ -60,6 +60,7 @@ INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VA
 --create application
 INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (26, 7);
 INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (26, 3);
+INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (26, 4);
 
 
 GO
