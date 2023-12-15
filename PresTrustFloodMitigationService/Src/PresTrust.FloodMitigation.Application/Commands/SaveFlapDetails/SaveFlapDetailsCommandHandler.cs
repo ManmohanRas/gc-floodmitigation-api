@@ -1,7 +1,4 @@
-﻿using PresTrust.FloodMitigation.Domain.Entities;
-using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SaveFlapDetailsCommandHandler : IRequestHandler<SaveFlapDetailsCommand, Unit>
 {

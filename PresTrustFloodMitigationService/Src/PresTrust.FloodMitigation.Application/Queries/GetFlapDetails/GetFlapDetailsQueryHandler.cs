@@ -1,4 +1,5 @@
 ﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
+using System.Text.RegularExpressions;
 
 namespace PresTrust.FloodMitigation.Application.Queries;
 
@@ -24,7 +25,37 @@ public class GetFlapDetailsQueryHandler : IRequestHandler<GetFlapDetailsQuery, G
         var flap = mapper.Map<FloodFlapEntity, GetFlapDetailsQueryViewModel>(reqFlap);
         flap.FlapComments = flapComments;
 
+        flap.DocumentsTree = await GetDocuments(request.AgencyId);
+
         return flap;
 
+    }
+
+    private async Task<List<FlapDocumentTypeViewModel>> GetDocuments(int agencyId)
+    {
+        var documents = await repoFlap.GetFlapDocumentsAsync(agencyId);
+
+        IEnumerable<IGrouping<string, FloodFlapDocumentEntity>> query =
+            documents.GroupBy(doc => doc.DocumentType.ToString());
+
+        List<FlapDocumentTypeViewModel> documentsTree = new List<FlapDocumentTypeViewModel>();
+        foreach (IGrouping<string, FloodFlapDocumentEntity> docGroup in query)
+        {
+            List<FlapDocumentViewModel> docs = new List<FlapDocumentViewModel>();
+            foreach (var doc in docGroup)
+            {
+                var vm = mapper.Map<FloodFlapDocumentEntity, FlapDocumentViewModel>(doc);
+                if (doc.Id > 0) docs.Add(vm);
+            }
+            var vmDocType = new FlapDocumentTypeViewModel()
+            {
+                DocumentType = docGroup.Key,
+                Documents = docs
+            };
+            documentsTree.Add(vmDocType);
+        }
+           
+        
+        return documentsTree;
     }
 }
