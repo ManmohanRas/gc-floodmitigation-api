@@ -932,7 +932,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<SaveFlapDocumentCommandViewModel>> SaveFlapDetails([FromBody] SaveFlapDocumentCommand command)
+    public async Task<ActionResult<SaveFlapDocumentCommandViewModel>> SaveFlapDocument([FromBody] SaveFlapDocumentCommand command)
     {
         return Single(await CommandAsync(command));
     }
