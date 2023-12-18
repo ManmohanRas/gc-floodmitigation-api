@@ -23,7 +23,7 @@ public class GetFlapDetailsQueryHandler : IRequestHandler<GetFlapDetailsQuery, G
         var flapComments = await repoFlap.GetFlapCommentsAsync(request.AgencyId);
 
         var flap = mapper.Map<FloodFlapEntity, GetFlapDetailsQueryViewModel>(reqFlap);
-        flap.FlapComments = flapComments;
+        flap.FlapComments = mapper.Map<IEnumerable<FloodFlapCommentEntity>, IEnumerable<FlapCommentViewModel>>(flapComments);
 
         flap.DocumentsTree = await GetDocuments(request.AgencyId);
 

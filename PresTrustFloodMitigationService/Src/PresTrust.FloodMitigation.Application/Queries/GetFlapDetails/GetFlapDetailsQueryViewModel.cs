@@ -8,10 +8,18 @@ public class GetFlapDetailsQueryViewModel
     public DateTime? ApprovedDate { get; set; }
     public DateTime? LastRevisedDate { get; set; }
     public DateTime? FlapMailToGrantee { get; set; }
-    public List<FloodFlapCommentEntity>? FlapComments { get; set; }
+    public IEnumerable<FlapCommentViewModel>? FlapComments { get; set; }
     public List<FlapDocumentTypeViewModel> DocumentsTree { get; set; } = new List<FlapDocumentTypeViewModel>();
+}
 
-
+public class FlapCommentViewModel
+{
+    public int Id { get; set; }
+    public int AgencyId { get; set; }
+    public string Comment { get; set; }
+    public string? RowStatus { get; set; }
+    public string LastUpdatedBy { get; set; }
+    public DateTime LastUpdatedOn { get; set; }
 }
 
 public class FlapDocumentTypeViewModel

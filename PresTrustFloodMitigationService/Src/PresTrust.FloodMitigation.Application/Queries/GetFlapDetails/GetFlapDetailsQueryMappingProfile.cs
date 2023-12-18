@@ -6,5 +6,6 @@ public class GetFlapDetailsQueryMappingProfile: Profile
     {
         CreateMap<FloodFlapEntity, GetFlapDetailsQueryViewModel>();
         CreateMap<FloodFlapDocumentEntity, FlapDocumentViewModel>();
+        CreateMap<FloodFlapCommentEntity, FlapCommentViewModel>();
     }
 }

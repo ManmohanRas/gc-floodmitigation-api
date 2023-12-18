@@ -9,9 +9,11 @@ public class GetFlapDetailsByAgencyIdSqlCommand
 				FAF.[FlapApproved],
 				FAF.[ApprovedDate],
 				FAF.[LastRevisedDate],
-				FAF.[FlapMailToGrantee]
-			FROM [Flood].[FloodAgencyFlap] FAF
-			WHERE FAF.[AgencyId] = @p_AgencyId;";
+				FAF.[FlapMailToGrantee],
+				FAF.[LastUpdatedBy],
+                FAF.[LastUpdatedOn]
+				FROM [Flood].[FloodAgencyFlap] FAF
+			    WHERE FAF.[AgencyId] = @p_AgencyId;";
 
     public GetFlapDetailsByAgencyIdSqlCommand() { }
 
