@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
 
 public class FlapModuleRepository: IFlapModuleRepository
 {
@@ -181,6 +179,50 @@ public class FlapModuleRepository: IFlapModuleRepository
             });
 
         return flapComment;
+    }
+
+    public async Task<List<FloodFlapDocumentEntity>> GetFlapDocumentsAsync(int agencyId)
+    {
+        List<FloodFlapDocumentEntity> results = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetFlapDocumentsSqlCommand();
+        results = (await conn.QueryAsync<FloodFlapDocumentEntity>(sqlCommand.ToString(),
+                            commandType: CommandType.Text,
+                            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                            param: new { @p_AgencyId = agencyId })).ToList();
+
+        return results ?? new();
+    }
+
+    public async Task<FloodFlapDocumentEntity> SaveFlapDocumentAsync(FloodFlapDocumentEntity doc)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new SaveFlapDocumentSqlCommand();
+        var id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_FileName = doc.FileName,
+                @p_Title = doc.Title,
+                @p_DocumentTypeId = (int)doc.DocumentType,
+                @p_AgencyId = doc.AgencyId,
+                @p_LastUpdatedBy = doc.LastUpdatedBy,
+            });
+
+        doc.Id = id;
+
+        return doc;
+    }
+
+    public async Task DeleteFlapDocumentAsync(int id)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new DeleteFlapDocumentSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new { @p_Id = id });
     }
 
     /// <summary>

@@ -31,6 +31,27 @@ public interface IFlapModuleRepository
     Task<FloodFlapCommentEntity> SaveFlapCommentAsync(FloodFlapCommentEntity flapComment);
 
     /// <summary>
+    /// Get flap documents
+    /// </summary>
+    /// <param name="agencyId"></param>
+    /// <returns></returns>
+    Task<List<FloodFlapDocumentEntity>> GetFlapDocumentsAsync(int agencyId);
+
+    /// <summary>
+    /// Save flap document
+    /// </summary>
+    /// <param name="doc"></param>
+    /// <returns></returns>
+    Task<FloodFlapDocumentEntity> SaveFlapDocumentAsync(FloodFlapDocumentEntity doc);
+
+    /// <summary>
+    /// Delete flap document
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task DeleteFlapDocumentAsync(int id);
+
+    /// <summary>
     /// Delete flap comment
     /// </summary>
     /// <param name="flapComment"></param>

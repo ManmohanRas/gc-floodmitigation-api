@@ -6,7 +6,9 @@ public class GetFlapCommentsByAgencyIdSqlCommand
             @"  SELECT
 				FAFC.[Id],
 				FAFC.[AgencyId],
-				FAFC.[Comment]
+				FAFC.[Comment],
+                FAFC.[LastUpdatedBy],
+                FAFC.[LastUpdatedOn]
 			FROM [Flood].[FloodAgencyFlapComment] FAFC
 			WHERE FAFC.[AgencyId] = @p_AgencyId;";
 

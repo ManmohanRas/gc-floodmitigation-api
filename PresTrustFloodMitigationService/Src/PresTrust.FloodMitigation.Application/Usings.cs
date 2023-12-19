@@ -45,3 +45,5 @@ global using PresTrust.FloodMitigation.Domain.Utils;
 //---------------------------------------------- PresTrust.FloodMitigation.Infrastructure Namespaces ----------------------------------------------//
 //=================================================================================================================================================//
 global using PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Contracts;
+global using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
+

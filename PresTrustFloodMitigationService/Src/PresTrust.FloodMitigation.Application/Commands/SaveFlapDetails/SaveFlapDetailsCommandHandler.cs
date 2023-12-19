@@ -1,7 +1,4 @@
-﻿using PresTrust.FloodMitigation.Domain.Entities;
-using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SaveFlapDetailsCommandHandler : IRequestHandler<SaveFlapDetailsCommand, Unit>
 {
@@ -30,7 +27,9 @@ public class SaveFlapDetailsCommandHandler : IRequestHandler<SaveFlapDetailsComm
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoFlap.SaveFlapAsync(flap);
-            await UpdateFlapComments(request.FlapComments);
+            if (request.FlapComments.Count() > 0) {
+                await UpdateFlapComments(request.FlapComments);
+            }
 
             scope.Complete();
         }
@@ -42,6 +41,8 @@ public class SaveFlapDetailsCommandHandler : IRequestHandler<SaveFlapDetailsComm
         foreach(var comment in flapComments)
         {
             var entity = mapper.Map<FloodFlapCommentViewModel, FloodFlapCommentEntity>(comment);
+            entity.LastUpdatedBy = userContext.Email;
+
             if (comment.RowStatus.EndsWith("U", StringComparison.OrdinalIgnoreCase))
             {
                 await repoFlap.SaveFlapCommentAsync(entity);

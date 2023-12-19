@@ -933,6 +933,35 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     }
 
     /// <summary>
+    /// Save flap document
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPost("saveFlapDocument")]
+    [ProducesResponseType(typeof(SaveFlapDocumentCommandViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<SaveFlapDocumentCommandViewModel>> SaveFlapDocument([FromBody] SaveFlapDocumentCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    /// <summary>
+    /// Delete flap document
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPost("deleteFlapDocument")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteFlapDocument([FromBody] DeleteFlapDocumentCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     /// Get Agency Users 
     /// </summary>
     /// <param name="query"></param>
@@ -954,10 +983,6 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     /// <returns></returns>
     /// 
     [HttpPost("deleteAgencyUserRole")]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<bool>> DeleteAgencyUserRole([FromBody] DeleteAgencyUserRoleCommand command)
     {
         return Single(await CommandAsync(command));
