@@ -931,6 +931,53 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
+
+    /// <summary>
+    /// Get Agency Users 
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getAgencyUsers")]
+    [ProducesResponseType(typeof(IEnumerable<PresTrustUserEntity>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<PresTrustUserEntity>>> GetAgencyUsers([FromBody] GetAgencyUsersQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    /// <summary>
+    /// Delete Agency User Role.
+    /// </summary>
+    /// <param name="command"> Query Command.</param>
+    /// <returns></returns>
+    /// 
+    [HttpPost("deleteAgencyUserRole")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteAgencyUserRole([FromBody] DeleteAgencyUserRoleCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    /// <summary>
+    /// Agency User Role Change Request.
+    /// </summary>
+    /// <param name="command"> Query Command.</param>
+    /// <returns></returns>
+    /// 
+    [HttpPost("agencyUserRoleChangeRequest")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> AgencyUserRoleChangeRequest([FromBody] AgencyUserRoleChangeRequestCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController
