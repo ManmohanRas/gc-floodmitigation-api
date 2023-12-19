@@ -31,4 +31,11 @@ public interface IParcelRepository
     /// <returns></returns>
     Task<FloodParcelEntity> UpdateAsync(FloodParcelEntity parcels);
 
+    /// <summary>
+    /// Get Parcel List
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <param name="pamsPin"></param>
+    /// <returns></returns>
+    Task<List<FloodParcelListEntity>> GetParcelListAsync();
 }

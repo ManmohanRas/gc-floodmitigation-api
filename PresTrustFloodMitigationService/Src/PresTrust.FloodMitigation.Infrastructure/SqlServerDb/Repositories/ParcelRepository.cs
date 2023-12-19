@@ -131,4 +131,18 @@ public class ParcelRepository : IParcelRepository
             });
         return parcel;
     }
+
+    public async Task<List<FloodParcelListEntity>> GetParcelListAsync()
+    {
+
+        List<FloodParcelListEntity> results = default;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetParcelListSqlCommand();
+        results = (await conn.QueryAsync<FloodParcelListEntity>(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds)).ToList();
+
+        return results ?? new();
+    }
 }
