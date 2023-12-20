@@ -7,6 +7,7 @@ public class GetParcelListSqlCommand
 				CONCAT(FP.StreetNo, ' ',FP.StreetAddress) AS [PropertyAddress],
 				AG.[AgencyName] AS [Municipality],
 				FA.[Title] AS [ProjectArea],
+				AP.[ApplicationId],
 				CASE FA.[ApplicationTypeId]
 					WHEN 1 THEN 'CORE'
 					WHEN 2 THEN 'MATCH'
@@ -20,6 +21,7 @@ public class GetParcelListSqlCommand
 				PF.[SoftCostFMPAmt] + PF.[HardCostFMPAmt] AS [FinalOffer],
 				AF.[MatchPercent] AS [ProgramMatch],
 				CASE AP.[StatusId]
+					WHEN 0 THEN 'NONE'
 					WHEN 1 THEN 'SUBMITTED'
 					WHEN 2 THEN 'IN_REVIEW'
 					WHEN 3 THEN 'PENDING'
