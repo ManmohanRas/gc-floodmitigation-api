@@ -38,4 +38,10 @@ public interface IParcelRepository
     /// <param name="pamsPin"></param>
     /// <returns></returns>
     Task<List<FloodParcelListEntity>> GetParcelListAsync();
+
+    /// <summary>
+    /// Get Program Manager Parcels
+    /// </summary>
+    /// <returns></returns>
+    Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchText);
 }

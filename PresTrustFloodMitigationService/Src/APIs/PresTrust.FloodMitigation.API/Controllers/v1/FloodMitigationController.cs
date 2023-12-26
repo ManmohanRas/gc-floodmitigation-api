@@ -1003,6 +1003,21 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
+
+    /// <summary>
+    /// Get Program Manager Parcels
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getProgramManagerParcels")]
+    [ProducesResponseType(typeof(GetProgramManagerParcelsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetProgramManagerParcelsQueryViewModel>> GetProgramManagerParcels([FromBody] GetProgramManagerParcelsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController

@@ -6,6 +6,7 @@ public class FloodParcelEntity
     public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
     public int AgencyId { get; set; }
+    public string AgencyName { get; set; }
     public string Block { get; set; }
     public string Lot { get; set; }
     public string QCode { get; set; }
@@ -51,6 +52,9 @@ public class FloodParcelEntity
         }
     }
     public decimal ProgramMatch { get; set; }
+    public int StartNo { get; set; }
+    public int EndNo { get; set; }
+    public int TotalNo { get; set; }
     public string CommentsJSON { get; set; }
     public string FeedbacksJSON { get; set; }
     public PropertyStatusEnum Status
