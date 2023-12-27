@@ -31,6 +31,7 @@ public class FloodParcelEntity
     public string TargetArea { get; set; }
     public bool IsFLAP { get; set; }
     public DateTime DateOfFLAP { get; set; }
+    public bool IsElevated { get; set; }
     public int StatusId { get; set; }
     public int PrevStatusId { get; set; }
     public bool IsLocked { get; set; }
