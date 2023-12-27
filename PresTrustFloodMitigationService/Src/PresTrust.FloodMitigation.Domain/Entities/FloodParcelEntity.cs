@@ -6,6 +6,7 @@ public class FloodParcelEntity
     public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
     public int AgencyId { get; set; }
+    public string AgencyName { get; set; }
     public string Block { get; set; }
     public string Lot { get; set; }
     public string QCode { get; set; }
@@ -31,6 +32,7 @@ public class FloodParcelEntity
     public int? TargetAreaId { get; set; }
     public bool IsFLAP { get; set; }
     public DateTime DateOfFLAP { get; set; }
+    public bool IsElevated { get; set; }
     public int StatusId { get; set; }
     public int PrevStatusId { get; set; }
     public bool IsLocked { get; set; }
@@ -52,6 +54,9 @@ public class FloodParcelEntity
         }
     }
     public decimal ProgramMatch { get; set; }
+    public int StartNo { get; set; }
+    public int EndNo { get; set; }
+    public int TotalNo { get; set; }
     public string CommentsJSON { get; set; }
     public string FeedbacksJSON { get; set; }
     public PropertyStatusEnum Status

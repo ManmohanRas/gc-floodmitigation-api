@@ -52,4 +52,10 @@ public interface IParcelRepository
     /// <param name="Id"></param>
     /// <returns></returns>
     Task<IEnumerable<FloodParcelEntity>> GetParcelsByTargetAreaIdAsync(int Id);
+    
+    /// <summary>
+    /// Get Program Manager Parcels
+    /// </summary>
+    /// <returns></returns>
+    Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchText);
 }

@@ -47,7 +47,7 @@ public class GetParcelSqlCommand
 						P.[LandValue],
 						P.[ImprovementValue],
 						P.[AnnualTaxes],
-						P.[IsFLAP],
+						CASE WHEN P.[TargetAreaId] > 0 THEN 1 ELSE 0 END AS [IsFLAP],
 						P.[DateOfFLAP],
 						P.[IsValidPamsPin],
 						AP.[StatusId],
