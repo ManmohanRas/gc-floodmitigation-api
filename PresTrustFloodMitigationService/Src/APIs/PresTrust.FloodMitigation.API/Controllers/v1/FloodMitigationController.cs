@@ -1020,6 +1020,9 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<GetTargetAreaDetailsQueryViewModel>> GetFlapTargetAreaDetails([FromBody] GetTargetAreaDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
     /// <summary>
     /// Get Program Manager Parcels
     /// </summary>
