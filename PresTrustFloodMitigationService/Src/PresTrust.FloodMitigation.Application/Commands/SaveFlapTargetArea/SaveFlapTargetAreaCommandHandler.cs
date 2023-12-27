@@ -31,7 +31,7 @@ public class SaveFlapTargetAreaCommandHandler: IRequestHandler<SaveFlapTargetAre
 
         targetArea = await repoFlap.SaveFlapTargetAreaAsync(targetArea);
 
-        var parcels = mapper.Map<List<FloodFlapParcelViewModel>, List<FloodParcelEntity>>(request.Parcels);
+        var parcels = mapper.Map<List<SaveFloodFlapParcelViewModel>, List<FloodParcelEntity>>(request.Parcels);
                 parcels.ForEach(x =>
                 {
                     x.TargetAreaId = targetArea.Id;

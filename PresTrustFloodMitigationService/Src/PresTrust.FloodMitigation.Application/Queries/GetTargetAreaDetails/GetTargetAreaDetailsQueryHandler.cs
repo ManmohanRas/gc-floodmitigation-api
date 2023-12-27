@@ -24,7 +24,7 @@ public class GetTargetAreaDetailsQueryHandler : IRequestHandler<GetTargetAreaDet
         var targetArea = mapper.Map<FloodFlapTargetAreaEntity, GetTargetAreaDetailsQueryViewModel>(reqTargetArea);
 
         var reqParcels = await repoParcel.GetParcelsByTargetAreaIdAsync(targetArea.Id);
-        var parcels = mapper.Map<IEnumerable<FloodParcelEntity>, IEnumerable<FloodFlapParcelViewModel>>(reqParcels);
+        var parcels = mapper.Map<IEnumerable<FloodParcelEntity>, IEnumerable<GetFloodFlapParcelViewModel>>(reqParcels);
         
         targetArea.Parcels = parcels;
 

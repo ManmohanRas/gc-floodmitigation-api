@@ -6,10 +6,10 @@ public class SaveFlapTargetAreaCommand: IRequest<int>
     public int AgencyId { get; set; }
     public string TargetArea { get; set; }
     public DateTime? CreatedDate { get; set; }
-    public List<FloodFlapParcelViewModel>? Parcels { get; set; }
+    public List<SaveFloodFlapParcelViewModel>? Parcels { get; set; }
 }
 
-public class FloodFlapParcelViewModel
+public class SaveFloodFlapParcelViewModel
 {
     public int Id { get; set; }
     public string PamsPin { get; set; }

@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Application.Commands;
-
-namespace PresTrust.FloodMitigation.Application.Queries;
+﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
 public class GetTargetAreaDetailsQueryViewModel
 {
@@ -8,10 +6,10 @@ public class GetTargetAreaDetailsQueryViewModel
     public int AgencyId { get; set; }
     public string TargetArea { get; set; }
     public DateTime? CreatedDate { get; set; }
-    public IEnumerable<FloodFlapParcelViewModel>? Parcels { get; set; }
+    public IEnumerable<GetFloodFlapParcelViewModel>? Parcels { get; set; }
 }
 
-public class FloodFlapParcelViewModel
+public class GetFloodFlapParcelViewModel
 {
     public int Id { get; set; }
     public string PamsPin { get; set; }

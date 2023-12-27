@@ -4,6 +4,6 @@ public class GetTargetAreaDetailsQueryMappingProfile: Profile
 {
     public GetTargetAreaDetailsQueryMappingProfile() {
         CreateMap<FloodFlapTargetAreaEntity, GetTargetAreaDetailsQueryViewModel>();
-        CreateMap<FloodParcelEntity, FloodFlapParcelViewModel>();
+        CreateMap<FloodParcelEntity, GetFloodFlapParcelViewModel>();
     }
 }
