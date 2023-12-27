@@ -242,4 +242,97 @@ public class FlapModuleRepository: IFlapModuleRepository
                 @p_Id = flapComment.Id
             });
     }
+
+    public async Task<FloodFlapTargetAreaEntity> GetFlapTargetAreaByIdAsync(int Id)
+    {
+        FloodFlapTargetAreaEntity result = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetTargetAreaDetailsByIdSqlCommand();
+        var results = await conn.QueryAsync<FloodFlapTargetAreaEntity>(sqlCommand.ToString(),
+                                commandType: CommandType.Text,
+                                commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                                param: new
+                                {
+                                    @p_Id = Id
+                                });
+
+        result = results.FirstOrDefault();
+
+        return result ?? new();
+    }
+
+    /// <summary>
+    /// Get flap target areas 
+    /// </summary>
+    /// <param name="agencyId"></param>
+    /// <returns></returns>
+    public async Task<IEnumerable<FloodFlapTargetAreaEntity>> GetFlapTargetAreasAsync(int agencyId)
+    {
+        IEnumerable<FloodFlapTargetAreaEntity> results = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetFlapTargetAreasByAgencyIdSqlCommand();
+        results = (await conn.QueryAsync<FloodFlapTargetAreaEntity>(sqlCommand.ToString(),
+                                commandType: CommandType.Text,
+                                commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                                param: new
+                                {
+                                    @p_AgencyId = agencyId
+                                })).ToList();
+        return results;
+    }
+
+    /// <summary>
+    /// Save target area
+    /// </summary>
+    /// <param name="targetArea"></param>
+    /// <returns></returns>
+    public async Task<FloodFlapTargetAreaEntity> SaveFlapTargetAreaAsync(FloodFlapTargetAreaEntity targetArea)
+    {
+        if (targetArea.Id > 0)
+            return await UpdateFlapTargetAreaAsync(targetArea);
+        else
+            return await CreateFlapTargetAreaAsync(targetArea);
+    }
+
+    private async Task<FloodFlapTargetAreaEntity> CreateFlapTargetAreaAsync(FloodFlapTargetAreaEntity targetArea)
+    {
+        int id = default;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new CreateFlapTargetAreaSqlCommand();
+        id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_AgencyId = targetArea.AgencyId,
+                @p_TargetArea = targetArea.TargetArea,
+                @p_CreatedDate = targetArea.CreatedDate,
+                @p_LastUpdatedBy = targetArea.LastUpdatedBy
+            });
+
+        targetArea.Id = id;
+
+        return targetArea;
+    }
+
+    private async Task<FloodFlapTargetAreaEntity> UpdateFlapTargetAreaAsync(FloodFlapTargetAreaEntity targetArea)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new UpdateFlapTargetAreaSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_Id = targetArea.Id,
+                @p_AgencyId = targetArea.AgencyId,
+                @p_TargetArea = targetArea.TargetArea,
+                @p_CreatedDate = targetArea.CreatedDate,
+                @p_LastUpdatedBy = targetArea.LastUpdatedBy,
+                @p_LastUpdatedOn = DateTime.Now
+            });
+
+        return targetArea;
+    }
 }

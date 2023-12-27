@@ -14,7 +14,7 @@ GO
 CREATE TABLE [Flood].[FloodFlapTargetArea](
 	[Id]									[integer] 		IDENTITY(1,1)	NOT NULL,
 	[AgencyId]							    [integer]						NOT NULL,
-	[TargectArea]							[varchar](4000)					NOT NULL,
+	[TargetArea]							[varchar](128)					NOT NULL,
 	[CreatedDate]                           [datetime]						NOT NULL,
 	[LastUpdatedBy]							[varchar](128)					NULL	,
 	[LastUpdatedOn]							[datetime]						NOT NULL,

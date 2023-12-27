@@ -19,6 +19,7 @@ CREATE TABLE [Flood].[FloodParcel](
 	[Id]						[integer] 			IDENTITY(1,1)		NOT NULL,
 	[PamsPin]					[varchar](76)							NOT NULL,
 	[AgencyID]					[varchar](8)							NULL,
+	[TargetAreaId]              [integer]						        NULL,
 	[Block]						[varchar](20)							NULL,
 	[Lot]						[varchar](20)							NULL,
 	[QualificationCode]			[varchar](22)							NULL,

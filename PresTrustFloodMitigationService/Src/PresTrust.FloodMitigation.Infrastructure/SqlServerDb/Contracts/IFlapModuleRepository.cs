@@ -45,6 +45,13 @@ public interface IFlapModuleRepository
     Task<FloodFlapDocumentEntity> SaveFlapDocumentAsync(FloodFlapDocumentEntity doc);
 
     /// <summary>
+    /// Save flap target area
+    /// </summary>
+    /// <param name="targetArea"></param>
+    /// <returns></returns>
+    Task<FloodFlapTargetAreaEntity> SaveFlapTargetAreaAsync(FloodFlapTargetAreaEntity targetArea);
+
+    /// <summary>
     /// Delete flap document
     /// </summary>
     /// <param name="id"></param>
@@ -58,4 +65,17 @@ public interface IFlapModuleRepository
     /// <returns></returns>
     Task DeleteFlapCommentAsync(FloodFlapCommentEntity flapComment);
 
+    /// <summary>
+    /// Get flap target areas
+    /// </summary>
+    /// <param name="agencyId"></param>
+    /// <returns></returns>
+    Task<IEnumerable<FloodFlapTargetAreaEntity>> GetFlapTargetAreasAsync(int agencyId);
+
+    /// <summary>
+    /// Get flap target area by id
+    /// </summary>
+    /// <param name="agencyId"></param>
+    /// <returns></returns>
+    Task<FloodFlapTargetAreaEntity> GetFlapTargetAreaByIdAsync(int Id);
 }

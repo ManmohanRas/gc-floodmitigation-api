@@ -28,6 +28,7 @@ public class FloodParcelEntity
     public decimal ImprovementValue { get; set; }
     public decimal AnnualTaxes { get; set; }
     public string TargetArea { get; set; }
+    public int TargetAreaId { get; set; }
     public bool IsFLAP { get; set; }
     public DateTime DateOfFLAP { get; set; }
     public int StatusId { get; set; }
