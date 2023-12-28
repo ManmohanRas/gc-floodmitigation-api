@@ -1,4 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+﻿using OneOf.Types;
+using System;
+
+namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
 public class ParcelRepository : IParcelRepository
 {
@@ -60,6 +63,26 @@ public class ParcelRepository : IParcelRepository
         }
     }
 
+    public async Task LinkTargetAreaIdToParcelAsync(List<FloodParcelEntity> parcels)
+    {
+        using var conn = context.CreateConnection();
+        foreach (var parcel in parcels)
+        {
+            if (parcel.Id > 0)
+            {
+                var sqlCommand = new LinkTargetAreaIdToParcelSqlCommand();
+                await conn.ExecuteAsync(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new
+                    {
+                        @p_Id = parcel.Id,
+                        @p_TargetAreaId = parcel.TargetAreaId,
+                        @p_DateOfFLAP = DateTime.Now
+                    });
+            }
+        }
+    }
     public async Task<FloodParcelEntity> GetParcelAsync(int applicationId, string pamsPin)
     {
         FloodParcelEntity result = default;
@@ -144,5 +167,52 @@ public class ParcelRepository : IParcelRepository
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds)).ToList();
 
         return results ?? new();
+    }
+
+    public async Task<IEnumerable<FloodParcelEntity>> GetParcelsByTargetAreaIdAsync(int Id)
+    {
+        IEnumerable<FloodParcelEntity> results = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetParcelsByTargetAreaIdSqlCommand();
+        results = (await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
+                            commandType: CommandType.Text,
+                            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                            param: new
+                            {
+                                @p_Id = Id,
+                            })).ToList();
+        return results;
+    }
+    public async Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchText)
+    {
+        FloodProgramManagerParcelsEntity result = new();
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetProgramManagerParcelsSqlCommand();
+        var results = (await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new
+                    {
+                        @p_PageNumber = pageNumber,
+                        @p_PageRows = pageRows,
+                        @p_SearchText = string.IsNullOrWhiteSpace(searchText) ? string.Empty : string.Format("%{0}%", searchText)
+                    })).ToList();
+        
+        foreach(var item in results)
+        {
+            if(item.Id == 0)
+            {
+                result.StartNo = item.StartNo;
+                result.EndNo = item.EndNo;
+                result.TotalNo = item.TotalNo;
+            }
+            else
+            {
+                result.Parcels.Add(item);
+            }
+        }
+
+        return result ?? new();
     }
 }

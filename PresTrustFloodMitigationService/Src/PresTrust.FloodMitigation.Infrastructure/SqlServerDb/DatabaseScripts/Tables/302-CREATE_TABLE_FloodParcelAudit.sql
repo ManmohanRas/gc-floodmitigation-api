@@ -32,7 +32,7 @@ CREATE TABLE [Flood].[FloodParcelAudit](
 	[LandValue]					[integer]								NULL,
 	[ImprovementValue]			[integer]								NULL,
 	[AnnualTaxes]				[decimal](18,2)							NULL,
-	[IsFLAP]					[bit]									NULL,
+	[TargetAreaId]				[integer]								NULL,
 	[DateOfFLAP]				[datetime]								NULL,
 	[LastUpdatedBy]				[varchar](128)							NULL,
 	[LastUpdatedOn]				[datetime]								NOT NULL,

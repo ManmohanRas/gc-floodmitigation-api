@@ -1003,6 +1003,40 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
+
+    [HttpPost("saveFlapTargetArea")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveFlapTargetArea([FromBody] SaveFlapTargetAreaCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getFlapTargetAreaDetails")]
+    [ProducesResponseType(typeof(GetTargetAreaDetailsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetTargetAreaDetailsQueryViewModel>> GetFlapTargetAreaDetails([FromBody] GetTargetAreaDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+    /// <summary>
+    /// Get Program Manager Parcels
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getProgramManagerParcels")]
+    [ProducesResponseType(typeof(GetProgramManagerParcelsQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetProgramManagerParcelsQueryViewModel>> GetProgramManagerParcels([FromBody] GetProgramManagerParcelsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController

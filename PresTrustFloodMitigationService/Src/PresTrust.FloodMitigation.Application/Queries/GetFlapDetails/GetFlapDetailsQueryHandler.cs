@@ -20,10 +20,14 @@ public class GetFlapDetailsQueryHandler : IRequestHandler<GetFlapDetailsQuery, G
     {
         //get flap details
         var reqFlap = await repoFlap.GetFlapAsync(request.AgencyId);
+        //get flap comments
         var flapComments = await repoFlap.GetFlapCommentsAsync(request.AgencyId);
+        //get flap target areas
+        var targetAreas = await repoFlap.GetFlapTargetAreasAsync(request.AgencyId);
 
         var flap = mapper.Map<FloodFlapEntity, GetFlapDetailsQueryViewModel>(reqFlap);
         flap.FlapComments = mapper.Map<IEnumerable<FloodFlapCommentEntity>, IEnumerable<FlapCommentViewModel>>(flapComments);
+        flap.FlapTargetAreas = mapper.Map<IEnumerable<FloodFlapTargetAreaEntity>, IEnumerable<FlapTargetAreaViewModel>>(targetAreas);
 
         flap.DocumentsTree = await GetDocuments(request.AgencyId);
 

@@ -9,6 +9,7 @@ public class GetFlapDetailsQueryViewModel
     public DateTime? LastRevisedDate { get; set; }
     public DateTime? FlapMailToGrantee { get; set; }
     public IEnumerable<FlapCommentViewModel>? FlapComments { get; set; }
+    public IEnumerable<FlapTargetAreaViewModel>? FlapTargetAreas { get; set; }
     public List<FlapDocumentTypeViewModel> DocumentsTree { get; set; } = new List<FlapDocumentTypeViewModel>();
 }
 
@@ -36,4 +37,12 @@ public class FlapDocumentViewModel
     public string Title { get; set; }
     public string FileName { get; set; }
     public string DocumentType { get; set; }
+}
+
+public class FlapTargetAreaViewModel
+{
+    public int Id { get; set; }
+    public int AgencyId { get; set; }
+    public string TargetArea { get; set; }
+    public DateTime? CreatedDate { get; set; }
 }

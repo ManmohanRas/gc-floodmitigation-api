@@ -10,6 +10,13 @@ public interface IParcelRepository
     Task SaveParcelsAsync(List<FloodParcelEntity> parcels);
 
     /// <summary>
+    /// Link Target Area Id To Parcel
+    /// </summary>
+    /// <param name="parcels"></param>
+    /// <returns></returns>
+    Task LinkTargetAreaIdToParcelAsync(List<FloodParcelEntity> parcels);
+
+    /// <summary>
     /// Get Parcel
     /// </summary>
     /// <param name="applicationId"></param>
@@ -38,4 +45,17 @@ public interface IParcelRepository
     /// <param name="pamsPin"></param>
     /// <returns></returns>
     Task<List<FloodParcelListEntity>> GetParcelListAsync();
+
+    /// <summary>
+    /// Get Parcel List By Target Area Id
+    /// </summary>
+    /// <param name="Id"></param>
+    /// <returns></returns>
+    Task<IEnumerable<FloodParcelEntity>> GetParcelsByTargetAreaIdAsync(int Id);
+    
+    /// <summary>
+    /// Get Program Manager Parcels
+    /// </summary>
+    /// <returns></returns>
+    Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchText);
 }
