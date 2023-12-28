@@ -63,12 +63,12 @@ public class ParcelRepository : IParcelRepository
         }
     }
 
-    public async Task LinkTargetAreaIdToParcelAsync(List<FloodParcelEntity> parcels)
+    public async Task LinkTargetAreaIdToParcelAsync(List<int> parcelIds, int targetAreaId)
     {
         using var conn = context.CreateConnection();
-        foreach (var parcel in parcels)
+        foreach (var parcelId in parcelIds)
         {
-            if (parcel.Id > 0)
+            if (parcelId > 0)
             {
                 var sqlCommand = new LinkTargetAreaIdToParcelSqlCommand();
                 await conn.ExecuteAsync(sqlCommand.ToString(),
@@ -76,8 +76,8 @@ public class ParcelRepository : IParcelRepository
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new
                     {
-                        @p_Id = parcel.Id,
-                        @p_TargetAreaId = parcel.TargetAreaId,
+                        @p_Id = parcelId,
+                        @p_TargetAreaId = targetAreaId,
                         @p_DateOfFLAP = DateTime.Now
                     });
             }
@@ -169,7 +169,7 @@ public class ParcelRepository : IParcelRepository
         return results ?? new();
     }
 
-    public async Task<IEnumerable<FloodParcelEntity>> GetParcelsByTargetAreaIdAsync(int Id)
+    public async Task<IEnumerable<FloodParcelEntity>> GetParcelsByTargetAreaIdAsync(int targetAreaId)
     {
         IEnumerable<FloodParcelEntity> results = default;
         using var conn = context.CreateConnection();
@@ -179,7 +179,7 @@ public class ParcelRepository : IParcelRepository
                             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                             param: new
                             {
-                                @p_Id = Id,
+                                @p_TargetAreaId = targetAreaId,
                             })).ToList();
         return results;
     }

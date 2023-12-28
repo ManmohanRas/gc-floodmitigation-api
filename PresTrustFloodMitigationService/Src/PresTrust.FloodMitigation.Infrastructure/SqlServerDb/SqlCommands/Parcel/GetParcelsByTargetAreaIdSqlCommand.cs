@@ -10,13 +10,13 @@ public class GetParcelsByTargetAreaIdSqlCommand
 						P.[Block],
 						P.[Lot],
 						P.[QualificationCode] AS [QCode],
-						P.[Latitude],
-						P.[Longitude],
+						P.[OwnersName] AS [LandOwner],
 						P.[StreetNo],
 						P.[StreetAddress],
-						P.[DateOfFLAP]
+						P.[DateOfFLAP],
+						P.[IsElevated]
             FROM	[Flood].[FloodParcel] P
-            WHERE	P.[ID] = @p_Id;";
+            WHERE	P.[TargetAreaId] = @p_TargetAreaId;";
 
     public GetParcelsByTargetAreaIdSqlCommand() { }
 
