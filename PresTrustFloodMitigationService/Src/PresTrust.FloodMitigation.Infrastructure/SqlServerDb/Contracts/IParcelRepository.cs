@@ -58,4 +58,18 @@ public interface IParcelRepository
     /// </summary>
     /// <returns></returns>
     Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchText);
+
+    /// <summary>
+    /// Get Program Manager Parcel
+    /// </summary>
+    /// <param name="parcelId"></param>
+    /// <returns></returns>
+    Task<FloodParcelEntity> GetProgramManagerParcelAsync(int parcelId);
+
+    /// <summary>
+    /// Save Program Manager Parcel
+    /// </summary>
+    /// <param name="parcel"></param>
+    /// <returns></returns>
+    Task<FloodParcelEntity> SaveProgramManagerParcelAsync(FloodParcelEntity parcel);
 }
