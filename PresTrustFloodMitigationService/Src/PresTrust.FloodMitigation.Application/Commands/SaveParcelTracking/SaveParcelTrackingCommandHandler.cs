@@ -78,7 +78,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Closing date required field on property tab have not been Filled.",
+                    Message = "Closing date required field on tracking tab have not been Filled.",
                     IsPropertyFlow = false
                 });
         }
@@ -91,7 +91,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Deed Book required field on property tab have not been Filled.",
+                    Message = "Deed Book required field on tracking tab have not been Filled.",
                     IsPropertyFlow = false
                 });
 
@@ -101,7 +101,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Deed Page required field on property tab have not been Filled.",
+                    Message = "Deed Page required field on tracking tab have not been Filled.",
                     IsPropertyFlow = false
                 });
 
@@ -111,7 +111,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Deed date required field on property tab have not been Filled.",
+                    Message = "Deed date required field on tracking tab have not been Filled.",
                     IsPropertyFlow = false
                 });
             if (reqParcelTracking.DemolitionDate == null)
@@ -120,7 +120,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Demolition Date required field on property tab have not been Filled.",
+                    Message = "Demolition Date required field on tracking tab have not been Filled.",
                     IsPropertyFlow = false
                 });
             if (reqParcelTracking.SiteVisitConfirmDate == null)
@@ -129,7 +129,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "SiteVisit Confirm Date required field on property tab have not been Filled.",
+                    Message = "SiteVisit Confirm Date required field on tracking tab have not been Filled.",
                     IsPropertyFlow = false
                 });
 
@@ -139,7 +139,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = " Post Acquision Picture required document field on property tab have not been Filled.",
+                    Message = " Post Acquision Picture required document field on tracking tab have not been Filled.",
                     IsPropertyFlow = false
                 });
 
