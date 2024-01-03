@@ -5,6 +5,5 @@ public class SaveFlapTargetAreaCommandMappingProfile: Profile
     public SaveFlapTargetAreaCommandMappingProfile()
     {
         CreateMap<SaveFlapTargetAreaCommand, FloodFlapTargetAreaEntity>();
-        CreateMap<SaveFloodFlapParcelViewModel, FloodParcelEntity>();
     }
 }

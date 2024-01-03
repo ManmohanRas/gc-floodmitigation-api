@@ -19,5 +19,9 @@ public class GetFloodFlapParcelViewModel
     public string Lot { get; set; }
     public string? QCode { get; set; }
     public string LandOwner { get; set; }
-    public bool IsValidPamsPin { get; set; }
+    public string StreetNo { get; set; }
+    public string StreetAddress { get; set; }
+    public DateTime? DateOfFLAP { get; set; }
+    public bool IsElevated { get; set; }
+
 }

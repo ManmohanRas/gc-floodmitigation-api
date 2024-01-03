@@ -1023,6 +1023,7 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
+
     /// <summary>
     /// Get Program Manager Parcels
     /// </summary>
@@ -1034,6 +1035,21 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<GetProgramManagerParcelsQueryViewModel>> GetProgramManagerParcels([FromBody] GetProgramManagerParcelsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    /// <summary>
+    /// Save Program Manager Parcel
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("saveProgramManagerParcel")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveProgramManagerParcel([FromBody] SaveProgramManagerParcelCommand query)
     {
         return Single(await QueryAsync(query));
     }
