@@ -56,6 +56,11 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
         // map command object to the FloodParcelPropertyEntity
         FloodParcelEntity reqParcel = new();
         reqParcel = mapper.Map<SaveParcelPropertyCommand, FloodParcelEntity>(request);
+        reqParcel.PamsPin = string.Format("{0}_{1}_{2}_{3}", reqParcel.AgencyId, reqParcel.Block, reqParcel.Lot, reqParcel.QCode);
+        if (reqParcel.PamsPin.EndsWith('_'))
+        {
+            reqParcel.PamsPin = reqParcel.PamsPin.Substring(0, reqParcel.PamsPin.Length - 1);
+        }
         FloodParcelPropertyEntity reqParcelProperty = new();
         reqParcelProperty = mapper.Map<SaveParcelPropertyCommand, FloodParcelPropertyEntity>(request);
         // Check Broken Rules
