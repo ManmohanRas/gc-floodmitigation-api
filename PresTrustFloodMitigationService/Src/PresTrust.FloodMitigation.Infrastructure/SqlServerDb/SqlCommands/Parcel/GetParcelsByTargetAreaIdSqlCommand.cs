@@ -14,8 +14,10 @@ public class GetParcelsByTargetAreaIdSqlCommand
 						P.[StreetNo],
 						P.[StreetAddress],
 						P.[DateOfFLAP],
-						P.[IsElevated]
+						P.[IsElevated],
+						FAP.[StatusId]
             FROM	[Flood].[FloodParcel] P
+		    LEFT JOIN [Flood].[FloodApplicationParcel] FAP ON (P.PamsPin = FAP.PamsPin)
             WHERE	P.[TargetAreaId] = @p_TargetAreaId;";
 
     public GetParcelsByTargetAreaIdSqlCommand() { }

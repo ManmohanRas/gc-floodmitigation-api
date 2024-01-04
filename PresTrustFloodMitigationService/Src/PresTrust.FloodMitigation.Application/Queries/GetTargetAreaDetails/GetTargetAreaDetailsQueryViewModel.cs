@@ -15,6 +15,7 @@ public class GetFloodFlapParcelViewModel
     public string PamsPin { get; set; }
     public string? PropertyAddress { get; set; }
     public int? TargetAreaId { get; set; }
+    public int StatusId { get; set; }
     public string Block { get; set; }
     public string Lot { get; set; }
     public string? QCode { get; set; }
@@ -23,5 +24,16 @@ public class GetFloodFlapParcelViewModel
     public string StreetAddress { get; set; }
     public DateTime? DateOfFLAP { get; set; }
     public bool IsElevated { get; set; }
+    public PropertyStatusEnum Status
+    {
+        get
+        {
+            return (PropertyStatusEnum)StatusId;
+        }
+        set
+        {
+            this.StatusId = (int)value;
+        }
+    }
 
 }
