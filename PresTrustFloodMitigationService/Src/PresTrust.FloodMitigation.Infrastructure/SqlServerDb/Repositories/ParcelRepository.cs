@@ -60,12 +60,12 @@ public class ParcelRepository : IParcelRepository
         }
     }
 
-    public async Task LinkTargetAreaIdToParcelAsync(List<int> parcelIds, int targetAreaId)
+    public async Task LinkTargetAreaIdToParcelAsync(List<string> pamsPins, int targetAreaId)
     {
         using var conn = context.CreateConnection();
-        foreach (var parcelId in parcelIds)
+        foreach (var pamsPin in pamsPins)
         {
-            if (parcelId > 0)
+            if (!string.IsNullOrEmpty(pamsPin))
             {
                 var sqlCommand = new LinkTargetAreaIdToParcelSqlCommand();
                 await conn.ExecuteAsync(sqlCommand.ToString(),
@@ -73,7 +73,7 @@ public class ParcelRepository : IParcelRepository
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new
                     {
-                        @p_Id = parcelId,
+                        @p_PamsPin = pamsPin,
                         @p_TargetAreaId = targetAreaId,
                         @p_DateOfFLAP = DateTime.Now
                     });
