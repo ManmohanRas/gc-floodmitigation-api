@@ -14,7 +14,7 @@ public interface IParcelRepository
     /// </summary>
     /// <param name="parcelIds"></param>
     /// <returns></returns>
-    Task LinkTargetAreaIdToParcelAsync(List<int> parcelIds, int targetAreaId);
+    Task LinkTargetAreaIdToParcelAsync(List<string> pamsPin, int targetAreaId);
 
     /// <summary>
     /// Get Parcel
