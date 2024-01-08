@@ -180,7 +180,7 @@ public class ParcelRepository : IParcelRepository
                             })).ToList();
         return results;
     }
-    public async Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchText)
+    public async Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchBlockText, string searchLotText, string searchAddressText)
     {
         FloodProgramManagerParcelsEntity result = new();
 
@@ -193,7 +193,9 @@ public class ParcelRepository : IParcelRepository
                     {
                         @p_PageNumber = pageNumber,
                         @p_PageRows = pageRows,
-                        @p_SearchText = string.IsNullOrWhiteSpace(searchText) ? string.Empty : string.Format("%{0}%", searchText)
+                        @p_Block = string.Format("%{0}%", searchBlockText ?? string.Empty),
+                        @p_Lot = string.Format("%{0}%", searchLotText ?? string.Empty),
+                        @p_Address = string.Format("%{0}%", searchAddressText ?? string.Empty)
                     })).ToList();
         
         foreach(var item in results)
