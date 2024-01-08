@@ -31,6 +31,7 @@ WITH CoreParcelCTE AS
 			GetDate() AS LastUpdatedOn,
 			1 AS IsActive
 		FROM		[Core].[Parcels]
+		WHERE OwnersName != 'unmatched parcel'
 	) CoreParcels
 )
 INSERT INTO [Flood].[FloodParcel]

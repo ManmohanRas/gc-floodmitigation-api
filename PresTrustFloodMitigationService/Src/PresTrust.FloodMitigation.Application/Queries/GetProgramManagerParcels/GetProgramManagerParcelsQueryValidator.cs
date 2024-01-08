@@ -4,10 +4,10 @@ public class GetProgramManagerParcelsQueryValidator : AbstractValidator<GetProgr
 {
     public GetProgramManagerParcelsQueryValidator()
     {
-        RuleFor(query => query.pageNumber)
+        RuleFor(query => query.PageNumber)
                 .NotNull().NotEmpty().WithMessage("Page Number is required.")
                 .GreaterThan(0).WithMessage("Page Number must be greater than 0");
-        RuleFor(query => query.pageRows)
+        RuleFor(query => query.PageRows)
                 .NotNull().NotEmpty().WithMessage("Page Rows is required.")
                 .GreaterThan(0).WithMessage("Page Rows must be greater than 0");
     }

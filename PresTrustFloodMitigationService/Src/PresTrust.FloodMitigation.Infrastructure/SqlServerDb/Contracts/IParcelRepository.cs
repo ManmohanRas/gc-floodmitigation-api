@@ -14,7 +14,7 @@ public interface IParcelRepository
     /// </summary>
     /// <param name="parcelIds"></param>
     /// <returns></returns>
-    Task LinkTargetAreaIdToParcelAsync(List<int> parcelIds, int targetAreaId);
+    Task LinkTargetAreaIdToParcelAsync(List<string> pamsPin, int targetAreaId);
 
     /// <summary>
     /// Get Parcel
@@ -57,7 +57,7 @@ public interface IParcelRepository
     /// Get Program Manager Parcels
     /// </summary>
     /// <returns></returns>
-    Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchText);
+    Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchBlockText, string searchLotText, string searchAddressText);
 
     /// <summary>
     /// Get Program Manager Parcel
