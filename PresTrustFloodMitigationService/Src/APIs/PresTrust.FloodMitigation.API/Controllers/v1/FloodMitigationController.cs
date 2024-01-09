@@ -1,3 +1,5 @@
+using Azure.Core;
+using Newtonsoft.Json.Linq;
 using PresTrust.FloodMitigation.Domain.Entities;
 
 namespace PresTrust.FloodMitigation.API.Controllers.v1;
@@ -1050,6 +1052,22 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveProgramManagerParcel([FromBody] SaveProgramManagerParcelCommand query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    /// <summary>
+    /// Read Target Areas CSV File
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("readTargetAreasCSVFile")]
+    [DisableRequestSizeLimit]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> ReadTargetAreaCSVFile([FromForm] ReadTargetListFileQuery query)
     {
         return Single(await QueryAsync(query));
     }

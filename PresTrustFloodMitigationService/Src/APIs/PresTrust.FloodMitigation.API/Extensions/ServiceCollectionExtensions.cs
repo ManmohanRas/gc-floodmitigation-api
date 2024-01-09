@@ -1,4 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.API.Extensions;
+﻿using Microsoft.AspNetCore.Http.Features;
+
+namespace PresTrust.FloodMitigation.API.Extensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -24,9 +26,17 @@ public static class ServiceCollectionExtensions
             options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
         });
 
+        services.Configure<FormOptions>(o =>
+        {
+            o.ValueLengthLimit = int.MaxValue;
+            o.MultipartBodyLengthLimit = int.MaxValue;
+            o.MemoryBufferThreshold = int.MaxValue;
+        });
+
         services.AddHttpContextAccessor();
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddSession();
     }
 }
