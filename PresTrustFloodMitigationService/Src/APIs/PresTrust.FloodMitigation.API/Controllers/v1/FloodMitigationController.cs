@@ -1051,6 +1051,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveProgramManagerParcel([FromBody] SaveProgramManagerParcelCommand query)
     {
+        return Single(await CommandAsync(query));
+    }
+
+    [HttpPost("checkDuplicateProperty")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> CheckDuplicateProperty([FromBody] CheckDuplicatePropertyQuery query)
+    {
         return Single(await QueryAsync(query));
     }
 }

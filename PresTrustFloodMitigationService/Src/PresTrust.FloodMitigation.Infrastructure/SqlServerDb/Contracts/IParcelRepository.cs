@@ -72,4 +72,12 @@ public interface IParcelRepository
     /// <param name="parcel"></param>
     /// <returns></returns>
     Task<FloodParcelEntity> SaveProgramManagerParcelAsync(FloodParcelEntity parcel);
+
+    /// <summary>
+    /// Check Duplicate Property
+    /// </summary>
+    /// <param name="Id"></param>
+    /// <param name="PamsPin"></param>
+    /// <returns></returns>
+    Task<bool> CheckDuplicateProperty(int Id, string PamsPin);
 }
