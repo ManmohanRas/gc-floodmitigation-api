@@ -37,6 +37,7 @@ public static class ServiceCollectionExtensions
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddDistributedMemoryCache();
         services.AddSession();
     }
 }

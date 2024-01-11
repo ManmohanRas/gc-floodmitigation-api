@@ -1,22 +1,15 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using System.Formats.Asn1;
-
-namespace PresTrust.FloodMitigation.Application.Queries;
+﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
 public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFileQuery, Unit>
 {
-    public IWebHostEnvironment _webHostEnvironment;
-    private HttpContext _content;
+    private readonly IHttpContextAccessor accessor;
 
     public ReadTargetListFileQueryHandler
         (
-        IWebHostEnvironment _webHostEnvironment,
-        HttpContext _content
+        IHttpContextAccessor accessor
         )
     {
-        this._webHostEnvironment = _webHostEnvironment;
-        this._content = _content;
+        this.accessor = accessor;
     }
     public async Task<Unit> Handle(ReadTargetListFileQuery request, CancellationToken cancellationToken)
     {
@@ -73,18 +66,14 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                     PamsPin = dt.Rows[i]["PamsPin"].ToString(),
                     DateOfFLAP = new DateTime(),
                     IsFLAP = true,
-                    StartNo = (int)dt.Rows[i]["StartNo"],
+                    StreetNo = dt.Rows[i]["StreetNo"].ToString(),
                     StreetAddress = dt.Rows[i]["StreetAddress"].ToString(),
-                    LandOwner = dt.Rows[i]["LandOwner"].ToString(),
-                    IsElevated = (bool)dt.Rows[i]["IsElevated"],
+                    LandOwner = dt.Rows[i]["OwnersName"].ToString(),
+                    //IsElevated = (bool)dt.Rows[i]["IsElevated"],
                     TargetArea = dt.Rows[i]["TargetArea"].ToString()
                 });
             }
-            List<int> ls = new List<int>() { 1, 2, 3 };
-            _content.Session.SetString("key", "value"); // Set Session  
-            //_content.Session.Set("key", ls);
-
-            Console.WriteLine(parcels);
+            accessor.HttpContext.Session.SetString("Parcels", JsonConvert.SerializeObject(parcels)); // Set Session  
         }
 
             return Unit.Value;

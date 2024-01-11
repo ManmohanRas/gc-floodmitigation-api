@@ -42,5 +42,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IFlapModuleRepository, FlapModuleRepository>();
 
         services.AddHttpContextAccessor();
+        services.AddSession();
+
     }
 }                                                                               

@@ -17,7 +17,6 @@ public static class ApplicationBuilderExtentions
         applicationBuilder.UseHttpsRedirection();
         applicationBuilder.UseCors(FloodMitigationDomainConstants.AppSettingKeys.CORS_POLICY_NAME);
         applicationBuilder.UseRouting();
-
         applicationBuilder.UseAuthentication();
         applicationBuilder.Use(async (httpContext, next) =>
         {
@@ -29,7 +28,7 @@ public static class ApplicationBuilderExtentions
             await next.Invoke();
         });
         applicationBuilder.UseAuthorization();
-
+        applicationBuilder.UseSession();
 
     }
 }
