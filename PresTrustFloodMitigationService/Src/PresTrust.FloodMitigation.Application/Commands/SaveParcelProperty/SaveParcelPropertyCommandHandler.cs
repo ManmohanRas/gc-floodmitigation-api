@@ -56,6 +56,11 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
         // map command object to the FloodParcelPropertyEntity
         FloodParcelEntity reqParcel = new();
         reqParcel = mapper.Map<SaveParcelPropertyCommand, FloodParcelEntity>(request);
+        reqParcel.PamsPin = string.Format("{0}_{1}_{2}_{3}", reqParcel.AgencyId, reqParcel.Block, reqParcel.Lot, reqParcel.QCode);
+        if (reqParcel.PamsPin.EndsWith('_'))
+        {
+            reqParcel.PamsPin = reqParcel.PamsPin.Substring(0, reqParcel.PamsPin.Length - 1);
+        }
         FloodParcelPropertyEntity reqParcelProperty = new();
         reqParcelProperty = mapper.Map<SaveParcelPropertyCommand, FloodParcelPropertyEntity>(request);
         // Check Broken Rules
@@ -142,7 +147,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
                 Message = "mailing Address 1 required field on property tab have not been Filled.",
-                IsPropertyFlow = false
+                IsPropertyFlow = true
             });
         if (string.IsNullOrEmpty(reqFloodParcel.OwnersCity))
             brokenRules.Add(new FloodPropertyBrokenRuleEntity()
@@ -151,7 +156,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
                 Message = "City required field on property tab have not been Filled.",
-                IsPropertyFlow = false
+                IsPropertyFlow = true
             });
         if (string.IsNullOrEmpty(reqFloodParcel.OwnersZipcode))
             brokenRules.Add(new FloodPropertyBrokenRuleEntity()
@@ -160,7 +165,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
                 Message = "ZipCode required field on property tab have not been Filled.",
-                IsPropertyFlow = false
+                IsPropertyFlow = true
             });
         if (string.IsNullOrEmpty(reqFloodParcel.OwnersState))
             brokenRules.Add(new FloodPropertyBrokenRuleEntity()
@@ -169,7 +174,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
                 Message = "State required field on property tab have not been Filled.",
-                IsPropertyFlow = false
+                IsPropertyFlow = true
             });
 
         if (property.Status == PropertyStatusEnum.SUBMITTED)

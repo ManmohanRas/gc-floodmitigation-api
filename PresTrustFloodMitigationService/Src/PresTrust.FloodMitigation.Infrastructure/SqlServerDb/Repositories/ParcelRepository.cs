@@ -1,7 +1,4 @@
-﻿using OneOf.Types;
-using System;
-
-namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
+﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories;
 
 public class ParcelRepository : IParcelRepository
 {
@@ -63,12 +60,12 @@ public class ParcelRepository : IParcelRepository
         }
     }
 
-    public async Task LinkTargetAreaIdToParcelAsync(List<int> parcelIds, int targetAreaId)
+    public async Task LinkTargetAreaIdToParcelAsync(List<string> pamsPins, int targetAreaId)
     {
         using var conn = context.CreateConnection();
-        foreach (var parcelId in parcelIds)
+        foreach (var pamsPin in pamsPins)
         {
-            if (parcelId > 0)
+            if (!string.IsNullOrEmpty(pamsPin))
             {
                 var sqlCommand = new LinkTargetAreaIdToParcelSqlCommand();
                 await conn.ExecuteAsync(sqlCommand.ToString(),
@@ -76,7 +73,7 @@ public class ParcelRepository : IParcelRepository
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new
                     {
-                        @p_Id = parcelId,
+                        @p_PamsPin = pamsPin,
                         @p_TargetAreaId = targetAreaId,
                         @p_DateOfFLAP = DateTime.Now
                     });
@@ -183,7 +180,7 @@ public class ParcelRepository : IParcelRepository
                             })).ToList();
         return results;
     }
-    public async Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchText)
+    public async Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchBlockText, string searchLotText, string searchAddressText)
     {
         FloodProgramManagerParcelsEntity result = new();
 
@@ -196,7 +193,9 @@ public class ParcelRepository : IParcelRepository
                     {
                         @p_PageNumber = pageNumber,
                         @p_PageRows = pageRows,
-                        @p_SearchText = string.IsNullOrWhiteSpace(searchText) ? string.Empty : string.Format("%{0}%", searchText)
+                        @p_Block = string.Format("%{0}%", searchBlockText ?? string.Empty),
+                        @p_Lot = string.Format("%{0}%", searchLotText ?? string.Empty),
+                        @p_Address = string.Format("%{0}%", searchAddressText ?? string.Empty)
                     })).ToList();
         
         foreach(var item in results)
@@ -214,5 +213,58 @@ public class ParcelRepository : IParcelRepository
         }
 
         return result ?? new();
+    }
+
+    public async Task<FloodParcelEntity> GetProgramManagerParcelAsync(int parcelId)
+    {
+        FloodParcelEntity result = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetProgramManagerParcelSqlCommand();
+        var results = await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
+                            commandType: CommandType.Text,
+                            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                            param: new
+                            {
+                                @p_Id = parcelId
+                            });
+        result = results.FirstOrDefault();
+
+        return result ?? new();
+    }
+
+    public async Task<FloodParcelEntity> SaveProgramManagerParcelAsync(FloodParcelEntity parcel)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new SaveProgramManagerParcelSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_Id = parcel.Id,
+                @p_PamsPin = parcel.PamsPin,
+                @p_IsElevated = parcel.IsElevated,
+                @p_StreetNo = parcel.StreetNo,
+                @p_StreetAddress = parcel.StreetAddress,
+                @p_Block = parcel.Block,
+                @p_Lot = parcel.Lot,
+                @p_QualificationCode = parcel.QCode,
+                @p_Latitude = parcel.Latitude,
+                @p_Longitude = parcel.Longitude,
+                @p_Acreage = parcel.Acreage,
+                @p_YearOfConstruction = parcel.YearOfConstruction,
+                @p_SquareFootage = parcel.SquareFootage,
+                @p_OwnersName = parcel.LandOwner,
+                @p_OwnersAddress1 = parcel.OwnersAddress1,
+                @p_OwnersAddress2 = parcel.OwnersAddress2,
+                @p_OwnersCity = parcel.OwnersCity,
+                @p_OwnersState = parcel.OwnersState,
+                @p_OwnersZipcode = parcel.OwnersZipcode,
+                @p_TotalAssessedValue = parcel.TotalAssessedValue,
+                @p_LandValue = parcel.LandValue,
+                @p_ImprovementValue = parcel.ImprovementValue,
+                @p_AnnualTaxes = parcel.AnnualTaxes
+            });
+        return parcel;
     }
 }

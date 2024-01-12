@@ -2,7 +2,9 @@
 
 public class GetProgramManagerParcelsQuery : IRequest<GetProgramManagerParcelsQueryViewModel>
 {
-    public int pageNumber { get; set; } = 1;
-    public int pageRows { get; set; } = 10;
-    public string searchText { get; set; } = "";
+    public int PageNumber { get; set; } = 1;
+    public int PageRows { get; set; } = 10;
+    public string SearchBlockText { get; set; } = "";
+    public string SearchLotText { get; set; } = "";
+    public string SearchAddressText { get; set; } = "";
 }

@@ -9,6 +9,7 @@ public class GetProgramManagerParcelsSqlCommand
 			(
 				SELECT
 					FP.[Id],
+					FP.[AgencyId],
 					AG.[AgencyName],
 					FP.[PamsPin],
 					FP.[Block],
@@ -33,26 +34,17 @@ public class GetProgramManagerParcelsSqlCommand
 					FP.[ImprovementValue],
 					FP.[AnnualTaxes],
 					FP.[IsValidPamsPin],
-					FP.[TargetAreaId],
-					CASE WHEN FP.[TargetAreaId] > 0 THEN 1 ELSE 0 END AS [IsFLAP],
 					FP.[DateOfFLAP],
+					TA.[TargetArea],
+					CASE WHEN FP.[TargetAreaId] > 0 THEN 1 ELSE 0 END AS [IsFLAP],
 					FP.[IsElevated],
 					NULL AS [StartNo],
 					NULL AS [EndNo],
 					NULL AS [TotalNo]
 				FROM [Flood].[FloodParcel] FP
 				JOIN [Core].[View_AgencyEntities_FLOOD] AG ON AG.[AgencyId] = FP.[AgencyId]
-				WHERE @p_SearchText IS NULL OR TRIM(@p_SearchText) = '' OR
-				CONCAT(
-					AG.[AgencyName],
-					FP.[PamsPin],
-					FP.[Block],
-					FP.[Lot],
-					FP.[QualificationCode],
-					FP.[StreetNo],
-					FP.[StreetAddress],
-					FP.[OwnersName]
-				) LIKE @p_SearchText
+				LEFT JOIN [Flood].[FloodFlapTargetArea] TA ON FP.[TargetAreaId] = TA.[Id]
+				WHERE (@p_Block = '' OR FP.[Block] like @p_Block) AND (@p_Lot = '' OR FP.[Lot] like @p_Lot) AND (@p_Address = ''  OR CONCAT(FP.[StreetNo], ' ', FP.[StreetAddress]) like @p_Address)
 				ORDER BY [Id]
 				OFFSET ((@p_PageNumber - 1) * @p_PageRows) ROWS FETCH NEXT @p_PageRows ROWS ONLY
 			)
@@ -60,6 +52,7 @@ public class GetProgramManagerParcelsSqlCommand
 			UNION
 			SELECT
 				0 AS [Id],
+				0 AS [AgencyId],
 				NULL AS [AgencyName],
 				NULL AS [PamsPin],
 				NULL AS [Block],
@@ -84,9 +77,9 @@ public class GetProgramManagerParcelsSqlCommand
 				NULL AS [ImprovementValue],
 				NULL AS [AnnualTaxes],
 				NULL AS [IsValidPamsPin],
-				NULL AS [TargetAreaId],
-				0 AS [IsFLAP],
 				NULL AS [DateOfFLAP],
+				NULL AS [TargetArea],
+				0 AS [IsFLAP],
 				0 AS [IsElevated],
 				((@p_PageNumber - 1) * @p_PageRows) + 1 AS [StartNo],
 				((@p_PageNumber - 1) * @p_PageRows) + @p_PageRows AS [EndNo],

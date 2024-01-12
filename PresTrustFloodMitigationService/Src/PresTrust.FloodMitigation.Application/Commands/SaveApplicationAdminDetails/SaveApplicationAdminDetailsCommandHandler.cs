@@ -91,14 +91,14 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
 
         }
 
-        if (AppDetails.MunicipalResolutionDate == null)
+       if (AppDetails.MunicipalResolutionDate == null)
             brokenRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = AppDetails.ApplicationId,
                 SectionId = sectionId,
-                Message = "Municipal Resolution Date required field on AdminDetails tab have not been filled.",
-                IsApplicantFlow = false
-            });
+               Message = "Municipal Resolution Date required field on AdminDetails tab have not been filled.",
+              IsApplicantFlow = false
+           });
 
         if (string.IsNullOrEmpty(AppDetails.MunicipalResolutionNumber))
             brokenRules.Add(new FloodBrokenRuleEntity()
@@ -278,65 +278,69 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                         IsApplicantFlow = false
                     });
             }
-            if (application.Status == ApplicationStatusEnum.IN_REVIEW)
-            {
-                if (AppDetails.FMCPreliminaryApprovalDate == null)
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "FMC Preliminary Approval Date required field on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-                if (string.IsNullOrEmpty(AppDetails.FMCPreliminaryNumber))
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "FMC Preliminary Number required field on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-                if (AppDetails.BCCPreliminaryApprovalDate == null)
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "BCC Preliminary Approval Date required field on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-                if (string.IsNullOrEmpty(AppDetails.BCCPreliminaryNumber))
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "BCC Preliminary Number required field on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-                if (docFmcPreliminaryApprovalResolution == null)
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "FMC Preliminary Approval Resolution required document on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-                if (docBccPreliminaryApprovalResolution == null)
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "BCC Preliminary Approval Resolution required document on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-                if (docsNotificationOfapproval == null)
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "Notification Of approval required document on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-            }
+
+             if (application.Status == ApplicationStatusEnum.IN_REVIEW)
+             {
+                if (application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
+                {
+                    if (AppDetails.FMCPreliminaryApprovalDate == null)
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = AppDetails.ApplicationId,
+                            SectionId = sectionId,
+                            Message = "FMC Preliminary Approval Date required field on AdminDetails tab have not been filled.",
+                            IsApplicantFlow = false
+                        });
+                    if (string.IsNullOrEmpty(AppDetails.FMCPreliminaryNumber))
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = AppDetails.ApplicationId,
+                            SectionId = sectionId,
+                            Message = "FMC Preliminary Number required field on AdminDetails tab have not been filled.",
+                            IsApplicantFlow = false
+                        });
+                    if (AppDetails.BCCPreliminaryApprovalDate == null)
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = AppDetails.ApplicationId,
+                            SectionId = sectionId,
+                            Message = "BCC Preliminary Approval Date required field on AdminDetails tab have not been filled.",
+                            IsApplicantFlow = false
+                        });
+                    if (string.IsNullOrEmpty(AppDetails.BCCPreliminaryNumber))
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = AppDetails.ApplicationId,
+                            SectionId = sectionId,
+                            Message = "BCC Preliminary Number required field on AdminDetails tab have not been filled.",
+                            IsApplicantFlow = false
+                        });
+                    if (docFmcPreliminaryApprovalResolution == null)
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = AppDetails.ApplicationId,
+                            SectionId = sectionId,
+                            Message = "FMC Preliminary Approval Resolution required document on AdminDetails tab have not been filled.",
+                            IsApplicantFlow = false
+                        });
+                    if (docBccPreliminaryApprovalResolution == null)
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = AppDetails.ApplicationId,
+                            SectionId = sectionId,
+                            Message = "BCC Preliminary Approval Resolution required document on AdminDetails tab have not been filled.",
+                            IsApplicantFlow = false
+                        });
+                    if (docsNotificationOfapproval == null)
+                        brokenRules.Add(new FloodBrokenRuleEntity()
+                        {
+                            ApplicationId = AppDetails.ApplicationId,
+                            SectionId = sectionId,
+                            Message = "Notification Of approval required document on AdminDetails tab have not been filled.",
+                            IsApplicantFlow = false
+                        });
+                }
+             }
         }
 
         return brokenRules;

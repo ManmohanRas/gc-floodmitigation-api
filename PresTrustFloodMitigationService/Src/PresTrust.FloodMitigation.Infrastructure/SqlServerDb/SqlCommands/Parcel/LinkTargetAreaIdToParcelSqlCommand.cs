@@ -6,7 +6,7 @@ public class LinkTargetAreaIdToParcelSqlCommand
             @"  UPDATE [Flood].[FloodParcel] SET
 					[TargetAreaId] = @p_TargetAreaId,
 					[DateOfFlap]  = @p_DateOfFlap
-				WHERE [Id] = @p_Id";
+				WHERE [PamsPin] = @p_PamsPin";
 
     public LinkTargetAreaIdToParcelSqlCommand()
     {

@@ -31,12 +31,12 @@ public class SaveFlapTargetAreaCommandHandler: IRequestHandler<SaveFlapTargetAre
 
         targetArea = await repoFlap.SaveFlapTargetAreaAsync(targetArea);
 
-        var parcelIds = request.ParcelIds ?? new List<int>();
+        var pamsPins = request.PamsPins ?? new List<string>();
                
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
-            if(parcelIds.Count() > 0)
-                await repoParcel.LinkTargetAreaIdToParcelAsync(parcelIds, targetArea.Id);
+            if(pamsPins.Count() > 0)
+                await repoParcel.LinkTargetAreaIdToParcelAsync(pamsPins, targetArea.Id);
 
             scope.Complete();
         }
