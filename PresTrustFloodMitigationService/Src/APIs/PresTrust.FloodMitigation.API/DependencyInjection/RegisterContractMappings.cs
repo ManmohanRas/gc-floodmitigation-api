@@ -40,6 +40,8 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IParcelTrackingRepository, ParcelTrackingRepository>();
         services.AddTransient<IPropertyBrokenRuleRepository, PropertyBrokenRulesRepository>();
         services.AddTransient<IFlapModuleRepository, FlapModuleRepository>();
+        services.AddTransient<IMunicipalFinanceRepository, MunicipalFinanceRepository>();
+        services.AddTransient<IMunicipalTrustFundPermittedUsesRepository, MunicipalTrustFundPermittedUsesRepository>();
 
         services.AddHttpContextAccessor();
         services.AddSession();
