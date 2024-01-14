@@ -29,6 +29,7 @@ public class SaveMunicipalCommentCommandHandler : IRequestHandler<SaveMunicipalC
 
         // save comment
         FloodMunicipalCommentEntity comment = default;
+        reqComment.LastUpdatedBy = this.userContext.Name;
         comment = await this.repoComment.SaveAsync(reqComment);
 
         return comment.Id;

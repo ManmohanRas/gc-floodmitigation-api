@@ -38,7 +38,7 @@ public class MunicipalCommentRepository: IMunicipalCommentRepository
     private async Task<FloodMunicipalCommentEntity> UpdateAsync(FloodMunicipalCommentEntity comment)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdateApplicationCommentSqlCommand();
+        var sqlCommand = new UpdateMunicipalCommentSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -78,7 +78,7 @@ public class MunicipalCommentRepository: IMunicipalCommentRepository
     public async Task DeleteCommentAsync(FloodMunicipalCommentEntity comment)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new DeleteApplicationCommentSqlCommand();
+        var sqlCommand = new DeleteMunicipalCommentSqlCommand();
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
