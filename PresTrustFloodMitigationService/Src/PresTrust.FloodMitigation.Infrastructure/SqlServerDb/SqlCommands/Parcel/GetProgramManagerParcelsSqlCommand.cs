@@ -35,7 +35,7 @@ public class GetProgramManagerParcelsSqlCommand
 					FP.[AnnualTaxes],
 					FP.[IsValidPamsPin],
 					FP.[DateOfFLAP],
-					TA.[TargetArea],
+					ISNULL(TA.[TargetArea], '') AS [TargetArea],
 					CASE WHEN FP.[TargetAreaId] > 0 THEN 1 ELSE 0 END AS [IsFLAP],
 					FP.[IsElevated],
 					NULL AS [StartNo],

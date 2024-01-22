@@ -267,4 +267,22 @@ public class ParcelRepository : IParcelRepository
             });
         return parcel;
     }
+
+    public async Task<bool> CheckDuplicateProperty(int Id, string PamsPin)
+    {
+        bool result = default;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new CheckDuplicatePropertySqlCommand();
+        result = await conn.ExecuteScalarAsync<bool>(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_Id = Id,
+                @p_PamsPin = PamsPin
+            });
+
+        return result;
+    }
 }
