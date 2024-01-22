@@ -42,6 +42,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IFlapModuleRepository, FlapModuleRepository>();
         services.AddTransient<IMunicipalFinanceRepository, MunicipalFinanceRepository>();
         services.AddTransient<IMunicipalTrustFundPermittedUsesRepository, MunicipalTrustFundPermittedUsesRepository>();
+        services.AddTransient<IMunicipalCommentRepository, MunicipalCommentRepository>();
 
         services.AddHttpContextAccessor();
         services.AddSession();

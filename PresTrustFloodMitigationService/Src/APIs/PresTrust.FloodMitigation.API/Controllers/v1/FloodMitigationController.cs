@@ -1053,6 +1053,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<int>> SaveProgramManagerParcel([FromBody] SaveProgramManagerParcelCommand query)
     {
+        return Single(await CommandAsync(query));
+    }
+
+    [HttpPost("checkDuplicateProperty")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> CheckDuplicateProperty([FromBody] CheckDuplicatePropertyQuery query)
+    {
         return Single(await QueryAsync(query));
     }
 
@@ -1071,6 +1081,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
+    //Municipal comments
+    [HttpPost("getMunicipalComments")]
+    [ProducesResponseType(typeof(IEnumerable<GetMunicipalCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetMunicipalCommentsQueryViewModel>>> GetMunicipalComments([FromBody] GetMunicipalCommentsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
 
     [HttpPost("importTargetList")]
     [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
@@ -1078,6 +1098,15 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<Unit>> ImportTargetList([FromBody] ImportTargetListCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+    [HttpPost("saveMunicipalComment")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveMunicipalComment([FromBody] SaveMunicipalCommentCommand command)
     {
         return Single(await CommandAsync(command));
     }
@@ -1125,6 +1154,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     public async Task<ActionResult<int>> SaveMunicipalFinance([FromBody] SaveMunicipalFinanceCommand query)
     {
         return Single(await CommandAsync(query));
+    }
+
+    [HttpPost("deleteMunicipalComment")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteMunicipalComment([FromBody] DeleteMunicipalCommentCommand command)
+    {
+        return Single(await CommandAsync(command));
     }
 }
 
