@@ -1,6 +1,3 @@
-IF OBJECT_ID('[Flood].[FloodMunicipalTrustFundPermittedUses]') IS NOT NULL
-
-
 -- Drop Table
 DROP TABLE IF EXISTS [Flood].[FloodMunicipalTrustFundPermittedUses]
 GO
@@ -22,6 +19,8 @@ CREATE TABLE [Flood].[FloodMunicipalTrustFundPermittedUses](
 	[GreenAcresGrant] [bit] NULL,
 	[TrustFundComments] [varchar](2000) NULL,
 	[Other] [varchar](2000) NULL,
+	[LastUpdatedBy]							[varchar](128)					NULL	,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
 CONSTRAINT [PK_FloodMunicipalTrustFundPermittedUses_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
