@@ -33,6 +33,8 @@ global using PresTrust.FloodMitigation.Application.Http;
 global using PresTrust.FloodMitigation.Application.Services.EmailApi;
 global using PresTrust.FloodMitigation.Application.Services.IdentityApi;
 global using PresTrust.FloodMitigation.Application.CommonViewModels;
+global using Microsoft.Extensions.Caching.Memory;
+
 
 //---------------------------------------------- PresTrust.FloodMitigation.Domain Namespaces ----------------------------------------------//
 //=========================================================================================================================================//

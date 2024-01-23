@@ -45,7 +45,5 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IMunicipalCommentRepository, MunicipalCommentRepository>();
 
         services.AddHttpContextAccessor();
-        services.AddSession();
-
     }
 }                                                                               
