@@ -38,29 +38,32 @@ public class RejectPropertyCommandHandler : BaseHandler, IRequestHandler<RejectP
         RejectPropertyCommandViewModel result = new ();
 
         // check if Property exists
-        var Property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
+        var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
 
         //update Property
-        if (Property != null)
+        if (property != null)
         {
-            Property.StatusId = (int)PropertyStatusEnum.REJECTED;
-            Property.LastUpdatedBy = userContext.Email;
+            property.StatusId = (int)PropertyStatusEnum.REJECTED;
+            property.IsLocked = true;
+            property.LastUpdatedBy = userContext.Email;
         }
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
-            await repoProperty.SaveApplicationParcelWorkflowStatusAsync(Property);
+            await repoProperty.SaveApplicationParcelWorkflowStatusAsync(property);
             FloodParcelStatusLogEntity appParcelStatusLog = new()
             {
-                ApplicationId = Property.ApplicationId,
-                PamsPin = Property.PamsPin,
-                StatusId = Property.StatusId,
+                ApplicationId = property.ApplicationId,
+                PamsPin = property.PamsPin,
+                StatusId = property.StatusId,
                 StatusDate = DateTime.Now,
                 Notes = string.Empty,
-                LastUpdatedBy = Property.LastUpdatedBy
+                LastUpdatedBy = property.LastUpdatedBy
             };
             await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
             await repoPropertyBrokenRule.DeleteAllPropertyBrokenRulesAsync(request.ApplicationId, request.PamsPin);
+
+            await repoProperty.CreateLockedParcel();
 
             scope.Complete();
             result.IsSuccess = true;

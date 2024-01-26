@@ -9,6 +9,6 @@ public class FloodApplicationReleaseOfFundsEntity
     public decimal? CAFAmount { get; set; }
     public decimal? AmountSpent { get; set; }
     public decimal? Balance { get; set; }
-    public string? LastUpdatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedDate { get; set; }
 }

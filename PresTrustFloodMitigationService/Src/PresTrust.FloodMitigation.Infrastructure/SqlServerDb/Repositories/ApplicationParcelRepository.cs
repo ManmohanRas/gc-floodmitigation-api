@@ -161,4 +161,13 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
         result = true;
         return result;
     }
+
+    /// <summary>
+    /// Lock Property
+    /// </summary>
+    /// <returns></returns>
+    public async Task CreateLockedParcel()
+    {
+
+    }
 }

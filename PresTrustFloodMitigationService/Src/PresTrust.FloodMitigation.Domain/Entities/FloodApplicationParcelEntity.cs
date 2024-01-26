@@ -9,7 +9,7 @@ public class FloodApplicationParcelEntity
     public bool IsLocked { get; set; }
     public bool? IsSubmitted { get; set; }
     public bool? IsApproved { get; set; } 
-    public string? LastUpdatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
     public PropertyStatusEnum Status
     {
         get

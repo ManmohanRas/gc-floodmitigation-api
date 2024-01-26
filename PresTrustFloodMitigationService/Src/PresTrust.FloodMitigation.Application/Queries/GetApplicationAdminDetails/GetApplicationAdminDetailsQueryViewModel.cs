@@ -17,7 +17,7 @@ public class GetApplicationAdminDetailsQueryViewModel
     public DateTime? CommissionerMeetingDate { get; set; }
     public DateTime? FirstCommitteeMeetingDate { get; set; }
     public DateTime? SecondCommitteeMeetingDate { get; set; }
-    public string? LastUpdatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedOn { get; set; }
     public List<ApplicationDocumentTypeViewModel> DocumentsTree { get; set; } = new List<ApplicationDocumentTypeViewModel>();
 

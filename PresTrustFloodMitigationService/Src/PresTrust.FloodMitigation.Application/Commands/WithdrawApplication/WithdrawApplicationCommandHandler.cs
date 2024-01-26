@@ -57,6 +57,8 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
         foreach (var appParcel in appParcels)
         {
             appParcel.StatusId = (int)PropertyStatusEnum.WITHDRAWN;
+            appParcel.IsLocked = true;
+            appParcel.LastUpdatedBy = userContext.Email;
         }
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
@@ -87,6 +89,8 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
                 };
                 await repoApplicationParcel.SaveStatusLogAsync(appParcelStatusLog);
                 await repoPropertyBrokenRule.DeleteAllPropertyBrokenRulesAsync(application.Id, appParcel.PamsPin);
+
+                await repoApplicationParcel.CreateLockedParcel();
             }
 
             scope.Complete();

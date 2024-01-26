@@ -71,6 +71,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
         if (property != null)
         {
             property.StatusId = (int)PropertyStatusEnum.PRESERVED;
+            property.IsLocked = true;
             property.LastUpdatedBy = userContext.Email;
         }
 
@@ -91,6 +92,8 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
             var defaultBrokenRules = ReturnBrokenRulesIfAny(application, property);
             // Save current Broken Rules, if any
             await repoPropertyBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
+
+            await repoProperty.CreateLockedParcel();
 
             scope.Complete();
             result.IsSuccess = true;

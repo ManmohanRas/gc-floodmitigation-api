@@ -37,6 +37,6 @@ public class FloodTechDetailsEntity
     public int? TwoPercent { get; set; }
     public int? OnePercent { get; set; }
     public int? PointOnePercent { get; set; }
-    public string? LastUpdatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedOn { get; set; }
 }
