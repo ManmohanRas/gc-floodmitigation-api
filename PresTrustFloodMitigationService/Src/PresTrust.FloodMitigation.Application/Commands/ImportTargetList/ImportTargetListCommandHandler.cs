@@ -24,7 +24,8 @@ public class ImportTargetListCommandHandler : IRequestHandler<ImportTargetListCo
     public async Task<Unit> Handle(ImportTargetListCommand request, CancellationToken cancellationToken)
     {
         List<FloodParcelEntity> importedParcels = new List<FloodParcelEntity>();
-        List<string> pamsPins = new List<string>(); 
+        List<string> pamsPins = new List<string>();
+        FloodFlapTargetAreaEntity targetArea = new FloodFlapTargetAreaEntity();
 
         var existingTargerAreas = await repoFlap.GetFlapTargetAreasAsync(request.AgencyId);
 
@@ -37,22 +38,20 @@ public class ImportTargetListCommandHandler : IRequestHandler<ImportTargetListCo
         IEnumerable<IGrouping<string, FloodParcelEntity>> query =
                         importedParcels.GroupBy(x => x.TargetArea.ToString());
 
-        foreach (IGrouping<string, FloodParcelEntity> parcel in query)
-        {
-            pamsPins = parcel.Select(y => y.PamsPin).ToList();
-        }
-
-        List<FloodFlapTargetAreaEntity> targetAreas = importedParcels.Select(o => new FloodFlapTargetAreaEntity()
-        {
-            AgencyId = o.AgencyId,
-            TargetArea = o.TargetArea,
-            CreatedDate = DateTime.Now,
-        }).ToList();
-
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
-            await SaveTargetAreas(targetAreas, pamsPins);
+            foreach (IGrouping<string, FloodParcelEntity> parcel in query)
+            {
+                targetArea = new FloodFlapTargetAreaEntity()
+                {
+                    AgencyId = request.AgencyId,
+                    TargetArea = parcel.Key,
+                    CreatedDate = DateTime.Now
+                };
+                pamsPins = parcel.Select(y => y.PamsPin).ToList();
+                await SaveTargetAreas(targetArea, pamsPins);
+            }
 
             scope.Complete();
         }
@@ -63,12 +62,12 @@ public class ImportTargetListCommandHandler : IRequestHandler<ImportTargetListCo
     }
 
     //save target areas
-    private async Task SaveTargetAreas(List<FloodFlapTargetAreaEntity> targetAreas, List<string> pamsPins)
+    private async Task SaveTargetAreas(FloodFlapTargetAreaEntity targetArea, List<string> pamsPins)
     {
-        foreach (var item in targetAreas)
-        {
-            FloodFlapTargetAreaEntity targetArea = await repoFlap.SaveFlapTargetAreaAsync(item);
-            await repoParcels.LinkTargetAreaIdToParcelAsync(pamsPins, targetArea.Id);
-        }
+       
+        targetArea = await repoFlap.SaveFlapTargetAreaAsync(targetArea);
+        
+        await repoParcels.LinkTargetAreaIdToParcelAsync(pamsPins, targetArea.Id);
+
     }
 }
