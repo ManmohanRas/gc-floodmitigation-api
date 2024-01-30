@@ -61,6 +61,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
         {
             reqParcel.PamsPin = reqParcel.PamsPin.Substring(0, reqParcel.PamsPin.Length - 1);
         }
+        reqParcel.IsLocked = property.IsLocked;
         FloodParcelPropertyEntity reqParcelProperty = new();
         reqParcelProperty = mapper.Map<SaveParcelPropertyCommand, FloodParcelPropertyEntity>(request);
         // Check Broken Rules
