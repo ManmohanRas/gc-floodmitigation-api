@@ -90,7 +90,7 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
                 await repoApplicationParcel.SaveStatusLogAsync(appParcelStatusLog);
                 await repoPropertyBrokenRule.DeleteAllPropertyBrokenRulesAsync(application.Id, appParcel.PamsPin);
 
-                await repoApplicationParcel.CreateLockedParcel();
+                await repoApplicationParcel.CreateLockedParcel(appParcel.ApplicationId, appParcel.PamsPin, userContext.Email);
             }
 
             scope.Complete();

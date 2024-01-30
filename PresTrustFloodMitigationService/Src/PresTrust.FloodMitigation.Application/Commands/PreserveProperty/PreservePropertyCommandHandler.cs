@@ -93,7 +93,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
             // Save current Broken Rules, if any
             await repoPropertyBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
 
-            await repoProperty.CreateLockedParcel();
+            await repoProperty.CreateLockedParcel(property.ApplicationId, property.PamsPin, userContext.Email);
 
             scope.Complete();
             result.IsSuccess = true;

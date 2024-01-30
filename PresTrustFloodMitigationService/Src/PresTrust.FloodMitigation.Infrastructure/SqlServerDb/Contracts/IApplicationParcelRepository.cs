@@ -58,5 +58,5 @@ public interface IApplicationParcelRepository
     /// Lock Property
     /// </summary>
     /// <returns></returns>
-    Task CreateLockedParcel();
+    Task CreateLockedParcel(int applicationId, string pamsPin, string lastUpdatedBy);
 }

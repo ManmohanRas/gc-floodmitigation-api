@@ -64,7 +64,7 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
     }
 
 
-    public async Task<FloodApplicationParcelEntity> GetApplicationPropertyAsync(int applicationId, string pamsPin )
+    public async Task<FloodApplicationParcelEntity> GetApplicationPropertyAsync(int applicationId, string pamsPin)
     {
         FloodApplicationParcelEntity result = default;
         using var conn = context.CreateConnection();
@@ -96,6 +96,7 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
                 @p_ApplicationId = property.ApplicationId,
                 @p_PamsPin = property.PamsPin,
                 @p_StatusId = property.StatusId,
+                @p_IsLocked = property.IsLocked,
                 @p_LastUpdatedBy = property.LastUpdatedBy,
             });
         return property;
@@ -166,8 +167,18 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
     /// Lock Property
     /// </summary>
     /// <returns></returns>
-    public async Task CreateLockedParcel()
+    public async Task CreateLockedParcel(int applicationId, string pamsPin, string lastUpdatedBy)
     {
-
+        using var conn = context.CreateConnection();
+        var sqlCommand = new CreateLockedParcelSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationId,
+                @p_PamsPin = pamsPin,
+                @p_LastUpdatedBy = lastUpdatedBy
+            });
     }
 }

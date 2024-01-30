@@ -63,8 +63,8 @@ public class ProjectAreaExpirePropertyCommandHandler : BaseHandler, IRequestHand
             await repoProperty.SaveStatusLogAsync(appParcelStatusLog);
             await repoPropertyBrokenRule.DeleteAllPropertyBrokenRulesAsync(request.ApplicationId, request.PamsPin);
 
-            await repoProperty.CreateLockedParcel();
-            
+            await repoProperty.CreateLockedParcel(property.ApplicationId, property.PamsPin, userContext.Email);
+
             scope.Complete();
             result.IsSuccess = true;
         }

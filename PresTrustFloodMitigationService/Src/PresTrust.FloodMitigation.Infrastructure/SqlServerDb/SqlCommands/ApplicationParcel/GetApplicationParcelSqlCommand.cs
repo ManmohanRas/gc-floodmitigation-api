@@ -7,6 +7,7 @@ public class GetApplicationParcelSqlCommand
 	            FA.[ApplicationId],
 	            FA.[PamsPin],
 	            FA.[StatusId],
+                FA.[IsLocked],
                 FA.[IsSubmitted],
                 FA.[IsApproved]
             FROM	[Flood].[FloodApplicationParcel] FA

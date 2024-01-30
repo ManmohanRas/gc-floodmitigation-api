@@ -119,7 +119,7 @@ public class ParcelRepository : IParcelRepository
     public async Task<FloodParcelEntity> UpdateAsync(FloodParcelEntity parcel)
     {
         using var conn = context.CreateConnection();
-        var sqlCommand = new UpdateParcelSqlCommand(true);
+        var sqlCommand = new UpdateParcelSqlCommand(true, parcel.IsLocked);
         await conn.ExecuteAsync(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
@@ -147,7 +147,8 @@ public class ParcelRepository : IParcelRepository
                 @p_TotalAssessedValue = parcel.TotalAssessedValue,
                 @p_LandValue = parcel.LandValue,
                 @p_ImprovementValue = parcel.ImprovementValue,
-                @p_AnnualTaxes = parcel.AnnualTaxes
+                @p_AnnualTaxes = parcel.AnnualTaxes,
+                @p_ApplicationId = parcel.ApplicationId
             });
         return parcel;
     }

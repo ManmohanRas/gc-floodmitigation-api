@@ -90,7 +90,7 @@ public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<Reje
                 await repoApplicationParcel.SaveStatusLogAsync(appParcelStatusLog);
                 await repoPropertyBrokenRule.DeleteAllPropertyBrokenRulesAsync(application.Id, appParcel.PamsPin);
 
-                await repoApplicationParcel.CreateLockedParcel();
+                await repoApplicationParcel.CreateLockedParcel(appParcel.ApplicationId, appParcel.PamsPin, userContext.Email);
             }
 
             scope.Complete();
