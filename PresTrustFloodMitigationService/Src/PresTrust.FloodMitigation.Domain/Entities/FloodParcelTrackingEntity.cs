@@ -16,6 +16,6 @@ public class FloodParcelTrackingEntity
     public bool CommunityGarden { get; set; }
     public bool ActiveRecreation { get; set; }
     public bool NaturalHabitat { get; set; }
-    public string? LastUpdatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedOn { get; set; }
 }

@@ -266,6 +266,26 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await CommandAsync(command));
     }
 
+    [HttpPost("saveFundingRounds")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> saveFundingDetails([FromBody] SaveAnnualFundingDetailsCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getFundingRounds")]
+    [ProducesResponseType(typeof(IEnumerable<GetAnnualFundingDetailsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetAnnualFundingDetailsQueryViewModel>>> getFundingRounds([FromBody] GetAnnualFundingDetailsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
 
     [HttpPost("deletePropertyFeedback")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]

@@ -33,7 +33,7 @@ public class GetPropertyAdminDetailsQueryViewModel
     public bool DoesHomeOwnerHaveNFIPInsurance { get; set; }
     public bool IsDEPInvolved { get; set; }
     public bool IsPARRequestedbyFunder { get; set; }
-    public string? LastUpdatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedOn { get; set; }
     public List<PropertyDocumentTypeViewModel> DocumentsTree { get; set; } = new List<PropertyDocumentTypeViewModel>();
 }

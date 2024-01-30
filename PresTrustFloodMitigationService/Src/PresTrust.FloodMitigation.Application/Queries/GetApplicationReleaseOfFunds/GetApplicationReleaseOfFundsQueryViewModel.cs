@@ -10,6 +10,6 @@ public class GetApplicationReleaseOfFundsQueryViewModel
     public decimal? AmountSpent { get; set; }
     public decimal? Balance { get; set; }
     public IEnumerable<FloodParcelReleaseOfFundsViewModel>? Payments { get; set; }
-    public string? LastUpdatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
     public DateTime? LastUpdatedDate { get; set; }
 }

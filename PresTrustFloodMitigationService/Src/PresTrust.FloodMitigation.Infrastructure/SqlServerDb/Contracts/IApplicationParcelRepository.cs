@@ -53,4 +53,10 @@ public interface IApplicationParcelRepository
     /// <param name="application"></param>
     /// <returns></returns>
     Task<bool> UpdateApplicationParcelSoftCostStatus(FloodApplicationParcelEntity applicationParcel);
+
+    /// <summary>
+    /// Lock Property
+    /// </summary>
+    /// <returns></returns>
+    Task CreateLockedParcel(int applicationId, string pamsPin, string lastUpdatedBy);
 }
