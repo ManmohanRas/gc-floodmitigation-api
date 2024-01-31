@@ -73,15 +73,16 @@ public class EmailManager : IEmailManager
 
         subject = subject.Replace("{{ApplicationName}}", applicationName ?? "");
 
-        var toEmails = systemParamOptions.IsDevelopment == false ?  string.Join(",", primaryContact.Item2) : systemParamOptions.TestEmailIds;
-
+        //var toEmails = systemParamOptions.IsDevelopment == false ?  string.Join(",", primaryContact.Item2) : systemParamOptions.TestEmailIds;
+        var toEmails = systemParamOptions.TestEmailIds;
+        var cc = "manmohan@rightanglesol.com";
         var senderName = systemParamOptions.IsDevelopment == false ? userContext.Name : systemParamOptions.TestEmailFromUserName;
         var senderEmail = systemParamOptions.IsDevelopment == false ? userContext.Email : "mcgis@co.morris.nj.us";
 
-        await this.Send(subject: subject, toEmails: toEmails, senderName: senderName, senderEmail: senderEmail, htmlBody: htmlBody);
+        await this.Send(subject: subject, toEmails: toEmails, senderName: senderName, senderEmail: senderEmail, htmlBody: htmlBody, cc:cc);
     }
 
-    private async Task Send(string subject, string toEmails, string senderName, string senderEmail, string htmlBody, string cc = null, string bcc = null)
+    private async Task Send(string subject, string toEmails, string senderName, string senderEmail, string htmlBody, string cc , string bcc = null)
     {
         var retry = Policy
             .Handle<Exception>()

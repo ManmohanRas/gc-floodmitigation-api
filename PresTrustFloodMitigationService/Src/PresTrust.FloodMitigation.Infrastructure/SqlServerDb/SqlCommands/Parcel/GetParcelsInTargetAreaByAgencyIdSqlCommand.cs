@@ -3,7 +3,7 @@
 public class GetParcelsInTargetAreaByAgencyIdSqlCommand
 {
     private readonly string _sqlCommand =
-				@"  			SELECT				                    
+                @"  			SELECT				                    
 										[PamsPin],
 										[AgencyID],
 										[Block],
@@ -11,9 +11,9 @@ public class GetParcelsInTargetAreaByAgencyIdSqlCommand
 										[QualificationCode],
 										[StreetNo],
 										[StreetAddress],
-										[OwnersName],
+										[OwnersName] AS [LandOwner],
 										[TargetAreaId],
-										(SELECT TargetArea FROM [Flood].[FloodFlapTargetArea] WHERE Id = TargetAreaId) AS TargetAreaName
+										(SELECT TargetArea FROM [Flood].[FloodFlapTargetArea] WHERE Id = TargetAreaId) AS TargetArea
 				FROM					[Flood].[FloodParcel]
 				WHERE					[AgencyID] = @p_AgencyId AND
 										[TargetAreaId] IS NOT NULL;";

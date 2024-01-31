@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using System.IO;
 
 namespace PresTrust.FloodMitigation.Application.Queries;
 
@@ -21,6 +22,12 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
         string path = @"C:\\Downloads\";//static path
 
         var filepath = Path.Combine(path, file.FileName);
+        string directory = Path.GetDirectoryName(filepath);
+
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
         using (FileStream fs = File.Create(filepath))
         {
             file.CopyTo(fs);
@@ -52,9 +59,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                             int i = 0;
                             foreach (string cell in row.Split(','))
                             {
-
                                     dt.Rows[dt.Rows.Count - 1][i] = cell.Trim();
-
                                     i++;
 
                             }
