@@ -122,7 +122,6 @@ namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.Repositories
         /// <param name="pamsPin"></param>
         /// <returns></returns>
         public async Task DeleteAllPropertyBrokenRulesAsync(int applicationId, string pamsPin)
-
         {
             using var conn = context.CreateConnection();
             var sqlCommand = new DeleteAllPropertyBrokenRulesSqlCommand();

@@ -23,6 +23,6 @@ public class FloodParcelPropertyEntity
     public decimal RentPerMonth { get; set; }
     public bool NeedSoftCost { get; set; }
     public bool IsPreIrenePropertyOwner { get; set; }
-    public string? LastUpdatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
     public DateTime LastUpdatedOn { get; set; }
 }

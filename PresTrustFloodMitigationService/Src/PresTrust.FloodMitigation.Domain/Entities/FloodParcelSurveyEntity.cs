@@ -9,7 +9,7 @@
         public DateTime? SurveyDate { get; set; }
         public DateTime? LastRevision { get; set; }
         public DateTime? DateCorrected { get; set; }
-        public string? LastUpdatedBy { get; set; }
+        public string LastUpdatedBy { get; set; }
         public DateTime LastUpdatedOn { get; set; }
         
     }

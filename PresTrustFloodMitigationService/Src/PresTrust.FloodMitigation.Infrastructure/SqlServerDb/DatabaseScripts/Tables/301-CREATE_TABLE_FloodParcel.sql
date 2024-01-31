@@ -18,8 +18,7 @@ GO
 CREATE TABLE [Flood].[FloodParcel](
 	[Id]						[integer] 			IDENTITY(1,1)		NOT NULL,
 	[PamsPin]					[varchar](76)							NOT NULL,
-	[AgencyID]					[varchar](8)							NULL,
-	[TargetAreaId]              [integer]						        NULL,
+	[AgencyID]					[integer]								NOT NULL,
 	[Block]						[varchar](20)							NULL,
 	[Lot]						[varchar](20)							NULL,
 	[QualificationCode]			[varchar](22)							NULL,
@@ -44,9 +43,9 @@ CREATE TABLE [Flood].[FloodParcel](
 	[TargetAreaId]				[integer]								NULL,
 	[DateOfFLAP]				[datetime]								NULL,
 	[IsElevated]				[bit]									NULL,
+	[IsActive]					[bit]									NOT NULL,
 	[LastUpdatedBy]				[varchar](128)							NULL,
 	[LastUpdatedOn]				[datetime]								NOT NULL,
-	[IsActive]					[bit]									NOT NULL,
 	
 CONSTRAINT [PK_FloodParcel_Id] PRIMARY KEY CLUSTERED 
 (
