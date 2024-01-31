@@ -1101,26 +1101,57 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await QueryAsync(query));
     }
-    //Parcel Audit Dialog
-    [HttpPost("getParcelAuditDialog")]
-    [ProducesResponseType(typeof(IEnumerable<GetParcelAuditDialogQueryViewModel>), (int)HttpStatusCode.OK)]
+
+    /// <summary>
+    /// Get Parcel History
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getParcelHistory")]
+    [ProducesResponseType(typeof(IEnumerable<GetParcelHistoryQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<IEnumerable<GetParcelAuditDialogQueryViewModel>>> GetParcelAuditDialog([FromBody] GetParcelAuditDialogQuery query)
+    public async Task<ActionResult<IEnumerable<GetParcelHistoryQueryViewModel>>> GetParcelHistory([FromBody] GetParcelHistoryQuery query)
     {
         return Single(await QueryAsync(query));
     }
-    [HttpPost("savePracelAuditDialog")]
+
+    /// <summary>
+    /// Get Parcel History Item
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    [HttpPost("getParcelHistoryItem")]
+    [ProducesResponseType(typeof(GetParcelHistoryItemQueryViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GetParcelHistoryItemQueryViewModel>> GetParcelHistoryItem([FromBody] GetParcelHistoryItemQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    /// <summary>
+    /// Save Pracel History
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPost("savePracelHistory")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SavePracelAuditDialog([FromBody] SaveParcelAuditDialogCommand command)
+    public async Task<ActionResult<int>> SavePracelHistory([FromBody] SaveParcelHistoryCommand command)
     {
         return Single(await CommandAsync(command));
     }
-    //Municipal comments
+
+    /// <summary>
+    /// Get Municipal Comments
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
     [HttpPost("getMunicipalComments")]
     [ProducesResponseType(typeof(IEnumerable<GetMunicipalCommentsQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
