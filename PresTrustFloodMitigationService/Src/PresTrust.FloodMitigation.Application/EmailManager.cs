@@ -61,8 +61,8 @@ public class EmailManager : IEmailManager
     {
         var primaryContact = await GetPrimaryContact(applicationId, agencyId);
        
-        htmlBody = htmlBody.Replace("{{ProgramAdmin}}",userContext.IsExternalUser ? systemParamOptions.ProgramAdminName : userContext.Name ?? "");
-        htmlBody = htmlBody.Replace("{{ProgramAdminEmail}}", userContext.Email ?? "");
+        htmlBody = htmlBody.Replace("{{ProgramAdmin}}",systemParamOptions.ProgramAdminName);
+        htmlBody = htmlBody.Replace("{{ProgramAdminEmail}}", systemParamOptions.ProgramAdminEmail ?? "");
         htmlBody = htmlBody.Replace("{{AgencyAdmin}}", userContext.Name ?? "");
         htmlBody = htmlBody.Replace("{{Applicant}}", userContext.Name ?? "");
         htmlBody = htmlBody.Replace("{{ProgramAdminPhoneNumber}}", "");
@@ -82,7 +82,7 @@ public class EmailManager : IEmailManager
         await this.Send(subject: subject, toEmails: toEmails, senderName: senderName, senderEmail: senderEmail, htmlBody: htmlBody, cc:cc);
     }
 
-    private async Task Send(string subject, string toEmails, string senderName, string senderEmail, string htmlBody, string cc , string bcc = null)
+    private async Task Send(string subject, string toEmails, string senderName, string senderEmail, string htmlBody, string cc, string bcc = null)
     {
         var retry = Policy
             .Handle<Exception>()
@@ -108,7 +108,7 @@ public class EmailManager : IEmailManager
                 var result = await this.emailApiConnect.PostDataAsync<EmailResponse, JsonContent>($"{systemParamOptions.EmailApiSubDomain}/Email", postUserJson);
             });
         }
-        catch
+        catch(Exception ex)
         {
             throw new Exception("Error occured while sending the email.");
         }
