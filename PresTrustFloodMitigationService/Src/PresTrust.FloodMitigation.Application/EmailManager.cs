@@ -14,13 +14,16 @@ public class EmailManager : IEmailManager
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IPresTrustUserContext userContext;
     private readonly IIdentityApiConnect identityApiConnect;
+    private readonly IApplicationUserRepository repoApplicationUser;
+
 
     public EmailManager(
               IMapper mapper,
               IEmailApiConnect emailApiConnect,
               IOptions<SystemParameterConfiguration> systemParamOptions,
               IPresTrustUserContext userContext,
-              IIdentityApiConnect identityApiConnect
+              IIdentityApiConnect identityApiConnect,
+              IApplicationUserRepository repoApplicationUser
         )
     {
         this.mapper = mapper;
@@ -28,21 +31,38 @@ public class EmailManager : IEmailManager
         this.systemParamOptions = systemParamOptions.Value;
         this.userContext = userContext;
         this.identityApiConnect = identityApiConnect;
+        this.repoApplicationUser = repoApplicationUser;
     }
 
-    private Task<Tuple<List<string>,List<string>>> GetPrimaryContact(int applicationId, int agencyId)
-    {            
-        List<string> primaryContactNames = new List<string>() {"MG", "Manmohan", "Sai Charan" };
-        List<string> primaryContactEmails = new List<string>() {"mgthirumalesh@rightanglesol.com", "manmohan@rightanglesol.com", "saicharan@rightanglesol.com"};
-        return Task.FromResult(new Tuple<List<string>, List<string>>(primaryContactNames, primaryContactEmails));
+    private async Task<Tuple<List<string>,List<string>>> GetPrimaryContact(int applicationId, int agencyId)
+    {
+        List<string> primaryContactNames = new List<string>();
+        List<string> primaryContactEmails = new List<string>();
+
+        var endPoint = $"{systemParamOptions.IdentityApiSubDomain}/UserAdmin/users/pres-trust/flood/{agencyId}";
+        var agencyUsers = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
+        var primaryContacts = await repoApplicationUser.GetPrimaryContactsAsync(applicationId);
+
+        var primaryAgencyUsers = agencyUsers.Where(o => primaryContacts.Select(x => x.Email?.Trim()).Contains(o.Email?.Trim()));
+        primaryContactEmails = primaryContacts.Select(i => i.Email).ToList();
+        if (primaryAgencyUsers.Count() > 0)
+        {
+            primaryContactNames = primaryAgencyUsers.Select(o => string.Format("{0} {1}", o.FirstName, o.LastName)).ToList();
+        }
+        else
+        {
+            primaryContactNames = primaryContacts.Select(o => string.Format("{0} {1}", o.FirstName, o.LastName)).ToList();
+        }
+
+        return new Tuple<List<string>, List<string>>(primaryContactNames, primaryContactEmails);
     }
 
     public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, int agencyId = default)
     {
         var primaryContact = await GetPrimaryContact(applicationId, agencyId);
        
-        htmlBody = htmlBody.Replace("{{ProgramAdmin}}",userContext.IsExternalUser ? systemParamOptions.ProgramAdminName : userContext.Name ?? "");
-        htmlBody = htmlBody.Replace("{{ProgramAdminEmail}}", userContext.Email ?? "");
+        htmlBody = htmlBody.Replace("{{ProgramAdmin}}",systemParamOptions.ProgramAdminName);
+        htmlBody = htmlBody.Replace("{{ProgramAdminEmail}}", systemParamOptions.ProgramAdminEmail ?? "");
         htmlBody = htmlBody.Replace("{{AgencyAdmin}}", userContext.Name ?? "");
         htmlBody = htmlBody.Replace("{{Applicant}}", userContext.Name ?? "");
         htmlBody = htmlBody.Replace("{{ProgramAdminPhoneNumber}}", "");
@@ -54,15 +74,15 @@ public class EmailManager : IEmailManager
         subject = subject.Replace("{{ApplicationName}}", applicationName ?? "");
 
         //var toEmails = systemParamOptions.IsDevelopment == false ?  string.Join(",", primaryContact.Item2) : systemParamOptions.TestEmailIds;
-        var toEmails =  systemParamOptions.TestEmailIds;
-
+        var toEmails = systemParamOptions.TestEmailIds;
+        var cc = "manmohan@rightanglesol.com";
         var senderName = systemParamOptions.IsDevelopment == false ? userContext.Name : systemParamOptions.TestEmailFromUserName;
         var senderEmail = systemParamOptions.IsDevelopment == false ? userContext.Email : "mcgis@co.morris.nj.us";
 
-        await this.Send(subject: subject, toEmails: toEmails, senderName: senderName, senderEmail: senderEmail, htmlBody: htmlBody);
+        await this.Send(subject: subject, toEmails: toEmails, senderName: senderName, senderEmail: senderEmail, htmlBody: htmlBody, cc:cc);
     }
 
-    private async Task Send(string subject, string toEmails, string senderName, string senderEmail, string htmlBody, string cc = null, string bcc = null)
+    private async Task Send(string subject, string toEmails, string senderName, string senderEmail, string htmlBody, string cc, string bcc = null)
     {
         var retry = Policy
             .Handle<Exception>()
@@ -88,7 +108,7 @@ public class EmailManager : IEmailManager
                 var result = await this.emailApiConnect.PostDataAsync<EmailResponse, JsonContent>($"{systemParamOptions.EmailApiSubDomain}/Email", postUserJson);
             });
         }
-        catch
+        catch(Exception ex)
         {
             throw new Exception("Error occured while sending the email.");
         }
@@ -188,13 +208,3 @@ public class ReminderEmailManager : IReminderEmailManager
         }
     }
 }
-
-// https://stackoverflow.com/questions/69926026/authenticating-net-console-applications-with-net-core-web-api
-
-//https://stackoverflow.com/questions/63699424/identityserver4-using-apikey-or-basic-authentication-directly-to-api
-
-//https://github.com/mihirdilip/aspnetcore-authentication-apikey
-
-//https://www.youtube.com/watch?v=eGj72-LqqAg
-
-//https://www.youtube.com/watch?v=GrJJXixjR8M

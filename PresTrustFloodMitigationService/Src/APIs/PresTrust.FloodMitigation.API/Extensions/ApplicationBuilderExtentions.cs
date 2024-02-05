@@ -28,7 +28,5 @@ public static class ApplicationBuilderExtentions
             await next.Invoke();
         });
         applicationBuilder.UseAuthorization();
-        applicationBuilder.UseSession();
-
     }
 }
