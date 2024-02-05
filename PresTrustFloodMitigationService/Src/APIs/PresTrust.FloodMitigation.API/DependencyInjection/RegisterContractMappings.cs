@@ -44,6 +44,7 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IMunicipalTrustFundPermittedUsesRepository, MunicipalTrustFundPermittedUsesRepository>();
         services.AddTransient<IMunicipalCommentRepository, MunicipalCommentRepository>();
         services.AddTransient<IAnnualFundingAmountsRepository, AnnualFundingAmountsRepository>();
+        services.AddTransient<IProgramExpensesRepository, ProgramExpensesRepository>();
 
         services.AddHttpContextAccessor();
     }
