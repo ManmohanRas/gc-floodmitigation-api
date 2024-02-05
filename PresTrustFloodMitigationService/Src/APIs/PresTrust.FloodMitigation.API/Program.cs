@@ -21,12 +21,14 @@ applicationBuilder.Services.AddHangfire(x => x.UseSqlServerStorage(applicationBu
 applicationBuilder.Services.AddHangfireServer();
 
 applicationBuilder.Services.AddEndpointsApiExplorer();
+//CACHE
+applicationBuilder.Services.AddMemoryCache();
+
 var builder = applicationBuilder.Build();
 builder.AddMiddleware(builder.Environment);
 
 builder.MapHangfireDashboard();
 builder.UseHangfireDashboard("/backgroundjobs");
-
 
 var jobGrantExpirationReminder = builder.Services.GetService<IGrantExpirationReminder>();
 var jobOptions = new RecurringJobOptions()

@@ -1,43 +1,73 @@
-﻿using Microsoft.AspNetCore.Http;
-using PresTrust.FloodMitigation.Domain.Entities;
-using System.Collections.Generic;
-using System.Text.Json;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class ImportTargetListCommandHandler : IRequestHandler<ImportTargetListCommand, Unit>
 {
-    private readonly IHttpContextAccessor accessor;
     private readonly IFlapModuleRepository repoFlap;
     private readonly IParcelRepository repoParcels;
+    private IMemoryCache _cache;
+    private readonly SystemParameterConfiguration systemParamOptions;
+
 
     public ImportTargetListCommandHandler
         (
-        IHttpContextAccessor accessor,
         IFlapModuleRepository repoFlap,
-        IParcelRepository repoParcels
+        IParcelRepository repoParcels,
+        IMemoryCache _cache,
+        IOptions<SystemParameterConfiguration> systemParamOptions
         )
     {
-        this.accessor = accessor;
         this.repoFlap = repoFlap;
         this.repoParcels = repoParcels;
+        this._cache = _cache ?? throw new ArgumentNullException(nameof(_cache));
+        this.systemParamOptions = systemParamOptions.Value;
     }
     public async Task<Unit> Handle(ImportTargetListCommand request, CancellationToken cancellationToken)
     {
         List<FloodParcelEntity> importedParcels = new List<FloodParcelEntity>();
-        string sessionParcels = default;
-
-        if (accessor.HttpContext.Session.GetString("Parcels") !=  null)
-        {
-            sessionParcels = accessor.HttpContext.Session.GetString("Parcels"); // Get Session  
-            importedParcels = (List<FloodParcelEntity>)JsonConvert.DeserializeObject(sessionParcels);
-        }
+        List<string> pamsPins = new List<string>();
+        FloodFlapTargetAreaEntity targetArea = new FloodFlapTargetAreaEntity();
 
         var existingTargerAreas = await repoFlap.GetFlapTargetAreasAsync(request.AgencyId);
 
-        //var reqTargetAreas = importParcels.ToList().Select(x => x.TargetArea);
+        //Get cache
+        if (_cache.TryGetValue("ParcelsCache", out List<FloodParcelEntity> parcels))
+        {
+            importedParcels = parcels ?? new List<FloodParcelEntity>();
+        }
+
+        IEnumerable<IGrouping<string, FloodParcelEntity>> query =
+                        importedParcels.GroupBy(x => x.TargetArea.ToString());
 
 
-        return Unit.Value;
+        using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
+        {
+            foreach (IGrouping<string, FloodParcelEntity> parcel in query)
+            {
+                targetArea = new FloodFlapTargetAreaEntity()
+                {
+                    AgencyId = request.AgencyId,
+                    TargetArea = parcel.Key,
+                    CreatedDate = DateTime.Now
+                };
+                pamsPins = parcel.Select(y => y.PamsPin).ToList();
+                await SaveTargetAreas(targetArea, pamsPins);
+            }
+
+            scope.Complete();
+        }
+
+        //Reset cache
+        _cache.Remove("ParcelsCache");
+            return Unit.Value;
+    }
+
+    //save target areas
+    private async Task SaveTargetAreas(FloodFlapTargetAreaEntity targetArea, List<string> pamsPins)
+    {
+       
+        targetArea = await repoFlap.SaveFlapTargetAreaAsync(targetArea);
+        
+        await repoParcels.LinkTargetAreaIdToParcelAsync(pamsPins, targetArea.Id);
+
     }
 }

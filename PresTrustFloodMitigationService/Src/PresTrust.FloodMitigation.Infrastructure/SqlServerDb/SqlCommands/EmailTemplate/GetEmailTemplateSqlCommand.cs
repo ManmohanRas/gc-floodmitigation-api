@@ -8,7 +8,7 @@ public class GetEmailTemplateSqlCommand
                           ,[Subject]
                           ,[TemplateCode]
 	                      ,[Description]                         
-                   FROM [Hist].[HistEmailTemplate]
+                   FROM [Flood].[FloodEmailTemplate]
                    WHERE TemplateCode = @p_EmailTemplateCode AND IsActive = 1;";
 
     public GetEmailTemplateSqlCommand()

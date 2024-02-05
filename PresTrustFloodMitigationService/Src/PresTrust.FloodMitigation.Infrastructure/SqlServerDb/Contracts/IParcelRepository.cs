@@ -67,6 +67,14 @@ public interface IParcelRepository
     Task<FloodParcelEntity> GetProgramManagerParcelAsync(int parcelId);
 
     /// <summary>
+    /// Get Parcels In Target Area
+    /// </summary>
+    /// <param name="Id"></param>
+    /// <returns></returns>
+    Task<IEnumerable<FloodParcelEntity>> GetParcelsInTargetAreaByAgencyIdAsync(int Id);
+
+
+    /// <summary>
     /// Save Program Manager Parcel
     /// </summary>
     /// <param name="parcel"></param>

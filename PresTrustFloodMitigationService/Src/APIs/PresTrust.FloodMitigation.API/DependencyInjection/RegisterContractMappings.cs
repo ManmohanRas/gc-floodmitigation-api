@@ -47,7 +47,5 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IParcelHistoryRepository, ParcelHistoryRepository>();
 
         services.AddHttpContextAccessor();
-        services.AddSession();
-
     }
 }                                                                               

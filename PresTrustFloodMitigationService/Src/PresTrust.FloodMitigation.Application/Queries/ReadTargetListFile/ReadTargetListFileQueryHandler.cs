@@ -1,15 +1,18 @@
-﻿namespace PresTrust.FloodMitigation.Application.Queries;
+﻿using Microsoft.Extensions.Caching.Memory;
+using System.IO;
+
+namespace PresTrust.FloodMitigation.Application.Queries;
 
 public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFileQuery, Unit>
 {
-    private readonly IHttpContextAccessor accessor;
+    private IMemoryCache _cache;
 
     public ReadTargetListFileQueryHandler
         (
-        IHttpContextAccessor accessor
+        IMemoryCache _cache
         )
     {
-        this.accessor = accessor;
+        this._cache = _cache ?? throw new ArgumentNullException(nameof(_cache));
     }
     public async Task<Unit> Handle(ReadTargetListFileQuery request, CancellationToken cancellationToken)
     {
@@ -19,6 +22,12 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
         string path = @"C:\\Downloads\";//static path
 
         var filepath = Path.Combine(path, file.FileName);
+        string directory = Path.GetDirectoryName(filepath);
+
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
         using (FileStream fs = File.Create(filepath))
         {
             file.CopyTo(fs);
@@ -31,29 +40,29 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
 
         if (csvData.Length > 0)
         {
-            foreach( var row in csvData.Split('\n')) {
+            foreach(string row in csvData.Split('\n')) {
                 if (!string.IsNullOrEmpty(row))
                 {
-                    if (firstRow)
+                    if (!string.IsNullOrEmpty(row))
                     {
-                        foreach(string cell in row.Split(','))
+                        if (firstRow)
                         {
-                            dt.Columns.Add(cell);
-                        }
-                        firstRow = false;
-                    }else
-                    {
-                        dt.Rows.Add();
-                        int i = 0;
-                        foreach (string cell in row.Split(','))
-                        {
-                            if (i < dt.Columns.Count)
+                            foreach (string cell in row.Split(','))
                             {
-                                dt.Rows[dt.Rows.Count - 1][i] = cell.Trim();
-                               
-                                i++;
+                                dt.Columns.Add(cell.Trim());
                             }
-                            
+                            firstRow = false;
+                        }
+                        else
+                        {
+                            dt.Rows.Add();
+                            int i = 0;
+                            foreach (string cell in row.Split(','))
+                            {
+                                    dt.Rows[dt.Rows.Count - 1][i] = cell.Trim();
+                                    i++;
+
+                            }
                         }
                     }
                 }
@@ -63,17 +72,24 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
             {
                 parcels.Add(new FloodParcelEntity()
                 {
+                    AgencyId = request.AgencyId,
                     PamsPin = dt.Rows[i]["PamsPin"].ToString(),
                     DateOfFLAP = new DateTime(),
                     IsFLAP = true,
                     StreetNo = dt.Rows[i]["StreetNo"].ToString(),
                     StreetAddress = dt.Rows[i]["StreetAddress"].ToString(),
                     LandOwner = dt.Rows[i]["OwnersName"].ToString(),
-                    //IsElevated = (bool)dt.Rows[i]["IsElevated"],
                     TargetArea = dt.Rows[i]["TargetArea"].ToString()
                 });
             }
-            accessor.HttpContext.Session.SetString("Parcels", JsonConvert.SerializeObject(parcels)); // Set Session  
+
+            //Set in cache
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(60))
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
+                    .SetPriority(CacheItemPriority.Normal)
+                    .SetSize(1024);
+            _cache.Set("ParcelsCache", parcels, cacheEntryOptions);
         }
 
             return Unit.Value;

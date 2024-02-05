@@ -233,6 +233,21 @@ public class ParcelRepository : IParcelRepository
         return result ?? new();
     }
 
+    public async Task<IEnumerable<FloodParcelEntity>> GetParcelsInTargetAreaByAgencyIdAsync(int agencyId)
+    {
+        IEnumerable<FloodParcelEntity> results = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetParcelsInTargetAreaByAgencyIdSqlCommand();
+        results = (await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
+                            commandType: CommandType.Text,
+                            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                            param: new
+                            {
+                                @p_AgencyId = agencyId,
+                            })).ToList();
+        return results;
+    }
+
     public async Task<FloodParcelEntity> SaveProgramManagerParcelAsync(FloodParcelEntity parcel)
     {
         using var conn = context.CreateConnection();
