@@ -20,4 +20,5 @@ public class SystemParameterConfiguration
     public int CutOffYearsForReInitiate { get; set; }
     public string ProgramAdminName { get; set; }
     public string ProgramAdminEmail { get; set; }
+    public string? CC { get; set; }
 }

@@ -60,7 +60,7 @@ public class EmailManager : IEmailManager
     public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, int agencyId = default)
     {
         var primaryContact = await GetPrimaryContact(applicationId, agencyId);
-       
+
         htmlBody = htmlBody.Replace("{{ProgramAdmin}}",systemParamOptions.ProgramAdminName);
         htmlBody = htmlBody.Replace("{{ProgramAdminEmail}}", systemParamOptions.ProgramAdminEmail ?? "");
         htmlBody = htmlBody.Replace("{{AgencyAdmin}}", userContext.Name ?? "");
@@ -75,7 +75,7 @@ public class EmailManager : IEmailManager
 
         //var toEmails = systemParamOptions.IsDevelopment == false ?  string.Join(",", primaryContact.Item2) : systemParamOptions.TestEmailIds;
         var toEmails = systemParamOptions.TestEmailIds;
-        var cc = "manmohan@rightanglesol.com";
+        var cc = systemParamOptions.CC;
         var senderName = systemParamOptions.IsDevelopment == false ? userContext.Name : systemParamOptions.TestEmailFromUserName;
         var senderEmail = systemParamOptions.IsDevelopment == false ? userContext.Email : "mcgis@co.morris.nj.us";
 
