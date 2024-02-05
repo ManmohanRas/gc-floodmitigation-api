@@ -54,6 +54,7 @@ public class FloodParcelEntity
         }
     }
     public decimal ProgramMatch { get; set; }
+    public int ParcelId { get; set; }
     public int StartNo { get; set; }
     public int EndNo { get; set; }
     public int TotalNo { get; set; }

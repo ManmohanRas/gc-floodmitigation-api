@@ -38,6 +38,7 @@ public class GetPropertyDetailsQueryViewModel
     public bool? IsSubmitted { get; set; }
     public bool? IsApproved { get; set; }
     public bool AlreadyExists { get; set; }
+    public int ParcelId { get; set; }
     public IEnumerable<FloodPropertyCommentEntity> Comments { get; set;}
     public IEnumerable<FloodPropertyFeedbackEntity> Feedbacks { get; set;}
     public PropertyPermissionEntity Permission { get; set; } = new PropertyPermissionEntity();

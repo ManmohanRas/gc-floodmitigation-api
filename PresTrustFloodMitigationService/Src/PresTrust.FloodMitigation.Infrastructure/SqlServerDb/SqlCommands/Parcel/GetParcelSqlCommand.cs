@@ -24,6 +24,7 @@ public class GetParcelSqlCommand
 				) FLOOD_APPLICATION_PARCEL ON FLOOD_APPLICATION.[Id] = FLOOD_APPLICATION_PARCEL.[ApplicationId]
 			)
 			SELECT		TOP 1
+						P.[Id] AS [ParcelId],
 						AP.[ApplicationId],
 						P.[PamsPin],
 						P.[AgencyId],
