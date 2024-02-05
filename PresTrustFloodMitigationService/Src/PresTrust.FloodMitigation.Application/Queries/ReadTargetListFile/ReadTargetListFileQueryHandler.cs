@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace PresTrust.FloodMitigation.Application.Queries;
 
@@ -22,7 +23,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
         string path = @"C:\\Downloads\";//static path
 
         var filepath = Path.Combine(path, file.FileName);
-        string directory = Path.GetDirectoryName(filepath);
+        string directory = Path.GetDirectoryName(filepath) ?? string.Empty;
 
         if (!Directory.Exists(directory))
         {
@@ -57,7 +58,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                         {
                             dt.Rows.Add();
                             int i = 0;
-                            foreach (string cell in row.Split(','))
+                            foreach (string cell in Regex.Split(row, ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"))
                             {
                                     dt.Rows[dt.Rows.Count - 1][i] = cell.Trim();
                                     i++;
@@ -73,13 +74,13 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                 parcels.Add(new FloodParcelEntity()
                 {
                     AgencyId = request.AgencyId,
-                    PamsPin = dt.Rows[i]["PamsPin"].ToString(),
+                    PamsPin = dt.Rows[i]["PamsPin"].ToString() ?? string.Empty,
                     DateOfFLAP = new DateTime(),
                     IsFLAP = true,
-                    StreetNo = dt.Rows[i]["StreetNo"].ToString(),
-                    StreetAddress = dt.Rows[i]["StreetAddress"].ToString(),
-                    LandOwner = dt.Rows[i]["OwnersName"].ToString(),
-                    TargetArea = dt.Rows[i]["TargetArea"].ToString()
+                    StreetNo = dt.Rows[i]["StreetNo"].ToString() ?? string.Empty,
+                    StreetAddress = dt.Rows[i]["StreetAddress"].ToString() ?? string.Empty,
+                    LandOwner = dt.Rows[i]["OwnersName"].ToString() ?? string.Empty,
+                    TargetArea = dt.Rows[i]["TargetArea"].ToString() ?? string.Empty
                 });
             }
 
