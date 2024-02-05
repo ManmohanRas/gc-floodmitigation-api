@@ -170,14 +170,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
                 Message = "All required fields on Admin Details tab have not been filled.",
                 IsApplicantFlow = false
             });
-
-            statusChangeRules.Add(new FloodBrokenRuleEntity()
-            {
-                ApplicationId = application.Id,
-                SectionId = (int)ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS,
-                Message = "All required fields on ADMIN_RELEASE_OF_FUNDS tab have not been filled.",
-                IsApplicantFlow = false
-            });
+            
             if (application.ApplicationType == ApplicationTypeEnum.MATCH || application.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
             {
                 statusChangeRules.Add(new FloodBrokenRuleEntity()

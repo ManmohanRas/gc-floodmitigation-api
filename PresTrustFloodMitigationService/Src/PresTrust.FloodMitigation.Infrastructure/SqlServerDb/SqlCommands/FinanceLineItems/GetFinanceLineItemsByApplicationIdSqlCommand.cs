@@ -12,7 +12,7 @@ public class GetFinanceLineItemsByApplicationIdSqlCommand
                  FROM [Flood].[FloodApplicationParcel] FAP 
                  LEFT JOIN [Flood].[FloodApplicationFinanceLineItems] FLI ON (FAP.ApplicationId = FLI.ApplicationId AND FAP.PamsPin = FLI.PamsPin) 
                  LEFT JOIN [Flood].[FloodParcelProperty] FPP ON (FAP.ApplicationId = FPP.ApplicationId AND FAP.PamsPin = FPP.PamsPin) 
-                 WHERE FAP.ApplicationId = @p_applicationId) 
+                 WHERE FAP.ApplicationId = @p_ApplicationId) 
                 SELECT CONCAT (FP.StreetNo, ' ',  FP.StreetAddress) AS PropertyLocation
                ,CTE.[Id]
                ,CTE.[ApplicationId]

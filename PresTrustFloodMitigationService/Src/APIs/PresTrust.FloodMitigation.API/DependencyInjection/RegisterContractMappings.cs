@@ -47,7 +47,5 @@ public class RegisterContractMappings : IDependencyInjectionService
         services.AddTransient<IProgramExpensesRepository, ProgramExpensesRepository>();
 
         services.AddHttpContextAccessor();
-        services.AddSession();
-
     }
 }                                                                               
