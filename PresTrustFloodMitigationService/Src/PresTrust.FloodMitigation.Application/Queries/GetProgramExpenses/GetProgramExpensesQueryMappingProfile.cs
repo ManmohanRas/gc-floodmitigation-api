@@ -4,7 +4,7 @@ public class GetProgramExpensesQueryMappingProfile : Profile
 {
     public GetProgramExpensesQueryMappingProfile()
     {
-        CreateMap<FloodProgramExpensesEntity, GetContactsQueryViewModel>();
+        CreateMap<FloodProgramExpensesEntity, GetProgramExpensesQueryViewModel>();
     }
 
 }

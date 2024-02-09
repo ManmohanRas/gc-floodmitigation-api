@@ -25,7 +25,7 @@ public class UpdateProgramExpensesSqlCommand
                      SET			   [Id] = @p_Id
 			                          ,[ExpenseAmount] = @p_ExpenseAmount
                                       ,[ExpenseDate] = @p_ExpenseDate
-                                      ,[Category] = @p_Category
+                                      ,[CategoryId] = @p_CategoryId
                                       ,[Comment]= @p_Comment
 			                          ,[LastUpdatedBy] = @p_LastUpdatedBy
 			                          ,[LastUpdatedOn] = GETDATE()
