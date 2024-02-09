@@ -5,7 +5,7 @@ public class DeleteProgramExpensesSqlCommand
     private readonly string _sqlCommand =
        @" DELETE 
               FROM [Flood].[FloodProgramExpenses]
-              WHERE Id = @p_Id and ExpenseYear = @p_ExpenseYear;";
+              WHERE Id = @p_Id;";
 
     public DeleteProgramExpensesSqlCommand()
     {

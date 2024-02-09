@@ -6,7 +6,7 @@ public class SaveProgramExpensesCommand : IRequest<bool>
     public string ExpenseYear { get; set; }
     public decimal ExpenseAmount { get; set; }
     public string ExpenseDate { get; set; }
-    public int? CategoryId { get; set; }
+    public string Category { get; set; }
     public string Comment { get; set; }
 }
 

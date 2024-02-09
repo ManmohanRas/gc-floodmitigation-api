@@ -6,6 +6,6 @@ public class GetProgramExpensesQueryViewModel
     public string ExpenseYear { get; set; }
     public decimal? ExpenseAmount { get; set; }
     public DateTime? ExpenseDate { get; set; }
-    public int? CategoryId { get; set; }
+    public string Category { get; set; }
     public string Comment { get; set; }
 }

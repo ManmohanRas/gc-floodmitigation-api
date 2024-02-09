@@ -10,11 +10,23 @@ public class FloodProgramExpensesEntity
 
     public DateTime? ExpenseDate { get; set; }
 
-    public int? CategoryId { get; set; }
+    public int CategoryId { get; set; }
 
     public string Comment { get; set; }
 
     public string LastUpdatedBy { get; set; }
 
     public DateTime LastUpdatedOn { get; set; }
+
+    public ProgramExpensesEnum Category
+    {
+        get
+        {
+            return (ProgramExpensesEnum)CategoryId;
+        }
+        set
+        {
+            this.CategoryId = (int)value;
+        }
+    }
 }

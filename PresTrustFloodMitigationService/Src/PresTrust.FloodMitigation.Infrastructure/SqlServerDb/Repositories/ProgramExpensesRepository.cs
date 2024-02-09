@@ -92,8 +92,7 @@ public class ProgramExpensesRepository : IProgramExpensesRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
-                @p_Id = expenses.Id,
-                @p_ExpenseYear = expenses.ExpenseYear
+                @p_Id = expenses.Id
             });
     }
 }
