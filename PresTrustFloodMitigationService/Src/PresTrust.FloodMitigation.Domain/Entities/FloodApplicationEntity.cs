@@ -10,6 +10,7 @@ public class FloodApplicationEntity
     public int ApplicationSubTypeId { get; set; }
     public DateTime? ExpirationDate { get; set; }
     public int StatusId { get; set; }
+    public bool ShowNotification { get; set; }
     public int PrevStatusId { get; set; }
     public bool CreatedByProgramAdmin { get; set; }
     public string LastUpdatedBy { get; set; }

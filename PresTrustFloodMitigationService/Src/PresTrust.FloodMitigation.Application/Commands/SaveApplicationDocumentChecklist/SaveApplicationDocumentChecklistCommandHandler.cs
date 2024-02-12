@@ -25,7 +25,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         private readonly IApplicationRepository repoApplication;
         private readonly IApplicationDocumentRepository repoDocument;
         //private readonly ISiteRepository repoSite;
-        // private readonly IBrokenRuleRepository repoBrokenRules;
+        private readonly IBrokenRuleRepository repoBrokenRules;
 
 
         public SaveApplicationDocumentChecklistCommandHandler
@@ -34,9 +34,9 @@ namespace PresTrust.FloodMitigation.Application.Commands
             IPresTrustUserContext userContext,
             IOptions<SystemParameterConfiguration> systemParamOptions,
             IApplicationRepository repoApplication,
-            IApplicationDocumentRepository repoDocument
+            IApplicationDocumentRepository repoDocument,
             //ISiteRepository repoSite,
-            // IBrokenRuleRepository repoBrokenRules
+            IBrokenRuleRepository repoBrokenRules
         ) : base(repoApplication: repoApplication)
         {
             this.mapper = mapper;
@@ -45,7 +45,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
             this.repoApplication = repoApplication;
             this.repoDocument = repoDocument;
             //this.repoSite = repoSite;
-            // this.repoBrokenRules = repoBrokenRules;
+            this.repoBrokenRules = repoBrokenRules;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
             var entityDocuments = mapper.Map<IEnumerable<ApplicationDocumentViewModel>, IEnumerable<FloodApplicationDocumentEntity>>(viewmodelDocuments);
 
             // returns broken rules  
-            // var brokenRules = ReturnBrokenRulesIfAny(application, request);
+            var brokenRules = ReturnBrokenRulesIfAny(application, request);
 
 
             // save application documents, property documents (review/checklist items)
@@ -76,8 +76,8 @@ namespace PresTrust.FloodMitigation.Application.Commands
                 {
                     await repoDocument.SaveApplicationDocumentChecklistAsync(doc);
                 }
-                //await repoBrokenRules.DeleteBrokenRulesAsync(application.Id, ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST);
-                //await repoBrokenRules.SaveBrokenRules(await brokenRules);
+                await repoBrokenRules.DeleteBrokenRulesAsync(application.Id, ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST);
+                await repoBrokenRules.SaveBrokenRules(await brokenRules);
 
                 scope.Complete();
             };
@@ -91,45 +91,40 @@ namespace PresTrust.FloodMitigation.Application.Commands
         /// <param name="application"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        //private async Task<List<BrokenRuleEntity>> ReturnBrokenRulesIfAny(FloodApplicationEntity application, UpdateDocumentChecklistCommand request)
-        //{
+        private async Task<List<FloodBrokenRuleEntity>> ReturnBrokenRulesIfAny(FloodApplicationEntity application, SaveApplicationDocumentChecklistCommand request)
+        {
 
-        //    int sectionId = (int)ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST;
-        //    List<BrokenRuleEntity> brokenRules = new List<BrokenRuleEntity>();
-        //    // map command object to the HistDocumentEntity
-        //    var documents = mapper.Map<IEnumerable<DocumentViewModel>, IEnumerable<FloodDocumentEntity>>(request.Documents);
+            int sectionId = (int)ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST;
+            List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
+            // map command object to the FloodDocumentEntity
+            var documents = mapper.Map<IEnumerable<ApplicationDocumentViewModel>, IEnumerable<FloodApplicationDocumentEntity>>(request.Documents);
 
-        //    //var documents = await repoDocument.GetDocumentsAsync(request.ApplicationId, sectionId);
+            var unapprovedDocs = documents.Where(doc => doc.Approved == false).ToList();
 
-        //    //exclude document types from section Admin Pending, Admin Release of Funds and Admin Easements
-        //    // documents = documents.Where(doc => doc.Section != ApplicationSectionEnum.ADMIN_PENDING && doc.Section != ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS &&  doc.Section != ApplicationSectionEnum.ADMIN_EASEMENTS);
-        //    // documents = documents.Where(doc => doc.Section != ApplicationSectionEnum.ADMIN_PENDING && doc.Section != ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS &&  doc.Section != ApplicationSectionEnum.ADMIN_EASEMENTS);
-        //    var unapprovedDocs = documents.Where(doc => doc.Approved == false).ToList();
+            if (documents == null || documents.Count() == 0)
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "All required documents (Admin-Document-Checklist) are not yet uploaded for committee review.",
+                    IsApplicantFlow = false
+                });
+            }
 
-        //    if (documents == null || documents.Count() == 0)
-        //    {
-        //        brokenRules.Add(new BrokenRuleEntity()
-        //        {
-        //            ApplicationId = application.Id,
-        //            SectionId = sectionId,
-        //            Message = "All required documents (Admin-Document-Checklist) are not yet uploaded for committee review.",
-        //            IsApplicantFlow = false
-        //        });
-        //    }
+            if (unapprovedDocs != null && unapprovedDocs.Count() > 0)
+            {
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    Message = "All required documents (Admin-Document-Checklist) are not yet approved for committee review.",
+                    IsApplicantFlow = false
+                });
+            }
 
-        //    if (unapprovedDocs != null && unapprovedDocs.Count() > 0)
-        //    {
-        //        brokenRules.Add(new BrokenRuleEntity()
-        //        {
-        //            ApplicationId = application.Id,
-        //            SectionId = sectionId,
-        //            Message = "All required documents (Admin-Document-Checklist) are not yet approved for committee review.",
-        //            IsApplicantFlow = false
-        //        });
-        //    }
-
-        //    return brokenRules;
-        //}
+            return brokenRules;
+        }
 
     }
 }

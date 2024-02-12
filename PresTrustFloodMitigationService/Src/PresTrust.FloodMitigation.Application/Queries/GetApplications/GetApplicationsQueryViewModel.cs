@@ -13,4 +13,5 @@ public class GetApplicationsQueryViewModel
     public DateTime? ExpirationDate { get; set; }
     public string Status { get; set; }
     public bool CreatedByProgramAdmin { get; set; }
+    public bool ShowNotification { get; set; }
 }
