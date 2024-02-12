@@ -95,7 +95,8 @@ public class GetApplicationParcelsSqlCommand
 				FROM [ApplicationParcelCTE] AP
 				LEFT JOIN [Flood].[FloodApplicationFinance] AF ON AP.[ApplicationId] = AF.[ApplicationId]
 				LEFT JOIN [Flood].[FloodParcelFinance] PF ON AP.[ApplicationId] = PF.[ApplicationId] AND AP.PamsPin = PF.PamsPin
-				JOIN [Flood].[FloodParcel] CP ON AP.[PamsPin] = CP.[PamsPin];";
+				JOIN [Flood].[FloodParcel] CP ON AP.[PamsPin] = CP.[PamsPin]
+				ORDER BY CP.[Id] ASC;";
 
     public GetApplicationParcelsSqlCommand() { }
 

@@ -71,26 +71,6 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
         int sectionId = (int)PropertySectionEnum.TECH;
         List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
 
-       
-            //if (reqTechDetails.Claim10Years == null)
-            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //    {
-            //        ApplicationId = applcation.Id,
-            //        PamsPin = property.PamsPin,
-            //        SectionId = sectionId,
-            //        Message = "# Claims (10Years) required field on Tech tab have not been filled.",
-            //        IsPropertyFlow = true
-            //    });
-
-            //if (reqTechDetails.TotalOfClaims == null)
-            //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //    {
-            //        ApplicationId = applcation.Id,
-            //        PamsPin = property.PamsPin,
-            //        SectionId = sectionId,
-            //        Message = "Total Of Claims required field on Tech tab have not been filled.",
-            //        IsPropertyFlow = true
-            //    });
 
             if (reqTechDetails.BenefitCostRatio == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
@@ -122,16 +102,6 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     IsPropertyFlow = true
                 });
 
-            if (string.IsNullOrEmpty(reqTechDetails.FirmPanel))
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Firm Pannel Initial required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
-                });
-
             if (string.IsNullOrEmpty(reqTechDetails.FirmPanelFinal))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
@@ -152,16 +122,6 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     IsPropertyFlow = true
                 });
 
-            if (reqTechDetails.BaseFloodElevation == null)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Base Flood Elevation Initial required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
-                });
-
             if (reqTechDetails.BaseFloodElevationFinal == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
@@ -169,16 +129,6 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Base Flood Elevation Final required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
-                });
-
-            if (reqTechDetails.RiverId == null)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "River X-Section ID Initial required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
@@ -202,16 +152,6 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     IsPropertyFlow = true
                 });
 
-            if (string.IsNullOrEmpty(reqTechDetails.FloodProfile))
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Flood Profile Initial required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
-                });
-
             if (string.IsNullOrEmpty(reqTechDetails.FloodProfileFinal))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
@@ -232,16 +172,6 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     IsPropertyFlow = true
                 });
 
-            if (reqTechDetails.FirstFloodElevation == null)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "First Flood Elevation required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
-                });
-
             if (reqTechDetails.FirstFloodElevationFinal == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
@@ -249,16 +179,6 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "First Flood Elevation Final required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
-                });
-
-            if (reqTechDetails.StreambedElevation == null)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Stream Bed Elevation required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
