@@ -48,7 +48,7 @@ public class ProgramExpensesRepository : IProgramExpensesRepository
                 @p_ExpenseYear = expenses.ExpenseYear,
                 @p_ExpenseAmount = expenses.ExpenseAmount,
                 @p_ExpenseDate = expenses.ExpenseDate,
-                @p_Category = expenses.Category,
+                @p_CategoryId = expenses.CategoryId,
                 @p_Comment = expenses.Comment,
                 @p_LastUpdatedBy = expenses.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
@@ -72,7 +72,7 @@ public class ProgramExpensesRepository : IProgramExpensesRepository
                 @p_ExpenseYear = expenses.ExpenseYear,
                 @p_ExpenseAmount = expenses.ExpenseAmount,
                 @p_ExpenseDate = expenses.ExpenseDate,
-                @p_Category = expenses.Category,
+                @p_CategoryId = expenses.CategoryId,
                 @p_Comment = expenses.Comment,
                 @p_LastUpdatedBy = expenses.LastUpdatedBy,
                 @p_LastUpdatedOn = DateTime.Now
@@ -92,8 +92,7 @@ public class ProgramExpensesRepository : IProgramExpensesRepository
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
-                @p_Id = expenses.Id,
-                @p_ExpenseYear = expenses.ExpenseYear
+                @p_Id = expenses.Id
             });
     }
 }

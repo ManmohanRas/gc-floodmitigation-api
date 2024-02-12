@@ -22,10 +22,9 @@ public class UpdateProgramExpensesSqlCommand
 
     private readonly string _sqlCommand =
        @"UPDATE		       [Flood].[FloodProgramExpenses]
-                     SET			   [Id] = @p_Id
-			                          ,[ExpenseAmount] = @p_ExpenseAmount
+                     SET			   [ExpenseAmount] = @p_ExpenseAmount
                                       ,[ExpenseDate] = @p_ExpenseDate
-                                      ,[Category] = @p_Category
+                                      ,[CategoryId] = @p_CategoryId
                                       ,[Comment]= @p_Comment
 			                          ,[LastUpdatedBy] = @p_LastUpdatedBy
 			                          ,[LastUpdatedOn] = GETDATE()

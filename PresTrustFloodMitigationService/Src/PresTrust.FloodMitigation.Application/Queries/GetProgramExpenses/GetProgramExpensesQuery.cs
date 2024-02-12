@@ -2,5 +2,5 @@
 
 public class GetProgramExpensesQuery : IRequest<IEnumerable<GetProgramExpensesQueryViewModel>>
 {
-    public int ExpenseId { get; set; }
+    public int Id { get; set; }
 }

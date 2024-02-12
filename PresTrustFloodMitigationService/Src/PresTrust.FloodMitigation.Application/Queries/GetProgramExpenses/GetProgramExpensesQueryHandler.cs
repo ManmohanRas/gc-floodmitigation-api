@@ -16,9 +16,28 @@ public class GetProgramExpensesQueryHandler : IRequestHandler<GetProgramExpenses
 
     public async Task<IEnumerable<GetProgramExpensesQueryViewModel>> Handle(GetProgramExpensesQuery request, CancellationToken cancellationToken)
     {
-        var reqExpenses = await repoExpenses.GetAllProgramExpensesAsync();
+        var expensesList = await repoExpenses.GetAllProgramExpensesAsync();
+        var existingYears = expensesList.Select(o => int.Parse(o.ExpenseYear)).Distinct().ToList();
 
-        var expenses = mapper.Map<IEnumerable<FloodProgramExpensesEntity>, IEnumerable<GetProgramExpensesQueryViewModel>>(reqExpenses);
+        List<FloodProgramExpensesEntity> reqExpenses = new();
+        int currentYear = DateTime.Now.Year;
+        for(var i = 2012; i <= currentYear; i++)
+        {
+            if(existingYears.Contains(i))
+            {
+                reqExpenses.AddRange(expensesList.Where(o => o.ExpenseYear == i.ToString()));
+            }
+            else
+            {
+                reqExpenses.Add(new()
+                {
+                    Id = 0,
+                    ExpenseYear = i.ToString(),
+                    ExpenseAmount = 0
+                });
+            }
+        }
+        var expenses = mapper.Map<IEnumerable<FloodProgramExpensesEntity>, IEnumerable<GetProgramExpensesQueryViewModel>>(reqExpenses.OrderByDescending(o => o.ExpenseYear));
 
         return expenses;
     }

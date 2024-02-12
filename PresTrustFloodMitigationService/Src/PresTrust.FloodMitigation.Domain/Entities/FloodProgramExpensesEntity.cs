@@ -6,15 +6,27 @@ public class FloodProgramExpensesEntity
 
     public string ExpenseYear { get; set; }
 
-    public decimal ExpenseAmount { get; set; }
+    public decimal? ExpenseAmount { get; set; }
 
-    public string ExpenseDate { get; set; }
+    public DateTime? ExpenseDate { get; set; }
 
-    public string Category { get; set; }
+    public int CategoryId { get; set; }
 
     public string Comment { get; set; }
 
     public string LastUpdatedBy { get; set; }
 
     public DateTime LastUpdatedOn { get; set; }
+
+    public ProgramExpensesEnum Category
+    {
+        get
+        {
+            return (ProgramExpensesEnum)CategoryId;
+        }
+        set
+        {
+            this.CategoryId = (int)value;
+        }
+    }
 }

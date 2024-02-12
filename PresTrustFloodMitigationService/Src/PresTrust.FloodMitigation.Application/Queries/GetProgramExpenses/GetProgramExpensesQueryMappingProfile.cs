@@ -4,7 +4,7 @@ public class GetProgramExpensesQueryMappingProfile : Profile
 {
     public GetProgramExpensesQueryMappingProfile()
     {
-        CreateMap<FloodProgramExpensesEntity, GetContactsQueryViewModel>();
+        CreateMap<FloodProgramExpensesEntity, GetProgramExpensesQueryViewModel>()
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.ToString()));
     }
-
 }

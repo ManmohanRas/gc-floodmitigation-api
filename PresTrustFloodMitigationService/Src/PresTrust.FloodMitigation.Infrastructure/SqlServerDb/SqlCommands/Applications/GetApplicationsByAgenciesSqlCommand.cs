@@ -27,8 +27,17 @@ public class GetApplicationsByAgenciesSqlCommand
 						F.[ApplicationSubTypeId],
 						F.[ExpirationDate],
 						F.[StatusId],
-						F.[CreatedByProgramAdmin]
+						F.[CreatedByProgramAdmin],
+                        CASE WHEN (F.StatusId IN(2,4,5,6,7,8,9) AND (floodfeedback.FEEDBACKRESPONSE > 0 )) THEN 1 ELSE 0 END AS ShowNotification
 					FROM [Flood].[FloodApplication] F
+                    LEFT OUTER JOIN (
+                                       SELECT 
+                                           ApplicationId,
+                                           COUNT(ApplicationId) AS FEEDBACKRESPONSE
+                                       FROM Flood.FloodApplicationFeedback
+                                       WHERE CorrectionStatus = 'RESPONSE_RECEIVED' AND MarkRead != 1
+                                       GROUP BY ApplicationId
+                                     ) AS floodfeedback ON F.Id = floodfeedback.ApplicationId
 					JOIN [AgencyCTE] A ON F.[AgencyId] = A.[AgencyId]
 					INNER JOIN @p_IdTableType tblAgencies
 								ON (tblAgencies.Id = F.AgencyId)
@@ -59,8 +68,17 @@ public class GetApplicationsByAgenciesSqlCommand
 						F.[ApplicationSubTypeId],
 						F.[ExpirationDate],
 						F.[StatusId],
-						F.[CreatedByProgramAdmin]
+						F.[CreatedByProgramAdmin],
+                        CASE WHEN (F.StatusId IN(2,4,5,6,7,8,9) AND (floodfeedback.FEEDBACKRESPONSE > 0 )) THEN 1 ELSE 0 END AS ShowNotification
 					FROM [Flood].[FloodApplication] F
+                    LEFT OUTER JOIN (
+                                        SELECT
+                                           ApplicationId,
+                                           COUNT(ApplicationId) AS FEEDBACKRESPONSE
+                                        FROM Flood.FloodApplicationFeedback
+                                        WHERE CorrectionStatus = 'RESPONSE_RECEIVED' AND MarkRead != 1
+                                        GROUP BY ApplicationId
+                                    ) AS floodfeedback ON F.Id = floodfeedback.ApplicationId
 					JOIN [AgencyCTE] A ON F.[AgencyId] = A.[AgencyId]
 					WHERE F.[IsActive] = 1
 					ORDER BY F.[ExpirationDate] ASC;

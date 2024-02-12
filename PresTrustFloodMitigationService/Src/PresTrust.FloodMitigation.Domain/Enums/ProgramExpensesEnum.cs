@@ -3,32 +3,32 @@
 public enum ProgramExpensesEnum
 {
     /// <summary>
-    /// Property Status Type for None
+    /// Program Expenses Type for None
     /// </summary>
     NONE = 0,
 
     /// <summary>
-    /// Property Status Type for Food
+    /// Program Expenses Type for Food
     /// </summary>
-    Food = 1,
+    FOOD = 1,
 
     /// <summary>
-    /// Property Status Type for Appraisal Service
+    /// Program Expenses Type for Appraisal Service
     /// </summary>
-    Appraisal_Service = 2,
+    APPRAISAL_SERVICES = 2,
 
     /// <summary>
-    /// Property Status Type for Legal Services
+    /// Program Expenses Type for Legal Services
     /// </summary>
-    Legal_Services = 3,
+    LEGAL_SERVICES = 3,
 
     /// <summary>
-    /// Property Status Type for Meeting Expense
+    /// Program Expenses Type for Meeting Expense
     /// </summary>
-    Meeting_Expense = 4,
+    MEETING_EXPENSES = 4,
 
     /// <summary>
-    /// Property Status Type for Surveyor Fee
+    /// Program Expenses Type for Surveyor Fee
     /// </summary>
-    Surveyor_Fee = 5,
+    SURVEYOR_FEES = 5
 }
