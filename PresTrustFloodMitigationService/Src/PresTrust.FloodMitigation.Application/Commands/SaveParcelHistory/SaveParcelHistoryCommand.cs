@@ -17,6 +17,4 @@ public class SaveParcelHistoryCommand: IRequest<int>
     public string? ChangeType { get; set; }
     public DateTime? ChangeDate { get; set; }
     public string? ReasonForChange { get; set; }
-    public string LastUpdatedBy { get; set; }
-    public DateTime LastUpdatedOn { get; set; }
 }

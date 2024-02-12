@@ -6,6 +6,4 @@ public class SaveApplicationReleaseOfFundsCommand: IRequest<int>
     public int ApplicationId { get; set; }
     public string? CAFNumber { get; set; }
     public bool CAFClosed { get; set; }
-    public string LastUpdatedBy { get; set; }
-    public DateTime? LastUpdatedDate { get; set; }
 }
