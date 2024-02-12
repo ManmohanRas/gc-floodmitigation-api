@@ -286,6 +286,36 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
+    [HttpPost("saveProgramExpenses")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> saveProgramExpenses([FromBody] SaveProgramExpensesCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getProgramExpenses")]
+    [ProducesResponseType(typeof(IEnumerable<GetProgramExpensesQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetProgramExpensesQueryViewModel>>> getFundingRounds([FromBody] GetProgramExpensesQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("deleteProgramExpenses")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteProgramExpenses([FromBody] DeleteProgramExpensesCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
 
     [HttpPost("deletePropertyFeedback")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
