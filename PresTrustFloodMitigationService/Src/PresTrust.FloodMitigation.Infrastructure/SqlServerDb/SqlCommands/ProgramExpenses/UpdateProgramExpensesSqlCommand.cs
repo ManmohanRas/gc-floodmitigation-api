@@ -28,7 +28,7 @@ public class UpdateProgramExpensesSqlCommand
                                       ,[Comment]= @p_Comment
 			                          ,[LastUpdatedBy] = @p_LastUpdatedBy
 			                          ,[LastUpdatedOn] = GETDATE()
-                     WHERE		      [Id] = @p_Id and [ExpenseYear] = @p_ExpenseYear;";
+                     WHERE		      [Id] = @p_Id;";
 
     public UpdateProgramExpensesSqlCommand() { }
 
