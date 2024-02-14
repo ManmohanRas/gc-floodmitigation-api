@@ -1,7 +1,7 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class SaveParcelHistoryCommandValidator: AbstractValidator<SaveParcelHistoryCommand>
+public class SaveParcelHistoryItemCommandValidator: AbstractValidator<SaveParcelHistoryItemCommand>
 {
-    public SaveParcelHistoryCommandValidator()
+    public SaveParcelHistoryItemCommandValidator()
     {
 
         RuleFor(query => query.ParcelId)

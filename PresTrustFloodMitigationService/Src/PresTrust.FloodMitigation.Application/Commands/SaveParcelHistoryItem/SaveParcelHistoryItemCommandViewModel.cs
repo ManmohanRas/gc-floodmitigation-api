@@ -1,5 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class SaveParcelHistoryCommandViewModel
+public class SaveParcelHistoryItemCommandViewModel
 {
     public int Id { get; set; }
     public int ParcelId { get; set; }

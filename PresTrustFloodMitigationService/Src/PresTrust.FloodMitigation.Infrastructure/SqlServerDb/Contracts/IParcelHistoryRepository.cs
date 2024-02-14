@@ -20,7 +20,7 @@ public interface IParcelHistoryRepository
     /// </summary>
     /// <param name="parcelHistory"></param>
     /// <returns></returns>
-    Task<FloodParcelHistoryEntity> SaveParcelHistoryAsync(FloodParcelHistoryEntity parcelHistory);
+    Task<FloodParcelHistoryEntity> SaveParcelHistoryItemAsync(FloodParcelHistoryEntity parcelHistory);
 }
     
 

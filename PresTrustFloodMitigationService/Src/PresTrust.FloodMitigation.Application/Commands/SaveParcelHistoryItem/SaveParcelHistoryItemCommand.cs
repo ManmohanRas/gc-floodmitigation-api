@@ -1,8 +1,11 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Commands;
-public class SaveParcelHistoryCommand: IRequest<int>
+public class SaveParcelHistoryItemCommand: IRequest<int>
 {
     public int Id { get; set; }
     public int ParcelId { get; set; }
+    public string Block { get; set; }
+    public string Lot { get; set; }
+    public string QCode { get; set; }
     public string CurrentPamsPin { get; set; }
     public string PreviousPamsPin { get; set; }
     public string? Section { get; set; }

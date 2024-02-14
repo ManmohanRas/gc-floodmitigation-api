@@ -1163,16 +1163,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     }
 
     /// <summary>
-    /// Save Pracel History
+    /// Save Parcel History Item
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    [HttpPost("savePracelHistory")]
+    [HttpPost("saveParcelHistoryItem")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SavePracelHistory([FromBody] SaveParcelHistoryCommand command)
+    public async Task<ActionResult<int>> SaveParcelHistoryItem([FromBody] SaveParcelHistoryItemCommand command)
     {
         return Single(await CommandAsync(command));
     }
