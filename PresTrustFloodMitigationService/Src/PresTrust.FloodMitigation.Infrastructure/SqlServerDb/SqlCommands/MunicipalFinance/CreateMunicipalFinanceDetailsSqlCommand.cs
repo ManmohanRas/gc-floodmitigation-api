@@ -19,6 +19,7 @@
 							  ,[DebtPayments]
 							  ,[OtherExpenses]
 							  ,[OtherExpensesExplained]
+							  ,[LastUpdatedOn]
 						)
 
 						VALUES
@@ -37,6 +38,7 @@
 							,@p_DebtPayments
 							,@p_OtherExpenses
 							,@p_OtherExpensesExplained
+							,GETDATE()
 						);
 
 				 SELECT CAST( SCOPE_IDENTITY() AS INT);";

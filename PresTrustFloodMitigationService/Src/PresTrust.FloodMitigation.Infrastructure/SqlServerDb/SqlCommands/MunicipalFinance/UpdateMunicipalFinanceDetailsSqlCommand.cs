@@ -16,6 +16,7 @@ public class UpdateMunicipalFinanceDetailsSqlCommand
                         ,OtherExpenses                  =   @p_OtherExpenses
                         ,OtherRevenuesExplained         =   @p_OtherRevenuesExplained
                         ,OtherExpensesExplained         =   @p_OtherExpensesExplained
+                        ,LastUpdatedOn                  =   GETDATE()
             WHERE       Id = @p_Id;";
 
     public UpdateMunicipalFinanceDetailsSqlCommand()

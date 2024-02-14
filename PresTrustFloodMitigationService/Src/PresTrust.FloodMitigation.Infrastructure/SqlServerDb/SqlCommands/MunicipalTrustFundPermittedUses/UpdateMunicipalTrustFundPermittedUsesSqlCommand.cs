@@ -18,6 +18,7 @@ public class UpdateMunicipalTrustFundPermittedUsesSqlCommand
 						  ,[GreenAcresGrant]            = @p_GreenAcresGrant
                           ,[Other]                      = @p_Other
 						  ,[TrustFundComments]	        = @p_TrustFundComments
+                          ,[LastUpdatedOn]              = GETDATE()
              WHERE Id = @p_Id;";
 
     public UpdateMunicipalTrustFundPermittedUsesSqlCommand()

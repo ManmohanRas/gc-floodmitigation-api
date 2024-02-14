@@ -18,7 +18,8 @@
 						  ,[OpenspaceMasterPlanDate]
 						  ,[GreenAcresGrant]
 						  ,[Other]
-						  ,[TrustFundComments]	
+						  ,[TrustFundComments]
+						  ,[LastUpdatedOn]
 						)
 						VALUES
 						(
@@ -35,7 +36,8 @@
 							,@p_OpenspaceMasterPlanDate
 							,@p_GreenAcresGrant
 							,@p_Other
-							,@p_TrustFundComments				
+							,@p_TrustFundComments
+							,GETDATE()
 						);
  
 			SELECT CAST( SCOPE_IDENTITY() AS INT);";

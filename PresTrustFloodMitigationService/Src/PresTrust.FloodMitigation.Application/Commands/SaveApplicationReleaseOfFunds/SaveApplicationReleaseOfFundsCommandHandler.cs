@@ -49,6 +49,7 @@ public class SaveApplicationReleaseOfFundsCommandHandler: BaseHandler, IRequestH
             await repoBrokenRules.SaveBrokenRules(brokenRules);
            
             var releaseOfFunds = await repoROF.SaveAsync(reqReleaseOfFunds);
+            releaseOfFunds.LastUpdatedBy = userContext.Email;
 
             releaseOfFundsId = releaseOfFunds.Id;
             scope.Complete();
