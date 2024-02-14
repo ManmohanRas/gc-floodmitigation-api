@@ -286,6 +286,36 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
+    [HttpPost("saveProgramExpenses")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> saveProgramExpenses([FromBody] SaveProgramExpensesCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
+    [HttpPost("getProgramExpenses")]
+    [ProducesResponseType(typeof(IEnumerable<GetProgramExpensesQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetProgramExpensesQueryViewModel>>> getFundingRounds([FromBody] GetProgramExpensesQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("deleteProgramExpenses")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<bool>> DeleteProgramExpenses([FromBody] DeleteProgramExpensesCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
 
     [HttpPost("deletePropertyFeedback")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
@@ -1133,16 +1163,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     }
 
     /// <summary>
-    /// Save Pracel History
+    /// Save Parcel History Item
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    [HttpPost("savePracelHistory")]
+    [HttpPost("saveParcelHistoryItem")]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<int>> SavePracelHistory([FromBody] SaveParcelHistoryCommand command)
+    public async Task<ActionResult<int>> SaveParcelHistoryItem([FromBody] SaveParcelHistoryItemCommand command)
     {
         return Single(await CommandAsync(command));
     }

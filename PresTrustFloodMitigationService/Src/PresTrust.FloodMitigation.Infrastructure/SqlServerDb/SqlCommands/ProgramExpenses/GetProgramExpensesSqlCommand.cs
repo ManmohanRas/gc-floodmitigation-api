@@ -2,17 +2,17 @@
 
 public class GetProgramExpensesSqlCommand
 {
-    private readonly string _sqlCommand =
-     @" SELECT	
-                    [ExpenseId]
-                   ,[ExpenseYear]
-                   ,[ExpenseAmount]
-                   ,[ExpenseDate]
-                   ,[Category]
-                   ,[Comment]
-                   ,[LastUpdatedBy]
-                   ,[LastUpdatedOn]
-        FROM    [Flood].[FloodProgramExpenses]";
+	private readonly string _sqlCommand =
+	 @" SELECT
+			[Id],
+			[ExpenseYear],
+			[ExpenseAmount],
+			[ExpenseDate],
+			[CategoryId],
+			[Comment],
+			[LastUpdatedBy],
+			[LastUpdatedOn]
+		FROM [Flood].[FloodProgramExpenses];";
 
     public GetProgramExpensesSqlCommand() { }
 

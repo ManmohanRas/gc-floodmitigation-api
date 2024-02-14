@@ -109,18 +109,52 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                 IsApplicantFlow = false
             });
      
-        if (application.Status == ApplicationStatusEnum.SUBMITTED)
-        {
-            if (string.IsNullOrEmpty(AppDetails.ProjectDescription))
-                brokenRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = AppDetails.ApplicationId,
-                    SectionId = sectionId,
-                    Message = "Project Description required field on AdminDetails tab have not been filled.",
-                    IsApplicantFlow = false
-                });
-        }
+        //if (application.Status != ApplicationStatusEnum.SUBMITTED && application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
+        //{
+        //    if (string.IsNullOrEmpty(AppDetails.ProjectDescription))
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = AppDetails.ApplicationId,
+        //            SectionId = sectionId,
+        //            Message = "Project Description required field on AdminDetails tab have not been filled.",
+        //            IsApplicantFlow = false
+        //        });
 
+        //    if (docProjectAreaApplicationMap == null)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = AppDetails.ApplicationId,
+        //            SectionId = sectionId,
+        //            Message = "Project Area Application Map required document on AdminDetails tab have not been filled.",
+        //            IsApplicantFlow = false
+        //        });
+        //    }
+
+        //    if (docCoreReviewReport == null)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = AppDetails.ApplicationId,
+        //            SectionId = sectionId,
+        //            Message = "Core Review Report required document on AdminDetails tab have not been filled.",
+        //            IsApplicantFlow = false
+        //        });
+        //    }
+
+        //    if (docCoreApplicationReport == null)
+        //    {
+        //        brokenRules.Add(new FloodBrokenRuleEntity()
+        //        {
+        //            ApplicationId = AppDetails.ApplicationId,
+        //            SectionId = sectionId,
+        //            Message = "Core Application Report required document on AdminDetails tab have not been filled.",
+        //            IsApplicantFlow = false
+        //        });
+        //    }
+        //}
+
+        
         // Active State Broken Rules 
         if (application.Status == ApplicationStatusEnum.ACTIVE)
         {
@@ -158,35 +192,6 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
         // Application type is core and Application Type is Submitted (Broken Rules)
         if (application.ApplicationType == ApplicationTypeEnum.CORE)
         {
-            if (application.Status == ApplicationStatusEnum.SUBMITTED)
-            {
-                if (docProjectAreaApplicationMap == null)
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "Project Area Application Map required document on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-
-                if (docCoreReviewReport == null)
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "Core Review Report required document on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-
-                if (docCoreApplicationReport == null)
-                    brokenRules.Add(new FloodBrokenRuleEntity()
-                    {
-                        ApplicationId = AppDetails.ApplicationId,
-                        SectionId = sectionId,
-                        Message = "Core Application Report required document on AdminDetails tab have not been filled.",
-                        IsApplicantFlow = false
-                    });
-            }
                if (application.Status == ApplicationStatusEnum.IN_REVIEW)
                {
                     if (AppDetails.FMCPreliminaryApprovalDate == null)
@@ -249,10 +254,18 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
         }
 
         // All application type Match Broken Rules 
-        if (application.ApplicationType == ApplicationTypeEnum.MATCH)
+        if (application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
             if (application.Status == ApplicationStatusEnum.SUBMITTED)
             {
+                if (string.IsNullOrEmpty(AppDetails.ProjectDescription))
+                    brokenRules.Add(new FloodBrokenRuleEntity()
+                    {
+                        ApplicationId = AppDetails.ApplicationId,
+                        SectionId = sectionId,
+                        Message = "Project Description required field on AdminDetails tab have not been filled.",
+                        IsApplicantFlow = false
+                    });
                 if (docProjectAreaApplicationMap == null)
                     brokenRules.Add(new FloodBrokenRuleEntity()
                     {

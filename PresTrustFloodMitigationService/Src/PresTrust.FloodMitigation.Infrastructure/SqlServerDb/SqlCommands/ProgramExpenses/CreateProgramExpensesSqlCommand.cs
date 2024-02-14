@@ -25,21 +25,19 @@ public class CreateProgramExpensesSqlCommand
     private readonly string _sqlCommand =
        @"INSERT INTO [Flood].[FloodProgramExpenses]
                    (
-                   [ExpenseId]
-                   ,[ExpenseYear]
+                    [ExpenseYear]
                    ,[ExpenseAmount]
                    ,[ExpenseDate]
-                   ,[Category]
+                   ,[CategoryId]
                    ,[Comment]
                    ,[LastUpdatedBy]
                    ,[LastUpdatedOn])
              VALUES
                    (
-                   @p_ExpenseId
-                   ,@p_ExpenseYear
+                    @p_ExpenseYear
                    ,@p_ExpenseAmount
                    ,@p_ExpenseDate
-                   ,@p_Category
+                   ,@p_CategoryId
                    ,@p_Comment
                    ,@p_LastUpdatedBy
                    ,GETDATE());
