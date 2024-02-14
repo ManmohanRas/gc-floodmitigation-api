@@ -11,6 +11,8 @@ namespace PresTrust.FloodMitigation.Application.Commands
         private readonly SystemParameterConfiguration systemParamOptions;
         private readonly IApplicationRepository repoApplication;
         private readonly IPropertyDocumentRepository repoDocument;
+        private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRules;
+        private readonly IParcelPropertyRepository repoParcelProperty;
 
         public SavePropertyDocumentChecklistCommandHandler
         (
@@ -18,9 +20,8 @@ namespace PresTrust.FloodMitigation.Application.Commands
             IPresTrustUserContext userContext,
             IOptions<SystemParameterConfiguration> systemParamOptions,
             IApplicationRepository repoApplication,
-            IPropertyDocumentRepository repoDocument
-        //ISiteRepository repoSite,
-        // IBrokenRuleRepository repoBrokenRules
+            IPropertyDocumentRepository repoDocument,
+            IPropertyBrokenRuleRepository repoPropertyBrokenRules
         ) : base(repoApplication: repoApplication)
         {
             this.mapper = mapper;
@@ -28,6 +29,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
             this.systemParamOptions = systemParamOptions.Value;
             this.repoApplication = repoApplication;
             this.repoDocument = repoDocument;
+            this.repoPropertyBrokenRules = repoPropertyBrokenRules;
         }
 
         /// <summary>
@@ -40,6 +42,10 @@ namespace PresTrust.FloodMitigation.Application.Commands
         {
             // get application details
             var application = await GetIfApplicationExists(request.ApplicationId);
+            var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
+
+           // var brokenRules = await repoPropertyBrokenRules(property.ApplicationId, property.PamsPin);
+            var brokenRules = ReturnBrokenRulesIfAny(application, request,property);
 
             // consider only add/updated records
             var viewmodelDocuments = request.Documents.Where(doc => string.Compare(doc.RowStatus, "U", ignoreCase: true) == 0).ToList();
@@ -54,12 +60,57 @@ namespace PresTrust.FloodMitigation.Application.Commands
                 {
                     await repoDocument.SavePropertyDocumentChecklistAsync(doc);
                 }
+               await repoPropertyBrokenRules.DeletePropertyBrokenRulesAsync(application.Id, PropertySectionEnum.ADMIN_DOCUMENT_CHECKLIST, property.PamsPin);
+               await repoPropertyBrokenRules.SavePropertyBrokenRules( brokenRules);
 
                 scope.Complete();
             };
 
             return Unit.Value;
         }
+        /// <summary>
+        /// Return broken rules in case of any business rule failure
+        /// </summary>
+        /// <param name="application"></param>
+        /// <param name="property"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+
+        private List<FloodPropertyBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application, SavePropertyDocumentChecklistCommand request, FloodApplicationParcelEntity property)
+        {
+            int sectionId = (int)PropertySectionEnum.ADMIN_DOCUMENT_CHECKLIST;
+            List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
+
+            // map command object to the FloodPropertyDocumentEntity
+            var documents = mapper.Map<IEnumerable<PropertyDocumentViewModel>, IEnumerable<FloodPropertyDocumentEntity>>(request.Documents);
+            var unapprovedDocs = documents.Where(doc => doc.Approved == false).ToList();
+            if (documents == null || documents.Count() == 0)
+            {
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    PamsPin = property.PamsPin,
+                    Message = "All required documents (Admin-Document-property-Checklist) are not yet uploaded for committee review.",
+                    IsPropertyFlow = false
+                });
+            }
+
+            if (unapprovedDocs != null && unapprovedDocs.Count() > 0)
+            {
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    SectionId = sectionId,
+                    PamsPin = property.PamsPin,
+                    Message = "All required documents (Admin-Document-property-Checklist) are not yet approved for committee review.",
+                    IsPropertyFlow = false
+                });
+            }
+
+            return brokenRules;
+        }
 
     }
 }
+

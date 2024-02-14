@@ -1,5 +1,5 @@
 ﻿namespace PresTrust.FloodMitigation.Infrastructure.SqlServerDb.SqlCommands;
-public class CreateParcelHistorySqlCommand
+public class SaveParcelHistoryItemSqlCommand
 {
     private readonly string _sqlCommand =
                     @"  INSERT INTO [Flood].[FloodParcelHistory]
@@ -45,7 +45,7 @@ public class CreateParcelHistorySqlCommand
 
 						SELECT CAST( SCOPE_IDENTITY() AS INT);";
 
-    public CreateParcelHistorySqlCommand()
+    public SaveParcelHistoryItemSqlCommand()
     {
     }
 

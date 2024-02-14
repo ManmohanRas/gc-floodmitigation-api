@@ -155,15 +155,15 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         List<FloodBrokenRuleEntity> statusChangeRules = new List<FloodBrokenRuleEntity>();
 
         // add default broken rule while initiating application flow
-          //statusChangeRules.Add(new FloodBrokenRuleEntity()
-          //  {
-          //  ApplicationId = application.Id,
-          //  SectionId = (int)ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST,
-          //  Message = "All required fields on ADMIN_DOCUMENT_CHECKLIST tab have not been filled.",
-          //  IsApplicantFlow = true
-          //  });
+        statusChangeRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST,
+            Message = "All required fields on ADMIN_DOCUMENT_CHECKLIST tab have not been filled.",
+            IsApplicantFlow = true
+        });
 
-            statusChangeRules.Add(new FloodBrokenRuleEntity()
+        statusChangeRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = application.Id,
                 SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
