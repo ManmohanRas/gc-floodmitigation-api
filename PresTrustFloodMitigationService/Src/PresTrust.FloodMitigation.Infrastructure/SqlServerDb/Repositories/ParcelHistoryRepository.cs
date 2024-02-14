@@ -43,17 +43,20 @@ public class ParcelHistoryRepository : IParcelHistoryRepository
         return result ?? new();
     }
 
-    public async Task<FloodParcelHistoryEntity> SaveParcelHistoryAsync(FloodParcelHistoryEntity dialog)
+    public async Task<FloodParcelHistoryEntity> SaveParcelHistoryItemAsync(FloodParcelHistoryEntity dialog)
     {
         int id = default;
 
         using var conn = context.CreateConnection();
-        var sqlCommand = new CreateParcelHistorySqlCommand();
+        var sqlCommand = new SaveParcelHistoryItemSqlCommand();
         id = await conn.ExecuteScalarAsync<int>(sqlCommand.ToString(),
             commandType: CommandType.Text,
             commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
             param: new
             {
+                @p_ParcelId = dialog.ParcelId,
+                @p_CurrentPamsPin = dialog.CurrentPamsPin,
+                @p_PreviousPamsPin = dialog.PreviousPamsPin,
                 @p_Section = dialog.Section,
                 @p_Partial = dialog.Partial,
                 @p_Acres = dialog.Acres,
@@ -62,11 +65,11 @@ public class ParcelHistoryRepository : IParcelHistoryRepository
                 @p_Notes = dialog.Notes,
                 @p_InterestType = dialog.InterestType,
                 @p_EasementId = dialog.EasementId,
+                @p_IsActive = dialog.IsActive,
                 @p_ChangeType = dialog.ChangeType,
                 @p_ChangeDate = dialog.ChangeDate,
                 @p_ReasonForChange = dialog.ReasonForChange,
-                @p_LastUpdatedBy = dialog.LastUpdatedBy,
-                @p_LastUpdatedOn = DateTime.Now
+                @p_LastUpdatedBy = dialog.LastUpdatedBy
             });
 
         dialog.Id = id;

@@ -16,7 +16,7 @@
 						[ReasonForChange]
 			FROM		[Flood].[FloodParcelHistory]
 			WHERE		[ParcelId] = @p_ParcelId
-			ORDER BY	[LastUpdatedOn] DESC;";
+			ORDER BY	[Id] DESC;";
 
     public GetParcelHistoryItemSqlCommand()
     {

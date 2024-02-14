@@ -45,7 +45,7 @@ public class AnnualFundingAmountsRepository : IAnnualFundingAmountsRepository
             param: new
             {
                @p_Id                   = details.Id,
-               @p_AllocationYear       = DateTime.Now.Year,
+               @p_AllocationYear       = details.AllocationYear,
                @p_AllocationAmount	   = details.AllocationAmount,
                @p_Interest             = details.Interest,
                @p_AddedOrOmittedAmount = details.AddedOrOmittedAmount,
@@ -69,7 +69,7 @@ public class AnnualFundingAmountsRepository : IAnnualFundingAmountsRepository
             param: new
             {
                 @p_Id = details.Id,
-                @p_AllocationYear = DateTime.Now.Year,
+                @p_AllocationYear = details.AllocationYear,
                 @p_AllocationAmount = details.AllocationAmount,
                 @p_Interest = details.Interest,
                 @p_AddedOrOmittedAmount = details.AddedOrOmittedAmount,
