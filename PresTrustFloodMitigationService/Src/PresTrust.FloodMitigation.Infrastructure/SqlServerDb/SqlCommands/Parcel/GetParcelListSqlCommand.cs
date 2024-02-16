@@ -4,7 +4,11 @@ public class GetParcelListSqlCommand
 {
     private readonly string _sqlCommand =
        @"   SELECT
-				CONCAT(FP.StreetNo, ' ',FP.StreetAddress) AS [PropertyAddress],
+				CASE
+					WHEN AP.[IsLocked] = 1
+						THEN CONCAT(LP.StreetNo, ' ' , LP.StreetAddress)
+					ELSE CONCAT(FP.StreetNo, ' ' , FP.StreetAddress)
+				END AS [PropertyAddress],
 				AG.[AgencyName] AS [Municipality],
 				FA.[Title] AS [ProjectArea],
 				AP.[ApplicationId],
@@ -34,9 +38,12 @@ public class GetParcelListSqlCommand
 					WHEN 10 THEN 'TRANSFERRED'
 				END AS [PropertyStatus]
 			FROM [Flood].[FloodApplicationParcel] AP
-			JOIN [Flood].[FloodParcel] FP ON AP.[PamsPin] = FP.[PamsPin]
-			JOIN [Flood].[FloodApplication] FA ON AP.[ApplicationId] = FA.[Id]
-			JOIN [Core].[View_AgencyEntities_FLOOD] AG ON AG.[AgencyId] = FP.[AgencyID]
+			LEFT JOIN [Flood].[FloodLockedParcel] LP
+					ON (AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
+			LEFT JOIN [Flood].[FloodParcel] FP
+			      	ON (AP.[IsLocked] = 0 AND AP.[PamsPin] = FP.[PamsPin])
+			LEFT JOIN [Flood].[FloodApplication] FA ON AP.[ApplicationId] = FA.[Id]
+			JOIN [Core].[View_AgencyEntities_FLOOD] AG ON (AP.[IsLocked] = 1 AND AG.[AgencyId] = LP.[AgencyID]) OR (AP.[IsLocked] = 0 AND AG.[AgencyId] = FP.[AgencyID])
 			JOIN [Flood].[FloodParcelFinance] PF ON PF.[ApplicationId] = AP.[ApplicationId] AND PF.[PamsPin] = AP.[PamsPin]
 			JOIN [Flood].[FloodApplicationFinance] AF ON AF.[Id] = FA.[Id];";
 
