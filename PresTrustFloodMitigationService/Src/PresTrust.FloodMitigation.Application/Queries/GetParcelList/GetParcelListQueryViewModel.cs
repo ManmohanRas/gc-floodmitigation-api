@@ -2,6 +2,7 @@
 
 public class GetParcelListQueryViewModel
 {
+    public string PamsPin { get; set; }
     public string PropertyAddress { get; set; }
     public string Municipality { get; set; }
     public string ProjectArea { get; set; }

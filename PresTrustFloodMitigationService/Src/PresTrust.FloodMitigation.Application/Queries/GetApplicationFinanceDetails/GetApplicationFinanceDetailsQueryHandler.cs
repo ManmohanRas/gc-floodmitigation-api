@@ -41,13 +41,14 @@ public class GetApplicationFinanceDetailsQueryHandler : BaseHandler, IRequestHan
         var parcelFinance = await repoFinanceLineItem.GetFinanceLineItemsAsync(application.Id);
 
         var result = new GetApplicationFinanceDetailsQueryViewModel()
-            {
-                ApplicationId = application.Id,
-                Id = finance.Id,
-                MatchPercent = finance.MatchPercent,
-                FundingSources = mapper.Map<IEnumerable<FloodFundingSourceEntity>, IEnumerable<FloodFundingSourceViewModel>>(fundingSources),
-                FinanceLineItems = mapper.Map<IEnumerable<FloodFinanceLineItemEntity>, IEnumerable<FloodFinanceLineItemViewModel>>(parcelFinance)
-            };
+        {
+            ApplicationId = application.Id,
+            Id = finance.Id,
+            MatchPercent = finance.MatchPercent,
+            FundingSources = mapper.Map<IEnumerable<FloodFundingSourceEntity>, IEnumerable<FloodFundingSourceViewModel>>(fundingSources),
+            FinanceLineItems = mapper.Map<IEnumerable<FloodFinanceLineItemEntity>, IEnumerable<FloodFinanceLineItemViewModel>>(parcelFinance)
+        };
+        result.FinanceLineItems = result.FinanceLineItems.OrderBy(o => o.PamsPin);
 
         return result;
     }

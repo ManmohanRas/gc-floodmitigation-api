@@ -6,6 +6,11 @@ public class GetParcelListSqlCommand
        @"   SELECT
 				CASE
 					WHEN AP.[IsLocked] = 1
+						THEN LP.PamsPin
+					ELSE FP.PamsPin
+				END AS [PamsPin],
+				CASE
+					WHEN AP.[IsLocked] = 1
 						THEN CONCAT(LP.StreetNo, ' ' , LP.StreetAddress)
 					ELSE CONCAT(FP.StreetNo, ' ' , FP.StreetAddress)
 				END AS [PropertyAddress],

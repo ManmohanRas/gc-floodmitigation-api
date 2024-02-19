@@ -31,6 +31,7 @@ public class GetApplicationPropertiesQueryHandler : IRequestHandler<GetApplicati
     {
         var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
         var result = mapper.Map<IEnumerable<FloodParcelEntity>, IEnumerable<GetApplicationPropertiesQueryViewModel>>(parcels);
+        result = result.OrderBy(o => o.PamsPin);
         return result;
     }
 }
