@@ -34,6 +34,7 @@ public class GetParcelListQueryHandler : BaseHandler, IRequestHandler<GetParcelL
     {
         var parcels = await this.repoApplication.GetParcelListAsync();
         var results = mapper.Map<IEnumerable<FloodParcelListEntity>, IEnumerable<GetParcelListQueryViewModel>>(parcels);
+        results = results.OrderBy(o => o.PamsPin).ThenBy(o => o.ProjectArea);
         return results;
     }
 }
