@@ -159,12 +159,15 @@ public class GetParcelSqlCommand
 						C.[CommentsJSON],
 						F.[FeedbacksJSON],
 						AP.[IsLocked],
-						ISNULL([IsApproved],0) AS IsApproved
+						ISNULL([IsApproved],0) AS IsApproved,
+						ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS TargetArea
 			FROM		[ApplicationParcelCTE] AP
 			LEFT JOIN [Flood].[FloodLockedParcel] LP
 					ON (LP.PamsPin = @p_PamsPin AND LP.IsActive = 1 AND AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
 			LEFT JOIN [Flood].[FloodParcel] FP
       				ON (FP.PamsPin = @p_PamsPin AND FP.IsActive = 1 AND AP.[IsLocked] = 0 AND AP.[PamsPin] = FP.[PamsPin])
+			LEFT JOIN [Flood].[FloodFlapTargetArea] TA 
+					ON FP.TargetAreaId = TA.Id
 			LEFT JOIN	[Flood].[FloodParcelStatusLog] PSL ON PSL.StatusId != AP.StatusId AND AP.ApplicationId = PSL.ApplicationId AND ((AP.[IsLocked] = 1 AND LP.PamsPin = PSL.PamsPin) OR (AP.[IsLocked] = 0 AND FP.PamsPin = PSL.PamsPin))
 			LEFT JOIN	(SELECT		[ApplicationId],
 									[PamsPin],
