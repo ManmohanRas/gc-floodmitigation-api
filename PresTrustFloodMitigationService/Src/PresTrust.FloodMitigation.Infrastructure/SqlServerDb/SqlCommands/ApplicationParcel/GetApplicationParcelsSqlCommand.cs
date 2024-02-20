@@ -91,11 +91,13 @@ public class GetApplicationParcelsSqlCommand
 					CP.[Block],
 					CP.[Lot],
 					CP.[QualificationCode] AS [QCode],
-					CP.[OwnersName] AS [LandOwner]
+					CP.[OwnersName] AS [LandOwner],
+					ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS  TargetArea
 				FROM [ApplicationParcelCTE] AP
 				LEFT JOIN [Flood].[FloodApplicationFinance] AF ON AP.[ApplicationId] = AF.[ApplicationId]
 				LEFT JOIN [Flood].[FloodParcelFinance] PF ON AP.[ApplicationId] = PF.[ApplicationId] AND AP.PamsPin = PF.PamsPin
 				JOIN [Flood].[FloodParcel] CP ON AP.[PamsPin] = CP.[PamsPin]
+				LEFT JOIN [Flood].[FloodFlapTargetArea] TA ON CP.TargetAreaId = TA.Id
 				ORDER BY CP.[Id] ASC;";
 
     public GetApplicationParcelsSqlCommand() { }

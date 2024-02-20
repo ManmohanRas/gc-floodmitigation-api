@@ -12,7 +12,8 @@ public interface IParcelRepository
     /// <summary>
     /// Link Target Area Id To Parcel
     /// </summary>
-    /// <param name="parcelIds"></param>
+    /// <param name="pamsPin"></param>
+    /// <param name="targetAreaId"></param>
     /// <returns></returns>
     Task LinkTargetAreaIdToParcelAsync(List<string> pamsPin, int targetAreaId);
 
@@ -88,4 +89,11 @@ public interface IParcelRepository
     /// <param name="PamsPin"></param>
     /// <returns></returns>
     Task<bool> CheckDuplicateProperty(int Id, string PamsPin);
+
+    /// <summary>
+    /// De Link Parcel From Target Area 
+    /// </summary>
+    /// <param name="pamsPin"></param>
+    /// <returns></returns>
+    Task DelinkParcelfromTargetArea(List<string> pamsPin);
 }

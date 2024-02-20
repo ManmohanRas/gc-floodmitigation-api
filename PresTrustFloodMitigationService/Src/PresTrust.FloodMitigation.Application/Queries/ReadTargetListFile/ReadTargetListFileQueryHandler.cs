@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace PresTrust.FloodMitigation.Application.Queries;
@@ -37,7 +38,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
 
         DataTable dt = new DataTable();
         bool firstRow = true;
-        List<FloodParcelEntity> parcels = new List<FloodParcelEntity>();
+        List<ReadTargerListParcels> parcels = new List<ReadTargerListParcels>();
 
         if (csvData.Length > 0)
         {
@@ -68,12 +69,13 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                     }
                 }
             }
+            
             //set data table to entity
             for (var i =0; i< dt.Rows.Count; i++)
             {
-                parcels.Add(new FloodParcelEntity()
+                parcels.Add(new ReadTargerListParcels()
                 {
-                    AgencyId = request.AgencyId,
+                    AgencyId = dt.Rows[i]["AgencyId"].ToString() ?? string.Empty,
                     PamsPin = dt.Rows[i]["PamsPin"].ToString() ?? string.Empty,
                     DateOfFLAP = new DateTime(),
                     IsFLAP = true,
@@ -94,5 +96,33 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
         }
 
             return Unit.Value;
+    }
+
+    public bool CustomValidator(List<ReadTargerListParcels> parcels, int agencyId)
+    {
+        string[] Errors = { "Value can't be null"};
+        bool check = false;
+
+        foreach (var myObject in parcels)
+        {
+            foreach (PropertyInfo property in myObject.GetType().GetProperties())
+            {
+                if (property.PropertyType == typeof(string))
+                {
+                    string value = (string)property.GetValue(myObject);
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        check = true;
+                        throw new ApiModelValidationException(Errors);
+                    }else if (myObject.AgencyId != agencyId.ToString())
+                    {
+                        check = true;
+                        throw new ApiModelValidationException(Errors);
+                    }
+                }
+            }
+        }
+        
+        return check;
     }
 }

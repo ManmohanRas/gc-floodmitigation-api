@@ -301,4 +301,23 @@ public class ParcelRepository : IParcelRepository
 
         return result;
     }
+
+    public async Task DelinkParcelfromTargetArea(List<string> pamsPins)
+    {
+        using var conn = context.CreateConnection();
+        foreach (var pamsPin in pamsPins)
+        {
+            if (!string.IsNullOrEmpty(pamsPin))
+            {
+                var sqlCommand = new DelinkParcelfromTargetAreaSqlCommand();
+                await conn.ExecuteAsync(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new
+                    {
+                        @p_PamsPin = pamsPin
+                    });
+            }
+        }
+    }
 }

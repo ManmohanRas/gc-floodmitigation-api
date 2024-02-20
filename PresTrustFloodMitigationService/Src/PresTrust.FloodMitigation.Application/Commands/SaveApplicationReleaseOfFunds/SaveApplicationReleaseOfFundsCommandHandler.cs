@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Domain.Entities;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SaveApplicationReleaseOfFundsCommandHandler: BaseHandler, IRequestHandler<SaveApplicationReleaseOfFundsCommand, int>
 {

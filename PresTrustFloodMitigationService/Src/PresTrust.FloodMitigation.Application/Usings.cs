@@ -34,7 +34,7 @@ global using PresTrust.FloodMitigation.Application.Services.EmailApi;
 global using PresTrust.FloodMitigation.Application.Services.IdentityApi;
 global using PresTrust.FloodMitigation.Application.CommonViewModels;
 global using Microsoft.Extensions.Caching.Memory;
-
+global using System.Text.RegularExpressions;
 
 //---------------------------------------------- PresTrust.FloodMitigation.Domain Namespaces ----------------------------------------------//
 //=========================================================================================================================================//
