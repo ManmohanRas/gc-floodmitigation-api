@@ -101,28 +101,7 @@ public class SavePropReleaseOfFundsCommandHandler : BaseHandler, IRequestHandler
             }
         }
 
-        if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
-        {
-            if (property.Status == PropertyStatusEnum.PRESERVED)
-            {
-                if (reqPropDetails.NeedSoftCost == true)
-                {
-                    if (reqPropRof.SoftCostPaymentStatus == PaymentStatusEnum.FUNDS_NOT_RELEASED)
-                    {
-                        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                        {
-                            ApplicationId = applcation.Id,
-                            PamsPin = property.PamsPin,
-                            SectionId = sectionId,
-                            Message = " Soft Cost Payment must be released in Release of funds tab.",
-                            IsPropertyFlow = false
-                        });
-                    }
-                }
-            }
-        }
-
-        return brokenRules;
+       return brokenRules;
     }
 
 

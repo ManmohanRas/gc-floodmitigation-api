@@ -1,4 +1,5 @@
 ﻿using PresTrust.FloodMitigation.Application.CommonViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PresTrust.FloodMitigation.Application.Commands;
 public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<SubmitApplicationCommand, SubmitApplicationCommandViewModel>
@@ -73,15 +74,10 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         var statusChangeRules = await repoBrokenRules.GetBrokenRulesAsync(application.Id);
 
 
-        var hasOtherDocuments = await CheckApplicationOtherDocs(application.Id, application.ApplicationTypeId, (int)ApplicationSectionEnum.OTHER_DOCUMENTS);
-        if (!hasOtherDocuments)
+        var otherdocRules = await CheckApplicationOtherDocs(application.Id, application.ApplicationTypeId, (int)ApplicationSectionEnum.OTHER_DOCUMENTS);
+        if (otherdocRules.Count > 0)
         {
-            brokenRules.Add(new FloodBrokenRuleEntity()
-            {
-                ApplicationId = application.Id,
-                SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
-                Message = "Required Documents are not uploaded in OtherDocuments Tab"
-            });
+            brokenRules.AddRange(otherdocRules);
         }
 
         if (brokenRules != null && brokenRules.Any())
@@ -121,25 +117,64 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         IsAuthorizedOperation(userRole: userContext.Role, application: application, operation: UserPermissionEnum.SUBMIT_APPLICATION);
     }
 
-    private async Task<bool> CheckApplicationOtherDocs(int applicationId, int applicationTypeId, int sectionId)
+    private async Task<List<FloodBrokenRuleEntity>> CheckApplicationOtherDocs(int applicationId, int applicationTypeId, int sectionId)
     {
-        var requiredDocumentTypes =
-            (applicationTypeId == (int)ApplicationTypeEnum.CORE) ? 
-                new int[] {
-                    (int)ApplicationDocumentTypeEnum.APPLICATION_CHECKLIST,
-                    (int)ApplicationDocumentTypeEnum.PUBLIC_HEARING_CERTIFICATE,
-                    (int)ApplicationDocumentTypeEnum.MINUTES_FROM_PUBLIC_HEARING,
-                    (int)ApplicationDocumentTypeEnum.MUNICIPAL_RESOLUTION_OF_SUPPORT
-                } :
-            (applicationTypeId == (int)ApplicationTypeEnum.MATCH) ?
-                new int[] {
-                    (int)ApplicationDocumentTypeEnum.NON_COUNTY_AGENCY_RESOLUTION
-                } : new int[] {};
-
         var documents = await repoApplicationDocument.GetApplicationDocumentsAsync(applicationId, sectionId);
-        var savedDocumentTypes = documents.Where(o => requiredDocumentTypes.Contains(o.DocumentTypeId)).Select(o => o.DocumentTypeId).Distinct().ToArray();
 
-        return requiredDocumentTypes.Except(savedDocumentTypes).Count() == 0;
+        List<FloodBrokenRuleEntity> otherdocRules = new List<FloodBrokenRuleEntity>();
+        if (applicationTypeId == (int)ApplicationTypeEnum.CORE)
+        {
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.APPLICATION_CHECKLIST).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "APPLICATION_CHECKLIST documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.PUBLIC_HEARING_CERTIFICATE).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "PUBLIC_HEARING_CERTIFICATE documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.MINUTES_FROM_PUBLIC_HEARING).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "MINUTES_FROM_PUBLIC_HEARING documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.MUNICIPAL_RESOLUTION_OF_SUPPORT).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "MUNICIPAL_RESOLUTION_OF_SUPPORT documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+        }
+        else if (applicationTypeId == (int)ApplicationTypeEnum.MATCH)
+        {
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.NON_COUNTY_AGENCY_RESOLUTION).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "NON_COUNTY_AGENCY_RESOLUTION documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+        }
+
+        return otherdocRules;
     }
 
 
