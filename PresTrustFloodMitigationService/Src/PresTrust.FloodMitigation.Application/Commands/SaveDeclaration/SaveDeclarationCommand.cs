@@ -19,7 +19,7 @@ public class SaveDeclarationCommand : IRequest<bool>
         public string Block { get; set; }
         public string Lot { get; set; }
         public string? QCode { get; set; }
-        public string LandOwner { get; set; }
+        public string? LandOwner { get; set; }
         public bool IsValidPamsPin { get; set; }
     }
 
