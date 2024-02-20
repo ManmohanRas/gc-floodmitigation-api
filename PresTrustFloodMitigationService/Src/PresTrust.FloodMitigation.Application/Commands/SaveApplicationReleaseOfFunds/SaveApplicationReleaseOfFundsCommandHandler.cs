@@ -61,7 +61,7 @@ public class SaveApplicationReleaseOfFundsCommandHandler: BaseHandler, IRequestH
         List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
         // add based on the empty check conditions
-         if (application.Status == ApplicationStatusEnum.IN_REVIEW)
+         if (application.Status == ApplicationStatusEnum.IN_REVIEW && application.ApplicationSubType!= ApplicationSubTypeEnum.FASTTRACK)
          {
                 if (string.IsNullOrEmpty(reqReleaseOfFunds?.CAFNumber))
                     brokenRules.Add(new FloodBrokenRuleEntity()

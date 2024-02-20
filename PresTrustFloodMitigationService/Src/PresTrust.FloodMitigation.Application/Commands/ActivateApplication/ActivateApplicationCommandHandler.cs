@@ -172,7 +172,7 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
                 ApplicationId = applicationId,
                 SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
                 PamsPin = pamsPin,
-                Message = "All required fields on ADMIN_DETAILSb have not been filled.",
+                Message = "All required fields on ADMIN_DETAILS tab have not been filled.",
                 IsPropertyFlow = false
             });
             brokenRules.Add(new FloodPropertyBrokenRuleEntity()

@@ -52,6 +52,7 @@ public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHand
         result.AmountSpent = amountSpent;
         result.Balance = (result.CAFAmount) - (result.AmountSpent);
         result.Payments = mapper.Map<IEnumerable<FloodPropReleaseOfFundsEntity>, IEnumerable<FloodParcelReleaseOfFundsViewModel>>(payments);
+        result.Payments = result.Payments.OrderBy(o => o.PamsPin);
 
         return result;
     }

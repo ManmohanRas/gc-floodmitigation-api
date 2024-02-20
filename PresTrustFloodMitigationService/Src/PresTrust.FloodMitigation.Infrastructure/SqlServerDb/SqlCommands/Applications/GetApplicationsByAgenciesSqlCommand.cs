@@ -28,7 +28,7 @@ public class GetApplicationsByAgenciesSqlCommand
 						F.[ExpirationDate],
 						F.[StatusId],
 						F.[CreatedByProgramAdmin],
-                        CASE WHEN (F.StatusId IN(2,4,5,6,7,8,9) AND (floodfeedback.FEEDBACKRESPONSE > 0 )) THEN 1 ELSE 0 END AS ShowNotification
+                        CASE WHEN (F.StatusId IN(2,4,5,6) AND (floodfeedback.FEEDBACKRESPONSE > 0 )) THEN 1 ELSE 0 END AS ShowNotification
 					FROM [Flood].[FloodApplication] F
                     LEFT OUTER JOIN (
                                        SELECT 
@@ -69,7 +69,7 @@ public class GetApplicationsByAgenciesSqlCommand
 						F.[ExpirationDate],
 						F.[StatusId],
 						F.[CreatedByProgramAdmin],
-                        CASE WHEN (F.StatusId IN(2,4,5,6,7,8,9) AND (floodfeedback.FEEDBACKRESPONSE > 0 )) THEN 1 ELSE 0 END AS ShowNotification
+                        CASE WHEN (F.StatusId IN(2,4,5,6) AND (floodfeedback.FEEDBACKRESPONSE > 0 )) THEN 1 ELSE 0 END AS ShowNotification
 					FROM [Flood].[FloodApplication] F
                     LEFT OUTER JOIN (
                                         SELECT

@@ -62,7 +62,11 @@ public class GetApplicationParcelsSqlCommand
 					) RejectedParcels ON ApplicationParcels.[PamsPin] = RejectedParcels.[RejectedPamsPin]
 				)
 				SELECT DISTINCT
-					CP.[Id],
+					CASE
+						WHEN AP.[IsLocked] = 1
+							THEN LP.[Id]
+						ELSE FP.[Id]
+					END AS [Id],
 					AP.[ApplicationId],
 					AP.[PamsPin],
 					AP.[StatusId],
@@ -72,33 +76,57 @@ public class GetApplicationParcelsSqlCommand
 					CASE WHEN AP.[WaitingPamsPin] IS NULL THEN 0 ELSE 1 END AS [IsWaiting],
 					CASE WHEN AP.[DuplicatePamsPin] IS NULL THEN 0 ELSE 1 END AS [AlreadyExists],
 					CASE WHEN AP.[RejectedPamsPin] IS NULL THEN 0 ELSE 1 END AS [IsRejected],
-					CP.[IsValidPamsPin],
+					CASE
+						WHEN AP.[IsLocked] = 1
+							THEN LP.[IsValidPamsPin]
+						ELSE FP.[IsValidPamsPin]
+					END AS [IsValidPamsPin],
 					AP.[Priority],
 					AP.[ValueEstimate],
 					CASE 
-					  WHEN AP.[StatusId] IN(4,5,6)
-					  THEN  PF.[HardCostFMPAmt]
-					  ELSE  0
+						WHEN AP.[StatusId] IN(4,5,6)
+						THEN  PF.[HardCostFMPAmt]
+						ELSE  0
     				END AS [HardCostFMPAmt],
 					CASE 
-					  WHEN AP.[StatusId] IN(1,2,3,4)  THEN  0
-							   WHEN AP.[IsApproved] = 0 THEN  0
-					  ELSE PF.[SoftCostFMPAmt]
+						WHEN AP.[StatusId] IN(1,2,3,4)  THEN  0
+								WHEN AP.[IsApproved] = 0 THEN  0
+						ELSE PF.[SoftCostFMPAmt]
 					END AS [SoftCostFMPAmt],
 					AF.[MatchPercent] AS [ProgramMatch],
-					CONCAT(CP.[StreetNo], ' ', CP.[StreetAddress]) AS [PropertyAddress],
+					CASE
+						WHEN AP.[IsLocked] = 1
+							THEN CONCAT(LP.StreetNo, ' ' , LP.StreetAddress)
+						ELSE CONCAT(FP.StreetNo, ' ' , FP.StreetAddress)
+					END AS [PropertyAddress],
 					NULL AS [TargetArea],
-					CP.[Block],
-					CP.[Lot],
-					CP.[QualificationCode] AS [QCode],
-					CP.[OwnersName] AS [LandOwner],
-					ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS  TargetArea
+					CASE
+						WHEN AP.[IsLocked] = 1
+							THEN LP.[Block]
+						ELSE FP.[Block]
+					END AS [Block],
+					CASE
+						WHEN AP.[IsLocked] = 1
+							THEN LP.[Lot]
+						ELSE FP.[Lot]
+					END AS [Lot],
+					CASE
+						WHEN AP.[IsLocked] = 1
+							THEN LP.[QualificationCode]
+						ELSE FP.[QualificationCode]
+					END AS [QCode],
+					CASE
+						WHEN AP.[IsLocked] = 1
+							THEN LP.[OwnersName]
+						ELSE FP.[OwnersName]
+					END AS [LandOwner]
 				FROM [ApplicationParcelCTE] AP
 				LEFT JOIN [Flood].[FloodApplicationFinance] AF ON AP.[ApplicationId] = AF.[ApplicationId]
 				LEFT JOIN [Flood].[FloodParcelFinance] PF ON AP.[ApplicationId] = PF.[ApplicationId] AND AP.PamsPin = PF.PamsPin
-				JOIN [Flood].[FloodParcel] CP ON AP.[PamsPin] = CP.[PamsPin]
-				LEFT JOIN [Flood].[FloodFlapTargetArea] TA ON CP.TargetAreaId = TA.Id
-				ORDER BY CP.[Id] ASC;";
+				LEFT JOIN [Flood].[FloodLockedParcel] LP
+						ON (AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
+				LEFT JOIN [Flood].[FloodParcel] FP
+      					ON (AP.[IsLocked] = 0 AND AP.[PamsPin] = FP.[PamsPin]);";
 
     public GetApplicationParcelsSqlCommand() { }
 

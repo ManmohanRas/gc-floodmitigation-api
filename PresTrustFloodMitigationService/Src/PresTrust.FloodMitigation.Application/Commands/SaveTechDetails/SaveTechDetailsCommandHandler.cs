@@ -66,16 +66,26 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
         }
         return reqTechDetails.Id;
     }
-    private List<FloodPropertyBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity applcation, FloodApplicationParcelEntity property, FloodTechDetailsEntity reqTechDetails)
+    private List<FloodPropertyBrokenRuleEntity> ReturnBrokenRulesIfAny(FloodApplicationEntity application, FloodApplicationParcelEntity property, FloodTechDetailsEntity reqTechDetails)
     {
         int sectionId = (int)PropertySectionEnum.TECH;
         List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
+        var applicationStatuses = new List<ApplicationStatusEnum>()
+        {
+            ApplicationStatusEnum.DOI_DRAFT,
+            ApplicationStatusEnum.DOI_SUBMITTED,
+            ApplicationStatusEnum.DRAFT
+        };
 
+        if (!applicationStatuses.Contains(application.Status) && property.Status != PropertyStatusEnum.NONE) 
+        { 
+            
+        
 
             if (reqTechDetails.BenefitCostRatio == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "BenefitCostRatio required field on Tech tab have not been filled.",
@@ -85,7 +95,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (string.IsNullOrEmpty(reqTechDetails.FEMACommunityId))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "FEMA Community required field on Tech tab have not been filled.",
@@ -95,7 +105,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (reqTechDetails.FirmEffectiveDate == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Firm Effective Date required field on Tech tab have not been filled.",
@@ -105,17 +115,17 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (string.IsNullOrEmpty(reqTechDetails.FirmPanelFinal))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Firm Pannel Final required field on Tech tab have not been filled.",
+                    Message = "Firm Pannel Effective  required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
             if (string.IsNullOrEmpty(reqTechDetails.FloodZoneDesignation))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Flood Zone Designation required field on Tech tab have not been filled.",
@@ -125,27 +135,27 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (reqTechDetails.BaseFloodElevationFinal == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Base Flood Elevation Final required field on Tech tab have not been filled.",
+                    Message = "Base Flood Elevation Effective  required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
             if (reqTechDetails.RiverIdFinal == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "River X-Section ID Final required field on Tech tab have not been filled.",
+                    Message = "River X-Section ID Effective  required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
             if (reqTechDetails.FisEffectiveDate == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Fis Effective Date required field on Tech tab have not been filled.",
@@ -155,17 +165,17 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (string.IsNullOrEmpty(reqTechDetails.FloodProfileFinal))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Flood Profile Final required field on Tech tab have not been filled.",
+                    Message = "Flood Profile Effective  required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
             if (string.IsNullOrEmpty(reqTechDetails.FloodSource))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Flood Source required field on Tech tab have not been filled.",
@@ -175,47 +185,47 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (reqTechDetails.FirstFloodElevationFinal == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "First Flood Elevation Final required field on Tech tab have not been filled.",
+                    Message = "First Flood Elevation Effective  required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
             if (reqTechDetails.StreambedElevationFinal == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Stream Bed Elevation Final required field on Tech tab have not been filled.",
+                    Message = "Stream Bed Elevation Effective  required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
             if (reqTechDetails.ElevationBeforeMitigation == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Elevation Before Mitigation Initial required field on Tech tab have not been filled.",
+                    Message = "FFE Before Elevation Mitigation required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
             if (reqTechDetails.ElevationBeforeMitigationFinal == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Elevation Before Mitigation Final required field on Tech tab have not been filled.",
+                    Message = "FFE After Elevation Mitigation  required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
 
             if (string.IsNullOrEmpty(reqTechDetails.FloodType))
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Flood Type required field on Tech tab have not been filled.",
@@ -225,7 +235,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (reqTechDetails.TenPercent == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Ten Percent required field on Tech tab have not been filled.",
@@ -235,7 +245,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (reqTechDetails.TwoPercent == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Two Percent required field on Tech tab have not been filled.",
@@ -245,7 +255,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (reqTechDetails.OnePercent == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "One Percent required field on Tech tab have not been filled.",
@@ -255,12 +265,13 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
             if (reqTechDetails.PointOnePercent == null)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
-                    ApplicationId = applcation.Id,
+                    ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Point One Percent required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
+        }
         return brokenRules;
     }
 }
