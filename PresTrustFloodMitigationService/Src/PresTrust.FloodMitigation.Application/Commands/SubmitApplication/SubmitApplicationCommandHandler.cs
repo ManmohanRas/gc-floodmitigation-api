@@ -71,9 +71,6 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
             });
         }
 
-        var statusChangeRules = await repoBrokenRules.GetBrokenRulesAsync(application.Id);
-
-
         var otherdocRules = await CheckApplicationOtherDocs(application.Id, application.ApplicationTypeId, (int)ApplicationSectionEnum.OTHER_DOCUMENTS);
         if (otherdocRules.Count > 0)
         {

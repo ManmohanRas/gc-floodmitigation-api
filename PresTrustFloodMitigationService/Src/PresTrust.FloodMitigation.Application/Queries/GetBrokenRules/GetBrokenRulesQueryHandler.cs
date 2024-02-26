@@ -4,18 +4,21 @@ public class GetBrokenRulesQueryHandler: BaseHandler, IRequestHandler<GetBrokenR
 {
     private readonly IMapper mapper;
     private readonly IApplicationRepository repoApplication;
+    private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IBrokenRuleRepository repoBrokenRule;
     private readonly IPresTrustUserContext userContext;
 
     public GetBrokenRulesQueryHandler(
             IMapper mapper,
             IApplicationRepository repoApplication,
+            IApplicationParcelRepository repoApplicationParcel,
             IBrokenRuleRepository repoBrokenRule,
             IPresTrustUserContext userContext
             ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
         this.repoApplication = repoApplication;
+        this.repoApplicationParcel = repoApplicationParcel;
         this.repoBrokenRule = repoBrokenRule;
         this.userContext = userContext;
     }
@@ -33,6 +36,24 @@ public class GetBrokenRulesQueryHandler: BaseHandler, IRequestHandler<GetBrokenR
         if (isApplicantFlow)
         {
             brokenRules = brokenRules.Where(o => o.IsApplicantFlow).ToList();
+        }
+        else
+        {
+            if(application.Status == ApplicationStatusEnum.DRAFT)
+            {
+                bool hasNonSubmittedParcels = false;
+                var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
+                hasNonSubmittedParcels = parcels.Count(o => o.Status != PropertyStatusEnum.SUBMITTED) > 0;
+                if (hasNonSubmittedParcels)
+                {
+                    brokenRules.Add(new FloodBrokenRuleEntity()
+                    {
+                        ApplicationId = application.Id,
+                        SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+                        Message = "All the Properties must be submitted"
+                    });
+                }
+            }
         }
 
         var result = mapper.Map<IEnumerable<FloodBrokenRuleEntity>, IEnumerable<GetBrokenRulesQueryViewModel>>(brokenRules);
