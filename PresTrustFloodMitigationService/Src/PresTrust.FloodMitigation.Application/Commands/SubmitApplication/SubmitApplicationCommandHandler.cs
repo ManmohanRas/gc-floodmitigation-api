@@ -1,7 +1,4 @@
-﻿using PresTrust.FloodMitigation.Application.CommonViewModels;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<SubmitApplicationCommand, SubmitApplicationCommandViewModel>
 {
     private readonly IMapper mapper;
@@ -11,6 +8,8 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
     private readonly IApplicationDocumentRepository repoApplicationDocument;
     private readonly IBrokenRuleRepository repoBrokenRules;
     private readonly IApplicationParcelRepository repoApplicationParcel;
+    private readonly IEmailManager repoEmailManager;
+
 
     public SubmitApplicationCommandHandler
     (
@@ -20,8 +19,8 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         IApplicationRepository repoApplication,
         IApplicationDocumentRepository repoApplicationDocument,
         IBrokenRuleRepository repoBrokenRules,
-        IApplicationParcelRepository repoApplicationParcel
-
+        IApplicationParcelRepository repoApplicationParcel,
+        IEmailManager repoEmailManager
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -31,6 +30,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         this.repoApplicationDocument = repoApplicationDocument;
         this.repoBrokenRules = repoBrokenRules;
         this.repoApplicationParcel = repoApplicationParcel;
+        this.repoEmailManager = repoEmailManager;
     }
 
     /// <summary>
@@ -102,6 +102,9 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
                 LastUpdatedBy = application.LastUpdatedBy
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
+
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_APPROVED_TO_SUBMITTED.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;

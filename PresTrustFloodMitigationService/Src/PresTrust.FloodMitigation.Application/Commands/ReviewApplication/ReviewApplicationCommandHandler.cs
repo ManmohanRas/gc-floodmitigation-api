@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<ReviewApplicationCommand, ReviewApplicationCommandViewModel>
 {
     private readonly IMapper mapper;
@@ -11,6 +8,8 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
     private readonly IBrokenRuleRepository repoBrokenRules;
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IPropertyBrokenRuleRepository repoPropBrokenRules;
+    private readonly IEmailManager repoEmailManager;
+
 
     public ReviewApplicationCommandHandler
     (
@@ -20,7 +19,8 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
         IApplicationRepository repoApplication,
         IBrokenRuleRepository repoBrokenRules,
         IApplicationParcelRepository repoApplicationParcel,
-        IPropertyBrokenRuleRepository repoPropBrokenRules
+        IPropertyBrokenRuleRepository repoPropBrokenRules,
+        IEmailManager repoEmailManager
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -30,6 +30,7 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
         this.repoBrokenRules = repoBrokenRules;
         this.repoApplicationParcel = repoApplicationParcel;
         this.repoPropBrokenRules = repoPropBrokenRules;
+        this.repoEmailManager  = repoEmailManager;
     }
 
     /// <summary>
@@ -119,6 +120,9 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
             // save broken rules
             await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
             await repoPropBrokenRules.SavePropertyBrokenRules(defaultPropertyBrokenRules);
+
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_SUBMITTED_TO_IN_REVIEW.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;

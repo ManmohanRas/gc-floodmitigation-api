@@ -1,13 +1,10 @@
-﻿using PresTrust.FloodMitigation.Application.CommonViewModels;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<SubmitDeclarationCommand, SubmitDeclarationCommandViewModel>
 {
     private readonly IMapper mapper;
     private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
-    private readonly IEmailTemplateRepository repoEmailTemplate;
     private readonly IEmailManager repoEmailManager;
     private readonly IBrokenRuleRepository repoBrokenRules;
 
@@ -18,7 +15,6 @@ public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<Subm
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IEmailTemplateRepository repoEmailTemplate,
         IEmailManager repoEmailManager,
         IBrokenRuleRepository repoBrokenRules
     ) : base(repoApplication)
@@ -27,7 +23,6 @@ public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<Subm
         this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
-        this.repoEmailTemplate = repoEmailTemplate;
         this.repoEmailManager = repoEmailManager;
         this.repoBrokenRules = repoBrokenRules;
     }
@@ -79,12 +74,9 @@ public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<Subm
             // save broken rules
             //await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
 
-            //Send Email
-            var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_DRAFT_TO_DOI_SUBMITTED.ToString());
-            if (template != null)
-            {
-                await repoEmailManager.SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, agencyId: application.AgencyId);
-            }
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_SUBMITTED_TO_DOI_APPROVED.ToString(), application);
+
             scope.Complete();
             result.IsSuccess = true;
         }

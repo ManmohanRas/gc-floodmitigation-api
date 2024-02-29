@@ -12,6 +12,7 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
     private readonly IPropReleaseOfFundsRepository repoPropReleaseOfFunds;
     private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRules;
     private readonly IPropertyDocumentRepository repoPropertyDocuments;
+    private readonly IEmailManager repoEmailManager;
 
     public CloseApplicationCommandHandler
     (
@@ -23,7 +24,8 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
         IParcelPropertyRepository repoParcelProperty,
         IPropReleaseOfFundsRepository repoPropReleaseOfFunds,
         IPropertyBrokenRuleRepository repoPropertyBrokenRules,
-        IPropertyDocumentRepository repoPropertyDocuments
+        IPropertyDocumentRepository repoPropertyDocuments,
+        IEmailManager repoEmailManager
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -35,6 +37,7 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
         this.repoPropReleaseOfFunds = repoPropReleaseOfFunds;
         this.repoPropertyBrokenRules = repoPropertyBrokenRules;
         this.repoPropertyDocuments = repoPropertyDocuments;
+        this.repoEmailManager   = repoEmailManager;
     }
 
     /// <summary>
@@ -146,6 +149,8 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
                 LastUpdatedBy = application.LastUpdatedBy
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
+
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_ACTIVE_TO_WITHDRAWN.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;
