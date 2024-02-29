@@ -153,7 +153,7 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
         
         foreach(var pamsPin in pamsPins)
         {
-            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity() 
             {
                 ApplicationId = applicationId,
                 SectionId = (int)PropertySectionEnum.PROPERTY,
