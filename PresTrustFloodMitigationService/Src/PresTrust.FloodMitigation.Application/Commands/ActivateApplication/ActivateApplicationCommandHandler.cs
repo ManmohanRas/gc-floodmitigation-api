@@ -189,14 +189,6 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
                 Message = "All required fields on FINANCE tab have not been filled.",
                 IsPropertyFlow = false
             });
-            //brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-            //{
-            //    ApplicationId = applicationId,
-            //    SectionId = (int)PropertySectionEnum.ADMIN_DOCUMENT_CHECKLIST,
-            //    PamsPin = Property.PamsPin,
-            //    Message = "All required fields on Property tab have not been filled.",
-            //    IsPropertyFlow = false
-            //});
         }
 
         return brokenRules;

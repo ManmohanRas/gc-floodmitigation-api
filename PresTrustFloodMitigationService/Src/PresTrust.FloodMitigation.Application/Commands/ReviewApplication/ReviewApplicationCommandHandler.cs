@@ -84,8 +84,6 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
             appParcel.StatusId = (int)PropertyStatusEnum.IN_REVIEW;
         }
 
-        var statusChangeRules = await repoBrokenRules.GetBrokenRulesAsync(application.Id);
-
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoApplication.SaveApplicationWorkflowStatusAsync(application);

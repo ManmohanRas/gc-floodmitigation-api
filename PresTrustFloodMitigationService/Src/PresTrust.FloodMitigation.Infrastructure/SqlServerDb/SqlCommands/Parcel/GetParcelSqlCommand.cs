@@ -10,7 +10,7 @@ public class GetParcelSqlCommand
 				(
 					SELECT		[Id]
 					FROM		[Flood].[FloodApplication]
-					WHERE		[Id]=@p_ApplicationId AND [IsActive] = 1
+					WHERE		[Id] = @p_ApplicationId AND [IsActive] = 1
 				) FLOOD_APPLICATION
 				JOIN
 				(
@@ -20,7 +20,7 @@ public class GetParcelSqlCommand
 								[IsLocked],
 								ISNULL([IsApproved],0) AS IsApproved
 					FROM		[Flood].[FloodApplicationParcel]
-					WHERE		[ApplicationId]=@p_ApplicationId AND [PamsPin] = @p_PamsPin
+					WHERE		[ApplicationId] = @p_ApplicationId AND [PamsPin] = @p_PamsPin
 				) FLOOD_APPLICATION_PARCEL ON FLOOD_APPLICATION.[Id] = FLOOD_APPLICATION_PARCEL.[ApplicationId]
 			)
 			SELECT		TOP 1
@@ -159,8 +159,9 @@ public class GetParcelSqlCommand
 						C.[CommentsJSON],
 						F.[FeedbacksJSON],
 						AP.[IsLocked],
-						ISNULL([IsApproved],0) AS IsApproved,
-						ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS TargetArea
+						ISNULL([IsApproved],0) AS [IsApproved],
+						ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS [TargetArea],
+						OtherLocked.[ApplicationId] AS [LockedAnotherApplicationId]
 			FROM		[ApplicationParcelCTE] AP
 			LEFT JOIN [Flood].[FloodLockedParcel] LP
 					ON (LP.PamsPin = @p_PamsPin AND LP.IsActive = 1 AND AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
@@ -204,6 +205,12 @@ public class GetParcelSqlCommand
 									FROM		[Flood].[FloodParcelFeedback]
 									WHERE		[ApplicationId] = @p_ApplicationId AND [PamsPin] = @p_PamsPin) FLOOD_FEEDBACK
 						GROUP BY	[ApplicationId], [PamsPin]) F ON AP.ApplicationId = F.ApplicationId AND ((AP.[IsLocked] = 1 AND LP.PamsPin = F.PamsPin) OR (AP.[IsLocked] = 0 AND FP.PamsPin = F.PamsPin))
+			LEFT JOIN	(SELECT TOP 1		LP.ApplicationId,
+											LP.PamsPin
+						FROM Flood.FloodApplicationParcel AP
+						JOIN Flood.FloodLockedParcel LP ON AP.ApplicationId = LP.ApplicationId AND AP.PamsPin = LP.PamsPin
+						WHERE AP.ApplicationId != @p_ApplicationId AND AP.PamsPin = @p_PamsPin AND AP.IsLocked = 1
+						ORDER BY LP.LastUpdatedOn DESC) OtherLocked ON AP.PamsPin = OtherLocked.PamsPin
 			ORDER BY PSL.StatusDate DESC;";
 
     public GetParcelSqlCommand() { }

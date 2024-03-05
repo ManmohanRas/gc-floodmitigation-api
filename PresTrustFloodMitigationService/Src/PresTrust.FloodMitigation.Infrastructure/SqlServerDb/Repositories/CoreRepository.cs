@@ -71,11 +71,11 @@
             return result;
         }
 
-        public async Task<List<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address, List<string> existingPamsPins)
+        public async Task<List<FloodParcelEntity>> GetFloodParcelsByFilterAsync(int agencyId, string block, string lot, string address, List<string> existingPamsPins, bool isDOI = false)
         {
             List<FloodParcelEntity> results = default;
             using var conn = context.CreateConnection();
-            var sqlCommand = new GetFloodParcelsByFilterSqlCommand();
+            var sqlCommand = new GetFloodParcelsByFilterSqlCommand(isDOI);
             results = (await conn.QueryAsync<FloodParcelEntity>(sqlCommand.ToString(),
                         commandType: CommandType.Text,
                         commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
