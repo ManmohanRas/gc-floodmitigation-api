@@ -7,8 +7,7 @@ public class RequestForApplicationCorrectionCommandHandler : BaseHandler, IReque
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationFeedbackRepository repoFeedback;
-  //  private readonly IEmailTemplateRepository repoEmailTemplate;
-  //  private readonly IEmailManager repoEmailManager;
+    private readonly IEmailManager repoEmailManager;
 
     /// <summary>
     /// 
@@ -25,9 +24,8 @@ public class RequestForApplicationCorrectionCommandHandler : BaseHandler, IReque
            IPresTrustUserContext userContext,
            IOptions<SystemParameterConfiguration> systemParamOptions,
            IApplicationRepository repoApplication,
-           IApplicationFeedbackRepository repoFeedback
-          // IEmailTemplateRepository repoEmailTemplate,
-          // IEmailManager repoEmailManager
+           IApplicationFeedbackRepository repoFeedback,
+           IEmailManager repoEmailManager
        ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
@@ -35,8 +33,7 @@ public class RequestForApplicationCorrectionCommandHandler : BaseHandler, IReque
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
         this.repoFeedback = repoFeedback;
-       // this.repoEmailTemplate = repoEmailTemplate;
-       // this.repoEmailManager = repoEmailManager;
+        this.repoEmailManager = repoEmailManager;
     }
     /// <summary>
     /// 
@@ -51,16 +48,15 @@ public class RequestForApplicationCorrectionCommandHandler : BaseHandler, IReque
         AuthorizationCheck(application);
 
         // update feedback status and send email to an applicant
-        //using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
-        //{
+        using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
+        {
             await repoFeedback.RequestForApplicationCorrectionAsync(application.Id);
 
-            // var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.FEEDBACK_EMAIL.ToString());
-            //if (template != null)
-            //  await repoEmailManager.SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, fundingYear: application.FundingYear, agencyId: application.AgencyId);
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.FEEDBACK_EMAIL.ToString(), application);
 
-            //scope.Complete();
-        //};
+            scope.Complete();
+        };
 
         return true;
     }

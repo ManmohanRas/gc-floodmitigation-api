@@ -150,7 +150,7 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
 
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_ACTIVE_TO_WITHDRAWN.ToString(), application);
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_ACTIVE_TO_CLOSED.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;

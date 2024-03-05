@@ -79,5 +79,45 @@ public enum EmailTemplateCodeTypeEnum
     /// <summary>
     /// Email Template Code Type for APPROVE_SOFTCOST
     /// </summary>
-    APPROVE_SOFTCOST
+    APPROVE_SOFTCOST,
+
+    /// <summary>
+    /// Email Template Code Type for REMINDER_ABOUT_EXPIRATION_OF_FIRST_GRANT_EXTENSION
+    /// </summary>
+    REMINDER_ABOUT_EXPIRATION_OF_FIRST_GRANT_EXTENSION,
+
+    /// <summary>
+    /// Email Template Code Type for REMINDER_ABOUT_EXPIRATION_OF_SECOND_GRANT_EXTENSION
+    /// </summary>
+    REMINDER_ABOUT_EXPIRATION_OF_SECOND_GRANT_EXTENSION,
+
+    /// <summary>
+    /// Email Template Code Type for DUE_DILIGIENCE_DOCUMENTS
+    /// </summary>
+    DUE_DILIGIENCE_DOCUMENTS,
+
+    /// <summary>
+    /// Email Template Code Type for SOFTCOST_REIMBURSEMENT_INFORMATION
+    /// </summary>
+    SOFTCOST_REIMBURSEMENT_INFORMATION,
+
+    /// <summary>
+    /// Email Template Code Type for FLAP_UPDATE
+    /// </summary>
+    FLAP_UPDATE,
+
+    /// <summary>
+    /// Email Template Code Type for PROJECT_AREA_EXPIRATION_REMINDER
+    /// </summary>
+    PROJECT_AREA_EXPIRATION_REMINDER,
+
+    /// <summary>
+    /// Email Template Code Type for GRANT_EXPIRATION_REMINDER
+    /// </summary>
+    GRANT_EXPIRATION_REMINDER,
+
+    /// <summary>
+    /// Email Template Code Type for DEMOLITION_REMINDER
+    /// </summary>
+    DEMOLITION_REMINDER
 }

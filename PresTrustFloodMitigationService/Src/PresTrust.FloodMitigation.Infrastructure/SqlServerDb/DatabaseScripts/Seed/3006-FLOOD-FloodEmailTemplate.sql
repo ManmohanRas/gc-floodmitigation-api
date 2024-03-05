@@ -429,5 +429,89 @@ INSERT INTO [Flood].[FloodEmailTemplate] ([Id] , [TemplateCode], [Title], [Subje
     1);
 GO
 
+INSERT INTO [Flood].[FloodEmailTemplate] ([Id] , [TemplateCode], [Title], [Subject], [Description], [IsActive]) VALUES  (
+     21, 
+    'PROJECT_AREA_EXPIRATION_REMINDER', 
+    'Project Area Expiration Reminder', 
+    'Morris County Flood Mitigation Program - Project Area Extension', 
+    '<p>Dear {{PrimaryContactName}},</p>
+     <p>This email is to remind you that the {{ApplicationName}} Project Area will expire on {{ProjectAreaExpirationDate}}. After expiration, you will be unable to receive reimbursement for any properties that were not yet preserved at the time of expiration. You will need to reapply with a new project area for these properties if you wish to pursue them again. If there are any outstanding soft cost reimbursement requests at the time of expiration, those can still be released for preserved properties.</p>
+	<p>You may request for two separate six-month extensions. The second extension can only be requested once the first extension is reviewed and approved by the Flood Mitigation Committee. Please reach out with any questions or with your extension request.</p>
+	<p>Sincerely,</p>
+	<p>{{ProgramAdmin}}<br>
+	Flood Mitigation Program Coordinator<br>
+	Morris County Office of Planning &amp; Preservation<br>
+	P.O. Box 900<br>
+	Morristown, NJ 07963-0900<br>
+	(973) 829-8120 (O)<br>
+	E-Mail: mdigiulio@co.morris.nj.us<br>
+	Website: https://www.morriscountynj.gov/flood </p>' , 
+    1);
+GO
+
+INSERT INTO [Flood].[FloodEmailTemplate] ([Id] , [TemplateCode], [Title], [Subject], [Description], [IsActive]) VALUES  (
+     22, 
+    'GRANT_EXPIRATION_REMINDER', 
+    'Grant Expiration Reminder', 
+    'Morris County Flood Mitigation Program - Grant Expiration Reminder', 
+    '<p>Dear {{PrimaryContactName}},</p>
+	 <p>This is a reminder that funds for {{PropertyName}} in the {{ApplicationName}} Project Area have not been released. The grant will expire in 3 months on {{GrantExpirationDate}}. Please work to schedule a closing with the homeowner, and provide at least 7 days notice for the closing to ensure funds are transferred to the municipality&rsquo;s account in time. If a closing will not occur, let us know and the property will be withdrawn.</p>
+	 <p>Please contact me if you have any questions or concerns.</p>
+	<p>Sincerely,</p>
+	<p>{{ProgramAdmin}}<br>
+	Flood Mitigation Program Coordinator<br>
+	Morris County Office of Planning &amp; Preservation<br>
+	P.O. Box 900<br>
+	Morristown, NJ 07963-0900<br>
+	(973) 829-8120 (O)<br>
+	E-Mail: mdigiulio@co.morris.nj.us<br>
+	Website: https://www.morriscountynj.gov/flood </p>' , 
+    1);
+GO
+
+INSERT INTO [Flood].[FloodEmailTemplate] ([Id] , [TemplateCode], [Title], [Subject], [Description], [IsActive]) VALUES  (
+     23, 
+    'UPLOAD_CLOSING_DOCUMENTS_REMINDER', 
+    'Upload Closing Documents', 
+    'Morris County Flood Mitigation Program - Closing Documents Requested', 
+    '<p>Dear {{PrimaryContactName}},</p>
+	 <p>This is a reminder to upload the following closing documents for {{PropertyName}} in the {{ApplicationName}} Project Area:</p>
+	<p>1. Recorded Deed<br>
+	   2. HUD-1 Form<br>
+	   3. Title Insurance Policy</p>
+	<p>If you requested soft cost reimbursement once demolition of the home occurs, these documents must be uploaded before funds will be released.</p>
+	<p>Please contact me if you have any questions or concerns.<br></p>
+	<p>Sincerely,</p>
+	<p>{{ProgramAdmin}}<br>
+	Flood Mitigation Program Coordinator<br>
+	Morris County Office of Planning &amp; Preservation<br>
+	P.O. Box 900<br>
+	Morristown, NJ 07963-0900<br>
+	(973) 829-8120 (O)<br>
+	E-Mail: mdigiulio@co.morris.nj.us<br>
+	Website: https://www.morriscountynj.gov/flood </p>' , 
+    1);
+GO
+
+INSERT INTO [Flood].[FloodEmailTemplate] ([Id] , [TemplateCode], [Title], [Subject], [Description], [IsActive]) VALUES  (
+     24, 
+    'DEMOLITION_REMINDER', 
+    'Demolition Reminder', 
+    'Morris County Flood Mitigation Program - Demolition Reminder', 
+    '<p>Dear {{PrimaryContactName}},</p>
+	 <p>This is a reminder that a demolition date for {{PropertyName}} in the {{ApplicationName}} Project Area has not been scheduled. If the home has already been demolished, provide us the date of demoltion and proof of demolition. If it has not, provide us the anticipated date of demolition.</p>
+	<p>Please contact me if you have any questions or concerns.</p>
+	<p>Sincerely,</p>
+	<p>{{ProgramAdmin}}<br>
+	Flood Mitigation Program Coordinator<br>
+	Morris County Office of Planning &amp; Preservation<br>
+	P.O. Box 900<br>
+	Morristown, NJ 07963-0900<br>
+	(973) 829-8120 (O)<br>
+	E-Mail: mdigiulio@co.morris.nj.us<br>
+	Website: https://www.morriscountynj.gov/flood </p>' , 
+    1);
+GO
+
 
 --Tab wise
