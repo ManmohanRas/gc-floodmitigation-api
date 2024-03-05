@@ -60,6 +60,7 @@ public class FloodParcelEntity
     public int TotalNo { get; set; }
     public string CommentsJSON { get; set; }
     public string FeedbacksJSON { get; set; }
+    public int? LockedAnotherApplicationId { get; set; }
     public PropertyStatusEnum Status
     {
         get

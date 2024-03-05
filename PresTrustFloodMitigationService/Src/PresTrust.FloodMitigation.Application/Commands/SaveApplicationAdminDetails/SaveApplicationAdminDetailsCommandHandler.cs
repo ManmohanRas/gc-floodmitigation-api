@@ -145,7 +145,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
         }
 
         // All application type Match Broken Rules 
-        if (application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
+        if (application.ApplicationType == ApplicationTypeEnum.MATCH && application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
             if (application.Status == ApplicationStatusEnum.SUBMITTED)
             {

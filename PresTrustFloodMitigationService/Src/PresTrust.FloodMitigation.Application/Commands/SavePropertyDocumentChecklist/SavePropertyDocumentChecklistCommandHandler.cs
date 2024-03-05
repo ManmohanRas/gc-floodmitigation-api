@@ -12,7 +12,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
         private readonly IApplicationRepository repoApplication;
         private readonly IPropertyDocumentRepository repoDocument;
         private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRules;
-        private readonly IParcelPropertyRepository repoParcelProperty;
+        private readonly IApplicationParcelRepository repoProperty;
 
         public SavePropertyDocumentChecklistCommandHandler
         (
@@ -21,8 +21,9 @@ namespace PresTrust.FloodMitigation.Application.Commands
             IOptions<SystemParameterConfiguration> systemParamOptions,
             IApplicationRepository repoApplication,
             IPropertyDocumentRepository repoDocument,
-            IPropertyBrokenRuleRepository repoPropertyBrokenRules
-        ) : base(repoApplication: repoApplication)
+            IPropertyBrokenRuleRepository repoPropertyBrokenRules,
+            IApplicationParcelRepository repoProperty
+        ) : base(repoApplication: repoApplication, repoProperty: repoProperty)
         {
             this.mapper = mapper;
             this.userContext = userContext;
@@ -30,6 +31,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
             this.repoApplication = repoApplication;
             this.repoDocument = repoDocument;
             this.repoPropertyBrokenRules = repoPropertyBrokenRules;
+            this.repoProperty = repoProperty;
         }
 
         /// <summary>
