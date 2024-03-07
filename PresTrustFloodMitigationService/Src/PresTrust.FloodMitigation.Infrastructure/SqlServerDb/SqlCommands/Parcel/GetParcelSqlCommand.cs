@@ -4,7 +4,7 @@ public class GetParcelSqlCommand
 {
     private readonly string _sqlCommand =
        @"   WITH ApplicationParcelCTE AS (
-				SELECT
+SELECT
 					FLOOD_APPLICATION_PARCEL.*
 				FROM
 				(
@@ -18,7 +18,8 @@ public class GetParcelSqlCommand
 								[PamsPin],
 								[StatusId],
 								[IsLocked],
-								ISNULL([IsApproved],0) AS IsApproved
+								ISNULL([IsApproved],0) AS IsApproved,
+								ISNULL([IsSubmitted],0) AS IsSubmitted
 					FROM		[Flood].[FloodApplicationParcel]
 					WHERE		[ApplicationId] = @p_ApplicationId AND [PamsPin] = @p_PamsPin
 				) FLOOD_APPLICATION_PARCEL ON FLOOD_APPLICATION.[Id] = FLOOD_APPLICATION_PARCEL.[ApplicationId]
@@ -160,6 +161,7 @@ public class GetParcelSqlCommand
 						F.[FeedbacksJSON],
 						AP.[IsLocked],
 						ISNULL([IsApproved],0) AS [IsApproved],
+						ISNULL([IsSubmitted],0) AS [IsSubmitted],
 						ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS [TargetArea],
 						OtherLocked.[ApplicationId] AS [LockedAnotherApplicationId]
 			FROM		[ApplicationParcelCTE] AP
