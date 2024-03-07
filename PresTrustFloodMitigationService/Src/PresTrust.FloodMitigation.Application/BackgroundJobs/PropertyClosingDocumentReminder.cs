@@ -1,19 +1,19 @@
 ﻿namespace PresTrust.FloodMitigation.Application.BackgroundJobs;
 
-public class GrantExpirationReminder : BaseHandler, IGrantExpirationReminder
+public class PropertyClosingDocumentReminder: BaseHandler, IPropertyClosingDocumentReminder
 {
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IEmailTemplateRepository repoEmailTemplate;
     private readonly IReminderEmailManager repoEmailManager;
 
-    public GrantExpirationReminder
-    (
-           IOptions<SystemParameterConfiguration> systemParamOptions,
-           IApplicationRepository repoApplication,
-           IEmailTemplateRepository repoEmailTemplate,
-           IReminderEmailManager repoEmailManager
-    ) : base(repoApplication)
+    public PropertyClosingDocumentReminder
+(
+       IOptions<SystemParameterConfiguration> systemParamOptions,
+       IApplicationRepository repoApplication,
+       IEmailTemplateRepository repoEmailTemplate,
+       IReminderEmailManager repoEmailManager
+) : base(repoApplication)
     {
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
@@ -27,10 +27,10 @@ public class GrantExpirationReminder : BaseHandler, IGrantExpirationReminder
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
-            var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.GRANT_EXPIRATION_REMINDER.ToString());
+            var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.PROPERTY_SCHEDULE_CLOSING.ToString());
             if (template != null)
             {
-                await repoEmailManager.SendMail(subject: template.Subject ?? "", htmlBody: template.Description ?? "", applicationId: 6, applicationName: "Test Application", propertyName:"Test Property");
+                await repoEmailManager.SendMail(subject: template.Subject ?? "", htmlBody: template.Description ?? "", applicationId: 6, applicationName: "Test Application", propertyName: "Test Property");
             }
             scope.Complete();
         }
@@ -38,5 +38,3 @@ public class GrantExpirationReminder : BaseHandler, IGrantExpirationReminder
         await Task.Yield();
     }
 }
-
- 

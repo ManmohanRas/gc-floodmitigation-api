@@ -1,9 +1,4 @@
-﻿using MediatR;
-using Newtonsoft.Json.Linq;
-using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<ApprovePropertyCommand, ApprovePropertyCommandViewModel>
 {
     private readonly IMapper mapper;
@@ -13,6 +8,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
     private readonly IPropertyDocumentRepository repoPropertyDocuments;
     private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRules;
     private readonly IPropertyAdminDetailsRepository repoPropertyAdminDetails;
+    private readonly IEmailManager repoEmailManager;
 
 
     public ApprovePropertyCommandHandler
@@ -24,8 +20,8 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
         IApplicationParcelRepository repoProperty,
         IPropertyDocumentRepository repoPropertyDocuments,
         IPropertyBrokenRuleRepository repoPropertyBrokenRules,
-        IPropertyAdminDetailsRepository repoPropertyAdminDetails
-
+        IPropertyAdminDetailsRepository repoPropertyAdminDetails,
+        IEmailManager repoEmailManager
     ) : base(repoApplication, repoProperty)
     {
         this.mapper = mapper;
@@ -35,6 +31,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
         this.repoPropertyDocuments = repoPropertyDocuments;
         this.repoPropertyBrokenRules = repoPropertyBrokenRules;
         this.repoPropertyAdminDetails = repoPropertyAdminDetails;
+        this.repoEmailManager = repoEmailManager;
     }
 
     /// <summary>
@@ -98,6 +95,10 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
             var defaultBrokenRules = ReturnBrokenRulesIfAny(application, property);
             // Save current Broken Rules, if any
             await repoPropertyBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
+
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_PROPERTY_STATUS_FROM_PENDING_TO_APPROVED.ToString(), application, property);
+
             scope.Complete();
             result.IsSuccess = true;
         }

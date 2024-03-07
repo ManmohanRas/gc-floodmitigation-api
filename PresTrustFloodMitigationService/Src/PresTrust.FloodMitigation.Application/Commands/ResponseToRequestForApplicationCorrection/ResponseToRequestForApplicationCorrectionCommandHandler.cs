@@ -10,6 +10,8 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationFeedbackRepository repoFeedback;
+    private readonly IEmailManager repoEmailManager;
+
 
     /// <summary>
     /// 
@@ -25,7 +27,8 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
         IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IApplicationFeedbackRepository repoFeedback
+        IApplicationFeedbackRepository repoFeedback,
+        IEmailManager repoEmailManager
     ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
@@ -33,6 +36,7 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
         this.repoFeedback = repoFeedback;
+        this.repoEmailManager = repoEmailManager;
     }
     /// <summary>
     ///
@@ -74,7 +78,9 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
                 await repoFeedback.SaveAsync(feedback);
             }
 
-            // TODO: Email
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.FEEDBACK_RESPONSE_EMAIL.ToString(), application);
+
             scope.Complete();
         };
         return true;

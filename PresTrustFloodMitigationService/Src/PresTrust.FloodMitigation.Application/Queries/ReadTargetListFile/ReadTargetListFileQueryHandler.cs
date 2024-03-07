@@ -38,7 +38,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
 
         DataTable dt = new DataTable();
         bool firstRow = true;
-        List<ReadTargerListParcels> parcels = new List<ReadTargerListParcels>();
+        List<FloodParcelEntity> parcels = new List<FloodParcelEntity>();
 
         if (csvData.Length > 0)
         {
@@ -73,9 +73,9 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
             //set data table to entity
             for (var i =0; i< dt.Rows.Count; i++)
             {
-                parcels.Add(new ReadTargerListParcels()
+                parcels.Add(new FloodParcelEntity()
                 {
-                    AgencyId = dt.Rows[i]["AgencyId"].ToString() ?? string.Empty,
+                    AgencyId = request.AgencyId,
                     PamsPin = dt.Rows[i]["PamsPin"].ToString() ?? string.Empty,
                     DateOfFLAP = new DateTime(),
                     IsFLAP = true,

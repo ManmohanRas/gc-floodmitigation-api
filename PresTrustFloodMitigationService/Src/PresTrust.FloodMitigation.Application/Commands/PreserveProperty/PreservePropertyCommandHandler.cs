@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<PreservePropertyCommand, PreservePropertyCommandViewModel>
 {
     private readonly IMapper mapper;
@@ -10,6 +8,8 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
     private readonly IPropertyDocumentRepository repoPropertyDocuments;
     private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRules;
     private readonly IPropertyAdminDetailsRepository repoPropertyAdminDetails;
+    private readonly IEmailManager repoEmailManager;
+
 
     public PreservePropertyCommandHandler
     (
@@ -20,7 +20,8 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
         IApplicationParcelRepository repoProperty,
         IPropertyDocumentRepository repoPropertyDocuments,
         IPropertyBrokenRuleRepository repoPropertyBrokenRules,
-        IPropertyAdminDetailsRepository repoPropertyAdminDetails
+        IPropertyAdminDetailsRepository repoPropertyAdminDetails,
+        IEmailManager repoEmailManager
     ) : base(repoApplication, repoProperty)
     {
         this.mapper = mapper;
@@ -30,6 +31,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
         this.repoPropertyDocuments = repoPropertyDocuments;
         this.repoPropertyBrokenRules = repoPropertyBrokenRules;
         this.repoPropertyAdminDetails = repoPropertyAdminDetails;
+        this.repoEmailManager = repoEmailManager;
     }
 
     /// <summary>
@@ -94,6 +96,9 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
             await repoPropertyBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
 
             await repoProperty.CreateLockedParcel(property.ApplicationId, property.PamsPin, userContext.Email);
+
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_PROPERTY_STATUS_FROM_APPROVED_TO_PRESERVED.ToString(), application, property);
 
             scope.Complete();
             result.IsSuccess = true;
