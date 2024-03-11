@@ -272,6 +272,27 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     IsPropertyFlow = true
                 });
         }
-        return brokenRules;
+        if (!applicationStatuses.Contains(application.Status) && property.Status == PropertyStatusEnum.SUBMITTED)
+        {
+            if (reqTechDetails.Claim10Years == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Claim10Years required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+            if (reqTechDetails.TotalOfClaims == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "TotalOfClaims required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+        }
+            return brokenRules;
     }
 }

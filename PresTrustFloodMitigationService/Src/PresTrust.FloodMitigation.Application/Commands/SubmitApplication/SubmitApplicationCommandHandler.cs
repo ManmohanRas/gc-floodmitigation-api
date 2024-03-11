@@ -163,6 +163,42 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         }
         else if (applicationTypeId == (int)ApplicationTypeEnum.MATCH)
         {
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.APPLICATION_CHECKLIST).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "APPLICATION_CHECKLIST documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.PUBLIC_HEARING_CERTIFICATE).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "PUBLIC_HEARING_CERTIFICATE documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.MINUTES_FROM_PUBLIC_HEARING).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "MINUTES_FROM_PUBLIC_HEARING documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.MUNICIPAL_RESOLUTION_OF_SUPPORT).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "MUNICIPAL_RESOLUTION_OF_SUPPORT documents is not uploaded in OtherDocuments Tab"
+                });
+            }
             if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.NON_COUNTY_AGENCY_RESOLUTION).Count() == 0)
             {
                 otherdocRules.Add(new FloodBrokenRuleEntity()
