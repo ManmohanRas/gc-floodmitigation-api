@@ -231,7 +231,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
             ApplicationId = application.Id,
             SectionId = (int)ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST,
             Message = "All required fields on ADMIN_DOCUMENT_CHECKLIST tab have not been filled.",
-            IsApplicantFlow = true
+            IsApplicantFlow = false
         });
 
         statusChangeRules.Add(new FloodBrokenRuleEntity()
