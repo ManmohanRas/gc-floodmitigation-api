@@ -15,6 +15,7 @@ public class GetFloodFlapParcelViewModel
     public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
     public int AgencyId { get; set; }
+    public string? AgencyName { get; set; }
     public string Block { get; set; }
     public string Lot { get; set; }
     public string QCode { get; set; }

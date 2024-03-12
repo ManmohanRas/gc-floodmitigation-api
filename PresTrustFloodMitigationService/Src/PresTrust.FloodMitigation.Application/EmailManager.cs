@@ -100,10 +100,9 @@ public class EmailManager : IEmailManager
         htmlBody = htmlBody.Replace("{{ProjectName}}", applicationName ?? "");
 
         //new placeholders
-        htmlBody = htmlBody.Replace("{{ProjectAreaExpirationDate}}", "");
         htmlBody = htmlBody.Replace("{{TotalEncumbered}}", "");
         htmlBody = htmlBody.Replace("{{CurrentExpirationDate}}", "");
-        htmlBody = htmlBody.Replace("{{ContactName}}", "");
+        htmlBody = htmlBody.Replace("{{ContactName}}", string.Join(",", primaryContact.Item1));
         htmlBody = htmlBody.Replace("{{FMPSoftCostReimbursed}}", "");
         htmlBody = htmlBody.Replace("{{FirstProjectAreaExtensionDate}}", emailDate?.ToString("dddd, MMMM dd, yyyy"));
         htmlBody = htmlBody.Replace("{{SecondProjectAreaExtensionDate}}", emailDate?.ToString("dddd, MMMM dd, yyyy"));
@@ -112,6 +111,8 @@ public class EmailManager : IEmailManager
         htmlBody = htmlBody.Replace("{{PropertyName}}", "");
         htmlBody = htmlBody.Replace("{{MCHardCostShare}}", "");
         htmlBody = htmlBody.Replace("{{BCCDate}}", "");
+
+        htmlBody = htmlBody.Replace("{{ProjectAreaExpirationDate}}", "");
         htmlBody = htmlBody.Replace("{{GrantExpirationDate}}", "");
         //property
         //new placeholders

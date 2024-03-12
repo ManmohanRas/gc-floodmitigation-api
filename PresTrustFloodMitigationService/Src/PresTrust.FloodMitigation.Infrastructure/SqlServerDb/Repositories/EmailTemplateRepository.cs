@@ -24,6 +24,19 @@ public class EmailTemplateRepository: IEmailTemplateRepository
 
     #endregion
 
+    public async Task<IEnumerable<FloodEmailTemplateEntity>> GetAllEmailTemplates()
+    {
+        IEnumerable<FloodEmailTemplateEntity> results = default;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetAllEmailTemplateSqlCommand();
+        results = await conn.QueryAsync<FloodEmailTemplateEntity>(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds);
+
+        return results;
+    }
+
     /// <summary>
     /// Get Email Template Details
     /// </summary>
@@ -43,5 +56,24 @@ public class EmailTemplateRepository: IEmailTemplateRepository
         result = results.FirstOrDefault();
 
         return result ?? new();
+    }
+
+    public async Task<FloodEmailTemplateEntity> SaveAsync(FloodEmailTemplateEntity template)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new UpdateEmailTemplateSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_Id = template.Id,
+                @p_Title = template.Title,
+                @p_Description = template.Description,
+                @p_TemplateCode = template.TemplateCode,
+                @p_LastUpdatedBy = template.LastUpdatedBy
+            });
+
+        return template;
     }
 }
