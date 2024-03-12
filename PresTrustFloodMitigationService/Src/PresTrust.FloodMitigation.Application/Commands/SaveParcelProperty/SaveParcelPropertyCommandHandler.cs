@@ -141,6 +141,15 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 Message = "Street Address required field on property tab have not been Filled.",
                 IsPropertyFlow = false
             });
+        if (string.IsNullOrEmpty(reqFloodParcel.LandOwner))
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = applcation.Id,
+                PamsPin = property.PamsPin,
+                SectionId = sectionId,
+                Message = "LandOwner Name required field on property tab have not been Filled.",
+                IsPropertyFlow = true
+            });
         if (string.IsNullOrEmpty(reqFloodParcel.OwnersAddress1))
             brokenRules.Add(new FloodPropertyBrokenRuleEntity()
             {
@@ -244,32 +253,32 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     Message = "Year Constructed value required field on property tab have not been Filled.",
                     IsPropertyFlow = true
                 });
-            if (reqParcelProperty?.StructureType == null)
+            if (reqParcelProperty?.StructureType == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "StructureType required field on property tab have not been Filled.",
-                    IsPropertyFlow = false
+                    IsPropertyFlow = true
                 });
-            if (reqParcelProperty?.FoundationType == null)
+            if (reqParcelProperty?.FoundationType == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "FoundationType required field on property tab have not been Filled.",
-                    IsPropertyFlow = false
+                    IsPropertyFlow = true
                 });
-            if (reqParcelProperty?.OccupancyClass == null)
+            if (reqParcelProperty?.OccupancyClass == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()
                 {
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Occupancy Class required field on property tab have not been Filled.",
-                    IsPropertyFlow = false
+                    IsPropertyFlow = true
                 });
             if (reqFloodParcel?.AnnualTaxes == 0)
                 brokenRules.Add(new FloodPropertyBrokenRuleEntity()

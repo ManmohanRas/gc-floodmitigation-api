@@ -108,8 +108,40 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                 Message = "Municipal Resolution Number required field on AdminDetails tab have not been filled.",
                 IsApplicantFlow = false
             });
-     
-               
+        if (string.IsNullOrEmpty(AppDetails.ProjectDescription))
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = AppDetails.ApplicationId,
+                SectionId = sectionId,
+                Message = "Project Description required field on AdminDetails tab have not been filled.",
+                IsApplicantFlow = false
+            });
+        if (docProjectAreaApplicationMap == null)
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = AppDetails.ApplicationId,
+                SectionId = sectionId,
+                Message = "Project Area Application Map required document on AdminDetails tab have not been filled.",
+                IsApplicantFlow = false
+            });
+        if (docCoreApplicationReport == null)
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = AppDetails.ApplicationId,
+                SectionId = sectionId,
+                Message = "Core Application Report required document on AdminDetails tab have not been filled.",
+                IsApplicantFlow = false
+            });
+        if (docCoreReviewReport == null)
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = AppDetails.ApplicationId,
+                SectionId = sectionId,
+                Message = "Core Review Report required document on AdminDetails tab have not been filled.",
+                IsApplicantFlow = false
+            });
+
+
         // Active State Broken Rules 
         if (application.Status == ApplicationStatusEnum.ACTIVE)
         {
@@ -140,6 +172,14 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                     ApplicationId = AppDetails.ApplicationId,
                     SectionId = sectionId,
                     Message = "Caf Close out summary required document on AdminDetails tab have not been filled.",
+                    IsApplicantFlow = false
+                });
+            if (docsNotificationOfapproval == null)
+                brokenRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = AppDetails.ApplicationId,
+                    SectionId = sectionId,
+                    Message = "Notification of Approval and Procedures Letter required document on AdminDetails tab have not been filled.",
                     IsApplicantFlow = false
                 });
         }
