@@ -241,24 +241,27 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                     Message = "Grant Agreement required Upload on AdminDetails tab have not been Uploaded.",
                     IsPropertyFlow = false
                 });
-            if (docFmcSoftcostReimbApprovalRes == null)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Fmc Softcost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
-                    IsPropertyFlow = false
-                });
-            if (docBccSoftReimbApprovalRes == null)
-                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
-                {
-                    ApplicationId = applcation.Id,
-                    PamsPin = property.PamsPin,
-                    SectionId = sectionId,
-                    Message = "Bcc SoftCost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
-                    IsPropertyFlow = false
-                });
+            if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
+            {
+                if (docFmcSoftcostReimbApprovalRes == null)
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Fmc Softcost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
+                        IsPropertyFlow = false
+                    });
+                if (docBccSoftReimbApprovalRes == null)
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Bcc SoftCost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
+                        IsPropertyFlow = false
+                    });
+            }
         }
         if (property.Status == PropertyStatusEnum.APPROVED)
         {
