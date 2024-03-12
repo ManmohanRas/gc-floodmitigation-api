@@ -18,14 +18,16 @@ public class FloodPropertySecurityManager
     private List<NavigationItemEntity> postApprovedNavigationItems = default;
     private NavigationItemEntity defaultNavigationItem = default;
     private List<FloodPropertyFeedbackEntity> corrections = new List<FloodPropertyFeedbackEntity>();
+    private bool isSoftCostSubmitted = false;
 
-    public FloodPropertySecurityManager(UserRoleEnum userRole, PropertyStatusEnum propertyStatus, PropertyStatusEnum propertyPrevStatus, ApplicationStatusEnum applicationStatus, List<FloodPropertyFeedbackEntity> corrections = null)
+    public FloodPropertySecurityManager(UserRoleEnum userRole, PropertyStatusEnum propertyStatus, PropertyStatusEnum propertyPrevStatus, ApplicationStatusEnum applicationStatus, List<FloodPropertyFeedbackEntity> corrections = null, bool isSoftCostSubmitted = false)
     {
         this.userRole = userRole;
         this.propertyStatus = propertyStatus;
         this.propertyPrevStatus = propertyPrevStatus;
         this.applicationStatus = applicationStatus;
         this.corrections = corrections ?? new List<FloodPropertyFeedbackEntity>();
+        this.isSoftCostSubmitted = isSoftCostSubmitted;
 
         ConfigurePermissions();
     }
@@ -940,7 +942,14 @@ public class FloodPropertySecurityManager
                         //Other Documents
                         OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                         //Soft Costs
-                        SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                        if(isSoftCostSubmitted)
+                        {
+                            SoftCosts();
+                        }
+                        else
+                        {
+                            SoftCosts(enumViewOrEdit: ViewOrEdit.EDIT);
+                        }
                     }
                     if (userRole == UserRoleEnum.AGENCY_SIGNATORY || userRole == UserRoleEnum.AGENCY_READONLY)
                     {

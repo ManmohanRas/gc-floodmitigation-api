@@ -1,6 +1,4 @@
-﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class ReleasePaymentsCommandHandler: BaseHandler, IRequestHandler<ReleasePaymentsCommand, bool>
 {
@@ -11,6 +9,7 @@ public class ReleasePaymentsCommandHandler: BaseHandler, IRequestHandler<Release
     private readonly IPropReleaseOfFundsRepository repoROF;
     private readonly IPropertyBrokenRuleRepository repoBrokenRules;
     private readonly IParcelPropertyRepository repoProperty;
+    private readonly IApplicationParcelRepository repoAppParcel;
 
 
     public ReleasePaymentsCommandHandler(
@@ -19,8 +18,9 @@ public class ReleasePaymentsCommandHandler: BaseHandler, IRequestHandler<Release
         IApplicationRepository repoApplication,
         IPropReleaseOfFundsRepository repoROF,
         IPropertyBrokenRuleRepository repoBrokenRules,
-        IParcelPropertyRepository repoProperty
-        ) : base(repoApplication: repoApplication)
+        IParcelPropertyRepository repoProperty,
+        IApplicationParcelRepository repoAppParcel
+        ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
     {
         this.mapper = mapper;
         this.userContext = userContext;
@@ -29,6 +29,7 @@ public class ReleasePaymentsCommandHandler: BaseHandler, IRequestHandler<Release
         this.repoROF = repoROF;
         this.repoBrokenRules = repoBrokenRules;
         this.repoProperty = repoProperty;
+        this.repoAppParcel = repoAppParcel;
     }
 
     public async Task<bool> Handle(ReleasePaymentsCommand request, CancellationToken cancellationToken)
