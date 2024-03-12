@@ -1285,6 +1285,26 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     {
         return Single(await CommandAsync(command));
     }
+
+    [HttpPost("getAllEmailTemplates")]
+    [ProducesResponseType(typeof(IEnumerable<GetAllEmailTemplatesQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetAllEmailTemplatesQueryViewModel>>> GetAllEmailTemplates([FromBody] GetAllEmailTemplatesQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
+    [HttpPost("saveEmailTemplate")]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<int>> SaveEmailTemplate([FromBody] SaveEmailTemplateCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
 }
 
 public class FloodMitigationWorkflowController : ApiBaseController

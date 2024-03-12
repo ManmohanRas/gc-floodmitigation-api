@@ -1,20 +1,20 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using System.IO;
-using System.Reflection;
-using System.Text.RegularExpressions;
+﻿using System.Reflection;
 
 namespace PresTrust.FloodMitigation.Application.Queries;
 
 public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFileQuery, Unit>
 {
     private IMemoryCache _cache;
+    private IMapper mapper;
 
     public ReadTargetListFileQueryHandler
         (
-        IMemoryCache _cache
+        IMemoryCache _cache,
+        IMapper mapper
         )
     {
         this._cache = _cache ?? throw new ArgumentNullException(nameof(_cache));
+        this.mapper = mapper;
     }
     public async Task<Unit> Handle(ReadTargetListFileQuery request, CancellationToken cancellationToken)
     {
@@ -38,7 +38,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
 
         DataTable dt = new DataTable();
         bool firstRow = true;
-        List<FloodParcelEntity> parcels = new List<FloodParcelEntity>();
+        List<ReadTargerListParcels> parcels = new List<ReadTargerListParcels>();
 
         if (csvData.Length > 0)
         {
@@ -73,10 +73,12 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
             //set data table to entity
             for (var i =0; i< dt.Rows.Count; i++)
             {
-                parcels.Add(new FloodParcelEntity()
+                parcels.Add(new ReadTargerListParcels()
                 {
-                    AgencyId = request.AgencyId,
+                    AgencyId = request.AgencyId.ToString(),
                     PamsPin = dt.Rows[i]["PamsPin"].ToString() ?? string.Empty,
+                    Block = dt.Rows[i]["Block"].ToString() ?? string.Empty,
+                    Lot = dt.Rows[i]["Lot"].ToString() ?? string.Empty,
                     DateOfFLAP = new DateTime(),
                     IsFLAP = true,
                     StreetNo = dt.Rows[i]["StreetNo"].ToString() ?? string.Empty,
@@ -86,13 +88,18 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                 });
             }
 
+            CustomValidator(parcels, request.AgencyId);
+
+            var importParcels = mapper.Map<List<ReadTargerListParcels>, List<FloodParcelEntity>>(parcels);
+
+
             //Set in cache
             var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromSeconds(60))
                     .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
                     .SetPriority(CacheItemPriority.Normal)
                     .SetSize(1024);
-            _cache.Set("ParcelsCache", parcels, cacheEntryOptions);
+            _cache.Set("ParcelsCache", importParcels, cacheEntryOptions);
         }
 
             return Unit.Value;
@@ -114,11 +121,12 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                     {
                         check = true;
                         throw new ApiModelValidationException(Errors);
-                    }else if (myObject.AgencyId != agencyId.ToString())
-                    {
-                        check = true;
-                        throw new ApiModelValidationException(Errors);
                     }
+                    //else if (myObject.AgencyId != agencyId.ToString())
+                    //{
+                    //    check = true;
+                    //    throw new ApiModelValidationException(Errors);
+                    //}
                 }
             }
         }
