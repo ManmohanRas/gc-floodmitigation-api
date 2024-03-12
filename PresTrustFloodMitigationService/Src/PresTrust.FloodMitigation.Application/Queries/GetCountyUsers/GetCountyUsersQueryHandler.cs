@@ -24,7 +24,10 @@ public class GetCountyUsersQueryHandler : IRequestHandler<GetCountyUsersQuery, I
         var usersResult = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
 
         var countyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<PresTrustUserEntity>>(usersResult);
-
+        foreach (var item in countyUsers)
+        {
+            item.Status = item.IsEnabled ? "Active" : "In-Active";
+        }
         return countyUsers;
     }
 }

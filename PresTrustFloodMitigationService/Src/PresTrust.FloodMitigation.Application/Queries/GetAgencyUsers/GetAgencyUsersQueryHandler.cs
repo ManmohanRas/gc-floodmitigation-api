@@ -47,7 +47,10 @@ namespace PresTrust.FloodMitigation.Application.Queries
             var endPoint = $"{systemParamOptions.IdentityApiSubDomain}/UserAdmin/users/pres-trust/flood/{request.AgencyId}";
             var resultUsers = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
             var agencyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<PresTrustUserEntity>>(resultUsers);
-
+            foreach (var item in agencyUsers)
+            {
+                item.Status = item.IsEnabled ? "Active" : "In-Active";
+            }
             return agencyUsers;
         }
     }
