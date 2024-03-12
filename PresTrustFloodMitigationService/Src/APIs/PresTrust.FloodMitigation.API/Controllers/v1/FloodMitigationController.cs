@@ -1123,11 +1123,11 @@ public class FloodMitigationController : FloodMitigationWorkflowController
     /// <returns></returns>
     [HttpPost("readTargetAreasCSVFile")]
     [DisableRequestSizeLimit]
-    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<Unit>> ReadTargetAreaCSVFile([FromForm] ReadTargetListFileQuery query)
+    public async Task<ActionResult<bool>> ReadTargetAreaCSVFile([FromForm] ReadTargetListFileQuery query)
     {
         return Single(await QueryAsync(query));
     }

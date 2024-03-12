@@ -2,7 +2,7 @@
 
 namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFileQuery, Unit>
+public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFileQuery, bool>
 {
     private IMemoryCache _cache;
     private IMapper mapper;
@@ -16,7 +16,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
         this._cache = _cache ?? throw new ArgumentNullException(nameof(_cache));
         this.mapper = mapper;
     }
-    public async Task<Unit> Handle(ReadTargetListFileQuery request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(ReadTargetListFileQuery request, CancellationToken cancellationToken)
     {
         var file = request.file;
         var fileextension = Path.GetExtension(file.FileName);
@@ -87,8 +87,8 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                     TargetArea = dt.Rows[i]["TargetArea"].ToString() ?? string.Empty
                 });
             }
-
-            CustomValidator(parcels, request.AgencyId);
+            
+            bool isValid =  CustomValidator(parcels, request.AgencyId);
 
             var importParcels = mapper.Map<List<ReadTargerListParcels>, List<FloodParcelEntity>>(parcels);
 
@@ -102,7 +102,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
             _cache.Set("ParcelsCache", importParcels, cacheEntryOptions);
         }
 
-            return Unit.Value;
+            return true;
     }
 
     public bool CustomValidator(List<ReadTargerListParcels> parcels, int agencyId)

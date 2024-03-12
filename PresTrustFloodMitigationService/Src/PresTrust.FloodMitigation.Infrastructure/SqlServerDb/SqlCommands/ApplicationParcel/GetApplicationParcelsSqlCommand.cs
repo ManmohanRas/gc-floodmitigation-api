@@ -119,14 +119,16 @@ public class GetApplicationParcelsSqlCommand
 						WHEN AP.[IsLocked] = 1
 							THEN LP.[OwnersName]
 						ELSE FP.[OwnersName]
-					END AS [LandOwner]
+					END AS [LandOwner],
+					ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS  TargetArea
 				FROM [ApplicationParcelCTE] AP
 				LEFT JOIN [Flood].[FloodApplicationFinance] AF ON AP.[ApplicationId] = AF.[ApplicationId]
 				LEFT JOIN [Flood].[FloodParcelFinance] PF ON AP.[ApplicationId] = PF.[ApplicationId] AND AP.PamsPin = PF.PamsPin
 				LEFT JOIN [Flood].[FloodLockedParcel] LP
 						ON (AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
 				LEFT JOIN [Flood].[FloodParcel] FP
-      					ON (AP.[IsLocked] = 0 AND AP.[PamsPin] = FP.[PamsPin]);";
+      					ON (AP.[IsLocked] = 0 AND AP.[PamsPin] = FP.[PamsPin])
+				LEFT JOIN [Flood].[FloodFlapTargetArea] TA ON FP.TargetAreaId = TA.Id;";
 
     public GetApplicationParcelsSqlCommand() { }
 
