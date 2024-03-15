@@ -149,13 +149,16 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
             IsApplicantFlow = false
         });
 
-        brokenRules.Add(new FloodBrokenRuleEntity()
+        if (application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
-            ApplicationId = application.Id,
-            SectionId = (int)ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS,
-            Message = "All required fields on ADMIN RELEASE OF FUNDS have not been filled.",
-            IsApplicantFlow = false
-        });
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = (int)ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS,
+                Message = "All required fields on ADMIN RELEASE OF FUNDS have not been filled.",
+                IsApplicantFlow = false
+            });
+        }
 
         return brokenRules;
     }
