@@ -1153,7 +1153,7 @@ public class FloodPropertySecurityManager
                 permission.CanDeleteComments = true;
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
-                permission.CanReintiateProperty = true;
+                permission.CanReinitiateProperty = true;
                 //Property
                 Property(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents

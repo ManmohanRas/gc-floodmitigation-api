@@ -74,7 +74,7 @@ public class PropertyPermissionEntity
     public bool CanWithdrawProperty { get; set; } = false;
     public bool CanProjectAreaExpireProperty { get; set; } = false;
     public bool CanTransferProperty { get; set; } = false;
-    public bool CanReintiateProperty { get; set; } = false;
+    public bool CanReinitiateProperty { get; set; } = false;
 
     //---------------------------------------------------------------------//
     //  Property Details Permissions

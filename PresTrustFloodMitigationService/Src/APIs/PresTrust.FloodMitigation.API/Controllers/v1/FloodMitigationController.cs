@@ -1441,6 +1441,17 @@ public class FloodMitigationWorkflowController : ApiBaseController
         return Single(await CommandAsync(command));
     }
 
+
+    [HttpPost("reinitiateProperty")]
+    [ProducesResponseType(typeof(Unit), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<Unit>> ReinitiateProperty([FromBody] ReinitiatePropertyCommand command)
+    {
+        return Single(await CommandAsync(command));
+    }
+
     [HttpPost("approveProperty")]
     [ProducesResponseType(typeof(ApprovePropertyCommandViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
