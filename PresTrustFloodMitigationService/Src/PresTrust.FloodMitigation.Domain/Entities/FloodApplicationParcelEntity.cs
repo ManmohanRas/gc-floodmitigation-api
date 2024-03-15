@@ -8,7 +8,8 @@ public class FloodApplicationParcelEntity
     public int PrevStatusId { get; set; }
     public bool IsLocked { get; set; }
     public bool? IsSubmitted { get; set; }
-    public bool? IsApproved { get; set; } 
+    public bool? IsApproved { get; set; }
+    public bool? IsDEPInvolved { get; set; }
     public string LastUpdatedBy { get; set; }
     public bool? IsFLAP { get; set; }
     public PropertyStatusEnum Status
