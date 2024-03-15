@@ -163,7 +163,8 @@ SELECT
 						ISNULL([IsApproved],0) AS [IsApproved],
 						ISNULL([IsSubmitted],0) AS [IsSubmitted],
 						ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS [TargetArea],
-						OtherLocked.[ApplicationId] AS [LockedAnotherApplicationId]
+						OtherLocked.[ApplicationId] AS [LockedAnotherApplicationId],
+						ISNULL(FPAD.[IsDEPInvolved], 0) AS IsDEPInvolved
 			FROM		[ApplicationParcelCTE] AP
 			LEFT JOIN [Flood].[FloodLockedParcel] LP
 					ON (LP.PamsPin = @p_PamsPin AND LP.IsActive = 1 AND AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
@@ -171,6 +172,7 @@ SELECT
       				ON (FP.PamsPin = @p_PamsPin AND FP.IsActive = 1 AND AP.[IsLocked] = 0 AND AP.[PamsPin] = FP.[PamsPin])
 			LEFT JOIN [Flood].[FloodFlapTargetArea] TA 
 					ON FP.TargetAreaId = TA.Id
+			LEFT JOIN   [Flood].[FloodParcelAdminDetails] FPAD ON (AP.[ApplicationId] = FPAD.[ApplicationId] AND AP.PamsPin = FPAD.PamsPin)
 			LEFT JOIN	[Flood].[FloodParcelStatusLog] PSL ON PSL.StatusId != AP.StatusId AND AP.ApplicationId = PSL.ApplicationId AND ((AP.[IsLocked] = 1 AND LP.PamsPin = PSL.PamsPin) OR (AP.[IsLocked] = 0 AND FP.PamsPin = PSL.PamsPin))
 			LEFT JOIN	(SELECT		[ApplicationId],
 									[PamsPin],
