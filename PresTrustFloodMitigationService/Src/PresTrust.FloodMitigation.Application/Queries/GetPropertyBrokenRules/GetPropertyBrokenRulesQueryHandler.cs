@@ -81,6 +81,23 @@ public class GetPropertyBrokenRulesQueryHandler : BaseHandler, IRequestHandler<G
                 }
 
             }
+            else if (property.Status == PropertyStatusEnum.PRESERVED)
+            {
+                var hasOtherDocuments = await CheckPropertyOtherDocs(application.Id, application.StatusId, property.PamsPin, property.StatusId, (int)PropertySectionEnum.OTHER_DOCUMENTS, application.ApplicationTypeId);
+                if (!hasOtherDocuments)
+                {
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = application.Id,
+                        SectionId = (int)PropertySectionEnum.OTHER_DOCUMENTS,
+                        PamsPin = property.PamsPin,
+                        Message = "Required Documents are not uploaded in OtherDocuments Tab",
+                        IsPropertyFlow = true
+                    });
+
+                }
+
+            }
         }
         var result = mapper.Map<IEnumerable<FloodPropertyBrokenRuleEntity>, IEnumerable<GetPropertyBrokenRulesQueryViewModel>>(brokenRules);
         return result;
@@ -150,6 +167,26 @@ public class GetPropertyBrokenRulesQueryHandler : BaseHandler, IRequestHandler<G
                         {
                             requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOME_OWNERSURVEY);
                         }
+                        break;
+                }
+
+                var documents = await repoPropertyDocuments.GetPropertyDocumentsAsync(applicationId, pamsPin, sectionId);
+                var savedDocumentTypes = documents.Where(o => requiredDocumentTypes.Contains(o.DocumentTypeId)).Select(o => o.DocumentTypeId).Distinct().ToList();
+
+                return requiredDocumentTypes.Except(savedDocumentTypes).Count() == 0;
+            }
+            if (propertyStatusId == (int)PropertyStatusEnum.PRESERVED)
+            {
+                var adminDetails = await repoPropertyAdminDetails.GetAsync(applicationId, pamsPin);
+
+                switch (propertyStatusId)
+                {
+                    case (int)PropertyStatusEnum.PRESERVED:
+                        requiredDocumentTypes = new List<int>() {
+                                (int)PropertyDocumentTypeEnum.RECORDED_DEED,
+                                (int)PropertyDocumentTypeEnum.EXECUTED,
+                                (int)PropertyDocumentTypeEnum.TITLE_INSURANCE_POLICY
+                        };
                         break;
                 }
 

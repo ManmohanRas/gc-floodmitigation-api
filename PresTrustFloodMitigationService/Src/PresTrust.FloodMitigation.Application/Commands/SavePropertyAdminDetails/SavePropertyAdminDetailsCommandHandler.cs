@@ -133,7 +133,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
             }
         }
 
-        if (applcation.ApplicationType == ApplicationTypeEnum.CORE || applcation.ApplicationType == ApplicationTypeEnum.MATCH)
+        if (applcation.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
             if (applcation.Status == ApplicationStatusEnum.IN_REVIEW)
             {

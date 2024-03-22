@@ -47,6 +47,23 @@ public class GetBrokenRulesQueryHandler: BaseHandler, IRequestHandler<GetBrokenR
         var brokenRules = await repoBrokenRule.GetBrokenRulesAsync(request.ApplicationId);
         if (isApplicantFlow)
         {
+            if (application.Status == ApplicationStatusEnum.DRAFT)
+            {
+                bool hasNonSubmittedParcels = false;
+                var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
+                hasNonSubmittedParcels = parcels.Count(o => o.Status != PropertyStatusEnum.SUBMITTED) > 0;
+                if (hasNonSubmittedParcels)
+                {
+                    brokenRules.Add(new FloodBrokenRuleEntity()
+                    {
+                        ApplicationId = application.Id,
+                        SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+                        Message = "All the Properties must be submitted",
+                        IsApplicantFlow = true
+                    });
+                }
+            }
+
             brokenRules = brokenRules.Where(o => o.IsApplicantFlow).ToList();
         }
         else
@@ -62,8 +79,9 @@ public class GetBrokenRulesQueryHandler: BaseHandler, IRequestHandler<GetBrokenR
                     {
                         ApplicationId = application.Id,
                         SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
-                        Message = "All the Properties must be submitted"
-                    });
+                        Message = "All the Properties must be submitted",
+                        IsApplicantFlow = true
+                    }); 
                 }
             }
             else if (application.Status == ApplicationStatusEnum.SUBMITTED)
@@ -129,8 +147,10 @@ public class GetBrokenRulesQueryHandler: BaseHandler, IRequestHandler<GetBrokenR
                 appParcels = appParcels.Where(o => o.Status == PropertyStatusEnum.PRESERVED).ToList();
                 foreach (var appParcel in appParcels)
                 {
+                    var hasOtherDocuments = await CheckPropertyOtherDocs(application.Id, application.StatusId, appParcel.PamsPin, appParcel.StatusId);
+
                     var propBrokenRules = await repoPropBrokenRules.GetPropertyBrokenRulesAsync(application.Id, appParcel.PamsPin);
-                    if (propBrokenRules.Count > 0)
+                    if (propBrokenRules.Count > 0 || !hasOtherDocuments)
                     {
                         brokenRules.Add(new FloodBrokenRuleEntity()
                         {
@@ -141,17 +161,16 @@ public class GetBrokenRulesQueryHandler: BaseHandler, IRequestHandler<GetBrokenR
                         });
                     }
 
-                    var hasOtherDocuments = await CheckPropertyOtherDocs(application.Id, application.StatusId, appParcel.PamsPin, appParcel.StatusId);
-                    if (!hasOtherDocuments)
-                    {
-                        brokenRules.Add(new FloodBrokenRuleEntity()
-                        {
-                            ApplicationId = application.Id,
-                            SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
-                            Message = "One or more properties are incomplete",
-                            IsApplicantFlow = true
-                        });
-                    }
+                    //if (!hasOtherDocuments)
+                    //{
+                    //    brokenRules.Add(new FloodBrokenRuleEntity()
+                    //    {
+                    //        ApplicationId = application.Id,
+                    //        SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+                    //        Message = "One or more properties are incomplete",
+                    //        IsApplicantFlow = true
+                    //    });
+                    //}
 
                     var parcelProperty = await repoParcelProperty.GetAsync(application.Id, appParcel.PamsPin);
                     if (parcelProperty != null && parcelProperty.NeedSoftCost)

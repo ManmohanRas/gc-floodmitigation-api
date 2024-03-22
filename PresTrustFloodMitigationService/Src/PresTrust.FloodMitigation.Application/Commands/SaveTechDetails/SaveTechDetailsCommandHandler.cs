@@ -280,7 +280,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Claim10Years required field on Tech tab have not been filled.",
+                    Message = "# of Claims (10 yrs) required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
             if (reqTechDetails.TotalOfClaims == null)
@@ -289,7 +289,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     ApplicationId = application.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "TotalOfClaims required field on Tech tab have not been filled.",
+                    Message = "Total $ Of Claims required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
         }

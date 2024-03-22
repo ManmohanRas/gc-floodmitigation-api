@@ -226,6 +226,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                         IsApplicantFlow = false
                     });
             }
+        }
 
              if (application.Status == ApplicationStatusEnum.IN_REVIEW)
              {
@@ -289,8 +290,6 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
                         });
                 }
              }
-        }
-
         return brokenRules;
     }
     

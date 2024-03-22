@@ -1394,7 +1394,7 @@ CREATE TABLE [Flood].[FloodParcelTech](
 	[IsthepropertywithinFloodplain]                     [bit]										NULL	,
 	[Claim10Years]                                      [integer]									NULL	,
 	[TotalOfClaims]                                     [decimal](18,2)								NULL	,
-	[BenefitCostRatio]                                  [varchar](256)								NULL	,
+	[BenefitCostRatio]                                  [decimal](18,2)								NULL	,
 	[FEMACommunityId]                                   [varchar](256)							    NULL	,
 	[FirmEffectiveDate]                                 [datetime]									NULL	,
 	[FirmPanel]                                         [varchar](256)								NULL	,

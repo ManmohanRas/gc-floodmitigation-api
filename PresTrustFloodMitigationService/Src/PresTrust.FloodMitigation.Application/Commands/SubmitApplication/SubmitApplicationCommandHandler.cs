@@ -53,7 +53,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
             application.StatusId = (int)ApplicationStatusEnum.SUBMITTED;
             application.LastUpdatedBy = userContext.Email;
         }
-      
+
         // check if any broken rules exists, if yes then return
         var brokenRules = (await repoBrokenRules.GetBrokenRulesAsync(application.Id))?.ToList();
 
@@ -61,13 +61,14 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
         hasNonSubmittedParcels = parcels.Count(o => o.Status != PropertyStatusEnum.SUBMITTED) > 0;
 
-       if (hasNonSubmittedParcels)
+        if (hasNonSubmittedParcels)
         {
             brokenRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = application.Id,
                 SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
-                Message = "All the Properties must be submitted"
+                Message = "All the Properties must be submitted",
+                IsApplicantFlow = true
             });
         }
 
@@ -235,31 +236,31 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         });
 
         statusChangeRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
+            Message = "All required fields on Admin Details tab have not been filled.",
+            IsApplicantFlow = false
+        });
+
+        if (application.ApplicationType == ApplicationTypeEnum.MATCH || application.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
+        {
+            statusChangeRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = application.Id,
-                SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
-                Message = "All required fields on Admin Details tab have not been filled.",
+                SectionId = (int)ApplicationSectionEnum.OVERVIEW,
+                Message = "All required fields on OVERVIEW tab have not been filled.",
                 IsApplicantFlow = false
             });
-            
-            if (application.ApplicationType == ApplicationTypeEnum.MATCH || application.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
-            {
-                statusChangeRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = application.Id,
-                    SectionId = (int)ApplicationSectionEnum.OVERVIEW,
-                    Message = "All required fields on OVERVIEW tab have not been filled.",
-                    IsApplicantFlow = false
-                });
 
-            }
-            //statusChangeRules.Add(new FloodBrokenRuleEntity()
-            //{
-            //    ApplicationId = application.Id,
-            //    SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
-            //    Message = "All required fields on PROJECT_AREA tab have not been filled.",
-            //    IsApplicantFlow = false
-            //});
+        }
+        //statusChangeRules.Add(new FloodBrokenRuleEntity()
+        //{
+        //    ApplicationId = application.Id,
+        //    SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+        //    Message = "All required fields on PROJECT_AREA tab have not been filled.",
+        //    IsApplicantFlow = false
+        //});
 
         return statusChangeRules;
     }
