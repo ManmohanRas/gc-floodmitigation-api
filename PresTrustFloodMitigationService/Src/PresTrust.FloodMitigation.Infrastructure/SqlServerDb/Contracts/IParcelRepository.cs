@@ -15,7 +15,7 @@ public interface IParcelRepository
     /// <param name="pamsPin"></param>
     /// <param name="targetAreaId"></param>
     /// <returns></returns>
-    Task LinkTargetAreaIdToParcelAsync(List<string> pamsPin, int targetAreaId);
+    Task LinkTargetAreaIdToParcelAsync(List<FloodParcelEntity> parcels, int targetAreaId, bool isUpdate = false);
 
     /// <summary>
     /// Get Parcel

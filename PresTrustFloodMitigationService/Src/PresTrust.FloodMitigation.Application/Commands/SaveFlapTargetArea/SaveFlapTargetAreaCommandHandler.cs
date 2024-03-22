@@ -28,15 +28,25 @@ public class SaveFlapTargetAreaCommandHandler: IRequestHandler<SaveFlapTargetAre
     {
         var targetArea = mapper.Map<SaveFlapTargetAreaCommand, FloodFlapTargetAreaEntity>(request);
         targetArea.LastUpdatedBy = userContext.Email;
+        List<FloodParcelEntity> parcels = new List<FloodParcelEntity>();
 
         targetArea = await repoFlap.SaveFlapTargetAreaAsync(targetArea);
 
         var pamsPins = request.PamsPins ?? new List<string>();
-               
+
+        foreach (var item in pamsPins)
+        {
+            parcels.Add(new FloodParcelEntity() { PamsPin = item });
+        }
+
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
-            if(pamsPins.Count() > 0)
-                await repoParcel.LinkTargetAreaIdToParcelAsync(pamsPins, targetArea.Id);
+            if(parcels.Count() > 0)
+            {
+
+                await repoParcel.LinkTargetAreaIdToParcelAsync(parcels, targetArea.Id);
+            }
+
 
             scope.Complete();
         }

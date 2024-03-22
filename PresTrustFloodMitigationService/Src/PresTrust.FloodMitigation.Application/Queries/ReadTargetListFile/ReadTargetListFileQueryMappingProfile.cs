@@ -4,7 +4,6 @@ public class ReadTargetListFileQueryMappingProfile: Profile
 {
     public ReadTargetListFileQueryMappingProfile()
     {
-        CreateMap<ReadTargerListParcels, FloodParcelEntity>()
-            .ForMember(dest => dest.AgencyId, opt => opt.MapFrom(src => src.AgencyId.ToString()));
+        CreateMap<ReadTargerListParcels, FloodParcelEntity>();
     }
 }

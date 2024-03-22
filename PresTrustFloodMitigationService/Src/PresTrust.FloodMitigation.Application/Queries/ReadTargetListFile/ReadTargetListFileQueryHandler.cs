@@ -22,6 +22,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
         var fileextension = Path.GetExtension(file.FileName);
         var filename = Guid.NewGuid().ToString() + fileextension;
         string path = @"C:\\Downloads\";//static path
+        bool hasError = false;
 
         var filepath = Path.Combine(path, file.FileName);
         string directory = Path.GetDirectoryName(filepath) ?? string.Empty;
@@ -75,40 +76,50 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
             {
                 parcels.Add(new ReadTargerListParcels()
                 {
-                    AgencyId = request.AgencyId.ToString(),
-                    PamsPin = dt.Rows[i]["PamsPin"].ToString() ?? string.Empty,
+                    TargetArea = dt.Rows[i]["Target Area"].ToString() ?? string.Empty,
                     Block = dt.Rows[i]["Block"].ToString() ?? string.Empty,
                     Lot = dt.Rows[i]["Lot"].ToString() ?? string.Empty,
+                    StreetNo = dt.Rows[i]["House #"].ToString() ?? string.Empty,
+                    StreetAddress = dt.Rows[i]["Street"].ToString() ?? string.Empty,
+                    LandOwner = dt.Rows[i]["Homeowner"].ToString() ?? string.Empty,
+
+                    AgencyName = dt.Rows[i]["Municipality"].ToString() ?? string.Empty,
+                    PamsPin = String.Join('_', request.AgencyId, dt.Rows[i]["Block"], dt.Rows[i]["Lot"]),
                     DateOfFLAP = new DateTime(),
                     IsFLAP = true,
-                    StreetNo = dt.Rows[i]["StreetNo"].ToString() ?? string.Empty,
-                    StreetAddress = dt.Rows[i]["StreetAddress"].ToString() ?? string.Empty,
-                    LandOwner = dt.Rows[i]["OwnersName"].ToString() ?? string.Empty,
-                    TargetArea = dt.Rows[i]["TargetArea"].ToString() ?? string.Empty
+                    
                 });
             }
-            
-            bool isValid =  CustomValidator(parcels, request.AgencyId);
 
-            var importParcels = mapper.Map<List<ReadTargerListParcels>, List<FloodParcelEntity>>(parcels);
+            hasError =  CustomValidator(parcels, request.AgencyName);
 
+            if (!hasError)
+            {
+                var importParcels = mapper.Map<List<ReadTargerListParcels>, List<FloodParcelEntity>>(parcels);
+                //appending AgencyId to parcels
+                importParcels.ForEach(parcel =>
+                {
+                    parcel.AgencyId = request.AgencyId;
+                });
 
-            //Set in cache
-            var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromSeconds(60))
-                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
-                    .SetPriority(CacheItemPriority.Normal)
-                    .SetSize(1024);
-            _cache.Set("ParcelsCache", importParcels, cacheEntryOptions);
+                //Set in cache
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(60))
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
+                        .SetPriority(CacheItemPriority.Normal)
+                        .SetSize(1024);
+                _cache.Set("ParcelsCache", importParcels, cacheEntryOptions);
+            }
+
         }
 
-            return true;
+            return !hasError;
     }
 
-    public bool CustomValidator(List<ReadTargerListParcels> parcels, int agencyId)
+    public bool CustomValidator(List<ReadTargerListParcels> parcels, string agencyName)
     {
         string[] Errors = { "Value can't be null"};
-        bool check = false;
+        bool hasError = false;
 
         foreach (var myObject in parcels)
         {
@@ -119,18 +130,18 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                     string value = (string)property.GetValue(myObject);
                     if (string.IsNullOrEmpty(value))
                     {
-                        check = true;
-                        throw new ApiModelValidationException(Errors);
+                        hasError = true;
+                        throw new Exception("No data is empty");
                     }
-                    //else if (myObject.AgencyId != agencyId.ToString())
-                    //{
-                    //    check = true;
-                    //    throw new ApiModelValidationException(Errors);
-                    //}
+                    else if (myObject.AgencyName != agencyName)
+                    {
+                        hasError = true;
+                        throw new Exception("Not a valid Agency");
+                    }
                 }
             }
         }
         
-        return check;
+        return hasError;
     }
 }
