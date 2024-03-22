@@ -10,6 +10,7 @@ public class FloodApplicationParcelEntity
     public bool? IsSubmitted { get; set; }
     public bool? IsApproved { get; set; }
     public bool? IsDEPInvolved { get; set; }
+    public bool? IsPARRequestedbyFunder { get; set; }
     public string LastUpdatedBy { get; set; }
     public bool? IsFLAP { get; set; }
     public PropertyStatusEnum Status

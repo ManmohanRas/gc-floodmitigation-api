@@ -36,6 +36,7 @@ public class GetPropertyDetailsQueryViewModel
     public string PrevStatus { get; set; }
     public bool IsLocked { get; set; }
     public bool? IsDEPInvolved { get; set; }
+    public bool? IsPARRequestedbyFunder { get; set; }
     public bool? IsSubmitted { get; set; }
     public bool? IsApproved { get; set; }
     public bool AlreadyExists { get; set; }

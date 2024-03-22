@@ -42,6 +42,7 @@ public class FloodParcelEntity
     public bool AlreadyExists { get; set; }
     public bool IsRejected { get; set; }
     public bool? IsDEPInvolved { get; set; }
+    public bool? IsPARRequestedbyFunder { get; set; }
     public bool IsValidPamsPin { get; set; }
     public int Priority { get; set; }
     public decimal ValueEstimate { get; set; }
