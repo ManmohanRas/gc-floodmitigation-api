@@ -60,23 +60,26 @@ public class ParcelRepository : IParcelRepository
         }
     }
 
-    public async Task LinkTargetAreaIdToParcelAsync(List<string> pamsPins, int targetAreaId)
+    public async Task LinkTargetAreaIdToParcelAsync(List<FloodParcelEntity> parcels, int targetAreaId, bool isUpdate = false)
     {
         using var conn = context.CreateConnection();
-        foreach (var pamsPin in pamsPins)
+        foreach (var parcel in parcels)
         {
-            if (!string.IsNullOrEmpty(pamsPin))
+            if (!string.IsNullOrEmpty(parcel.PamsPin))
             {
-                var sqlCommand = new LinkTargetAreaIdToParcelSqlCommand();
+                var sqlCommand = new LinkTargetAreaIdToParcelSqlCommand(isUpdate);
                 await conn.ExecuteAsync(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
                     param: new
                     {
-                        @p_PamsPin = pamsPin,
+                        @p_PamsPin = parcel.PamsPin,
                         @p_TargetAreaId = targetAreaId,
-                        @p_DateOfFLAP = DateTime.Now
-                    });
+                        @p_StreetNo = parcel.StreetNo,
+                        @p_StreetAddress = parcel.StreetAddress,
+                        @p_OwnersName = parcel.LandOwner,
+                        @p_IsElevated = parcel.IsElevated
+                    }); 
             }
         }
     }

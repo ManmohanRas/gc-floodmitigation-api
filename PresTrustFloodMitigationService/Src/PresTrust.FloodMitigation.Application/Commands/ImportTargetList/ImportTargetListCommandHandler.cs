@@ -53,7 +53,7 @@ public class ImportTargetListCommandHandler : IRequestHandler<ImportTargetListCo
                     CreatedDate = DateTime.Now,
                 };
                 pamsPins = parcel.Select(y => y.PamsPin).ToList();
-                await SaveTargetAreas(targetArea, pamsPins);
+                await SaveTargetAreas(targetArea, importedParcels);
             }
 
             scope.Complete();
@@ -65,14 +65,14 @@ public class ImportTargetListCommandHandler : IRequestHandler<ImportTargetListCo
     }
 
     //save target areas
-    private async Task SaveTargetAreas(FloodFlapTargetAreaEntity targetArea, List<string> pamsPins)
+    private async Task SaveTargetAreas(FloodFlapTargetAreaEntity targetArea, List<FloodParcelEntity> parcels)
     {
         if (targetArea.Id == 0)
         {
             targetArea = await repoFlap.SaveFlapTargetAreaAsync(targetArea);
         }
 
-        await repoParcels.LinkTargetAreaIdToParcelAsync(pamsPins, targetArea.Id);
+        await repoParcels.LinkTargetAreaIdToParcelAsync(parcels, targetArea.Id, true);
 
     }
 }
