@@ -45,7 +45,7 @@ public class ExportTargetListQueryHandler: IRequestHandler<ExportTargetListQuery
             csv += parcel.Lot.Replace(",", ";") + ",";
             csv += parcel.StreetNo.ToString().Replace(",", ";") + ",";
             csv += parcel.StreetAddress.Replace(",", ";") + ",";
-            csv += !string.IsNullOrEmpty(parcel.LandOwner) ? parcel.LandOwner.Replace(",", ";") : string.Empty + ",";
+            csv += parcel.LandOwner.Replace(",", ";") + ",";
             csv += parcel.AgencyName.Replace(",", ";") + ",";
 
             csv += "\r\n";
