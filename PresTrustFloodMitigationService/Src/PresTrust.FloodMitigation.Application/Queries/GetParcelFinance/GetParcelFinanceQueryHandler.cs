@@ -8,23 +8,27 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
     private IApplicationRepository repoApplication;
     private IParcelFinanceRepository repoParcelFinance;
     private ISoftCostRepository repoSoftCost;
-    
+    private readonly IApplicationParcelRepository repoAppParcel;
+
     public GetParcelFinanceQueryHandler(
         IMapper mapper
        ,IApplicationRepository repoApplication
        ,IParcelFinanceRepository repoParcelFinance
-       ,ISoftCostRepository repoSoftCost
-        ) : base(repoApplication: repoApplication)
+       ,ISoftCostRepository repoSoftCost,
+        IApplicationParcelRepository repoAppParcel
+        ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
     {
         this.mapper = mapper;
         this.repoApplication = repoApplication;
         this.repoParcelFinance = repoParcelFinance;
         this.repoSoftCost = repoSoftCost;
+        this.repoAppParcel = repoAppParcel;
     }
     public async Task<GetParcelFinanceQueryViewModel> Handle(GetParcelFinanceQuery request, CancellationToken cancellationToken)
     {
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
+        var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
 
         // get parcel finance
         var parcelFinance = await this.repoParcelFinance.GetParceFinanceAsync(request.ApplicationId, request.PamsPin);
@@ -33,7 +37,7 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
         var result = mapper.Map<FloodParcelFinanceEntity, GetParcelFinanceQueryViewModel>(parcelFinance);
 
         //softCosts totals
-        if (request.IsApproved)
+        if ((bool)property.IsApproved)
         {
             result.MunicipalAppraisersFee = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.APPRAISALS).Sum(x => x.PaymentAmount);
             result.EnvAnalysis = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.ENVIRONMENTAL_ANALYSIS).Sum(x => x.PaymentAmount);
@@ -42,7 +46,10 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
             result.DemolitionFee = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.DEMOLITION).Sum(x => x.PaymentAmount);
             result.OtherSoftCost = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.OTHER_SOFT_COSTS).Sum(x => x.PaymentAmount);
             result.TotalSoftCost = result.MunicipalAppraisersFee + result.EnvAnalysis + result.TitleSrchIns + result.MunicipalSurveyorsFee + result.DemolitionFee + result.OtherSoftCost;
-            result.SoftCostFMPAmt = result.TotalSoftCost * (result.MatchPercent / 100);
+        }
+        else
+        {
+            result.SoftCostFMPAmt = default;
         }
         
         result.ReimbursedHardandSoftCosts = parcelFinance.ReimbursedHardCost + parcelFinance.ReimbursedSoftCost;

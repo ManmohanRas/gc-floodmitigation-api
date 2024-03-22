@@ -164,7 +164,8 @@ SELECT
 						ISNULL([IsSubmitted],0) AS [IsSubmitted],
 						ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS [TargetArea],
 						OtherLocked.[ApplicationId] AS [LockedAnotherApplicationId],
-						ISNULL(FPAD.[IsDEPInvolved], 0) AS IsDEPInvolved
+						ISNULL(FPAD.[IsDEPInvolved], 0) AS IsDEPInvolved,
+						ISNULL(FPAD.[IsPARRequestedbyFunder], 0) AS IsPARRequestedbyFunder
 			FROM		[ApplicationParcelCTE] AP
 			LEFT JOIN [Flood].[FloodLockedParcel] LP
 					ON (LP.PamsPin = @p_PamsPin AND LP.IsActive = 1 AND AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])

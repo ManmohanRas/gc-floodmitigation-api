@@ -7,6 +7,9 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IEmailManager repoEmailManager;
+    private readonly ISoftCostRepository repoSoftCost;
+    private readonly IFinanceRepository repoApplicationFinance;
+    private readonly IParcelFinanceRepository repoParcelFinance;
 
 
     public SubmitApproveParcelSoftCostStatusCommandHandler(
@@ -14,7 +17,10 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
         IApplicationParcelRepository repoApplicationParcel,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
-        IEmailManager repoEmailManager
+        ISoftCostRepository repoSoftCost,
+        IEmailManager repoEmailManager,
+        IFinanceRepository repoApplicationFinance,
+        IParcelFinanceRepository repoParcelFinance
         ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -22,6 +28,9 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;
         this.repoEmailManager = repoEmailManager;
+        this.repoSoftCost = repoSoftCost;
+        this.repoApplicationFinance = repoApplicationFinance;
+        this.repoParcelFinance = repoParcelFinance;
     }
     public async Task<bool> Handle(SubmitApproveParcelSoftCostStatusCommand request, CancellationToken cancellationToken)
     {
@@ -33,6 +42,19 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoApplicationParcel.UpdateApplicationParcelSoftCostStatus(reqParcelStatus);
+
+            if (reqParcelStatus.IsSubmitted == true && reqParcelStatus.IsApproved == true)
+            {
+                var parcelFinance = await this.repoParcelFinance.GetParceFinanceAsync(request.ApplicationId, request.PamsPin);
+                if (parcelFinance != null)
+                {
+                    var applicationFinance = await repoApplicationFinance.GetFinanceAsync(request.ApplicationId);
+                    var softCostLineItems = await repoSoftCost.GetAllSoftCostLineItemsAsync(application.Id, request.PamsPin);
+                    parcelFinance.SoftCostFMPAmt = softCostLineItems.Sum(o => o.PaymentAmount);
+                    parcelFinance.SoftCostFMPAmt = (parcelFinance.SoftCostFMPAmt * applicationFinance.MatchPercent) / 100;
+                    parcelFinance = await repoParcelFinance.SaveAsync(parcelFinance);
+                }
+            }
 
             if (reqParcelStatus.IsSubmitted == true)
             {
@@ -47,7 +69,7 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
 
             scope.Complete();
         }
-            
+
 
         return true;
     }
