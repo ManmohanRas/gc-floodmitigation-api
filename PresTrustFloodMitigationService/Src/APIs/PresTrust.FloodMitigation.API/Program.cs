@@ -30,7 +30,7 @@ builder.AddMiddleware(builder.Environment);
 builder.MapHangfireDashboard();
 builder.UseHangfireDashboard("/backgroundjobs");
 
-var jobGrantExpirationReminder = builder.Services.GetService<IGrantExpirationReminder>();
+//var jobGrantExpirationReminder = builder.Services.GetService<IGrantExpirationReminder>();
 var jobProjectAreaExpirationReminder = builder.Services.GetService<IProjectAreaExpirationReminder>();
 
 var jobOptions = new RecurringJobOptions()
