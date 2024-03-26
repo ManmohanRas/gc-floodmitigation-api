@@ -21,4 +21,12 @@ public interface IEmailTemplateRepository
     /// <param name="floodEmailTemplate"></param>
     /// <returns></returns>
     Task<FloodEmailTemplateEntity> SaveAsync(FloodEmailTemplateEntity floodEmailTemplate);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    Task<IEnumerable<FloodApplicationEntity>> RemindingAboutProjectAreaExpiration();
+
+    Task<FloodEmailTemplatePlaceholdersEntity> EmailTemplatePlaceholders(int applicationId, string pamsPin);
 }

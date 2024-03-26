@@ -19,7 +19,11 @@ public class EmailTriggerCommandHandler : BaseHandler, IRequestHandler<EmailTrig
     {
         FloodApplicationEntity application = new FloodApplicationEntity() { AgencyId = request.AgencyId };
         FloodApplicationParcelEntity parcel = new FloodApplicationParcelEntity();
-
+        //set PamsPin
+        if (!string.IsNullOrEmpty(request.PamsPin))
+        {
+            parcel.PamsPin = request.PamsPin;
+        }
         // check if application exists
         if ((bool)!request.IsProgramManager)
         {
