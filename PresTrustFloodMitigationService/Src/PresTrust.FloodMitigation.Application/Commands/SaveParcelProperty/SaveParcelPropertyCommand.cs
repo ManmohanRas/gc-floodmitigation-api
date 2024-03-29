@@ -18,7 +18,7 @@ public class SaveParcelPropertyCommand : IRequest<int>
     public int? StructureType { get; set; }
     public int? FoundationType { get; set; }
     public int? OccupancyClass { get; set; }
-    public int? PercentageOfDamage { get; set; }
+    public decimal? PercentageOfDamage { get; set; }
     public bool? HasContaminants { get; set; }
     public bool? IsLowIncomeHousing { get; set; }
     public bool? HasHistoricSignificance { get; set; }

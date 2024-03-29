@@ -133,7 +133,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
             }
         }
 
-        if (applcation.ApplicationType == ApplicationTypeEnum.CORE || applcation.ApplicationType == ApplicationTypeEnum.MATCH)
+        if (applcation.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
             if (applcation.Status == ApplicationStatusEnum.IN_REVIEW)
             {
@@ -241,6 +241,27 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                     Message = "Grant Agreement required Upload on AdminDetails tab have not been Uploaded.",
                     IsPropertyFlow = false
                 });
+            if (applcation.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
+            {
+                if (docFmcSoftcostReimbApprovalRes == null)
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Fmc Softcost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
+                        IsPropertyFlow = false
+                    });
+                if (docBccSoftReimbApprovalRes == null)
+                    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                    {
+                        ApplicationId = applcation.Id,
+                        PamsPin = property.PamsPin,
+                        SectionId = sectionId,
+                        Message = "Bcc SoftCost Reimbrusment Approval Resolution required Upload on AdminDetails tab have not been Uploaded.",
+                        IsPropertyFlow = false
+                    });
+            }
         }
         if (property.Status == PropertyStatusEnum.APPROVED)
         {
@@ -277,7 +298,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                             ApplicationId = applcation.Id,
                             PamsPin = property.PamsPin,
                             SectionId = sectionId,
-                            Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                            Message = "Fmc SoftCost Reimbursment Approval Date  required field on AdminDetails tab have not been filled.",
                             IsPropertyFlow = false
                         });
 
@@ -287,7 +308,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                             ApplicationId = applcation.Id,
                             PamsPin = property.PamsPin,
                             SectionId = sectionId,
-                            Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                            Message = "Fmc SoftCost Reimbursment Approval Number  required field on AdminDetails tab have not been filled.",
                             IsPropertyFlow = false
                         });
               
@@ -297,7 +318,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                             ApplicationId = applcation.Id,
                             PamsPin = property.PamsPin,
                             SectionId = sectionId,
-                            Message = "Bcc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                            Message = "Bcc SoftCost Reimbursment Approval Date  required field on AdminDetails tab have not been filled.",
                             IsPropertyFlow = false
                         });
 
@@ -307,7 +328,7 @@ public class SavePropertyAdminDetailsCommandHandler : BaseHandler, IRequestHandl
                             ApplicationId = applcation.Id,
                             PamsPin = property.PamsPin,
                             SectionId = sectionId,
-                            Message = "Fmc SoftCost Reimbursment Approval Date Date required field on AdminDetails tab have not been filled.",
+                            Message = "Fmc SoftCost Reimbursment Approval Number required field on AdminDetails tab have not been filled.",
                             IsPropertyFlow = false
                         });
 

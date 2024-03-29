@@ -11,6 +11,8 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
     private readonly IBrokenRuleRepository repoBrokenRules;
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IPropertyBrokenRuleRepository repoPropBrokenRules;
+    private readonly IEmailManager repoEmailManager;
+
 
     public ActivateApplicationCommandHandler
     (
@@ -20,7 +22,8 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
         IApplicationRepository repoApplication,
         IBrokenRuleRepository repoBrokenRules,
         IApplicationParcelRepository repoApplicationParcel,
-        IPropertyBrokenRuleRepository repoPropBrokenRules
+        IPropertyBrokenRuleRepository repoPropBrokenRules,
+        IEmailManager repoEmailManager
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -30,6 +33,7 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
         this.repoBrokenRules = repoBrokenRules;
         this.repoApplicationParcel = repoApplicationParcel;
         this.repoPropBrokenRules = repoPropBrokenRules;
+        this.repoEmailManager = repoEmailManager;
     }
 
     /// <summary>
@@ -118,6 +122,8 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
             await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
             await repoPropBrokenRules.SavePropertyBrokenRules(defaultPropertyBrokenRules);
 
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_IN_REVIEW_TO_ACTIVE.ToString(), application);
+
             scope.Complete();
             result.IsSuccess = true;
         }
@@ -143,13 +149,16 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
             IsApplicantFlow = false
         });
 
-        brokenRules.Add(new FloodBrokenRuleEntity()
+        if (application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
-            ApplicationId = application.Id,
-            SectionId = (int)ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS,
-            Message = "All required fields on ADMIN RELEASE OF FUNDS have not been filled.",
-            IsApplicantFlow = false
-        });
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = (int)ApplicationSectionEnum.ADMIN_RELEASE_OF_FUNDS,
+                Message = "All required fields on ADMIN RELEASE OF FUNDS have not been filled.",
+                IsApplicantFlow = false
+            });
+        }
 
         return brokenRules;
     }

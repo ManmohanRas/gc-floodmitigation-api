@@ -320,22 +320,22 @@ GO
 INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (5, 'OTHER_FUNDING_AGENCY', 'Other funding agency document', 3);
 GO
 
-INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (6, 'APPLICATION_CHECKLIST', 'Application checklist', 7);
+INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (6, 'APPLICATION_CHECKLIST', 'Application checklist', 6);
 GO
 
-INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (7, 'PUBLIC_HEARING_CERTIFICATE', 'Public hearing certificate', 7);
+INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (7, 'PUBLIC_HEARING_CERTIFICATE', 'Public hearing certificate', 6);
 GO
 
-INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (8, 'MINUTES_FROM_PUBLIC_HEARING', 'Minutes from public hearing', 7);
+INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (8, 'MINUTES_FROM_PUBLIC_HEARING', 'Minutes from public hearing', 6);
 GO
 
-INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (9, 'MUNICIPAL_RESOLUTION_OF_SUPPORT', 'Municipal Resolution of support', 7);
+INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (9, 'MUNICIPAL_RESOLUTION_OF_SUPPORT', 'Municipal Resolution of support', 6);
 GO
 
-INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (10, 'NON_COUNTY_AGENCY_RESOLUTION', 'Non county agency resolution', 7);
+INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (10, 'NON_COUNTY_AGENCY_RESOLUTION', 'Non county agency resolution', 6);
 GO
 
-INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (11, 'OTHER_DOCUMENTS', 'Other Documents', 7);
+INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (11, 'OTHER_DOCUMENTS', 'Other Documents', 6);
 GO
 
 INSERT INTO [Flood].[FloodApplicationDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (12, 'FMC_PRELIMINARY_APPROVAL_RESOLUTION', 'FMC preliminary approval resolution', 9);

@@ -38,19 +38,22 @@ public class ImportTargetListCommandHandler : IRequestHandler<ImportTargetListCo
         IEnumerable<IGrouping<string, FloodParcelEntity>> query =
                         importedParcels.GroupBy(x => x.TargetArea.ToString());
 
-
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
+            //delink parcels
+            await repoParcels.DelinkParcelfromTargetArea(importedParcels.Select(x => x.PamsPin).ToList());
+
             foreach (IGrouping<string, FloodParcelEntity> parcel in query)
             {
                 targetArea = new FloodFlapTargetAreaEntity()
                 {
                     AgencyId = request.AgencyId,
+                    Id = existingTargerAreas.Where(x => x.TargetArea == parcel.Key).Select(o => o.Id).FirstOrDefault(),
                     TargetArea = parcel.Key,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.Now,
                 };
                 pamsPins = parcel.Select(y => y.PamsPin).ToList();
-                await SaveTargetAreas(targetArea, pamsPins);
+                await SaveTargetAreas(targetArea, importedParcels);
             }
 
             scope.Complete();
@@ -62,12 +65,14 @@ public class ImportTargetListCommandHandler : IRequestHandler<ImportTargetListCo
     }
 
     //save target areas
-    private async Task SaveTargetAreas(FloodFlapTargetAreaEntity targetArea, List<string> pamsPins)
+    private async Task SaveTargetAreas(FloodFlapTargetAreaEntity targetArea, List<FloodParcelEntity> parcels)
     {
-       
-        targetArea = await repoFlap.SaveFlapTargetAreaAsync(targetArea);
-        
-        await repoParcels.LinkTargetAreaIdToParcelAsync(pamsPins, targetArea.Id);
+        if (targetArea.Id == 0)
+        {
+            targetArea = await repoFlap.SaveFlapTargetAreaAsync(targetArea);
+        }
+
+        await repoParcels.LinkTargetAreaIdToParcelAsync(parcels, targetArea.Id, true);
 
     }
 }

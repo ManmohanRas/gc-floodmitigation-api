@@ -9,8 +9,14 @@ public class GetApplicationParcelSqlCommand
 	            FA.[StatusId],
                 FA.[IsLocked],
                 FA.[IsSubmitted],
-                FA.[IsApproved]
+                FA.[IsApproved],
+                CASE 
+                    WHEN FP.TargetAreaId > 0 
+                    THEN 1
+                    ELSE 0
+                    END AS IsFlap
             FROM	[Flood].[FloodApplicationParcel] FA
+            JOIN [Flood].[FloodParcel] FP ON (FA.PamsPin = FP.PamsPin)
             WHERE	FA.[ApplicationId] = @p_ApplicationId and FA.[PamsPin] = @p_PamsPin;";
 
     public GetApplicationParcelSqlCommand() { }

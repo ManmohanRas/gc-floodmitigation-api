@@ -11,6 +11,7 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IBrokenRuleRepository repoApplicationBrokenRule;
     private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRule;
+    private readonly IEmailManager repoEmailManager;
 
     public WithdrawApplicationCommandHandler
     (
@@ -20,7 +21,8 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
         IApplicationRepository repoApplication,
         IApplicationParcelRepository repoApplicationParcel,
         IBrokenRuleRepository repoApplicationBrokenRule,
-        IPropertyBrokenRuleRepository repoPropertyBrokenRule
+        IPropertyBrokenRuleRepository repoPropertyBrokenRule,
+        IEmailManager repoEmailManager
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -30,6 +32,7 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
         this.repoApplicationParcel = repoApplicationParcel;
         this.repoApplicationBrokenRule = repoApplicationBrokenRule;
         this.repoPropertyBrokenRule = repoPropertyBrokenRule;
+        this.repoEmailManager = repoEmailManager;
     }
 
     /// <summary>
@@ -92,6 +95,7 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
 
                 await repoApplicationParcel.CreateLockedParcel(appParcel.ApplicationId, appParcel.PamsPin, userContext.Email);
             }
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_ACTIVE_TO_WITHDRAWN.ToString(), application);
 
             scope.Complete();
         }

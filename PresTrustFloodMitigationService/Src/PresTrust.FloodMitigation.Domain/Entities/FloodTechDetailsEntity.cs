@@ -12,7 +12,7 @@ public class FloodTechDetailsEntity
     public bool? IsthepropertywithinFloodplain { get; set; }
     public int? Claim10Years { get; set; }
     public decimal? TotalOfClaims { get; set; }
-    public string? BenefitCostRatio { get; set; }
+    public decimal? BenefitCostRatio { get; set; }
     public string? FEMACommunityId { get; set; }
     public DateTime? FirmEffectiveDate { get; set; }
     public string? FirmPanel { get; set; }

@@ -1,7 +1,4 @@
-﻿using PresTrust.FloodMitigation.Application.CommonViewModels;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<SubmitApplicationCommand, SubmitApplicationCommandViewModel>
 {
     private readonly IMapper mapper;
@@ -11,6 +8,8 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
     private readonly IApplicationDocumentRepository repoApplicationDocument;
     private readonly IBrokenRuleRepository repoBrokenRules;
     private readonly IApplicationParcelRepository repoApplicationParcel;
+    private readonly IEmailManager repoEmailManager;
+
 
     public SubmitApplicationCommandHandler
     (
@@ -20,8 +19,8 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         IApplicationRepository repoApplication,
         IApplicationDocumentRepository repoApplicationDocument,
         IBrokenRuleRepository repoBrokenRules,
-        IApplicationParcelRepository repoApplicationParcel
-
+        IApplicationParcelRepository repoApplicationParcel,
+        IEmailManager repoEmailManager
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -31,6 +30,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         this.repoApplicationDocument = repoApplicationDocument;
         this.repoBrokenRules = repoBrokenRules;
         this.repoApplicationParcel = repoApplicationParcel;
+        this.repoEmailManager = repoEmailManager;
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
             application.StatusId = (int)ApplicationStatusEnum.SUBMITTED;
             application.LastUpdatedBy = userContext.Email;
         }
-      
+
         // check if any broken rules exists, if yes then return
         var brokenRules = (await repoBrokenRules.GetBrokenRulesAsync(application.Id))?.ToList();
 
@@ -61,13 +61,14 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
         hasNonSubmittedParcels = parcels.Count(o => o.Status != PropertyStatusEnum.SUBMITTED) > 0;
 
-       if (hasNonSubmittedParcels)
+        if (hasNonSubmittedParcels)
         {
             brokenRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = application.Id,
                 SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
-                Message = "All the Properties must be submitted"
+                Message = "All the Properties must be submitted",
+                IsApplicantFlow = true
             });
         }
 
@@ -99,6 +100,9 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
                 LastUpdatedBy = application.LastUpdatedBy
             };
             await repoApplication.SaveStatusLogAsync(appStatusLog);
+
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_APPROVED_TO_SUBMITTED.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;
@@ -160,6 +164,42 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
         }
         else if (applicationTypeId == (int)ApplicationTypeEnum.MATCH)
         {
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.APPLICATION_CHECKLIST).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "APPLICATION_CHECKLIST documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.PUBLIC_HEARING_CERTIFICATE).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "PUBLIC_HEARING_CERTIFICATE documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.MINUTES_FROM_PUBLIC_HEARING).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "MINUTES_FROM_PUBLIC_HEARING documents is not uploaded in OtherDocuments Tab"
+                });
+            }
+            if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.MUNICIPAL_RESOLUTION_OF_SUPPORT).Count() == 0)
+            {
+                otherdocRules.Add(new FloodBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)ApplicationSectionEnum.OTHER_DOCUMENTS,
+                    Message = "MUNICIPAL_RESOLUTION_OF_SUPPORT documents is not uploaded in OtherDocuments Tab"
+                });
+            }
             if (documents.Where(o => o.DocumentTypeId == (int)ApplicationDocumentTypeEnum.NON_COUNTY_AGENCY_RESOLUTION).Count() == 0)
             {
                 otherdocRules.Add(new FloodBrokenRuleEntity()
@@ -192,35 +232,35 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
             ApplicationId = application.Id,
             SectionId = (int)ApplicationSectionEnum.ADMIN_DOCUMENT_CHECKLIST,
             Message = "All required fields on ADMIN_DOCUMENT_CHECKLIST tab have not been filled.",
-            IsApplicantFlow = true
+            IsApplicantFlow = false
         });
 
         statusChangeRules.Add(new FloodBrokenRuleEntity()
+        {
+            ApplicationId = application.Id,
+            SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
+            Message = "All required fields on Admin Details tab have not been filled.",
+            IsApplicantFlow = false
+        });
+
+        if (application.ApplicationType == ApplicationTypeEnum.MATCH || application.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
+        {
+            statusChangeRules.Add(new FloodBrokenRuleEntity()
             {
                 ApplicationId = application.Id,
-                SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
-                Message = "All required fields on Admin Details tab have not been filled.",
+                SectionId = (int)ApplicationSectionEnum.OVERVIEW,
+                Message = "All required fields on OVERVIEW tab have not been filled.",
                 IsApplicantFlow = false
             });
-            
-            if (application.ApplicationType == ApplicationTypeEnum.MATCH || application.ApplicationSubType == ApplicationSubTypeEnum.FASTTRACK)
-            {
-                statusChangeRules.Add(new FloodBrokenRuleEntity()
-                {
-                    ApplicationId = application.Id,
-                    SectionId = (int)ApplicationSectionEnum.OVERVIEW,
-                    Message = "All required fields on OVERVIEW tab have not been filled.",
-                    IsApplicantFlow = false
-                });
 
-            }
-            //statusChangeRules.Add(new FloodBrokenRuleEntity()
-            //{
-            //    ApplicationId = application.Id,
-            //    SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
-            //    Message = "All required fields on PROJECT_AREA tab have not been filled.",
-            //    IsApplicantFlow = false
-            //});
+        }
+        //statusChangeRules.Add(new FloodBrokenRuleEntity()
+        //{
+        //    ApplicationId = application.Id,
+        //    SectionId = (int)ApplicationSectionEnum.PROJECT_AREA,
+        //    Message = "All required fields on PROJECT_AREA tab have not been filled.",
+        //    IsApplicantFlow = false
+        //});
 
         return statusChangeRules;
     }

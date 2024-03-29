@@ -4,7 +4,7 @@ public class GetParcelSqlCommand
 {
     private readonly string _sqlCommand =
        @"   WITH ApplicationParcelCTE AS (
-				SELECT
+SELECT
 					FLOOD_APPLICATION_PARCEL.*
 				FROM
 				(
@@ -18,7 +18,8 @@ public class GetParcelSqlCommand
 								[PamsPin],
 								[StatusId],
 								[IsLocked],
-								ISNULL([IsApproved],0) AS IsApproved
+								ISNULL([IsApproved],0) AS IsApproved,
+								ISNULL([IsSubmitted],0) AS IsSubmitted
 					FROM		[Flood].[FloodApplicationParcel]
 					WHERE		[ApplicationId] = @p_ApplicationId AND [PamsPin] = @p_PamsPin
 				) FLOOD_APPLICATION_PARCEL ON FLOOD_APPLICATION.[Id] = FLOOD_APPLICATION_PARCEL.[ApplicationId]
@@ -160,8 +161,11 @@ public class GetParcelSqlCommand
 						F.[FeedbacksJSON],
 						AP.[IsLocked],
 						ISNULL([IsApproved],0) AS [IsApproved],
+						ISNULL([IsSubmitted],0) AS [IsSubmitted],
 						ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS [TargetArea],
-						OtherLocked.[ApplicationId] AS [LockedAnotherApplicationId]
+						OtherLocked.[ApplicationId] AS [LockedAnotherApplicationId],
+						ISNULL(FPAD.[IsDEPInvolved], 0) AS IsDEPInvolved,
+						ISNULL(FPAD.[IsPARRequestedbyFunder], 0) AS IsPARRequestedbyFunder
 			FROM		[ApplicationParcelCTE] AP
 			LEFT JOIN [Flood].[FloodLockedParcel] LP
 					ON (LP.PamsPin = @p_PamsPin AND LP.IsActive = 1 AND AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
@@ -169,6 +173,7 @@ public class GetParcelSqlCommand
       				ON (FP.PamsPin = @p_PamsPin AND FP.IsActive = 1 AND AP.[IsLocked] = 0 AND AP.[PamsPin] = FP.[PamsPin])
 			LEFT JOIN [Flood].[FloodFlapTargetArea] TA 
 					ON FP.TargetAreaId = TA.Id
+			LEFT JOIN   [Flood].[FloodParcelAdminDetails] FPAD ON (AP.[ApplicationId] = FPAD.[ApplicationId] AND AP.PamsPin = FPAD.PamsPin)
 			LEFT JOIN	[Flood].[FloodParcelStatusLog] PSL ON PSL.StatusId != AP.StatusId AND AP.ApplicationId = PSL.ApplicationId AND ((AP.[IsLocked] = 1 AND LP.PamsPin = PSL.PamsPin) OR (AP.[IsLocked] = 0 AND FP.PamsPin = PSL.PamsPin))
 			LEFT JOIN	(SELECT		[ApplicationId],
 									[PamsPin],

@@ -1,8 +1,4 @@
-﻿using MediatR;
-using OneOf.Types;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace PresTrust.FloodMitigation.Application.BackgroundJobs;
+﻿namespace PresTrust.FloodMitigation.Application.BackgroundJobs;
 
 public class GrantExpirationReminder : BaseHandler, IGrantExpirationReminder
 {
@@ -31,7 +27,7 @@ public class GrantExpirationReminder : BaseHandler, IGrantExpirationReminder
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
-            var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_DRAFT_TO_DOI_SUBMITTED.ToString());
+            var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.GRANT_EXPIRATION_REMINDER.ToString());
             if (template != null)
             {
                 await repoEmailManager.SendMail(subject: template.Subject ?? "", htmlBody: template.Description ?? "", applicationId: 6, applicationName: "Test Application", propertyName:"Test Property");

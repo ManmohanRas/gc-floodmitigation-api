@@ -110,6 +110,18 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
             Message = "All required fields on Tech tab have not been filled.",
             IsPropertyFlow = false
         });
+
+        //if (!(bool)Property.IsFLAP)
+        //{
+        //    brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+        //    {
+        //        ApplicationId = Application.Id,
+        //        PamsPin = Property.PamsPin,
+        //        Message = ".",
+        //        IsPropertyFlow = false
+        //    });
+        //}
+        
         return brokenRules;
     }
 }

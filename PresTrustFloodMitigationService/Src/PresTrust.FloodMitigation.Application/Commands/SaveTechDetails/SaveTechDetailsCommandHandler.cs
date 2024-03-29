@@ -89,7 +89,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "BenefitCostRatio required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (string.IsNullOrEmpty(reqTechDetails.FEMACommunityId))
@@ -99,7 +99,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "FEMA Community required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.FirmEffectiveDate == null)
@@ -109,7 +109,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Firm Effective Date required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (string.IsNullOrEmpty(reqTechDetails.FirmPanelFinal))
@@ -119,7 +119,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Firm Pannel Effective  required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (string.IsNullOrEmpty(reqTechDetails.FloodZoneDesignation))
@@ -129,7 +129,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Flood Zone Designation required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.BaseFloodElevationFinal == null)
@@ -139,7 +139,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Base Flood Elevation Effective  required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.RiverIdFinal == null)
@@ -149,7 +149,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "River X-Section ID Effective  required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.FisEffectiveDate == null)
@@ -159,7 +159,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Fis Effective Date required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (string.IsNullOrEmpty(reqTechDetails.FloodProfileFinal))
@@ -169,7 +169,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Flood Profile Effective  required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (string.IsNullOrEmpty(reqTechDetails.FloodSource))
@@ -179,7 +179,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Flood Source required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.FirstFloodElevationFinal == null)
@@ -189,7 +189,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "First Flood Elevation Effective  required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.StreambedElevationFinal == null)
@@ -199,7 +199,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Stream Bed Elevation Effective  required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.ElevationBeforeMitigation == null)
@@ -209,7 +209,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "FFE Before Elevation Mitigation required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.ElevationBeforeMitigationFinal == null)
@@ -219,7 +219,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "FFE After Elevation Mitigation  required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (string.IsNullOrEmpty(reqTechDetails.FloodType))
@@ -229,7 +229,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Flood Type required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.TenPercent == null)
@@ -239,7 +239,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Ten Percent required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.TwoPercent == null)
@@ -249,7 +249,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Two Percent required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.OnePercent == null)
@@ -259,7 +259,7 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "One Percent required field on Tech tab have not been filled.",
-                    IsPropertyFlow = true
+                    IsPropertyFlow = false
                 });
 
             if (reqTechDetails.PointOnePercent == null)
@@ -269,9 +269,30 @@ public class SaveTechDetailsCommandHandler : BaseHandler, IRequestHandler<SaveTe
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
                     Message = "Point One Percent required field on Tech tab have not been filled.",
+                    IsPropertyFlow = false
+                });
+        }
+        if (!applicationStatuses.Contains(application.Status) && property.Status == PropertyStatusEnum.SUBMITTED)
+        {
+            if (reqTechDetails.Claim10Years == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "# of Claims (10 yrs) required field on Tech tab have not been filled.",
+                    IsPropertyFlow = true
+                });
+            if (reqTechDetails.TotalOfClaims == null)
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = application.Id,
+                    PamsPin = property.PamsPin,
+                    SectionId = sectionId,
+                    Message = "Total $ Of Claims required field on Tech tab have not been filled.",
                     IsPropertyFlow = true
                 });
         }
-        return brokenRules;
+            return brokenRules;
     }
 }

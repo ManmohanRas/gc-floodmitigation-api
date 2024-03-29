@@ -33,14 +33,14 @@ public enum ApplicationSectionEnum
     FINANCE = 5,
 
     /// <summary>
-    /// Section Type for Signatory
-    /// </summary>
-    SIGNATORY = 6,
-
-    /// <summary>
     /// Section Type for Other Documents
     /// </summary>
-    OTHER_DOCUMENTS = 7,
+    OTHER_DOCUMENTS = 6,
+
+    /// <summary>
+    /// Section Type for Signatory
+    /// </summary>
+    SIGNATORY = 7,
 
     /// <summary>
     /// Section Type for Admin Document Checklist

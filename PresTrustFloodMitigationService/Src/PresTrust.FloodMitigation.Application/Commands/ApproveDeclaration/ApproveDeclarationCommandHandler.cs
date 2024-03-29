@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<ApproveDeclarationCommand, ApproveDeclarationCommandViewModel>
 {
     private readonly IMapper mapper;
@@ -12,6 +8,9 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IBrokenRuleRepository repoBrokenRules;
     private readonly IPropertyBrokenRuleRepository repoPropBrokenRules;
+    private readonly IEmailManager repoEmailManager;
+
+
 
     public ApproveDeclarationCommandHandler
     (
@@ -21,7 +20,8 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
         IApplicationRepository repoApplication,
         IApplicationParcelRepository repoApplicationParcel,
         IBrokenRuleRepository repoBrokenRules,
-        IPropertyBrokenRuleRepository repoPropBrokenRules
+        IPropertyBrokenRuleRepository repoPropBrokenRules,
+        IEmailManager repoEmailManager
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -31,6 +31,7 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
         this.repoApplicationParcel = repoApplicationParcel;
         this.repoBrokenRules = repoBrokenRules;
         this.repoPropBrokenRules = repoPropBrokenRules;
+        this.repoEmailManager = repoEmailManager;
     }
 
     /// <summary>
@@ -83,6 +84,9 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
             // save broken rules
             await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
             await repoPropBrokenRules.SavePropertyBrokenRules(defaultPropertyBrokenRules);
+
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_SUBMITTED_TO_DOI_APPROVED.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;

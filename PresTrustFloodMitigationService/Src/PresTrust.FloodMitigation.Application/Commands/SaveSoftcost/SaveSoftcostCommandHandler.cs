@@ -45,16 +45,13 @@ public class SaveSoftCostCommandHandler : BaseHandler, IRequestHandler<SaveSoftC
     {
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
-            decimal softCostFMPAmt = 0;
             foreach (var softCost in request.SoftCostLineItems)
             {
                 var entity = mapper.Map<SaveSoftCostModel, FloodParcelSoftCostEntity>(softCost);
                 entity.ApplicationId = request.ApplicationId;
                 entity.PamsPin = request.PamsPin;
                 await this.repoSoftCost.SaveAsync(entity);
-                softCostFMPAmt += softCost.PaymentAmount;
             }
-
             scope.Complete();
         }
         return Unit.Value;

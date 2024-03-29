@@ -11,6 +11,8 @@ public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<Reje
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IBrokenRuleRepository repoApplicationBrokenRule;
     private readonly IPropertyBrokenRuleRepository repoPropertyBrokenRule;
+    private readonly IEmailManager repoEmailManager;
+
 
     public RejectApplicationCommandHandler
     (
@@ -20,7 +22,8 @@ public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<Reje
         IApplicationRepository repoApplication,
         IApplicationParcelRepository repoApplicationParcel,
         IBrokenRuleRepository repoApplicationBrokenRule,
-        IPropertyBrokenRuleRepository repoPropertyBrokenRule
+        IPropertyBrokenRuleRepository repoPropertyBrokenRule,
+        IEmailManager repoEmailManager
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -30,6 +33,7 @@ public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<Reje
         this.repoApplicationParcel = repoApplicationParcel;
         this.repoApplicationBrokenRule = repoApplicationBrokenRule;
         this.repoPropertyBrokenRule = repoPropertyBrokenRule;
+        this.repoEmailManager = repoEmailManager;
     }
 
     /// <summary>
@@ -92,6 +96,9 @@ public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<Reje
 
                 await repoApplicationParcel.CreateLockedParcel(appParcel.ApplicationId, appParcel.PamsPin, userContext.Email);
             }
+            //Get Template and Send Email
+            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_IN_REVIEW_TO_REJECTED.ToString(), application);
+
 
             scope.Complete();
         }

@@ -49,8 +49,8 @@ public class GetParcelListSqlCommand
 			      	ON (AP.[IsLocked] = 0 AND AP.[PamsPin] = FP.[PamsPin])
 			LEFT JOIN [Flood].[FloodApplication] FA ON AP.[ApplicationId] = FA.[Id]
 			JOIN [Core].[View_AgencyEntities_FLOOD] AG ON (AP.[IsLocked] = 1 AND AG.[AgencyId] = LP.[AgencyID]) OR (AP.[IsLocked] = 0 AND AG.[AgencyId] = FP.[AgencyID])
-			JOIN [Flood].[FloodParcelFinance] PF ON PF.[ApplicationId] = AP.[ApplicationId] AND PF.[PamsPin] = AP.[PamsPin]
-			JOIN [Flood].[FloodApplicationFinance] AF ON AF.[Id] = FA.[Id];";
+			LEFT JOIN [Flood].[FloodParcelFinance] PF ON PF.[ApplicationId] = AP.[ApplicationId] AND PF.[PamsPin] = AP.[PamsPin]
+			LEFT JOIN [Flood].[FloodApplicationFinance] AF ON AF.[Id] = FA.[Id];";
 
     public GetParcelListSqlCommand() { }
 

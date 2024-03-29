@@ -276,13 +276,13 @@ public class FloodApplicationSecurityManager
                 ProjectArea(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Finance
                 Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Signatory
                 if (userRole == UserRoleEnum.SYSTEM_ADMIN || userRole == UserRoleEnum.PROGRAM_ADMIN)
                     Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Signatory();
-                //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -309,13 +309,13 @@ public class FloodApplicationSecurityManager
                 ProjectArea(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Finance
                 Finance(enumViewOrEdit: ViewOrEdit.EDIT);
+                //Other Documents
+                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Signatory
                 if (userRole == UserRoleEnum.AGENCY_ADMIN)
                     Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Signatory();
-                //Other Documents
-                OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
@@ -335,13 +335,13 @@ public class FloodApplicationSecurityManager
                 ProjectArea();
                 //Finance
                 Finance();
+                //Other Documents
+                OtherDocuments();
                 //Signatory
                 if (userRole == UserRoleEnum.AGENCY_SIGNATORY)
                     Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Signatory();
-                //Other Documents
-                OtherDocuments();
                 // Default Navigation Item
                 if (userRole == UserRoleEnum.AGENCY_SIGNATORY)
                 {
@@ -349,7 +349,7 @@ public class FloodApplicationSecurityManager
                     {
                         Title = ApplicationNavigationItemTitles.SIGNATORY,
                         RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
-                        SortOrder = 6
+                        SortOrder = 7
                     };
                 }
                 else
@@ -409,18 +409,18 @@ public class FloodApplicationSecurityManager
                     Finance(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
-                //Signatory
-                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
-                if (correction == null)
-                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
-                else
-                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
                 correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
                 if (correction == null)
                     OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 //Admin Document Checklist
                 AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Admin Details
@@ -432,8 +432,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
                     SortOrder = 7
                 };
                 break;
@@ -470,33 +470,33 @@ public class FloodApplicationSecurityManager
                     Finance(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Finance(correction: true);
-                //Signatory
-                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
-                if (correction == null)
-                    Signatory();
-                else
-                    Signatory(correction: true);
                 //Other Documents
                 correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
                 if (correction == null)
-                {
                     OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    OtherDocuments(correction: true);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                {
+                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
                         SortOrder = 7
                     };
                 }
                 else
                 {
-                    OtherDocuments(correction: true);
+                    Signatory(correction: true);
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                         SortOrder = 7
                     };
                 }
@@ -544,33 +544,33 @@ public class FloodApplicationSecurityManager
                     Finance();
                 else
                     Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
-                //Signatory
-                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
-                if (correction == null)
-                    Signatory();
-                else
-                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
                 correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
                 if (correction == null)
-                {
                     OtherDocuments();
+                else
+                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                {
+                    Signatory();
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                         SortOrder = 7
                     };
                 }
                 else
                 {
-                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
                         SortOrder = 7
                     };
                 }
@@ -590,15 +590,15 @@ public class FloodApplicationSecurityManager
                 ProjectArea();
                 //Finance
                 Finance();
-                //Signatory
-                Signatory();
                 //Other Documents
                 OtherDocuments();
+                //Signatory
+                Signatory();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                     SortOrder = 7
                 };
                 break;
@@ -650,18 +650,18 @@ public class FloodApplicationSecurityManager
                     Finance(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
-                //Signatory
-                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
-                if (correction == null)
-                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
-                else
-                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
                 correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
                 if (correction == null)
                     OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 //Admin Document Checklist
                 AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Admin Details
@@ -673,8 +673,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
                     SortOrder = 7
                 };
                 break;
@@ -711,33 +711,33 @@ public class FloodApplicationSecurityManager
                     Finance(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Finance(correction: true);
-                //Signatory
-                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
-                if (correction == null)
-                    Signatory();
-                else
-                    Signatory(correction: true);
                 //Other Documents
                 correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
                 if (correction == null)
-                {
                     OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    OtherDocuments(correction: true);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                {
+                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
                         SortOrder = 7
                     };
                 }
                 else
                 {
-                    OtherDocuments(correction: true);
+                    Signatory(correction: true);
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                         SortOrder = 7
                     };
                 }
@@ -785,33 +785,33 @@ public class FloodApplicationSecurityManager
                     Finance();
                 else
                     Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
-                //Signatory
-                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
-                if (correction == null)
-                    Signatory();
-                else
-                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
                 correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
                 if (correction == null)
-                {
                     OtherDocuments();
+                else
+                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                {
+                    Signatory();
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                         SortOrder = 7
                     };
                 }
                 else
                 {
-                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
                         SortOrder = 7
                     };
                 }
@@ -831,15 +831,15 @@ public class FloodApplicationSecurityManager
                 ProjectArea();
                 //Finance
                 Finance();
-                //Signatory
-                Signatory();
                 //Other Documents
                 OtherDocuments();
+                //Signatory
+                Signatory();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                     SortOrder = 7
                 };
                 break;
@@ -891,18 +891,18 @@ public class FloodApplicationSecurityManager
                     Finance(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
-                //Signatory
-                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
-                if (correction == null)
-                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
-                else
-                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
                 correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
                 if (correction == null)
                     OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 //Admin Document Checklist
                 AdminDocumentChecklist(enumViewOrEdit: ViewOrEdit.EDIT);
                 //Admin Details
@@ -914,8 +914,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
                     SortOrder = 7
                 };
                 break;
@@ -952,33 +952,33 @@ public class FloodApplicationSecurityManager
                     Finance(enumViewOrEdit: ViewOrEdit.EDIT);
                 else
                     Finance(correction: true);
-                //Signatory
-                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
-                if (correction == null)
-                    Signatory();
-                else
-                    Signatory(correction: true);
                 //Other Documents
                 correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
                 if (correction == null)
-                {
                     OtherDocuments(enumViewOrEdit: ViewOrEdit.EDIT);
+                else
+                    OtherDocuments(correction: true);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                {
+                    Signatory(enumViewOrEdit: ViewOrEdit.EDIT);
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
                         SortOrder = 7
                     };
                 }
                 else
                 {
-                    OtherDocuments(correction: true);
+                    Signatory(correction: true);
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                         SortOrder = 7
                     };
                 }
@@ -1026,33 +1026,32 @@ public class FloodApplicationSecurityManager
                     Finance();
                 else
                     Finance(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
-                //Signatory
-                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
-                if (correction == null)
-                    Signatory();
-                else
-                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                 //Other Documents
                 correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.OTHER_DOCUMENTS).FirstOrDefault();
                 if (correction == null)
-                {
                     OtherDocuments();
-                    // Default Navigation Item
+                else
+                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                //Signatory
+                correction = this.corrections.Where(c => c.Section == ApplicationSectionEnum.SIGNATORY).FirstOrDefault();
+                if (correction == null)
+                {
+                    Signatory();
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                         SortOrder = 7
                     };
                 }
                 else
                 {
-                    OtherDocuments(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
+                    Signatory(correction: true, enumViewOrEdit: ViewOrEdit.EDIT);
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT,
                         SortOrder = 7
                     };
                 }
@@ -1072,15 +1071,15 @@ public class FloodApplicationSecurityManager
                 ProjectArea();
                 //Finance
                 Finance();
-                //Signatory
-                Signatory();
                 //Other Documents
                 OtherDocuments();
+                //Signatory
+                Signatory();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                     SortOrder = 7
                 };
                 break;
@@ -1108,10 +1107,10 @@ public class FloodApplicationSecurityManager
                 ProjectArea();
                 //Finance
                 Finance();
-                //Signatory
-                Signatory();
                 //Other Documents
                 OtherDocuments();
+                //Signatory
+                Signatory();
                 //Admin Document Checklist
                 AdminDocumentChecklist();
                 //Admin Details
@@ -1123,8 +1122,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                     SortOrder = 7
                 };
                 break;
@@ -1141,15 +1140,15 @@ public class FloodApplicationSecurityManager
                 ProjectArea();
                 //Finance
                 Finance();
-                //Signatory
-                Signatory();
                 //Other Documents
                 OtherDocuments();
+                //Signatory
+                Signatory();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                     SortOrder = 7
                 };
                 break;
@@ -1168,15 +1167,15 @@ public class FloodApplicationSecurityManager
                 ProjectArea();
                 //Finance
                 Finance();
-                //Signatory
-                Signatory();
                 //Other Documents
                 OtherDocuments();
+                //Signatory
+                Signatory();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                     SortOrder = 7
                 };
                 break;
@@ -1267,10 +1266,10 @@ public class FloodApplicationSecurityManager
                     ProjectArea();
                     //Finance
                     Finance();
-                    //Signatory
-                    Signatory();
                     //Other Documents
                     OtherDocuments();
+                    //Signatory
+                    Signatory();
                     //Admin Document Checklist
                     AdminDocumentChecklist();
                     //Admin Details
@@ -1282,8 +1281,8 @@ public class FloodApplicationSecurityManager
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                         SortOrder = 7
                     };
                     break;
@@ -1300,15 +1299,15 @@ public class FloodApplicationSecurityManager
                     ProjectArea();
                     //Finance
                     Finance();
-                    //Signatory
-                    Signatory();
                     //Other Documents
                     OtherDocuments();
+                    //Signatory
+                    Signatory();
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                         SortOrder = 7
                     };
                     break;
@@ -1327,15 +1326,15 @@ public class FloodApplicationSecurityManager
                     ProjectArea();
                     //Finance
                     Finance();
-                    //Signatory
-                    Signatory();
                     //Other Documents
                     OtherDocuments();
+                    //Signatory
+                    Signatory();
                     // Default Navigation Item
                     this.defaultNavigationItem = new NavigationItemEntity()
                     {
-                        Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                        RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                        Title = ApplicationNavigationItemTitles.SIGNATORY,
+                        RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                         SortOrder = 7
                     };
                     break;
@@ -1369,10 +1368,10 @@ public class FloodApplicationSecurityManager
                 ProjectArea();
                 //Finance
                 Finance();
-                //Signatory
-                Signatory();
                 //Other Documents
                 OtherDocuments();
+                //Signatory
+                Signatory();
                 //Admin Document Checklist
                 AdminDocumentChecklist();
                 //Admin Details
@@ -1384,8 +1383,8 @@ public class FloodApplicationSecurityManager
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                     SortOrder = 7
                 };
                 break;
@@ -1402,15 +1401,15 @@ public class FloodApplicationSecurityManager
                 ProjectArea();
                 //Finance
                 Finance();
-                //Signatory
-                Signatory();
                 //Other Documents
                 OtherDocuments();
+                //Signatory
+                Signatory();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                     SortOrder = 7
                 };
                 break;
@@ -1430,14 +1429,14 @@ public class FloodApplicationSecurityManager
                 //Finance
                 Finance();
                 //Signatory
-                Signatory();
-                //Other Documents
                 OtherDocuments();
+                //Signatory
+                Signatory();
                 // Default Navigation Item
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
-                    Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS,
-                    RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW,
+                    Title = ApplicationNavigationItemTitles.SIGNATORY,
+                    RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW,
                     SortOrder = 7
                 };
                 break;
@@ -1529,34 +1528,34 @@ public class FloodApplicationSecurityManager
         }
     }
 
-    private void Signatory(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
-    {
-        switch (enumViewOrEdit)
-        {
-            case ViewOrEdit.VIEW:
-                permission.CanViewSignatorySection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.SIGNATORY, RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
-                break;
-            case ViewOrEdit.EDIT:
-                permission.CanEditSignatorySection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.SIGNATORY, RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
-                break;
-            default:
-                break;
-        }
-    }
-
     private void OtherDocuments(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
     {
         switch (enumViewOrEdit)
         {
             case ViewOrEdit.VIEW:
                 permission.CanViewOtherDocsSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS, RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS, RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_VIEW, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
                 break;
             case ViewOrEdit.EDIT:
                 permission.CanEditOtherDocsSection = true;
-                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS, RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.OTHER_DOCUMENTS, RouterLink = ApplicationRouterLinks.OTHER_DOCUMENTS_EDIT, SortOrder = 6, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void Signatory(bool correction = false, ViewOrEdit enumViewOrEdit = ViewOrEdit.VIEW)
+    {
+        switch (enumViewOrEdit)
+        {
+            case ViewOrEdit.VIEW:
+                permission.CanViewSignatorySection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.SIGNATORY, RouterLink = ApplicationRouterLinks.SIGNATORY_VIEW, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
+                break;
+            case ViewOrEdit.EDIT:
+                permission.CanEditSignatorySection = true;
+                navigationItems.Add(new NavigationItemEntity() { Title = ApplicationNavigationItemTitles.SIGNATORY, RouterLink = ApplicationRouterLinks.SIGNATORY_EDIT, SortOrder = 7, Icon = (correction == true ? "report_problem" : "") });
                 break;
             default:
                 break;
