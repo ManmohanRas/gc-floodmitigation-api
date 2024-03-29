@@ -21,7 +21,9 @@ public class FloodApplicationEntity
     public string AgencyJSON { get; set; }
     public string CommentsJSON { get; set; }
     public string FeedbacksJSON { get; set; }
-
+    public DateTime? StatusChangeDate { get; set; }
+    public int ApplicationStatusId { get; set; }
+    public int PropertyStatusId { get; set; }
     public ApplicationTypeEnum ApplicationType
     {
         get
@@ -89,6 +91,30 @@ public class FloodApplicationEntity
         get
         {
             return this.FeedbacksJSON == null ? new List<FloodApplicationFeedbackEntity>() : JsonSerializer.Deserialize<IEnumerable<FloodApplicationFeedbackEntity>>(this.FeedbacksJSON);
+        }
+    }
+
+    public ApplicationStatusEnum ApplicationStatus
+    {
+        get
+        {
+            return (ApplicationStatusEnum)ApplicationStatusId;
+        }
+        set
+        {
+            this.ApplicationStatusId = (int)value;
+        }
+    }
+
+    public PropertyStatusEnum PropertyStatus
+    {
+        get
+        {
+            return (PropertyStatusEnum)PropertyStatusId;
+        }
+        set
+        {
+            this.PropertyStatusId = (int)value;
         }
     }
 }

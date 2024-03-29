@@ -3,5 +3,5 @@
 public class RejectPropertyCommand : IRequest<RejectPropertyCommandViewModel>
 {
     public int ApplicationId { get; set; }
-    public required string PamsPin { get; set; }
+    public string PamsPin { get; set; }
 }

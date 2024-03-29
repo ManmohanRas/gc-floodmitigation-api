@@ -59,4 +59,13 @@ public interface IApplicationParcelRepository
     /// </summary>
     /// <returns></returns>
     Task CreateLockedParcel(int applicationId, string pamsPin, string lastUpdatedBy);
+
+    /// <summary>
+    /// Transfer Parcel
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <param name="pamsPin"></param>
+    /// <param name="transferApplicationId"></param>
+    /// <returns></returns>
+    Task TransferParcelAsync(int applicationId, string pamsPin, int transferApplicationId);
 }
