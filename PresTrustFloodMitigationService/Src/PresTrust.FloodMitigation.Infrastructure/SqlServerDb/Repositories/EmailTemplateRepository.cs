@@ -115,4 +115,17 @@ public class EmailTemplateRepository: IEmailTemplateRepository
         return result ?? new();
     }
 
+    public async Task<IEnumerable<FloodEmailTemplatePlaceholdersEntity>> ReminderAboutPropertyExpiration()
+    {
+        IEnumerable<FloodEmailTemplatePlaceholdersEntity> results = default;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new ReminderAboutPropertyExpirationSqlCommand();
+        results = await conn.QueryAsync<FloodEmailTemplatePlaceholdersEntity>(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds);
+
+        return results;
+    }
+
 }

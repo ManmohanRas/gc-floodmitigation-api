@@ -26,7 +26,8 @@ public class GetEmailTemplatePlaceholders
                     ,AAD.[FirstFundingExpirationDate]
                     ,AAD.[SecondFundingExpirationDate]
                 FROM [Flood].[FloodApplication] A
-                JOIN [Flood].[FloodApplicationAdminDetails] AAD ON (AAD.ApplicationId = A.Id)";
+                JOIN [Flood].[FloodApplicationAdminDetails] AAD ON (AAD.ApplicationId = A.Id)
+                WHERE A.Id = @p_ApplicationId";
         }else
         {
             _sqlCommand = 
