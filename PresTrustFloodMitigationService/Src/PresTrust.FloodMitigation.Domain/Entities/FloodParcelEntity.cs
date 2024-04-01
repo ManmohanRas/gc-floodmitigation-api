@@ -39,11 +39,14 @@ public class FloodParcelEntity
     public bool? IsSubmitted { get; set; }
     public bool? IsApproved { get; set; }
     public bool IsWaiting { get; set; }
+    public string? WaitingApplicationIds { get; set; }
     public bool AlreadyExists { get; set; }
+    public string? ExistingApplicationIds { get; set; }
     public bool IsRejected { get; set; }
+    public string? RejectedApplicationIds { get; set; }
+    public bool IsValidPamsPin { get; set; }
     public bool? IsDEPInvolved { get; set; }
     public bool? IsPARRequestedbyFunder { get; set; }
-    public bool IsValidPamsPin { get; set; }
     public int Priority { get; set; }
     public decimal ValueEstimate { get; set; }
     public decimal HardCostFMPAmt { get; set; }

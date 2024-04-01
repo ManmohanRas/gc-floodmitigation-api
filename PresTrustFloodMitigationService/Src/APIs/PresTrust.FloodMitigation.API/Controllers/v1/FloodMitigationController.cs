@@ -31,6 +31,16 @@ public class FloodMitigationController : FloodMitigationWorkflowController
         return Single(await QueryAsync(query));
     }
 
+    [HttpPost("getApplicationsForWarnings")]
+    [ProducesResponseType(typeof(IEnumerable<GetApplicationsForWarningsQueryViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<IEnumerable<GetApplicationsForWarningsQueryViewModel>>> GetApplicationsForWarnings([FromBody] GetApplicationsForWarningsQuery query)
+    {
+        return Single(await QueryAsync(query));
+    }
+
     [HttpPost("getPropertyList")]
     [ProducesResponseType(typeof(IEnumerable<GetParcelListQueryViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

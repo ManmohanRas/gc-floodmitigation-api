@@ -32,7 +32,8 @@ public class GetApplicationParcelsSqlCommand
 						WHERE AP.[ApplicationId] = @p_ApplicationId
 					) ApplicationParcels
 					LEFT JOIN (
-						SELECT DISTINCT
+						SELECT
+							STRING_AGG(P.[ApplicationId], ',') AS [WaitingApplicationIds],
 							P.[PamsPin] AS [WaitingPamsPin]
 						FROM [Flood].[FloodApplicationParcel] P
 						LEFT JOIN (
@@ -45,20 +46,25 @@ public class GetApplicationParcelsSqlCommand
 						) PSL ON P.[ApplicationId] = PSL.[ApplicationId] AND P.[PamsPin] = PSL.[PamsPin] AND PSL.LastUpdatedOrder = 1
 						WHERE P.[ApplicationId] != 16 AND P.[StatusId] IN (6,8,9)
 							AND CAST(PSL.[StatusDate] AS DATE) > CAST(DATEADD(DAY, 1, DATEADD(YEAR, -1, SYSDATETIME())) AS DATE)
+						GROUP BY P.[PamsPin]
 					) WaitingParcels ON ApplicationParcels.[PamsPin] = WaitingParcels.[WaitingPamsPin]
 					LEFT JOIN 
 					(
-						SELECT DISTINCT
+						SELECT
+							STRING_AGG([ApplicationId], ',') AS [DuplicateApplicationIds],
 							[PamsPin] AS [DuplicatePamsPin]
 						FROM [Flood].[FloodApplicationParcel]
 						WHERE [ApplicationId] != @p_ApplicationId
+						GROUP BY [PamsPin]
 					) DuplicateParcels ON ApplicationParcels.[PamsPin] = DuplicateParcels.[DuplicatePamsPin]
 					LEFT JOIN 
 					(
-						SELECT DISTINCT
+						SELECT
+							STRING_AGG([ApplicationId], ',') AS [RejectedApplicationIds],
 							[PamsPin] AS [RejectedPamsPin]
 						FROM [Flood].[FloodApplicationParcel]
 						WHERE [ApplicationId] != @p_ApplicationId AND [StatusId] = 7
+						GROUP BY [PamsPin]
 					) RejectedParcels ON ApplicationParcels.[PamsPin] = RejectedParcels.[RejectedPamsPin]
 				)
 				SELECT DISTINCT
@@ -74,8 +80,11 @@ public class GetApplicationParcelsSqlCommand
 					AP.[IsLocked],
 					AP.[IsApproved],
 					CASE WHEN AP.[WaitingPamsPin] IS NULL THEN 0 ELSE 1 END AS [IsWaiting],
+					AP.[WaitingApplicationIds],
 					CASE WHEN AP.[DuplicatePamsPin] IS NULL THEN 0 ELSE 1 END AS [AlreadyExists],
+					AP.[DuplicateApplicationIds] AS [ExistingApplicationIds],
 					CASE WHEN AP.[RejectedPamsPin] IS NULL THEN 0 ELSE 1 END AS [IsRejected],
+					AP.[RejectedApplicationIds],
 					CASE
 						WHEN AP.[IsLocked] = 1
 							THEN LP.[IsValidPamsPin]

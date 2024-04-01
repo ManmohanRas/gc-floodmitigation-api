@@ -45,4 +45,5 @@ public interface IApplicationRepository
     /// <returns></returns>
     Task<List<FloodApplicationStatusLogEntity>> GetApplicationStatusLogAsync(int applicationId);
 
+    Task<List<FloodApplicationEntity>> GetApplicationsForWarningsAsync(string applicationIds, string pamsPin);
 }
