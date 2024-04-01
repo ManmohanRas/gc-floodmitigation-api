@@ -12,6 +12,7 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
     private readonly IApplicationParcelRepository repoApplicationParcel;
     private readonly IPropertyBrokenRuleRepository repoPropBrokenRules;
     private readonly IEmailManager repoEmailManager;
+    private readonly IApplicationDetailsRepository repoDetails;
 
 
     public ActivateApplicationCommandHandler
@@ -23,7 +24,8 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
         IBrokenRuleRepository repoBrokenRules,
         IApplicationParcelRepository repoApplicationParcel,
         IPropertyBrokenRuleRepository repoPropBrokenRules,
-        IEmailManager repoEmailManager
+        IEmailManager repoEmailManager,
+        IApplicationDetailsRepository repoDetails
     ) : base(repoApplication)
     {
         this.mapper = mapper;
@@ -34,6 +36,7 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
         this.repoApplicationParcel = repoApplicationParcel;
         this.repoPropBrokenRules = repoPropBrokenRules;
         this.repoEmailManager = repoEmailManager;
+        this.repoDetails = repoDetails;
     }
 
     /// <summary>
@@ -64,6 +67,9 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
             application.LastUpdatedBy = userContext.Email;
         }
 
+        //get app admin details
+        var appAdminDetails = await repoDetails.GetAsync(application.Id);
+
         // get application parcels
         var appParcels = await repoApplicationParcel.GetApplicationParcelsByApplicationIdAsync(application.Id);
 
@@ -90,6 +96,13 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             await repoApplication.SaveApplicationWorkflowStatusAsync(application);
+            
+            if(appAdminDetails != null && appAdminDetails.FundingExpirationDate == null)
+            {
+                appAdminDetails.FundingExpirationDate = DateTime.Now.AddYears(3);
+                await repoDetails.SaveAsync(appAdminDetails);
+            }
+
             FloodApplicationStatusLogEntity appStatusLog = new()
             {
                 ApplicationId = application.Id,

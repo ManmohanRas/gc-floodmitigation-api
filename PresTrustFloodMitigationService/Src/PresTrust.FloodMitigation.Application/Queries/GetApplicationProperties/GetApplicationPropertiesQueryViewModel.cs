@@ -24,4 +24,5 @@ public class GetApplicationPropertiesQueryViewModel
     public decimal ProgramMatch { get; set; }
     public int StatusId { get; set; }
     public string Status {  get; set; }
+    public bool ShowNotification { get; set; }
 }
