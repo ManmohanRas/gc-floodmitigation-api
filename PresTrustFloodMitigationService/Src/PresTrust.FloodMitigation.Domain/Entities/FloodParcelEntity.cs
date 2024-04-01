@@ -48,6 +48,7 @@ public class FloodParcelEntity
     public decimal ValueEstimate { get; set; }
     public decimal HardCostFMPAmt { get; set; }
     public decimal SoftCostFMPAmt { get; set; }
+    public bool ShowNotification { get; set; }
     public decimal FinalOffer
     {
         get

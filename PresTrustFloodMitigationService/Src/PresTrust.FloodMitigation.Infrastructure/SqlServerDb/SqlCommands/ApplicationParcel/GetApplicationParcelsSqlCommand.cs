@@ -120,7 +120,8 @@ public class GetApplicationParcelsSqlCommand
 							THEN LP.[OwnersName]
 						ELSE FP.[OwnersName]
 					END AS [LandOwner],
-					ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS  TargetArea
+					ISNULL(TA.[TargetArea], 'NOT IN FLAP') AS  TargetArea,
+					CASE WHEN (AP.StatusId IN(1,2,3,4,5) AND (floodfeedback.FEEDBACKRESPONSE > 0 )) THEN 1 ELSE 0 END AS ShowNotification
 				FROM [ApplicationParcelCTE] AP
 				LEFT JOIN [Flood].[FloodApplicationFinance] AF ON AP.[ApplicationId] = AF.[ApplicationId]
 				LEFT JOIN [Flood].[FloodParcelFinance] PF ON AP.[ApplicationId] = PF.[ApplicationId] AND AP.PamsPin = PF.PamsPin
@@ -128,7 +129,15 @@ public class GetApplicationParcelsSqlCommand
 						ON (AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
 				LEFT JOIN [Flood].[FloodParcel] FP
       					ON (AP.[IsLocked] = 0 AND AP.[PamsPin] = FP.[PamsPin])
-				LEFT JOIN [Flood].[FloodFlapTargetArea] TA ON FP.TargetAreaId = TA.Id;";
+				LEFT JOIN [Flood].[FloodFlapTargetArea] TA ON FP.TargetAreaId = TA.Id
+				LEFT OUTER JOIN (
+                    SELECT
+					   PamsPin,
+                       COUNT(PamsPin) AS FEEDBACKRESPONSE
+                    FROM Flood.FloodParcelFeedback
+                    WHERE CorrectionStatus = 'RESPONSE_RECEIVED' AND MarkRead != 1 AND ApplicationId = @p_ApplicationId
+                    GROUP BY PamsPin
+                ) AS floodfeedback ON AP.PamsPin = floodfeedback.PamsPin;";
 
     public GetApplicationParcelsSqlCommand() { }
 
