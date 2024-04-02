@@ -16,9 +16,11 @@ public class GetAnnualFundingDetailsQueryHandler : IRequestHandler<GetAnnualFund
     public async Task<IEnumerable<GetAnnualFundingDetailsQueryViewModel>> Handle(GetAnnualFundingDetailsQuery request, CancellationToken cancellationToken)
     {
         var reqFunds = await repoFunding.GetFundingDetailsAsync();
-
+        if(reqFunds?.Count > 0)
+        {
+            reqFunds = reqFunds.OrderByDescending(o => o.AllocationYear).ToList();
+        }
         var fundings = mapper.Map<IEnumerable<FloodAnnualFundingEntity>, IEnumerable<GetAnnualFundingDetailsQueryViewModel>>(reqFunds);
-
         return fundings;
     }
 }
