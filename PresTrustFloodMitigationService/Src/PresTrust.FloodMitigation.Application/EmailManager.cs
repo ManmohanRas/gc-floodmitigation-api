@@ -1,4 +1,6 @@
-﻿namespace PresTrust.FloodMitigation.Application;
+﻿using System;
+
+namespace PresTrust.FloodMitigation.Application;
 
 public interface IEmailManager
 {
@@ -16,6 +18,7 @@ public class EmailManager : IEmailManager
     private readonly IApplicationUserRepository repoApplicationUser;
     private IEmailTemplateRepository repoEmailTemplate;
     private IContactRepository repoContact;
+    private readonly IApplicationReleaseOfFundsRepository repoApplicationROF;
 
 
     public EmailManager(
@@ -26,7 +29,8 @@ public class EmailManager : IEmailManager
               IIdentityApiConnect identityApiConnect,
               IApplicationUserRepository repoApplicationUser,
               IEmailTemplateRepository repoEmailTemplate,
-              IContactRepository repoContact
+              IContactRepository repoContact,
+              IApplicationReleaseOfFundsRepository repoApplicationROF
         )
     {
         this.mapper = mapper;
@@ -37,6 +41,7 @@ public class EmailManager : IEmailManager
         this.repoApplicationUser = repoApplicationUser;
         this.repoEmailTemplate = repoEmailTemplate;
         this.repoContact = repoContact;
+        this.repoApplicationROF = repoApplicationROF;
     }
 
     private async Task<Tuple<List<string>,List<string>, List<string>>> GetPrimaryContact(int applicationId, int agencyId)
@@ -69,20 +74,42 @@ public class EmailManager : IEmailManager
 
     public async Task GetEmailTemplate(string emailTemplateCode, FloodApplicationEntity application, FloodApplicationParcelEntity? property, DateTime? emailDate)
     {
+        FloodEmailTemplatePlaceholdersEntity placeHolders = new FloodEmailTemplatePlaceholdersEntity();
         var template = await repoEmailTemplate.GetEmailTemplate(emailTemplateCode);
+        decimal CAFAmount = 0;
+        property = property ?? new FloodApplicationParcelEntity() { ApplicationId = application.Id };
+
+
+        placeHolders = await repoEmailTemplate.EmailTemplatePlaceholders(application.Id, property.PamsPin);
+
+
+        if (emailTemplateCode == EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_IN_REVIEW_TO_ACTIVE.ToString())
+        {
+            var payments = await repoApplicationROF.GetApplicationPaymentsAsync(application.Id);
+            if (payments.Count() > 0)
+            {
+                decimal houseEncubrance = payments.Sum(y => y.EstimatePurchasePrice * y.MatchPercent / 100) ?? 0;
+                var softEstimateInit = houseEncubrance * 25 / 100;
+                var additionalSoftCostEstimate = payments.Sum(y => y.AdditionalSoftCostEstimate);
+                decimal softEstimate = softEstimateInit + additionalSoftCostEstimate ?? 0;
+                placeHolders.CAFAmount = houseEncubrance + softEstimate;
+            }
+        }
+
         if (template != null)
         {
-            await SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, agencyId: application.AgencyId, emailDate: emailDate);
+            await SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, agencyId: application.AgencyId, emailDate: emailDate, placeHolders: placeHolders);
         }
     }
 
-    public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, int agencyId = default, DateTime? emailDate = default)
+    public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, int agencyId = default, DateTime? emailDate = default, FloodEmailTemplatePlaceholdersEntity placeHolders = default)
     {
         List<string> primaryContactNames = new List<string>();
         List<string> primaryContactEmails = new List<string>();
         List<string> alternateContactEmails = new List<string>();
         List<string> contactEmails = new List<string>();
         string toEmails = string.Empty;
+        DateTime? CurrentExpirationDate = placeHolders.SecondFundingExpirationDate ?? placeHolders.FirstFundingExpirationDate ?? placeHolders.FundingExpirationDate;
 
         var primaryContact = await GetPrimaryContact(applicationId, agencyId);
 
@@ -99,25 +126,28 @@ public class EmailManager : IEmailManager
         htmlBody = htmlBody.Replace("{{ApplicationName}}", applicationName ?? "");
         htmlBody = htmlBody.Replace("{{ProjectName}}", applicationName ?? "");
 
+        subject = subject.Replace("{{ApplicationName}}", applicationName ?? "");
+
         //new placeholders
-        htmlBody = htmlBody.Replace("{{TotalEncumbered}}", "");
-        htmlBody = htmlBody.Replace("{{CurrentExpirationDate}}", "");
+        htmlBody = htmlBody.Replace("{{TotalEncumbered}}", placeHolders.CAFAmount?.ToString("C2", new CultureInfo("en-US")) ?? ""); //Total encumbered amount for project area – Take this from Project Area > Release of Funds(CAF)
+        htmlBody = htmlBody.Replace("{{CurrentExpirationDate}}", CurrentExpirationDate?.ToString("dddd, MMMM dd, yyyy")); // Current expiration date, whether it is original, first extension, or second extension
         htmlBody = htmlBody.Replace("{{ContactName}}", string.Join(",", primaryContact.Item1));
-        htmlBody = htmlBody.Replace("{{FMPSoftCostReimbursed}}", "");
+        htmlBody = htmlBody.Replace("{{FMPSoftCostReimbursed}}", placeHolders.SoftCostFMPAmt.ToString());
         htmlBody = htmlBody.Replace("{{FirstProjectAreaExtensionDate}}", emailDate?.ToString("dddd, MMMM dd, yyyy"));
         htmlBody = htmlBody.Replace("{{SecondProjectAreaExtensionDate}}", emailDate?.ToString("dddd, MMMM dd, yyyy"));
 
         //property
-        htmlBody = htmlBody.Replace("{{PropertyName}}", "");
-        htmlBody = htmlBody.Replace("{{MCHardCostShare}}", "");
-        htmlBody = htmlBody.Replace("{{BCCDate}}", "");
+        htmlBody = htmlBody.Replace("{{PropertyName}}", placeHolders.PropertyAddress);
+        htmlBody = htmlBody.Replace("{{MCHardCostShare}}", placeHolders.HardCostFMPAmt.ToString()); //Hard Cost FMP Amount Reimbursed value from Property Finance screen
+        htmlBody = htmlBody.Replace("{{BCCDate}}", placeHolders.BccFinalApprovalDate?.ToString("dddd, MMMM dd, yyyy"));
 
-        htmlBody = htmlBody.Replace("{{ProjectAreaExpirationDate}}", "");
-        htmlBody = htmlBody.Replace("{{GrantExpirationDate}}", "");
+        //Batch job
+        htmlBody = htmlBody.Replace("{{ProjectAreaExpirationDate}}", placeHolders.CurrentExpirationDate?.ToString("dddd, MMMM dd, yyyy")); //Expiration Date from Project Area Admin details tab
+        htmlBody = htmlBody.Replace("{{GrantExpirationDate}}", placeHolders.GrantExpirationDate?.ToString("dddd, MMMM dd, yyyy")); //Grant Agreement Expiration Date from Property Admin details tab
+        //Batch job
+
         //property
         //new placeholders
-
-        subject = subject.Replace("{{ApplicationName}}", applicationName ?? "");
 
         if (primaryContact.Item2.Count() > 0)
         {
@@ -129,16 +159,22 @@ public class EmailManager : IEmailManager
             toEmails = systemParamOptions.ProgramAdminEmail ?? String.Empty;
         }
 
-        //appending Program admin to cc list 
-        alternateContactEmails.Add(string.Join("", primaryContact.Item3));
-        alternateContactEmails.Add(string.Join("", systemParamOptions.ProgramAdminEmail));
+        //appending Program admin to cc list
+        if (primaryContact.Item3.Count() > 0)
+        {
+            alternateContactEmails.Add(string.Join(",", primaryContact.Item3));
+        } 
+
+        //to add program admin to cc list
+        if (!toEmails.Contains(systemParamOptions.ProgramAdminEmail))
+        {
+            alternateContactEmails.Add(string.Join(",", systemParamOptions.ProgramAdminEmail));
+        }
 
         //if contacts selectes then contact emails to cc list
         if (contactEmails.Count() > 0)
         {
-            //cc = string.Join(",", contactEmails);
             alternateContactEmails.Add(string.Join("", contactEmails));
-           
         }
 
         var cc = string.Join(",", alternateContactEmails);
@@ -184,7 +220,7 @@ public class EmailManager : IEmailManager
 
 public interface IReminderEmailManager
 {
-    Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, string propertyName);
+    Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, string propertyName, int agencyId = default, DateTime? expirationDate = default, FloodEmailTemplatePlaceholdersEntity emailPlaceholders = default);
 }
 
 public class ReminderEmailManager : IReminderEmailManager
@@ -211,24 +247,44 @@ public class ReminderEmailManager : IReminderEmailManager
     /// <param name="htmlBody"></param>
     /// <param name="applicationName"></param>
     /// <returns></returns>
-    public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName = "", string propertyName = "")
+    public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName = "", string propertyName = "", int agencyId = default, DateTime? expirationDate = default, FloodEmailTemplatePlaceholdersEntity emailPlaceholders = default)
     {
-        List<string> primaryContactEmails;
+        List<string> primaryContactEmails = new List<string>();
+        List<string> primaryContactNames = new List<string>();
+        string toEmails = string.Empty;
+        List<string> alternateContactEmails = new List<string>();
 
         // get primary contacts
         var primaryContacts = await repoApplicationRole.GetPrimaryContactsAsync(applicationId);
-        primaryContactEmails = primaryContacts.Select(i => i.Email).ToList();
+        if (primaryContacts.Count() > 0)
+        {
+            primaryContactEmails = primaryContacts.Where(o => o.IsPrimaryContact).Select(i => i.Email).ToList();
+            primaryContactNames = primaryContacts.Select(o => string.Format("{0} {1}", o.UserName)).ToList();
+            alternateContactEmails = primaryContacts.Where(o => o.IsAlternateContact).Select(i => i.Email).ToList();
+        }
 
+        alternateContactEmails.Add(string.Join("", systemParamOptions.ProgramAdminEmail));
+        alternateContactEmails.Add(string.Join("", systemParamOptions.CC));//test
+
+
+        htmlBody = htmlBody.Replace("{{ApplicationName}}", applicationName ?? "");
+        htmlBody = htmlBody.Replace("{{ProjectName}}", applicationName ?? "");
+        htmlBody = htmlBody.Replace("{{PrimaryContactName}}", string.Join(",", primaryContactNames));
         htmlBody = htmlBody.Replace("{{ProgramAdmin}}", systemParamOptions.ProgramAdminName);
+        htmlBody = htmlBody.Replace("{{ProjectAreaExpirationDate}}", expirationDate?.ToString("dddd, MMMM dd, yyyy"));
 
         subject = subject.Replace("{{ApplicationName}}", applicationName ?? "");
         subject = subject.Replace("{{PropertyName}}", propertyName ?? "");
 
-        var toEmails = systemParamOptions.IsDevelopment == false ? string.Join(",", primaryContactEmails) : systemParamOptions.TestEmailIds;
+        toEmails = systemParamOptions.IsDevelopment == false ? string.Join(",", primaryContactEmails) : systemParamOptions.TestEmailIds;
+        toEmails = toEmails.Count() > 0 ? toEmails : systemParamOptions.ProgramAdminEmail;
+
+        var cc = string.Join(",", alternateContactEmails);
+        
         var senderName = systemParamOptions.ProgramAdminName;
         var senderEmail = "mcgis@co.morris.nj.us";
 
-        await this.Send(subject: subject, toEmails: toEmails, senderName: senderName, senderEmail: senderEmail, htmlBody: htmlBody);
+        await this.Send(subject: subject, toEmails: toEmails, senderName: senderName, senderEmail: senderEmail, htmlBody: htmlBody, cc: cc);
     }
 
     /// <summary>

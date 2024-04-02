@@ -6,8 +6,11 @@ public class GetApplicationPropertiesQueryViewModel
     public string PamsPin { get; set; }
     public bool IsLocked { get; set; }
     public bool IsWaiting { get; set; }
+    public string? WaitingApplicationIds { get; set; }
     public bool AlreadyExists { get; set; }
+    public string? ExistingApplicationIds { get; set; }
     public bool IsRejected { get; set; }
+    public string? RejectedApplicationIds { get; set; }
     public bool IsValidPamsPin { get; set; }
     public string PropertyAddress { get; set; }
     public string TargetArea { get; set; }
@@ -21,4 +24,5 @@ public class GetApplicationPropertiesQueryViewModel
     public decimal ProgramMatch { get; set; }
     public int StatusId { get; set; }
     public string Status {  get; set; }
+    public bool ShowNotification { get; set; }
 }

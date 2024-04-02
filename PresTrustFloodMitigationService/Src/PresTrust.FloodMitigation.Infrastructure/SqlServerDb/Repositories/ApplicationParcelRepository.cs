@@ -181,4 +181,26 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
                 @p_LastUpdatedBy = lastUpdatedBy
             });
     }
+
+    /// <summary>
+    /// Transfer Parcel
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <param name="pamsPin"></param>
+    /// <param name="transferApplicationId"></param>
+    /// <returns></returns>
+    public async Task TransferParcelAsync(int applicationId, string pamsPin, int transferApplicationId)
+    {
+        using var conn = context.CreateConnection();
+        var sqlCommand = new TransferParcelSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationId,
+                @p_PamsPin = pamsPin,
+                @p_TransferApplicationId = transferApplicationId
+            });
+    }
 }

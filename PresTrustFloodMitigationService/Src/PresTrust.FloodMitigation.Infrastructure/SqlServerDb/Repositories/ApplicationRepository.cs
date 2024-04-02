@@ -156,4 +156,21 @@ public class ApplicationRepository: IApplicationRepository
 
         return results ?? new();
     }
+
+    public async Task<List<FloodApplicationEntity>> GetApplicationsForWarningsAsync(string applicationIds, string pamsPin)
+    {
+        List<int> appIds = applicationIds?.Split(',' , StringSplitOptions.RemoveEmptyEntries).Select(o => Convert.ToInt32(o)).ToList() ?? new ();
+        List<FloodApplicationEntity> results = default;
+        using var conn = context.CreateConnection();
+        var sqlCommand = new GetApplicationsForWarningsSqlCommand();
+        results = (await conn.QueryAsync<FloodApplicationEntity>(sqlCommand.ToString(),
+                    commandType: CommandType.Text,
+                    commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+                    param: new
+                    {
+                        @p_ApplicationIds = appIds,
+                        @p_PamsPin = pamsPin
+                    })).ToList();
+        return results ?? new();
+    }
 }

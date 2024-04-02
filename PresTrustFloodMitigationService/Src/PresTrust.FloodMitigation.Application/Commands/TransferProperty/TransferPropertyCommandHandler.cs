@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
+using System;
 
 namespace PresTrust.FloodMitigation.Application.Commands;
 public class TransferPropertyCommandHandler : BaseHandler, IRequestHandler<TransferPropertyCommand, TransferPropertyCommandViewModel>
@@ -50,6 +51,8 @@ public class TransferPropertyCommandHandler : BaseHandler, IRequestHandler<Trans
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
+            await repoProperty.TransferParcelAsync(request.ApplicationId, request.PamsPin, request.TransferApplicationId);
+
             await repoProperty.SaveApplicationParcelWorkflowStatusAsync(property);
             FloodParcelStatusLogEntity appParcelStatusLog = new()
             {

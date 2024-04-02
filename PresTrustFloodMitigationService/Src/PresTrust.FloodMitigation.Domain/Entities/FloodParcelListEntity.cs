@@ -12,4 +12,5 @@ public class FloodParcelListEntity
     public decimal FinalOffer { get; set; }
     public decimal ProgramMatch { get; set; }
     public string PropertyStatus { get; set; }
+    public bool ShowNotification { get; set; }
 }

@@ -3,5 +3,5 @@
 public class PreservePropertyCommand : IRequest<PreservePropertyCommandViewModel>
 {
     public int ApplicationId { get; set; }
-    public required string PamsPin { get; set; }
+    public string PamsPin { get; set; }
 }
