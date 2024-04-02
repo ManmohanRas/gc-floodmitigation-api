@@ -77,14 +77,11 @@ public class EmailManager : IEmailManager
         FloodEmailTemplatePlaceholdersEntity placeHolders = new FloodEmailTemplatePlaceholdersEntity();
         var template = await repoEmailTemplate.GetEmailTemplate(emailTemplateCode);
         decimal CAFAmount = 0;
+        property = property ?? new FloodApplicationParcelEntity() { ApplicationId = application.Id };
 
-        if (property!= null)
-        {
-            if (!string.IsNullOrEmpty(property.PamsPin))
-            {
-                placeHolders = await repoEmailTemplate.EmailTemplatePlaceholders(application.Id, property.PamsPin);
-            }
-        }
+
+        placeHolders = await repoEmailTemplate.EmailTemplatePlaceholders(application.Id, property.PamsPin);
+
 
         if (emailTemplateCode == EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_IN_REVIEW_TO_ACTIVE.ToString())
         {
@@ -165,10 +162,13 @@ public class EmailManager : IEmailManager
         //appending Program admin to cc list
         if (primaryContact.Item3.Count() > 0)
         {
-            alternateContactEmails.Add(string.Join("", primaryContact.Item3));
-        }else if (!toEmails.Contains(systemParamOptions.ProgramAdminEmail))
+            alternateContactEmails.Add(string.Join(",", primaryContact.Item3));
+        } 
+
+        //to add program admin to cc list
+        if (!toEmails.Contains(systemParamOptions.ProgramAdminEmail))
         {
-            alternateContactEmails.Add(string.Join("", systemParamOptions.ProgramAdminEmail));
+            alternateContactEmails.Add(string.Join(",", systemParamOptions.ProgramAdminEmail));
         }
 
         //if contacts selectes then contact emails to cc list
@@ -220,7 +220,7 @@ public class EmailManager : IEmailManager
 
 public interface IReminderEmailManager
 {
-    Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, string propertyName, int agencyId = default, DateTime? expirationDate = default);
+    Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, string propertyName, int agencyId = default, DateTime? expirationDate = default, FloodEmailTemplatePlaceholdersEntity emailPlaceholders = default);
 }
 
 public class ReminderEmailManager : IReminderEmailManager
@@ -247,7 +247,7 @@ public class ReminderEmailManager : IReminderEmailManager
     /// <param name="htmlBody"></param>
     /// <param name="applicationName"></param>
     /// <returns></returns>
-    public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName = "", string propertyName = "", int agencyId = default, DateTime? expirationDate = default)
+    public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName = "", string propertyName = "", int agencyId = default, DateTime? expirationDate = default, FloodEmailTemplatePlaceholdersEntity emailPlaceholders = default)
     {
         List<string> primaryContactEmails = new List<string>();
         List<string> primaryContactNames = new List<string>();

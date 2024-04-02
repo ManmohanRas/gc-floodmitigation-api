@@ -24,14 +24,14 @@ public class ProjectAreaExpirationReminder : BaseHandler, IProjectAreaExpiration
     public async Task Handle()
     {
         Console.WriteLine("Handle - " + DateTime.Now.ToLongTimeString());
-        var remiderApplications = await repoEmailTemplate.RemindingAboutProjectAreaExpiration();
+        var reminderApplications = await repoEmailTemplate.RemindingAboutProjectAreaExpiration();
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.PROJECT_AREA_EXPIRATION_REMINDER.ToString());
             if (template != null)
             {
-                foreach (var application in remiderApplications)
+                foreach (var application in reminderApplications)
                 {
                     await repoEmailManager.SendMail(subject: template.Subject ?? "", htmlBody: template.Description ?? "", applicationId: application.Id, applicationName: application.Title, propertyName: default, agencyId: application.AgencyId, expirationDate: application.ExpirationDate);
                 }

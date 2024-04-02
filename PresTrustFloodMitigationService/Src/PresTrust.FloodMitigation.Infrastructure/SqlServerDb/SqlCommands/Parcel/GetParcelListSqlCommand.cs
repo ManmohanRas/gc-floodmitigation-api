@@ -41,7 +41,8 @@ public class GetParcelListSqlCommand
 					WHEN 8 THEN 'WITHDRAWN'
 					WHEN 9 THEN 'PROJECT_AREA_EXPIRED'
 					WHEN 10 THEN 'TRANSFERRED'
-				END AS [PropertyStatus]
+				END AS [PropertyStatus],
+				CASE WHEN (AP.StatusId IN(1,2,3,4,5) AND (floodfeedback.FEEDBACKRESPONSE > 0 )) THEN 1 ELSE 0 END AS ShowNotification
 			FROM [Flood].[FloodApplicationParcel] AP
 			LEFT JOIN [Flood].[FloodLockedParcel] LP
 					ON (AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
@@ -50,7 +51,16 @@ public class GetParcelListSqlCommand
 			LEFT JOIN [Flood].[FloodApplication] FA ON AP.[ApplicationId] = FA.[Id]
 			JOIN [Core].[View_AgencyEntities_FLOOD] AG ON (AP.[IsLocked] = 1 AND AG.[AgencyId] = LP.[AgencyID]) OR (AP.[IsLocked] = 0 AND AG.[AgencyId] = FP.[AgencyID])
 			LEFT JOIN [Flood].[FloodParcelFinance] PF ON PF.[ApplicationId] = AP.[ApplicationId] AND PF.[PamsPin] = AP.[PamsPin]
-			LEFT JOIN [Flood].[FloodApplicationFinance] AF ON AF.[Id] = FA.[Id];";
+			LEFT JOIN [Flood].[FloodApplicationFinance] AF ON AF.[Id] = FA.[Id]
+			LEFT OUTER JOIN (
+    SELECT
+		ApplicationId,
+		PamsPin,
+		COUNT(PamsPin) AS FEEDBACKRESPONSE
+    FROM Flood.FloodParcelFeedback
+    WHERE CorrectionStatus = 'RESPONSE_RECEIVED' AND MarkRead != 1
+    GROUP BY ApplicationId, PamsPin
+) AS floodfeedback ON AP.ApplicationId = floodfeedback.ApplicationId AND AP.PamsPin = floodfeedback.PamsPin;";
 
     public GetParcelListSqlCommand() { }
 

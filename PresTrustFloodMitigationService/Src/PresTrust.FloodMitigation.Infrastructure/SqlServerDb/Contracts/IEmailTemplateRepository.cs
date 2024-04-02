@@ -28,5 +28,18 @@ public interface IEmailTemplateRepository
     /// <returns></returns>
     Task<IEnumerable<FloodApplicationEntity>> RemindingAboutProjectAreaExpiration();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <param name="pamsPin"></param>
+    /// <returns></returns>
     Task<FloodEmailTemplatePlaceholdersEntity> EmailTemplatePlaceholders(int applicationId, string pamsPin);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    Task<IEnumerable<FloodEmailTemplatePlaceholdersEntity>> ReminderAboutPropertyExpiration();
+
 }

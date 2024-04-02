@@ -13,6 +13,7 @@ public class FloodApplicationParcelEntity
     public bool? IsPARRequestedbyFunder { get; set; }
     public string LastUpdatedBy { get; set; }
     public bool? IsFLAP { get; set; }
+    public bool ShowNotification { get; set; }
     public PropertyStatusEnum Status
     {
         get

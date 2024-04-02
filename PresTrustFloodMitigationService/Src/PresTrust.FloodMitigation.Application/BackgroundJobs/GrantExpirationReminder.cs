@@ -24,13 +24,17 @@ public class GrantExpirationReminder : BaseHandler, IGrantExpirationReminder
     public async Task Handle()
     {
         Console.WriteLine("Handle - " + DateTime.Now.ToLongTimeString());
+        var reminderProperties = await repoEmailTemplate.ReminderAboutPropertyExpiration();
 
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             var template = await repoEmailTemplate.GetEmailTemplate(EmailTemplateCodeTypeEnum.GRANT_EXPIRATION_REMINDER.ToString());
             if (template != null)
             {
-                await repoEmailManager.SendMail(subject: template.Subject ?? "", htmlBody: template.Description ?? "", applicationId: 6, applicationName: "Test Application", propertyName:"Test Property");
+                foreach (var property in reminderProperties)
+                {
+                    await repoEmailManager.SendMail(subject: template.Subject ?? "", htmlBody: template.Description ?? "", applicationId: property.ApplicationId, applicationName: property.Title, propertyName: property.PropertyAddress, emailPlaceholders: property);
+                }
             }
             scope.Complete();
         }
