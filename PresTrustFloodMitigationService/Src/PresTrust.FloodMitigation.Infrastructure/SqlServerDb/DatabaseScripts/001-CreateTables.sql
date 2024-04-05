@@ -1196,7 +1196,7 @@ CREATE TABLE [Flood].[FloodParcelProperty](
 	[StructureType]			    [integer]								NULL,
 	[FoundationType]			[integer]								NULL,
 	[OccupancyClass]			[integer]								NULL,
-	[PercentageOfDamage]		[decimal]								NULL,
+	[PercentageOfDamage]		[decimal](18,2)							NULL,
 	[HasContaminants]			[bit]									NULL,
 	[IsLowIncomeHousing]		[bit]									NULL,
 	[HasHistoricSignificance]	[bit]									NULL,
