@@ -53,7 +53,7 @@ public class ImportTargetListCommandHandler : IRequestHandler<ImportTargetListCo
                     CreatedDate = DateTime.Now,
                 };
                 pamsPins = parcel.Select(y => y.PamsPin).ToList();
-                await SaveTargetAreas(targetArea, importedParcels);
+                await SaveTargetAreas(targetArea, parcel.ToList());
             }
 
             scope.Complete();
