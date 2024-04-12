@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 
 namespace PresTrust.FloodMitigation.Application.Queries;
 
@@ -79,16 +80,20 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
                     TargetArea = dt.Rows[i]["Target Area"].ToString() ?? string.Empty,
                     Block = dt.Rows[i]["Block"].ToString() ?? string.Empty,
                     Lot = dt.Rows[i]["Lot"].ToString() ?? string.Empty,
+                    QCode = dt.Rows[i]["QCode"].ToString() ?? string.Empty,
                     StreetNo = dt.Rows[i]["House #"].ToString() ?? string.Empty,
                     StreetAddress = dt.Rows[i]["Street"].ToString() ?? string.Empty,
                     LandOwner = dt.Rows[i]["Homeowner"].ToString() ?? string.Empty,
 
                     AgencyName = dt.Rows[i]["Municipality"].ToString() ?? string.Empty,
-                    PamsPin = String.Join('_', request.AgencyId, dt.Rows[i]["Block"], dt.Rows[i]["Lot"]),
+                    PamsPin = string.Join('_', request.AgencyId, dt.Rows[i]["Block"], dt.Rows[i]["Lot"]),
                     DateOfFLAP = new DateTime(),
-                    IsFLAP = true,
-                    
+                    IsFLAP = true
                 });
+                if (!string.IsNullOrEmpty(dt.Rows[i]["QCode"].ToString()))
+                {
+                    parcels[i].PamsPin = string.Join('_', parcels[i].PamsPin, dt.Rows[i]["QCode"]);
+                }
             }
 
             hasError =  CustomValidator(parcels, request.AgencyName);
@@ -125,7 +130,7 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
         {
             foreach (PropertyInfo property in myObject.GetType().GetProperties())
             {
-                if (property.PropertyType == typeof(string))
+                if (property.PropertyType == typeof(string) && property.Name != "QCode")
                 {
                     string value = (string)property.GetValue(myObject);
                     if (string.IsNullOrEmpty(value))
