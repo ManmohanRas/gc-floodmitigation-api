@@ -7,4 +7,5 @@ public class GetProgramManagerParcelsQuery : IRequest<GetProgramManagerParcelsQu
     public string SearchBlockText { get; set; } = "";
     public string SearchLotText { get; set; } = "";
     public string SearchAddressText { get; set; } = "";
+    public int selectedAgency { get; set; }
 }

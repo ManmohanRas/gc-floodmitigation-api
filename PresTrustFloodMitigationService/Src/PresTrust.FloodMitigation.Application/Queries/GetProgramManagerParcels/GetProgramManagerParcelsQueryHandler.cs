@@ -23,7 +23,7 @@ public class GetProgramManagerParcelsQueryHandler : BaseHandler, IRequestHandler
     /// <returns></returns>
     public async Task<GetProgramManagerParcelsQueryViewModel> Handle(GetProgramManagerParcelsQuery request, CancellationToken cancellationToken)
     {
-        var properties = await this.repoParcel.GetProgramManagerParcelsAsync(request.PageNumber, request.PageRows, request.SearchBlockText, request.SearchLotText, request.SearchAddressText);
+        var properties = await this.repoParcel.GetProgramManagerParcelsAsync(request.PageNumber, request.PageRows, request.SearchBlockText, request.SearchLotText, request.SearchAddressText, request.selectedAgency);
         var result = mapper.Map<FloodProgramManagerParcelsEntity, GetProgramManagerParcelsQueryViewModel>(properties);
         result.Parcels = result.Parcels.OrderBy(o => o.PamsPin).ToList();
         return result;
