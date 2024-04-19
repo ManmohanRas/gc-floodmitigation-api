@@ -146,11 +146,11 @@ DROP TABLE IF EXISTS [Flood].[FloodApplicationFundingSourceType];
 GO
 
 -- Create Table
-Create Table [Flood].[FloodApplicationFundingSourceType](
-[Id]                                    [integer]                              NOT NULL,
-[Title]                                 [varchar](216)			               NOT NULL,
-[SortOrder]                             [smallint]                             NOT NULL,
-[IsActive]								[bit]								   NULL
+CREATE TABLE [Flood].[FloodApplicationFundingSourceType](
+	[Id]                                    [integer]                              NOT NULL,
+	[Title]                                 [varchar](216)			               NOT NULL,
+	[SortOrder]                             [smallint]                             NOT NULL,
+	[IsActive]								[bit]								   NULL
 CONSTRAINT [PK_FloodApplicationFundingSourceType_Id] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1715,3 +1715,373 @@ GO
 
 ALTER TABLE [Flood].[FloodParcelBrokenRules] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodParcelBrokenRules]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
 GO  
+
+IF OBJECT_ID('[Flood].[FloodAgencyFlap]') IS NOT NULL
+BEGIN
+	-- Drop Constraints
+	
+	ALTER TABLE [Flood].[FloodAgencyFlap] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodAgencyFlap];
+
+END;
+GO
+  
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodAgencyFlap]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodAgencyFlap](
+	[Id]									[integer] 		IDENTITY(1,1)	NOT NULL,
+	[AgencyId]							    [integer]						NOT NULL,
+	[FlapApproved]							[bit]						    DEFAULT 0,
+	[ApprovedDate]						    [datetime]					    NULL     ,
+	[LastRevisedDate]						[datetime]					    NULL     ,
+	[FlapMailToGrantee]						[datetime]					    NULL    ,
+	[LastUpdatedBy]							[varchar](128)					NULL	,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
+
+CONSTRAINT [PK_FloodAgencyFlap_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+-- Create Constraints
+
+ALTER TABLE [Flood].[FloodAgencyFlap] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodAgencyFlap]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+GO  
+
+IF OBJECT_ID('[Flood].[FloodAgencyFlapComment]') IS NOT NULL
+BEGIN
+	-- Drop Constraints
+	ALTER TABLE [Flood].[FloodAgencyFlapComment] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodAgencyFlapComment];
+
+END;
+GO
+  
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodAgencyFlapComment]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodAgencyFlapComment](
+	[Id]									[integer] 		IDENTITY(1,1)	NOT NULL,
+	[AgencyId]							    [integer]						NOT NULL,
+	[Comment]								[varchar](4000)					NOT NULL,
+	[LastUpdatedBy]							[varchar](128)					NULL	,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
+
+CONSTRAINT [PK_FloodAgencyFlapComment_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+-- Create Constraints
+
+ALTER TABLE [Flood].[FloodAgencyFlapComment] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodAgencyFlapComment]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+GO  
+
+IF OBJECT_ID('[Flood].[FloodFlapTargetArea]') IS NOT NULL
+BEGIN
+	-- Drop Constraints
+	ALTER TABLE [Flood].[FloodFlapTargetArea] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodFlapTargetArea];
+
+END;
+GO
+  
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodFlapTargetArea]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodFlapTargetArea](
+	[Id]									[integer] 		IDENTITY(1,1)	NOT NULL,
+	[AgencyId]							    [integer]						NOT NULL,
+	[TargetArea]							[varchar](128)					NOT NULL,
+	[CreatedDate]                           [datetime]						NOT NULL,
+	[LastUpdatedBy]							[varchar](128)					NULL	,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
+
+CONSTRAINT [PK_FloodFlapTargetArea_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+-- Create Constraints
+
+ALTER TABLE [Flood].[FloodFlapTargetArea] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodFlapTargetArea]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+GO  
+
+IF OBJECT_ID('[Flood].[FloodFlapDocument]') IS NOT NULL
+BEGIN
+	-- Drop Constraints
+	
+	ALTER TABLE [Flood].[FloodFlapDocument] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodFlapDocument];
+END;
+GO
+
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodFlapDocument]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodFlapDocument](
+	[Id]						[integer] 		IDENTITY(1,1)	NOT NULL,
+	[AgencyId]				    [integer]						NOT NULL,
+	[DocumentTypeId]			[smallint]						NOT NULL,
+	[FileName]					[varchar](128)					NOT NULL,
+	[Title]						[varchar](128)					NOT NULL,
+	[LastUpdatedBy]				[varchar](128)					NULL,
+	[LastUpdatedOn]				[datetime]						NOT NULL,
+CONSTRAINT [PK_FloodFlapDocument_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+-- Create Constraint
+
+ALTER TABLE [Flood].[FloodFlapDocument] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodFlapDocument]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+GO  
+
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodMunicipalFinance]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodMunicipalFinance](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[AgencyId] [int] NOT NULL,
+	[FiscalYear] [int] NOT NULL,
+	[TaxRate] [decimal](10, 3) NULL,
+	[AnticipatedHistCollection] [decimal](18, 2) NULL,
+	[AnnualTaxLevy] [decimal](18, 2) NULL,
+	[Reimbursements] [decimal](18, 2) NULL,
+	[CashReceipts] [decimal](18, 2) NULL,
+	[Interest] [decimal](18, 2) NULL,
+	[OtherRevenues] [decimal](18, 2) NULL,
+	[OtherRevenuesExplained] [varchar](256) NULL,
+	[Disbursements] [decimal](18, 2) NULL,
+	[DebtPayments] [decimal](18, 2) NULL,
+	[OtherExpenses] [decimal](18, 2) NULL,
+	[OtherExpensesExplained] [varchar](256) NULL,
+	[LastUpdatedBy]							[varchar](128)					NULL	,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
+	
+CONSTRAINT [PK_FloodMunicipalFinance_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+IF OBJECT_ID('[Flood].[FloodMunicipalComment]') IS NOT NULL
+BEGIN
+	-- Drop Constraints
+	ALTER TABLE [Flood].[FloodMunicipalComment] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodMunicipalComment];
+END;
+GO
+  
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodMunicipalComment]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodMunicipalComment](
+	[Id]					[integer] 			IDENTITY(1,1)	        NOT NULL,
+	[AgencyId]				[integer]									NOT NULL,
+	[Comment]				[varchar](4000)				                NULL,												
+	[LastUpdatedBy]			[varchar](128)								NOT NULL,
+	[LastUpdatedOn]			[datetime]									NOT NULL,
+CONSTRAINT [PK_FloodMunicipalComment_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+-- Create Constraints
+ALTER TABLE [Flood].[FloodMunicipalComment] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodMunicipalComment]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodMunicipalTrustFundPermittedUses]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodMunicipalTrustFundPermittedUses](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[AgencyId] [int] NOT NULL,
+	[YearOfInception] [char](4) NULL,
+	[AcquisitionOfLands] [bit] NULL,
+	[AcquisitionOfFarmLands] [bit] NULL,
+	[DevelopmentOfLands] [bit] NULL,
+	[MaintenanceOfLands] [bit] NULL,
+	[SalariesAndBenefits] [bit] NULL,
+	[BondDownPayments] [bit] NULL,
+	[HistoricPreservation] [bit] NULL,
+	[OpenspaceMasterPlan] [bit] NULL,
+	[OpenspaceMasterPlanDate] [datetime] NULL,
+	[GreenAcresGrant] [bit] NULL,
+	[TrustFundComments] [varchar](2000) NULL,
+	[Other] [varchar](2000) NULL,
+	[LastUpdatedBy]							[varchar](128)					NULL	,
+	[LastUpdatedOn]							[datetime]						NOT NULL,
+CONSTRAINT [PK_FloodMunicipalTrustFundPermittedUses_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodAnnualFunding]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodAnnualFunding](
+	[Id]						[int]					IDENTITY(1,1)			NOT NULL,
+	[AllocationYear]			[char](4)										NOT NULL,
+	[AllocationAmount]			[decimal](18, 2)								NULL,
+	[Interest]					[decimal](18, 2)								NULL,
+	[AddedOrOmittedAmount]		[decimal](18, 2)								NULL,
+	[Comment]					[varchar](4000)									NULL,
+	[LastUpdatedBy]				[varchar](128)									NULL	,
+	[LastUpdatedOn]				[datetime]										NOT NULL,
+
+CONSTRAINT [PK_FloodAnnualFunding_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+IF OBJECT_ID('[Flood].[FloodEmailTemplate]') IS NOT NULL
+BEGIN
+	-- Drop Constraints
+	ALTER TABLE [Flood].[FloodEmailTemplate] DROP CONSTRAINT IF EXISTS  [DF_IsActive_FloodEmailTemplate];
+
+	ALTER TABLE [Flood].[FloodEmailTemplate] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodEmailTemplate];
+
+END
+GO	
+
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodEmailTemplate]
+GO
+
+CREATE TABLE [Flood].[FloodEmailTemplate](
+[Id] [smallint]  NOT NULL,
+[TemplateCode] [varchar](128) NOT NULL,
+[Title] [varchar](256) NOT NULL,
+[Subject] [varchar](512) NULL,
+[Description] [varchar](max) NOT NULL,
+[IsActive] [bit] NULL,
+[LastUpdatedBy] [varchar](128) NULL,
+[LastUpdatedOn] [datetime] NULL,
+
+CONSTRAINT [PK_FloodEmailTemplate_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+-- Create Constraints
+ALTER TABLE [Flood].[FloodEmailTemplate] WITH NOCHECK ADD  CONSTRAINT [DF_IsActive_FloodEmailTemplate]  DEFAULT (1) FOR [IsActive]
+GO
+
+ALTER TABLE [Flood].[FloodEmailTemplate] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodEmailTemplate]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+GO
+
+IF OBJECT_ID('[Flood].[FloodParcelHistory]') IS NOT NULL
+BEGIN
+	-- Drop Constraints
+	ALTER TABLE [Flood].[FloodParcelHistory] DROP CONSTRAINT IF EXISTS  [FK_ParcelId_FloodParcelHistory];
+
+	ALTER TABLE [Flood].[FloodParcelHistory] DROP CONSTRAINT IF EXISTS  [DF_LastUpdatedOn_FloodParcelHistory];
+
+	ALTER TABLE [Flood].[FloodParcelHistory] DROP CONSTRAINT IF EXISTS  [DF_IsActive_FloodParcelHistory];
+
+END
+GO
+
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodParcelHistory]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodParcelHistory](
+	[Id]								[integer] 		IDENTITY(1,1)	NOT NULL,
+	[ParcelId]							[integer] 						NOT NULL,
+	[CurrentPamsPin]					[varchar](76)					NOT NULL,
+	[PreviousPamsPin]					[varchar](76)					NOT NULL,
+	[Section]							[varchar](128)					NULL,
+	[Acres]								[decimal](18,4)					NULL,
+	[AcresToBeAcquired]					[decimal](18,4)					NULL,
+	[Partial]							[bit]							NULL,
+	[InterestType]						[varchar](100)					NULL,
+	[IsThisAnExclusionArea]				[bit]							NULL,
+	[Notes]								[varchar](4000)					NULL,
+	[EasementId]						[varchar](100)					NULL,
+	[IsActive]							[bit]							NOT NULL,
+	[ChangeType]                        [varchar](100)                  NULL,
+	[ChangeDate]						[datetime]                      NULL,
+	[ReasonForChange]					[varchar](4000)					NULL,
+	[LastUpdatedBy]						[varchar](128)					NOT NULL,
+	[LastUpdatedOn]						[datetime]						NOT NULL,
+	
+CONSTRAINT [PK_FloodParcelHistory_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+-- Create Constraints  
+
+ALTER TABLE [Flood].[FloodParcelHistory] ADD CONSTRAINT [FK_ParcelId_FloodParcelHistory] FOREIGN KEY (ParcelId) REFERENCES [Flood].[FloodParcel](Id);
+GO
+
+ALTER TABLE [Flood].[FloodParcelHistory] WITH NOCHECK ADD  CONSTRAINT [DF_IsActive_FloodParcelHistory]  DEFAULT (0) FOR [IsActive]
+GO 
+
+ALTER TABLE [Flood].[FloodParcelHistory] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodParcelHistory]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+GO
+
+-- Drop Table
+DROP TABLE IF EXISTS [Flood].[FloodProgramExpenses]
+GO
+
+-- Create Table
+CREATE TABLE [Flood].[FloodProgramExpenses](
+	[Id]						[int]					IDENTITY(1,1)			NOT NULL,
+	[ExpenseYear]		       	[char](4)										NOT NULL,
+	[ExpenseAmount]			    [decimal](18, 2)								NULL,
+	[ExpenseDate]				[datetime]    								    NULL,
+	[CategoryId]		        [smallint]				     				    NULL,
+	[Comment]					[varchar](4000)									NULL,
+	[LastUpdatedBy]				[varchar](128)									NULL	,
+	[LastUpdatedOn]				[datetime]										NOT NULL,
+CONSTRAINT [PK_FloodProgramExpenses_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO

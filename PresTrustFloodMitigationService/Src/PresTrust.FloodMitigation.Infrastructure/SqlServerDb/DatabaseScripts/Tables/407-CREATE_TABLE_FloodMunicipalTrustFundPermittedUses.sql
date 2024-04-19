@@ -28,4 +28,3 @@ CONSTRAINT [PK_FloodMunicipalTrustFundPermittedUses_Id] PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-
