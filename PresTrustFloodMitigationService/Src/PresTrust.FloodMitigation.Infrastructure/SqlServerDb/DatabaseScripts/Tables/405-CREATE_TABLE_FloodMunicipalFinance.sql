@@ -29,4 +29,3 @@ CONSTRAINT [PK_FloodMunicipalFinance_Id] PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-

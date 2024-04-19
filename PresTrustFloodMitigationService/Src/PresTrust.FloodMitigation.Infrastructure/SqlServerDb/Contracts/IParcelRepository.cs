@@ -58,7 +58,7 @@ public interface IParcelRepository
     /// Get Program Manager Parcels
     /// </summary>
     /// <returns></returns>
-    Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchBlockText, string searchLotText, string searchAddressText);
+    Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchBlockText, string searchLotText, string searchAddressText, int selectedAgency);
 
     /// <summary>
     /// Get Program Manager Parcel

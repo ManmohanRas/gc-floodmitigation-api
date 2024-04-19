@@ -36,6 +36,3 @@ GO
 
 ALTER TABLE [Flood].[FloodEmailTemplate] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodEmailTemplate]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
 GO
-
-
-

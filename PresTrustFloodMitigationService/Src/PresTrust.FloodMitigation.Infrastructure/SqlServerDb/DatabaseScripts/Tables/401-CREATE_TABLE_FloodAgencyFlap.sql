@@ -34,6 +34,3 @@ GO
 
 ALTER TABLE [Flood].[FloodAgencyFlap] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodAgencyFlap]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
 GO  
-
-
-

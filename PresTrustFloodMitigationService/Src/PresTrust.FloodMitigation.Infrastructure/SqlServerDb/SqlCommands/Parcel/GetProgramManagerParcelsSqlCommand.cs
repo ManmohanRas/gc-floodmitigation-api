@@ -44,7 +44,7 @@ public class GetProgramManagerParcelsSqlCommand
 				FROM [Flood].[FloodParcel] FP
 				JOIN [Core].[View_AgencyEntities_FLOOD] AG ON AG.[AgencyId] = FP.[AgencyId]
 				LEFT JOIN [Flood].[FloodFlapTargetArea] TA ON FP.[TargetAreaId] = TA.[Id]
-				WHERE (@p_Block = '' OR FP.[Block] like @p_Block) AND (@p_Lot = '' OR FP.[Lot] like @p_Lot) AND (@p_Address = ''  OR CONCAT(FP.[StreetNo], ' ', FP.[StreetAddress]) like @p_Address)
+				WHERE (@p_Block = '' OR FP.[Block] like @p_Block) AND (@p_Lot = '' OR FP.[Lot] like @p_Lot) AND (@p_Address = ''  OR CONCAT(FP.[StreetNo], ' ', FP.[StreetAddress]) like @p_Address) AND (@p_AgencyId = 0 OR FP.[AgencyId] = @p_AgencyId)
 				ORDER BY [Id]
 				OFFSET ((@p_PageNumber - 1) * @p_PageRows) ROWS FETCH NEXT @p_PageRows ROWS ONLY
 			)
