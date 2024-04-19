@@ -31,6 +31,7 @@ ALTER TABLE [Flood].[FloodLockedParcel] DROP CONSTRAINT IF EXISTS  [PK_FloodLock
 ALTER TABLE [Flood].[FloodLockedParcel] DROP CONSTRAINT IF EXISTS  [FK_ApplicationId_FloodLockedParcel]
 ALTER TABLE [Flood].[FloodParcelAdminDetails] DROP CONSTRAINT IF EXISTS  [PK_FloodParcelAdminDetails_Id]
 ALTER TABLE [Flood].[FloodParcelAdminDetails] DROP CONSTRAINT IF EXISTS  [FK_ApplicationId_FloodParcelAdminDetails]
+ALTER TABLE [Flood].[FloodParcelHistory] DROP CONSTRAINT IF EXISTS  [FK_ParcelId_FloodParcelHistory]
 ALTER TABLE [Flood].[FloodParcel] DROP CONSTRAINT IF EXISTS  [PK_FloodParcel_Id]
 ALTER TABLE [Flood].[FloodContacts] DROP CONSTRAINT IF EXISTS  [PK_FloodContacts_Id]
 ALTER TABLE [Flood].[FloodContacts] DROP CONSTRAINT IF EXISTS  [FK_ApplicationId_FloodContacts]

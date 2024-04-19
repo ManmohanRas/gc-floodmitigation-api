@@ -68,7 +68,7 @@ INSERT INTO [Core].[NavigationItem]
 ) 
 VALUES 
 (
-	25, 0, 'Manage Agency Users','flood-manageagency', 'flaticon2-layers-2', 7,0, 2, 1
+	25, 0, 'Manage Agency Users','flood-manageagency', 'flaticon2-layers-2', 4,0, 2, 1
 );
 GO
 
@@ -78,7 +78,7 @@ INSERT INTO [Core].[NavigationItem]
 ) 
 VALUES 
 (
-	26, 0, 'Admin','#', 'flaticon2-calendar-3', 8,0, 2, 1
+	26, 0, 'Admin','#', 'flaticon2-calendar-3', 7,0, 2, 1
 );
 GO
 
@@ -88,7 +88,7 @@ INSERT INTO [Core].[NavigationItem]
 ) 
 VALUES 
 (
-	27, 0, 'How To','howto', 'flaticon-questions-circular-button', 9,0, 2, 1
+	27, 0, 'How To','howto', 'flaticon-questions-circular-button', 8,0, 2, 1
 );
 GO
 
