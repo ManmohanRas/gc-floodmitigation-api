@@ -33,8 +33,8 @@ public class SaveTechDetailsCommand: IRequest<int>
     public string? ElevationBeforeMitigation { get; set; }
     public string? ElevationBeforeMitigationFinal { get; set; }
     public string? FloodType { get; set; }
-    public int? TenPercent { get; set; }
-    public int? TwoPercent { get; set; }
-    public int? OnePercent { get; set; }
-    public int? PointOnePercent { get; set; }
+    public decimal? TenPercent { get; set; }
+    public decimal? TwoPercent { get; set; }
+    public decimal? OnePercent { get; set; }
+    public decimal? PointOnePercent { get; set; }
 }
