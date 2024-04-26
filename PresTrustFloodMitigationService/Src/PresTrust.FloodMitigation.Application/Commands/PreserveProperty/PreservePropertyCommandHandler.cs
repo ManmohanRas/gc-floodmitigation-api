@@ -132,7 +132,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
                     }
                     else
                     {
-                        requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOME_OWNERSURVEY);
+                        requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOMEOWNER_SURVEY);
                     }
                     break;
             }

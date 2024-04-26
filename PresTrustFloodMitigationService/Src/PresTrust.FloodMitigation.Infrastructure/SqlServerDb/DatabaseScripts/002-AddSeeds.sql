@@ -617,7 +617,7 @@ GO
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (5, 'SETTLEMENT_SHEET', 'Settlementsheet document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (6, 'HOME_OWNER_AFFIDAVIT', 'Homeowner Affidavit document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (6, 'HOMEOWNER_AFFIDAVIT', 'Homeowner Affidavit document', 2);
 GO
 
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (7, 'CONTRACTOR_AFFIDAVIT', 'Contractor Affidavit document', 2);
@@ -632,7 +632,7 @@ GO
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (10, 'TITLE_SEARCH_REPORT', 'Title Search Report document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (11, 'HOME_OWNERSURVEY', 'Homeowner Survey document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (11, 'HOMEOWNER_SURVEY', 'Homeowner Survey document', 2);
 GO
 
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (12, 'PRELIMINARY_ASSESSMENT_REPORT', 'Preliminary Assessment Report document', 2);
@@ -650,7 +650,7 @@ GO
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (16, 'RECORDED_DEED', 'Recorded Deed document', 2);
 GO
 
-INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (17, 'EXECUTED', 'Executed document', 2);
+INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (17, 'EXECUTED_HUD1', 'Executed document', 2);
 GO
 
 INSERT INTO [Flood].[FloodParcelDocumentType]([Id], [Title], [Description], [SectionId]) VALUES (18, 'TITLE_INSURANCE_POLICY', 'Title Insurance Policy document', 2);
