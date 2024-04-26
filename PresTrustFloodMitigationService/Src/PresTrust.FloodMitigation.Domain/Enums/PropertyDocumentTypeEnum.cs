@@ -31,7 +31,7 @@
         /// <summary>
         /// Documentype Type for homeownerAffidavit -OtherDocumentTab
         /// </summary>
-        HOME_OWNER_AFFIDAVIT = 6,
+        HOMEOWNER_AFFIDAVIT = 6,
         /// <summary>
         /// Documentype Type for contractorAffidavit -OtherDocumentTab
         /// </summary>
@@ -51,7 +51,7 @@
         /// <summary>
         /// Documentype Type for homeownerSurvey -OtherDocumentTab
         /// </summary>
-        HOME_OWNERSURVEY = 11,
+        HOMEOWNER_SURVEY = 11,
         /// <summary>
         /// Documentype Type for preliminaryAssessmentReport -OtherDocumentTab
         /// </summary>
@@ -75,7 +75,7 @@
         /// <summary>
         /// Documentype Type for executed -OtherDocumentTab
         /// </summary>
-        EXECUTED = 17,
+        EXECUTED_HUD1 = 17,
         /// <summary>
         /// Documentype Type for titleInsurancePolicy -OtherDocumentTab
         /// </summary>
