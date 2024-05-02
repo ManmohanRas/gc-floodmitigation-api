@@ -10,6 +10,7 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
     private readonly ISoftCostRepository repoSoftCost;
     private readonly IFinanceRepository repoApplicationFinance;
     private readonly IParcelFinanceRepository repoParcelFinance;
+    private readonly IApplicationParcelRepository repoProperty;
 
 
     public SubmitApproveParcelSoftCostStatusCommandHandler(
@@ -20,8 +21,9 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
         ISoftCostRepository repoSoftCost,
         IEmailManager repoEmailManager,
         IFinanceRepository repoApplicationFinance,
-        IParcelFinanceRepository repoParcelFinance
-        ) : base(repoApplication)
+        IParcelFinanceRepository repoParcelFinance,
+        IApplicationParcelRepository repoProperty
+        ) : base(repoApplication, repoProperty)
     {
         this.mapper = mapper;
         this.repoApplicationParcel = repoApplicationParcel;
@@ -31,11 +33,14 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
         this.repoSoftCost = repoSoftCost;
         this.repoApplicationFinance = repoApplicationFinance;
         this.repoParcelFinance = repoParcelFinance;
+        this.repoProperty = repoProperty;
     }
     public async Task<bool> Handle(SubmitApproveParcelSoftCostStatusCommand request, CancellationToken cancellationToken)
     {
         // check if Property exists
         var application = await GetIfApplicationExists(request.ApplicationId);
+        var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);
+
 
         var reqParcelStatus = mapper.Map<SubmitApproveParcelSoftCostStatusCommand, FloodApplicationParcelEntity>(request);
         string emailTemplateCode = String.Empty;
@@ -65,7 +70,7 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
                 emailTemplateCode = EmailTemplateCodeTypeEnum.APPROVE_SOFTCOST.ToString();
             }
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(emailTemplateCode, application);
+            await repoEmailManager.GetEmailTemplate(emailTemplateCode, application, property);
 
             scope.Complete();
         }
