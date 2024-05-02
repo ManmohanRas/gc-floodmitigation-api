@@ -43,10 +43,10 @@ public class ExportTargetListQueryHandler: IRequestHandler<ExportTargetListQuery
             csv += parcel.TargetArea.Replace(",", ";") + ",";
             csv += parcel.Block.Replace(",", ";") + ",";
             csv += parcel.Lot.Replace(",", ";") + ",";
-            csv += !string.IsNullOrEmpty(parcel.QCode) ? parcel.QCode.ToString().Replace(",", ";") : string.Empty + ",";
-            csv += !string.IsNullOrEmpty(parcel.StreetNo) ? parcel.StreetNo.ToString().Replace(",", ";") : string.Empty + ",";
-            csv += !string.IsNullOrEmpty(parcel.StreetAddress) ? parcel.StreetAddress.Replace(",", ";") : string.Empty + ",";
-            csv += !string.IsNullOrEmpty(parcel.LandOwner) ?  parcel.LandOwner.Replace(",", ";") : string.Empty  + ",";
+            csv += !string.IsNullOrEmpty(parcel.QCode) ? parcel.QCode.ToString().Replace(",", ";") : string.Empty  + ",";
+            csv += parcel.StreetNo.ToString().Replace(",", ";") + ",";
+            csv += parcel.StreetAddress.Replace(",", ";") + ",";
+            csv += parcel.LandOwner.Replace(",", ";")  + ",";
             csv += parcel.AgencyName.Replace(",", ";") + ",";
 
             csv += "\r\n";
