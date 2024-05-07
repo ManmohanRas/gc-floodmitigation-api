@@ -52,8 +52,8 @@ BEGIN TRY
 				IsActive
 			)
 			SELECT
-				ISNULL(ProjectArea, 'No Title'),
-				ISNULL(MunicipalID, 0),
+				ProjectArea,
+				MunicipalID,
 				CASE
 					WHEN ProgramType = 'Core' THEN 1
 					WHEN ProgramType = 'Match' THEN 2
@@ -78,13 +78,21 @@ BEGIN TRY
 				GetDate() AS LastUpdatedOn,
 				1 AS IsActive
 			FROM [FloodMitigation].[floodmp].[tblProjectArea]
-			WHERE ProjectAreaID IN (SELECT LegacyApplicationId FROM [#LegacyApplicationIds] WHERE Id = @v_LEGACY_RECORD_INDEX);
+			WHERE MunicipalID IS NOT NULL AND ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
 			SET @v_NEW_APPLICATION_ID = @@IDENTITY;
 
 			UPDATE	[Flood].[FloodApplicationLegacy]
 			SET FloodApplicationId = @v_NEW_APPLICATION_ID
 			WHERE	LegacyApplicationId = @v_LEGACY_APPLICATION_ID;
+
+			--===============================================  Application Tabs - Start  ===============================================--
+			-- Manmohan
+			--===============================================  Application Tabs - End  ===============================================--
+
+			--===============================================  Admin Tabs - Start  ===============================================--
+			-- Narayana
+			--===============================================  Admin Tabs - End  ===============================================--
 
 			INSERT INTO [Flood].[FloodApplicationParcel]
 			(
@@ -121,7 +129,7 @@ BEGIN TRY
 					ELSE 0
 				END AS IsApproved
 			FROM [FloodMitigation].[floodmp].[tblFloodParcel]
-			WHERE ProjectAreaID IN (SELECT LegacyApplicationId FROM [#LegacyApplicationIds] WHERE Id = @v_LEGACY_RECORD_INDEX);
+			WHERE ProjectAreaID IS NOT NULL AND ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
 
 			SET @v_LEGACY_RECORD_INDEX = @v_LEGACY_RECORD_INDEX + 1;
