@@ -98,11 +98,11 @@ public class EmailManager : IEmailManager
 
         if (template != null)
         {
-            await SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, agencyId: application.AgencyId, emailDate: emailDate, placeHolders: placeHolders);
+            await SendMail(subject: template.Subject, applicationId: application.Id, applicationName: application.Title, htmlBody: template.Description, agencyId: application.AgencyId, emailDate: emailDate, placeHolders: placeHolders, emailTemplateCode: emailTemplateCode);
         }
     }
 
-    public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, int agencyId = default, DateTime? emailDate = default, FloodEmailTemplatePlaceholdersEntity placeHolders = default)
+    public async Task SendMail(string subject, string htmlBody, int applicationId, string applicationName, int agencyId = default, DateTime? emailDate = default, FloodEmailTemplatePlaceholdersEntity placeHolders = default, string emailTemplateCode = default)
     {
         List<string> primaryContactNames = new List<string>();
         List<string> primaryContactEmails = new List<string>();
@@ -178,6 +178,12 @@ public class EmailManager : IEmailManager
         }
 
         var cc = string.Join(",", alternateContactEmails);
+
+        if (emailTemplateCode == EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_IN_REVIEW_TO_ACTIVE.ToString())
+        {
+            toEmails = systemParamOptions.ProgramAdminEmail;
+            cc = null;
+        }
 
         var senderName = systemParamOptions.IsDevelopment == false ? userContext.Name : systemParamOptions.TestEmailFromUserName;
         var senderEmail = systemParamOptions.IsDevelopment == false ? userContext.Email : "mcgis@co.morris.nj.us";
@@ -259,7 +265,7 @@ public class ReminderEmailManager : IReminderEmailManager
         if (primaryContacts.Count() > 0)
         {
             primaryContactEmails = primaryContacts.Where(o => o.IsPrimaryContact).Select(i => i.Email).ToList();
-            primaryContactNames = primaryContacts.Select(o => string.Format("{0} {1}", o.UserName)).ToList();
+            primaryContactNames = primaryContacts.Select(o => string.Format("{0}", o.UserName)).ToList();
             alternateContactEmails = primaryContacts.Where(o => o.IsAlternateContact).Select(i => i.Email).ToList();
         }
 
@@ -276,8 +282,15 @@ public class ReminderEmailManager : IReminderEmailManager
         subject = subject.Replace("{{ApplicationName}}", applicationName ?? "");
         subject = subject.Replace("{{PropertyName}}", propertyName ?? "");
 
-        toEmails = systemParamOptions.IsDevelopment == false ? string.Join(",", primaryContactEmails) : systemParamOptions.TestEmailIds;
-        toEmails = toEmails.Count() > 0 ? toEmails : systemParamOptions.ProgramAdminEmail;
+
+        if (primaryContactEmails.Count() > 0)
+        {
+            toEmails = systemParamOptions.IsDevelopment == false ? string.Join(",", primaryContactEmails) : systemParamOptions.TestEmailIds;
+        }
+        else
+        {
+            toEmails = systemParamOptions.ProgramAdminEmail;
+        }
 
         var cc = string.Join(",", alternateContactEmails);
         
