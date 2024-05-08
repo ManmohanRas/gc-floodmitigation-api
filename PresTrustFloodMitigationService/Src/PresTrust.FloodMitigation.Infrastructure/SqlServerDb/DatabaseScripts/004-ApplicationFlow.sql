@@ -255,7 +255,7 @@ BEGIN TRY
 				FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
 				left join [FloodMitigation].[floodmp].[tblProjectArea] AS PA 
 				ON FP.ProjectAreaID = PA.ProjectAreaID
-				WHERE	LegacyApplicationId = @v_LEGACY_APPLICATION_ID;
+				WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
 				--Contacts 
 			Insert into [Flood].[FloodContacts]
@@ -284,7 +284,7 @@ BEGIN TRY
 				from [FloodMitigation].[floodmp].[tblMunicipality] AS M
 				LEFT JOIN [FloodMitigation].[floodmp].[tblProjectArea] AS PA ON
 				M.MunicipalID = PA.MunicipalID
-				WHERE	LegacyApplicationId = @v_LEGACY_APPLICATION_ID;
+				WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
 				--Application Payment (release of funds)
 			Insert into [Flood].[FloodApplicationPayment]
@@ -303,7 +303,7 @@ BEGIN TRY
 				'flood-admin' AS LastUpdatedBy,
 				GetDate() AS LastUpdatedOn
 				from [FloodMitigation].[floodmp].[tblProjectArea]
-				WHERE	LegacyApplicationId = @v_LEGACY_APPLICATION_ID;
+				WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
 
 			--===============================================  Admin Tabs - End  ===============================================--
