@@ -92,6 +92,99 @@ BEGIN TRY
 
 			--===============================================  Admin Tabs - Start  ===============================================--
 			-- Narayana
+
+			--Admin Details
+			Insert into [Flood].[FloodApplicationAdminDetails]
+			(
+				ApplicationId,
+				MunicipalResolutionDate,
+				MunicipalResolutionNumber,
+				FMCPreliminaryApprovalDate,
+				FMCPreliminaryNumber,
+				BCCPreliminaryApprovalDate,
+				BCCPreliminaryNumber,
+				ProjectDescription,
+				FundingExpirationDate,
+				FirstFundingExpirationDate,
+				SecondFundingExpirationDate,
+				CommissionerMeetingDate,
+				FirstCommitteeMeetingDate,
+				SecondCommitteeMeetingDate,
+				LastUpdatedBy,
+				LastUpdatedOn
+			)
+			SELECT
+				PA.ProjectAreaID,
+				FP.MuniResoSupportDate,
+				FP.MuniResoSupport#,
+				FP.FMCPrelimDate,
+				FP.FMCPrelim#,
+				FP.BCFPrelimDate,
+				FP.BCFPrelim#,
+				PA.ProjectDescription,
+				PA.FundingExpirationDate,
+				PA.FundingExtension_6Mo,
+				PA.FundingExtension_12Mo,
+				NULL As CommissionerMeetingDate,
+				NULL As FirstCommitteeMeetingDate,
+				NULL As SecondCommitteeMeetingDate,
+				1 AS CreatedByProgramAdmin,
+				'flood-admin' AS LastUpdatedBy,
+				GetDate() AS LastUpdatedOn
+				FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
+				left join [FloodMitigation].[floodmp].[tblProjectArea] AS PA 
+				ON FP.ProjectAreaID = PA.ProjectAreaID
+				WHERE	LegacyApplicationId = @v_LEGACY_APPLICATION_ID;
+
+				--Contacts 
+			Insert into [Flood].[FloodContacts]
+			(
+				ApplicationId,
+				ContactName,
+				Agency,
+				Email,
+				MainNumber,
+				AlternateNumber,
+				SelectContact,
+				LastUpdatedBy,
+				LastUpdatedOn
+			)
+			select 
+				PA.ProjectAreaID,
+				M.ContactPerson,
+				NULL AS Agency,
+				M.Email,
+				M.CellPhone,
+				M.AltCellPhone,
+				NULL AS SelectContact,
+				1 AS CreatedByProgramAdmin,
+				'flood-admin' AS LastUpdatedBy,
+				GetDate() AS LastUpdatedOn
+				from [FloodMitigation].[floodmp].[tblMunicipality] AS M
+				LEFT JOIN [FloodMitigation].[floodmp].[tblProjectArea] AS PA ON
+				M.MunicipalID = PA.MunicipalID
+				WHERE	LegacyApplicationId = @v_LEGACY_APPLICATION_ID;
+
+				--Application Payment (release of funds)
+			Insert into [Flood].[FloodApplicationPayment]
+			(
+				ApplicationId,
+				CAFNumber,
+				CAFClosedYN,
+				LastUpdatedBy,
+				LastUpdatedOn
+			)
+				select
+				ProjectAreaID,
+				CAFNumber,
+				CAFClosedYN,
+				1 AS CreatedByProgramAdmin,
+				'flood-admin' AS LastUpdatedBy,
+				GetDate() AS LastUpdatedOn
+				from [FloodMitigation].[floodmp].[tblProjectArea]
+				WHERE	LegacyApplicationId = @v_LEGACY_APPLICATION_ID;
+
+
 			--===============================================  Admin Tabs - End  ===============================================--
 
 			INSERT INTO [Flood].[FloodApplicationParcel]
