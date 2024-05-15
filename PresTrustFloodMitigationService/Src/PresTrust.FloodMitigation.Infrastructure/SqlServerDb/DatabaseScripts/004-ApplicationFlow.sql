@@ -1,0 +1,145 @@
+use prestrusttemp
+BEGIN TRY
+	BEGIN TRANSACTION
+	--==============================================================================================================--
+
+		DECLARE
+			@v_LEGACY_RECORD_COUNT INT,
+			@v_LEGACY_RECORD_INDEX INT;
+
+		DROP TABLE IF EXISTS [#LegacyApplicationIds];
+
+		CREATE TABLE [#LegacyApplicationIds] (
+			Id INT IDENTITY(1,1),
+			LegacyApplicationId INT
+		);
+
+		INSERT INTO [#LegacyApplicationIds]
+		(
+			LegacyApplicationId
+		)
+		SELECT
+			LegacyApplicationId
+		FROM [Flood].[FloodApplicationLegacy]
+		WHERE ISNULL(FloodApplicationId,0) = 0;
+
+		SET	@v_LEGACY_RECORD_COUNT = @@ROWCOUNT;
+		SET	@v_LEGACY_RECORD_INDEX = 1;
+
+		WHILE (@v_LEGACY_RECORD_INDEX <= @v_LEGACY_RECORD_COUNT)
+		BEGIN
+
+			DECLARE
+				@v_LEGACY_APPLICATION_ID INT,
+				@v_NEW_APPLICATION_ID INT;
+
+			SELECT
+				@v_LEGACY_APPLICATION_ID = LegacyApplicationId 
+			FROM		[#LegacyApplicationIds]
+			WHERE		ID = @v_LEGACY_RECORD_INDEX;
+
+			INSERT INTO [Flood].[FloodApplication]
+			(
+				Title,
+				AgencyId,
+				ApplicationTypeId,
+				ApplicationSubTypeId,
+				StatusId,
+				ExpirationDate,
+				CreatedByProgramAdmin,
+				LastUpdatedBy,
+				LastUpdatedOn,
+				IsActive
+			)
+			SELECT
+				ISNULL(ProjectArea, 'No Title'),
+				ISNULL(MunicipalID, 0),
+				CASE
+					WHEN ProgramType = 'Core' THEN 1
+					WHEN ProgramType = 'Match' THEN 2
+				END AS ProgramType,
+				CASE
+					WHEN SubProgramType = 'Disaster' THEN 1
+					WHEN SubProgramType = 'Fast Track' THEN 2
+					WHEN SubProgramType = 'Ongoing Flooding' THEN 4
+					ELSE 3
+				END AS SubProgramType,
+				CASE
+					WHEN ProjectAreaStatus = 'Preliminary' THEN 3
+					WHEN ProjectAreaStatus = 'Active' THEN 6
+					WHEN ProjectAreaStatus = 'Closed' THEN 7
+					WHEN ProjectAreaStatus = 'Rejected' THEN 8
+					WHEN ProjectAreaStatus = 'Withdrawn' THEN 9
+					ELSE 1
+				END AS ProjectAreaStatus,
+				FundingExpirationDate,
+				1 AS CreatedByProgramAdmin,
+				'flood-admin' AS LastUpdatedBy,
+				GetDate() AS LastUpdatedOn,
+				1 AS IsActive
+			FROM [FloodMitigation].[floodmp].[tblProjectArea]
+			WHERE ProjectAreaID IN (SELECT LegacyApplicationId FROM [#LegacyApplicationIds] WHERE Id = @v_LEGACY_RECORD_INDEX);
+
+			SET @v_NEW_APPLICATION_ID = @@IDENTITY;
+
+			UPDATE	[Flood].[FloodApplicationLegacy]
+			SET FloodApplicationId = @v_NEW_APPLICATION_ID
+			WHERE	LegacyApplicationId = @v_LEGACY_APPLICATION_ID;
+
+			INSERT INTO [Flood].[FloodApplicationParcel]
+			(
+				ApplicationId,
+				PamsPin,
+				StatusId,
+				IsLocked,
+				IsSubmitted,
+				IsApproved
+			)
+			SELECT
+				@v_NEW_APPLICATION_ID,
+				ISNULL(PAMS_PIN, 'No PAMS_PIN'),
+				CASE
+					WHEN ParcelStatus = 'In Review' THEN 2
+					WHEN ParcelStatus = 'Pending' THEN 3
+					WHEN ParcelStatus = 'Preserved' THEN 5
+					WHEN ParcelStatus = 'Rejected' THEN 7
+					WHEN ParcelStatus = 'Withdrew' THEN 8
+					ELSE 0
+				END AS ParcelStatus,
+				CASE
+					WHEN ParcelStatus = 'Preserved' THEN 1
+					WHEN ParcelStatus = 'Rejected' THEN 1
+					WHEN ParcelStatus = 'Withdrew' THEN 1
+					ELSE 0
+				END AS IsLocked,
+				CASE
+					WHEN ParcelStatus = 'Preserved' THEN 1
+					ELSE 0
+				END AS IsSubmitted,
+				CASE
+					WHEN ParcelStatus = 'Preserved' THEN 1
+					ELSE 0
+				END AS IsApproved
+			FROM [FloodMitigation].[floodmp].[tblFloodParcel]
+			WHERE ProjectAreaID IN (SELECT LegacyApplicationId FROM [#LegacyApplicationIds] WHERE Id = @v_LEGACY_RECORD_INDEX);
+
+
+			SET @v_LEGACY_RECORD_INDEX = @v_LEGACY_RECORD_INDEX + 1;
+
+		END;
+
+		DROP TABLE IF EXISTS [#LegacyApplicationIds];
+
+	--==============================================================================================================--
+	--SELECT 1/0;
+	COMMIT;
+	print 'SUCCESS';
+END TRY
+BEGIN CATCH
+    DECLARE @ErrorMessage NVARCHAR(4000); 
+
+	SET   @ErrorMessage = ERROR_MESSAGE();
+	ROLLBACK;
+
+	SELECT @ErrorMessage;	
+END CATCH

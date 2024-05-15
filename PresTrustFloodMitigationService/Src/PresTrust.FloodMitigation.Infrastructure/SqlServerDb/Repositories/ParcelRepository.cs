@@ -184,7 +184,7 @@ public class ParcelRepository : IParcelRepository
                             })).ToList();
         return results;
     }
-    public async Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchBlockText, string searchLotText, string searchAddressText)
+    public async Task<FloodProgramManagerParcelsEntity> GetProgramManagerParcelsAsync(int pageNumber, int pageRows, string searchBlockText, string searchLotText, string searchAddressText, int selectedAgency)
     {
         FloodProgramManagerParcelsEntity result = new();
 
@@ -199,7 +199,8 @@ public class ParcelRepository : IParcelRepository
                         @p_PageRows = pageRows,
                         @p_Block = string.Format("%{0}%", searchBlockText ?? string.Empty),
                         @p_Lot = string.Format("%{0}%", searchLotText ?? string.Empty),
-                        @p_Address = string.Format("%{0}%", searchAddressText ?? string.Empty)
+                        @p_Address = string.Format("%{0}%", searchAddressText ?? string.Empty),
+                        @p_AgencyId = selectedAgency
                     })).ToList();
         
         foreach(var item in results)

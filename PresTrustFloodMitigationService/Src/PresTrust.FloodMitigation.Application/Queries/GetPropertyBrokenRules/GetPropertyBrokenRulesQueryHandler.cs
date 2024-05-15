@@ -133,7 +133,7 @@ public class GetPropertyBrokenRulesQueryHandler : BaseHandler, IRequestHandler<G
                         }
                         if (adminDetails.DoesHomeOwnerHaveNFIPInsurance == true)
                         {
-                            requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOME_OWNER_AFFIDAVIT);
+                            requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOMEOWNER_AFFIDAVIT);
                         }
                         break;
                 }
@@ -165,7 +165,7 @@ public class GetPropertyBrokenRulesQueryHandler : BaseHandler, IRequestHandler<G
                         }
                         else
                         {
-                            requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOME_OWNERSURVEY);
+                            requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOMEOWNER_SURVEY);
                         }
                         break;
                 }
@@ -184,7 +184,7 @@ public class GetPropertyBrokenRulesQueryHandler : BaseHandler, IRequestHandler<G
                     case (int)PropertyStatusEnum.PRESERVED:
                         requiredDocumentTypes = new List<int>() {
                                 (int)PropertyDocumentTypeEnum.RECORDED_DEED,
-                                (int)PropertyDocumentTypeEnum.EXECUTED,
+                                (int)PropertyDocumentTypeEnum.EXECUTED_HUD1,
                                 (int)PropertyDocumentTypeEnum.TITLE_INSURANCE_POLICY
                         };
                         break;

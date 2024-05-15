@@ -55,7 +55,7 @@ global using PresTrust.FloodMitigation.Application.BackgroundJobs;
 global using PresTrust.FloodMitigation.Domain.Configurations;
 global using PresTrust.FloodMitigation.Domain.Constants;
 global using static PresTrust.FloodMitigation.Domain.Constants.FloodMitigationDomainConstants;
-
+global using PresTrust.FloodMitigation.Domain.Entities;
 //---------------------------------------------- PresTrust.FloodMitigation.Infrastructure Namespaces ----------------------------------------------//
 //=================================================================================================================================================//
 global using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;

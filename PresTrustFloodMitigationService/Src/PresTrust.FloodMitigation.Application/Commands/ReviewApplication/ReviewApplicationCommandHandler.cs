@@ -114,7 +114,7 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
 
             // returns broken rules  
             var defaultBrokenRules = ReturnBrokenRulesIfAny(application);
-            var defaultPropertyBrokenRules = ReturnPropertyBrokenRulesIfAny(application.Id, appParcels.Select(o => o.PamsPin).ToList());
+            var defaultPropertyBrokenRules = ReturnPropertyBrokenRulesIfAny(application.Id,application.ApplicationSubType, appParcels.Select(o => o.PamsPin).ToList());
             // save broken rules
             await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
             await repoPropBrokenRules.SavePropertyBrokenRules(defaultPropertyBrokenRules);
@@ -140,13 +140,16 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
         List<FloodBrokenRuleEntity> brokenRules = new List<FloodBrokenRuleEntity>();
 
         // add default broken rule while initiating application flow
-        brokenRules.Add(new FloodBrokenRuleEntity()
+        if(application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
-            ApplicationId = application.Id,
-            SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
-            Message = "All required fields on ADMIN DETAILS tab have not been filled.",
-            IsApplicantFlow = false
-        });
+            brokenRules.Add(new FloodBrokenRuleEntity()
+            {
+                ApplicationId = application.Id,
+                SectionId = (int)ApplicationSectionEnum.ADMIN_DETAILS,
+                Message = "All required fields on ADMIN DETAILS tab have not been filled.",
+                IsApplicantFlow = false
+            });
+        }
 
         if (application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
@@ -167,20 +170,22 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
     /// <param name="request"></param>
     /// <param name="application"></param>
     /// <returns></returns>
-    private List<FloodPropertyBrokenRuleEntity> ReturnPropertyBrokenRulesIfAny(int applicationId, List<string> pamsPins)
+    private List<FloodPropertyBrokenRuleEntity> ReturnPropertyBrokenRulesIfAny(int applicationId,ApplicationSubTypeEnum applicationSubType, List<string> pamsPins)
     {
         List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
-
-        foreach (var pamsPin in pamsPins)
+        if (applicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
-            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            foreach (var pamsPin in pamsPins)
             {
-                ApplicationId = applicationId,
-                SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
-                PamsPin = pamsPin,
-                Message = "All required fields on Property Admin Details tab have not been filled.",
-                IsPropertyFlow = false
-            });
+                brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+                {
+                    ApplicationId = applicationId,
+                    SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
+                    PamsPin = pamsPin,
+                    Message = "All required fields on Property Admin Details tab have not been filled.",
+                    IsPropertyFlow = false
+                });
+            }
         }
 
         return brokenRules;

@@ -24,7 +24,7 @@ public class ExportTargetListQueryHandler: IRequestHandler<ExportTargetListQuery
     {
         string csv = string.Empty;
         //string[] columnNames = { "PamsPin", "AgencyId", "Block", "Lot", "QualificationCode", "StreetNo", "StreetAddress", "OwnersName", "TargetArea" };
-        string[] columnNames = { "Target Area", "Block", "Lot", "House #", "Street", "Homeowner", "Municipality" };
+        string[] columnNames = { "Target Area", "Block", "Lot", "QCode", "House #", "Street", "Homeowner", "Municipality" };
         var parcels = await repoParcels.GetParcelsInTargetAreaByAgencyIdAsync(request.AgencyId);
 
         foreach (var item in parcels)
@@ -43,9 +43,10 @@ public class ExportTargetListQueryHandler: IRequestHandler<ExportTargetListQuery
             csv += parcel.TargetArea.Replace(",", ";") + ",";
             csv += parcel.Block.Replace(",", ";") + ",";
             csv += parcel.Lot.Replace(",", ";") + ",";
-            csv += !string.IsNullOrEmpty(parcel.StreetNo) ? parcel.StreetNo.ToString().Replace(",", ";") : string.Empty + ",";
-            csv += !string.IsNullOrEmpty(parcel.StreetAddress) ? parcel.StreetAddress.Replace(",", ";") : string.Empty + ",";
-            csv += !string.IsNullOrEmpty(parcel.LandOwner) ?  parcel.LandOwner.Replace(",", ";") : string.Empty  + ",";
+            csv += !string.IsNullOrEmpty(parcel.QCode) ? parcel.QCode.ToString().Replace(",", ";") : string.Empty  + ",";
+            csv += parcel.StreetNo.ToString().Replace(",", ";") + ",";
+            csv += parcel.StreetAddress.Replace(",", ";") + ",";
+            csv += parcel.LandOwner.Replace(",", ";")  + ",";
             csv += parcel.AgencyName.Replace(",", ";") + ",";
 
             csv += "\r\n";

@@ -165,7 +165,7 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
         {
             var requiredDocumentTypes = new List<int>() {
                 (int)PropertyDocumentTypeEnum.RECORDED_DEED,
-                (int)PropertyDocumentTypeEnum.EXECUTED,
+                (int)PropertyDocumentTypeEnum.EXECUTED_HUD1,
                 (int)PropertyDocumentTypeEnum.TITLE_INSURANCE_POLICY
             };
             var documents = await repoPropertyDocuments.GetPropertyDocumentsAsync(applicationId, pamsPin, (int)PropertySectionEnum.OTHER_DOCUMENTS);

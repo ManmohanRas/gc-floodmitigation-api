@@ -134,7 +134,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
                     }
                     if (adminDetails.DoesHomeOwnerHaveNFIPInsurance == true)
                     {
-                        requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOME_OWNER_AFFIDAVIT);
+                        requiredDocumentTypes.Add((int)PropertyDocumentTypeEnum.HOMEOWNER_AFFIDAVIT);
                     }
                     break;
             }

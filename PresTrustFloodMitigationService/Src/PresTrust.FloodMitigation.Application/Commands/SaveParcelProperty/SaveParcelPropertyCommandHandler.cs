@@ -91,7 +91,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "value estimate required field on property tab have not been Filled.",
+                Message = "value estimate required field on property tab has not been Filled.",
                 IsPropertyFlow = true
             });
 
@@ -101,7 +101,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "Source of value estimate required field on property tab have not been Filled.",
+                Message = "Source of value estimate required field on property tab has not been Filled.",
                 IsPropertyFlow = true
             });
 
@@ -111,7 +111,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "block required field on property tab have not been Filled.",
+                Message = "block required field on property tab has not been Filled.",
                 IsPropertyFlow = false
             });
         if (string.IsNullOrEmpty(reqFloodParcel.Lot))
@@ -120,7 +120,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "Lot required field on property tab have not been Filled.",
+                Message = "Lot required field on property tab has not been Filled.",
                 IsPropertyFlow = false
             });
         if (string.IsNullOrEmpty(reqFloodParcel.StreetNo))
@@ -129,7 +129,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "Street# required field on property tab have not been Filled.",
+                Message = "Street# required field on property tab has not been Filled.",
                 IsPropertyFlow = false
             });
         if (string.IsNullOrEmpty(reqFloodParcel.StreetAddress))
@@ -138,7 +138,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "Street Address required field on property tab have not been Filled.",
+                Message = "Street Address required field on property tab has not been Filled.",
                 IsPropertyFlow = false
             });
         if (string.IsNullOrEmpty(reqFloodParcel.LandOwner))
@@ -147,7 +147,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "LandOwner Name required field on property tab have not been Filled.",
+                Message = "LandOwner Name required field on property tab has not been Filled.",
                 IsPropertyFlow = true
             });
         if (string.IsNullOrEmpty(reqFloodParcel.OwnersAddress1))
@@ -156,7 +156,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "mailing Address 1 required field on property tab have not been Filled.",
+                Message = "mailing Address 1 required field on property tab has not been Filled.",
                 IsPropertyFlow = true
             });
         if (string.IsNullOrEmpty(reqFloodParcel.OwnersCity))
@@ -165,7 +165,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "City required field on property tab have not been Filled.",
+                Message = "City required field on property tab has not been Filled.",
                 IsPropertyFlow = true
             });
         if (string.IsNullOrEmpty(reqFloodParcel.OwnersZipcode))
@@ -174,7 +174,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "ZipCode required field on property tab have not been Filled.",
+                Message = "ZipCode required field on property tab has not been Filled.",
                 IsPropertyFlow = true
             });
         if (string.IsNullOrEmpty(reqFloodParcel.OwnersState))
@@ -183,7 +183,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                 ApplicationId = applcation.Id,
                 PamsPin = property.PamsPin,
                 SectionId = sectionId,
-                Message = "State required field on property tab have not been Filled.",
+                Message = "State required field on property tab has not been Filled.",
                 IsPropertyFlow = true
             });
 
@@ -195,7 +195,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Estimate Purchase Price required field on property tab have not been Filled.",
+                    Message = "Estimate Purchase Price required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (reqFloodParcel.TotalAssessedValue == 0)
@@ -204,7 +204,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Total Assessed value required field on property tab have not been Filled.",
+                    Message = "Total Assessed value required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (reqFloodParcel.LandValue == 0)
@@ -213,7 +213,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Land value required field on property tab have not been Filled.",
+                    Message = "Land value required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (reqFloodParcel.ImprovementValue == 0)
@@ -222,7 +222,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Improvement value required field on property tab have not been Filled.",
+                    Message = "Improvement value required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (string.IsNullOrEmpty(reqParcelProperty.NfipPolicyNo))
@@ -231,7 +231,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Nfip Policy Number required field on property tab have not been Filled.",
+                    Message = "Nfip Policy Number required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
 
@@ -241,7 +241,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Square Footage value required field on property tab have not been Filled.",
+                    Message = "Square Footage value required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (reqFloodParcel.YearOfConstruction == 0)
@@ -250,7 +250,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Year Constructed value required field on property tab have not been Filled.",
+                    Message = "Year Constructed value required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (reqParcelProperty?.StructureType == 0)
@@ -259,7 +259,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "StructureType required field on property tab have not been Filled.",
+                    Message = "StructureType required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (reqParcelProperty?.FoundationType == 0)
@@ -268,7 +268,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "FoundationType required field on property tab have not been Filled.",
+                    Message = "FoundationType required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (reqParcelProperty?.OccupancyClass == 0)
@@ -277,7 +277,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Occupancy Class required field on property tab have not been Filled.",
+                    Message = "Occupancy Class required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (reqFloodParcel?.AnnualTaxes == 0)
@@ -286,7 +286,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                     ApplicationId = applcation.Id,
                     PamsPin = property.PamsPin,
                     SectionId = sectionId,
-                    Message = "Annual Taxes required field on property tab have not been Filled.",
+                    Message = "Annual Taxes required field on property tab has not been Filled.",
                     IsPropertyFlow = true
                 });
             if (reqParcelProperty?.IsRentalProperty == true)
@@ -298,7 +298,7 @@ public class SaveParcelPropertyCommandHandler : BaseHandler, IRequestHandler<Sav
                         ApplicationId = applcation.Id,
                         PamsPin = property.PamsPin,
                         SectionId = sectionId,
-                        Message = "Rent Per Month required field on property tab have not been Filled.",
+                        Message = "Rent Per Month required field on property tab has not been Filled.",
                         IsPropertyFlow = true
                     });
                 }

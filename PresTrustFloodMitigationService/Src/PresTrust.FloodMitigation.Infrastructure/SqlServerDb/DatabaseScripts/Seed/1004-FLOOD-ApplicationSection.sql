@@ -18,10 +18,10 @@ GO
 INSERT INTO [Flood].[FloodApplicationSection] ([Id], [Title], [Description]) VALUES (5, 'FINANCE', 'Finance');
 GO
 
-INSERT INTO [Flood].[FloodApplicationSection] ([Id], [Title], [Description]) VALUES (6, 'SIGNATORY', 'Signatory');
+INSERT INTO [Flood].[FloodApplicationSection] ([Id], [Title], [Description]) VALUES (6, 'OTHER_DOCUMENTS', 'Other Documents');
 GO
 
-INSERT INTO [Flood].[FloodApplicationSection] ([Id], [Title], [Description]) VALUES (7, 'OTHER_DOCUMENTS', 'Other Documents');
+INSERT INTO [Flood].[FloodApplicationSection] ([Id], [Title], [Description]) VALUES (7, 'SIGNATORY', 'Signatory');
 GO
 
 INSERT INTO [Flood].[FloodApplicationSection] ([Id], [Title], [Description]) VALUES (8, 'ADMIN_DOCUMENT_CHECKLIST', 'Admin Document Checklist');

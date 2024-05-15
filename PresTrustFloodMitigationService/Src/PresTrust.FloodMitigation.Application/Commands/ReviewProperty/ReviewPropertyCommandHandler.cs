@@ -1,4 +1,5 @@
 ﻿using PresTrust.FloodMitigation.Infrastructure.SqlServerDb;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PresTrust.FloodMitigation.Application.Commands;
 public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewPropertyCommand, ReviewPropertyCommandViewModel>
@@ -90,14 +91,17 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
         List<FloodPropertyBrokenRuleEntity> brokenRules = new List<FloodPropertyBrokenRuleEntity>();
 
         // add default broken rule while initiating application flow
-        brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+        if (Application.ApplicationSubType != ApplicationSubTypeEnum.FASTTRACK)
         {
-            ApplicationId = Application.Id,
-            SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
-            PamsPin = Property.PamsPin,
-            Message = "All required fields on Property Admin Details tab have not been filled.",
-            IsPropertyFlow = false
-        });
+            brokenRules.Add(new FloodPropertyBrokenRuleEntity()
+            {
+                ApplicationId = Application.Id,
+                SectionId = (int)PropertySectionEnum.ADMIN_DETAILS,
+                PamsPin = Property.PamsPin,
+                Message = "All required fields on Property Admin Details tab have not been filled.",
+                IsPropertyFlow = false
+            });
+        }
         return brokenRules;
     }
 }
