@@ -86,10 +86,8 @@ BEGIN TRY
 			SET FloodApplicationId = @v_NEW_APPLICATION_ID
 			WHERE	LegacyApplicationId = @v_LEGACY_APPLICATION_ID;
 
-			--===============================================  Application Tabs - Start  ===============================================--
-			-- Manmohan
 			INSERT INTO [Flood].[FloodApplicationOverview]
-				(
+			(
 				[ApplicationId],
 				[NoOfHomes],
 				[NoOfContiguousHomes],
@@ -115,9 +113,9 @@ BEGIN TRY
 				[FundingAgenciesApplied],
 				[LastUpdatedBy],
 				[LastUpdatedOn]
-				)
-				SELECT
-				PA.[ProjectAreaID],
+			)
+			SELECT TOP 1
+				@v_NEW_APPLICATION_ID,
 				PA.[FactorHomes],
 				PA.[FactorContiguousHomes],
 				NULL AS NatlDisaster,
@@ -144,78 +142,69 @@ BEGIN TRY
 				NULL AS FundingAgenciesApplied,
 				'flood-admin'  AS LastUpdatedBy,
 				GETDATE() AS LastUpdatedOn
-				FROM [floodmp].tblFloodParcel AS FP 
-				LEFT JOIN 
-				[floodmp].tblProjectArea AS PA ON (FP.ProjectAreaID = PA.ProjectAreaID)
-				WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
---============================================================================
-				INSERT INTO [Flood].[FloodApplicationFinance]
-				(
+			FROM [FloodMitigation].[floodmp].tblFloodParcel AS FP 
+			LEFT JOIN [FloodMitigation].[floodmp].tblProjectArea AS PA ON (FP.ProjectAreaID = PA.ProjectAreaID)
+			WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
+
+			INSERT INTO [Flood].[FloodApplicationFinance]
+			(
 				[ApplicationId],
 				[MatchPercent],
 				[LastUpdatedBy],
 				[LastUpdatedOn]
-				)
-				SELECT TOP 1
-				PA.[ProjectAreaID],
+			)
+			SELECT TOP 1
+				@v_NEW_APPLICATION_ID,
 				FP.[ProgramMatchPercent],
 				'flood-admin'  AS LastUpdatedBy,
 				GETDATE() AS LastUpdatedOn
-				FROM [FloodMitigation].[floodmp].tblFloodParcel AS FP 
-				LEFT JOIN 
-				[FloodMitigation].[floodmp].tblProjectArea AS PA ON (FP.ProjectAreaID = PA.ProjectAreaID)
-				WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
---=====================================================================================
+			FROM [FloodMitigation].[floodmp].tblFloodParcel AS FP 
+			LEFT JOIN [FloodMitigation].[floodmp].tblProjectArea AS PA ON (FP.ProjectAreaID = PA.ProjectAreaID)
+			WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
+
 			INSERT INTO [Flood].[FloodApplicationFinanceFund]
 			(
-			[ApplicationId],
-			[FundingSourceTypeId],
-			[Title],
-			[Amount],
-			[AwardDate],
-			[LastUpdatedBy],
-			[LastUpdatedOn]
+				[ApplicationId],
+				[FundingSourceTypeId],
+				[Title],
+				[Amount],
+				[AwardDate],
+				[LastUpdatedBy],
+				[LastUpdatedOn]
 			)
-			SELECT
-			PA.[ProjectAreaID],
-			NULL AS FundingSourceTypeId,
-			NULL AS Title,
-			PA.[FEMAAwardDate],
-			PA.[FEMAAwardAmt],
-			'flood-admin'  AS LastUpdatedBy,
-			GETDATE() AS LastUpdatedOn
-			FROM 
-			[FloodMitigation].[floodmp].tblProjectArea AS PA 
+			SELECT TOP 1
+				@v_NEW_APPLICATION_ID,
+				NULL AS FundingSourceTypeId,
+				NULL AS Title,
+				PA.[FEMAAwardDate],
+				PA.[FEMAAwardAmt],
+				'flood-admin'  AS LastUpdatedBy,
+				GETDATE() AS LastUpdatedOn
+			FROM  [FloodMitigation].[floodmp].tblProjectArea AS PA 
 			WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
-	----=====================================================================================
+
 			INSERT INTO [Flood].[FloodApplicationSignatory]
 			(
-			[ApplicationId],
-			[Designation],
-			[Title], 
-			[SignedOn], 
-			[SignatoryType],
-			[LastUpdatedBy], 
-			[LastUpdatedOn]
+				[ApplicationId],
+				[Designation],
+				[Title], 
+				[SignedOn], 
+				[SignatoryType],
+				[LastUpdatedBy], 
+				[LastUpdatedOn]
 			)
-			SELECT
-			PA.[ProjectAreaID],
-			NULL AS Designation,
-			NULL AS Title,
-			'1900-01-01' AS SignedOn,
-			'CERTIFY_APPLICATION' AS SignatoryType,
-			'flood-admin'  AS LastUpdatedBy,
-			GETDATE() AS LastUpdatedOn
-			FROM
-			[FloodMitigation].[floodmp].tblProjectArea AS PA 
+			SELECT TOP 1
+				@v_NEW_APPLICATION_ID,
+				NULL AS Designation,
+				NULL AS Title,
+				'1900-01-01' AS SignedOn,
+				'CERTIFY_APPLICATION' AS SignatoryType,
+				'flood-admin'  AS LastUpdatedBy,
+				GETDATE() AS LastUpdatedOn
+			FROM [FloodMitigation].[floodmp].tblProjectArea AS PA 
 			WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
-			--===============================================  Application Tabs - End  ===============================================--
 
-			--===============================================  Admin Tabs - Start  ===============================================--
-			-- Narayana
-
-			--Admin Details
-			Insert into [Flood].[FloodApplicationAdminDetails]
+			INSERT INTO [Flood].[FloodApplicationAdminDetails]
 			(
 				ApplicationId,
 				MunicipalResolutionDate,
@@ -234,8 +223,8 @@ BEGIN TRY
 				LastUpdatedBy,
 				LastUpdatedOn
 			)
-			SELECT
-				PA.ProjectAreaID,
+			SELECT TOP 1
+				@v_NEW_APPLICATION_ID,
 				FP.MuniResoSupportDate,
 				FP.MuniResoSupport#,
 				FP.FMCPrelimDate,
@@ -252,13 +241,11 @@ BEGIN TRY
 				1 AS CreatedByProgramAdmin,
 				'flood-admin' AS LastUpdatedBy,
 				GetDate() AS LastUpdatedOn
-				FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
-				left join [FloodMitigation].[floodmp].[tblProjectArea] AS PA 
-				ON FP.ProjectAreaID = PA.ProjectAreaID
-				WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
+			FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
+			LEFT JOIN [FloodMitigation].[floodmp].[tblProjectArea] AS PA ON FP.ProjectAreaID = PA.ProjectAreaID
+			WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
-				--Contacts 
-			Insert into [Flood].[FloodContacts]
+			INSERT INTO [Flood].[FloodContacts]
 			(
 				ApplicationId,
 				ContactName,
@@ -270,8 +257,8 @@ BEGIN TRY
 				LastUpdatedBy,
 				LastUpdatedOn
 			)
-			select 
-				PA.ProjectAreaID,
+			SELECT 
+				@v_NEW_APPLICATION_ID,
 				M.ContactPerson,
 				NULL AS Agency,
 				M.Email,
@@ -281,13 +268,11 @@ BEGIN TRY
 				1 AS CreatedByProgramAdmin,
 				'flood-admin' AS LastUpdatedBy,
 				GetDate() AS LastUpdatedOn
-				from [FloodMitigation].[floodmp].[tblMunicipality] AS M
-				LEFT JOIN [FloodMitigation].[floodmp].[tblProjectArea] AS PA ON
-				M.MunicipalID = PA.MunicipalID
-				WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
+			FROM [FloodMitigation].[floodmp].[tblMunicipality] AS M
+			LEFT JOIN [FloodMitigation].[floodmp].[tblProjectArea] AS PA ON M.MunicipalID = PA.MunicipalID
+			WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
-				--Application Payment (release of funds)
-			Insert into [Flood].[FloodApplicationPayment]
+			INSERT INTO [Flood].[FloodApplicationPayment]
 			(
 				ApplicationId,
 				CAFNumber,
@@ -295,18 +280,15 @@ BEGIN TRY
 				LastUpdatedBy,
 				LastUpdatedOn
 			)
-				select
-				ProjectAreaID,
+			SELECT TOP 1
+				@v_NEW_APPLICATION_ID,
 				CAFNumber,
 				CAFClosedYN,
 				1 AS CreatedByProgramAdmin,
 				'flood-admin' AS LastUpdatedBy,
 				GetDate() AS LastUpdatedOn
-				from [FloodMitigation].[floodmp].[tblProjectArea]
-				WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
-
-
-			--===============================================  Admin Tabs - End  ===============================================--
+			FROM [FloodMitigation].[floodmp].[tblProjectArea]
+			WHERE ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
 			INSERT INTO [Flood].[FloodApplicationParcel]
 			(
@@ -344,7 +326,6 @@ BEGIN TRY
 				END AS IsApproved
 			FROM [FloodMitigation].[floodmp].[tblFloodParcel]
 			WHERE ProjectAreaID IS NOT NULL AND ProjectAreaID = @v_LEGACY_APPLICATION_ID;
-
 
 			SET @v_LEGACY_RECORD_INDEX = @v_LEGACY_RECORD_INDEX + 1;
 
