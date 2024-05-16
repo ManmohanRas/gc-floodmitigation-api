@@ -276,7 +276,7 @@ BEGIN TRY
 			(
 				ApplicationId,
 				CAFNumber,
-				CAFClosedYN,
+				CAFClosed,
 				LastUpdatedBy,
 				LastUpdatedOn
 			)
@@ -301,7 +301,7 @@ BEGIN TRY
 			)
 			SELECT
 				@v_NEW_APPLICATION_ID,
-				ISNULL(PAMS_PIN, 'No PAMS_PIN'),
+				PAMS_PIN,
 				CASE
 					WHEN ParcelStatus = 'In Review' THEN 2
 					WHEN ParcelStatus = 'Pending' THEN 3
@@ -325,8 +325,12 @@ BEGIN TRY
 					ELSE 0
 				END AS IsApproved
 			FROM [FloodMitigation].[floodmp].[tblFloodParcel]
-			WHERE ProjectAreaID IS NOT NULL AND ProjectAreaID = @v_LEGACY_APPLICATION_ID;
+			WHERE ProjectAreaID IS NOT NULL AND PAMS_PIN IS NOT NULL AND ProjectAreaID = @v_LEGACY_APPLICATION_ID;
+			
+			--======= Application Parcel Tabs - Start =======--
 
+			--======= Application Parcel Tabs - End =======--
+			
 			SET @v_LEGACY_RECORD_INDEX = @v_LEGACY_RECORD_INDEX + 1;
 
 		END;
