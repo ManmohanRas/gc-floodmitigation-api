@@ -6,4 +6,5 @@ public class GetApplicationsForWarningsQuery : IRequest<IEnumerable<GetApplicati
 {
     public string ApplicationIds { get; set; }
     public string PamsPin { get; set; }
+    public bool IsTransfer { get; set; }
 }

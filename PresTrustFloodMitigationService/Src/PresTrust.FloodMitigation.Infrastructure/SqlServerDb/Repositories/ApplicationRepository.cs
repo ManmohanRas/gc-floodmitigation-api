@@ -157,12 +157,12 @@ public class ApplicationRepository: IApplicationRepository
         return results ?? new();
     }
 
-    public async Task<List<FloodApplicationEntity>> GetApplicationsForWarningsAsync(string applicationIds, string pamsPin)
+    public async Task<List<FloodApplicationEntity>> GetApplicationsForWarningsAsync(string applicationIds, string pamsPin, bool isTransfer = false)
     {
         List<int> appIds = applicationIds?.Split(',' , StringSplitOptions.RemoveEmptyEntries).Select(o => Convert.ToInt32(o)).ToList() ?? new ();
         List<FloodApplicationEntity> results = default;
         using var conn = context.CreateConnection();
-        var sqlCommand = new GetApplicationsForWarningsSqlCommand();
+        var sqlCommand = new GetApplicationsForWarningsSqlCommand(isTransfer);
         results = (await conn.QueryAsync<FloodApplicationEntity>(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
