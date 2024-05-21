@@ -1333,13 +1333,13 @@ public class FloodPropertySecurityManager
                 permission.CanSaveDocument = true;
                 permission.CanDeleteDocument = true;
                 //Property
-                Property(enumViewOrEdit: ViewOrEdit.EDIT);
+                Property();
                 //Other Documents
                 OtherDocuments();
                 //Soft Costs
                 SoftCosts();
                 //Tech
-                Tech(enumViewOrEdit: ViewOrEdit.EDIT);
+                Tech();
                 //Finance
                 Finance();
                 //Admin Document Checklist
@@ -1356,7 +1356,7 @@ public class FloodPropertySecurityManager
                 this.defaultNavigationItem = new NavigationItemEntity()
                 {
                     Title = PropertyNavigationItemTitles.PROPERTY,
-                    RouterLink = PropertyRouterLinks.PROPERTY_EDIT,
+                    RouterLink = PropertyRouterLinks.PROPERTY_VIEW,
                     SortOrder = 1
                 };
                 break;

@@ -56,6 +56,8 @@ public class GetPropertyDetailsQueryHandler : BaseHandler, IRequestHandler<GetPr
             case PropertyStatusEnum.SUBMITTED:
             case PropertyStatusEnum.IN_REVIEW:
             case PropertyStatusEnum.PENDING:
+            case PropertyStatusEnum.APPROVED:
+            case PropertyStatusEnum.PRESERVED:
                 var feedbacksReqForCorrections = property.Feedbacks.Where(f => f.RequestForCorrection == true && string.Compare(f.CorrectionStatus, PropertyCorrectionStatusEnum.REQUEST_SENT.ToString(), true) == 0).ToList();
                 securityMgr = new FloodPropertySecurityManager(userContext.Role, property.Status, property.PrevStatus, application.Status, feedbacksReqForCorrections, property.IsSubmitted ?? false);
                 break;

@@ -14,7 +14,37 @@ public class GetApplicationsForWarningsSqlCommand
             JOIN Flood.FloodApplication A ON AP.ApplicationId = A.Id
             WHERE AP.ApplicationId IN @p_ApplicationIds AND AP.PamsPin = @p_PamsPin;";
 
-    public GetApplicationsForWarningsSqlCommand() { }
+    public GetApplicationsForWarningsSqlCommand(bool isTransfer) 
+    {
+        if (isTransfer)
+        {
+            _sqlCommand =
+       @"   SELECT
+	            AP.ApplicationId AS Id,
+	            A.Title,
+	            A.StatusId AS ApplicationStatusId,
+	            AP.StatusId AS PropertyStatusId,
+	            PSL.LastUpdatedOn AS StatusChangeDate
+            FROM Flood.FloodApplicationParcel AP
+            LEFT JOIN Flood.FloodParcelStatusLog PSL ON AP.ApplicationId = PSL.ApplicationId AND AP.PamsPin = PSL.PamsPin AND AP.StatusId = PSL.StatusId
+            JOIN Flood.FloodApplication A ON AP.ApplicationId = A.Id
+            WHERE AP.ApplicationId IN @p_ApplicationIds AND AP.PamsPin = @p_PamsPin AND AP.StatusId IN(1,2,3);";
+        }
+        else
+        {
+            _sqlCommand =
+       @"   SELECT
+	            AP.ApplicationId AS Id,
+	            A.Title,
+	            A.StatusId AS ApplicationStatusId,
+	            AP.StatusId AS PropertyStatusId,
+	            PSL.LastUpdatedOn AS StatusChangeDate
+            FROM Flood.FloodApplicationParcel AP
+            LEFT JOIN Flood.FloodParcelStatusLog PSL ON AP.ApplicationId = PSL.ApplicationId AND AP.PamsPin = PSL.PamsPin AND AP.StatusId = PSL.StatusId
+            JOIN Flood.FloodApplication A ON AP.ApplicationId = A.Id
+            WHERE AP.ApplicationId IN @p_ApplicationIds AND AP.PamsPin = @p_PamsPin;";
+        }
+    }
 
     public override string ToString()
     {

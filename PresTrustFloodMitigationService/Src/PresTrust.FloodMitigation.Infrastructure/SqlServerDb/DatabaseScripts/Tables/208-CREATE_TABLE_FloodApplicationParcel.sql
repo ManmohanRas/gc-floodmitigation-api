@@ -18,7 +18,10 @@ CREATE TABLE [Flood].[FloodApplicationParcel](
 	[StatusId]						[smallint]						NOT NULL,
 	[IsLocked]						[bit]							NOT NULL,
 	[IsSubmitted]                   [bit]                           DEFAULT 0,
-	[IsApproved]                    [bit]                           DEFAULT 0
+	[IsApproved]                    [bit]                           DEFAULT 0,
+	[WaitingApproved]               [bit]                           DEFAULT 0,
+	[RejectedApproved]              [bit]                           DEFAULT 0
+
 	)
 GO
 
