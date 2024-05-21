@@ -369,14 +369,24 @@ BEGIN TRY
 				FP.[PAMS_PIN],
 				0 AS [Priority],
 				0 AS [ValueEstimate],
-				FP.[EstPurchasePrice],
+				ISNULL(FP.[EstPurchasePrice], 0),
 				FP.[BRV],
 				FP.[NFIPPolicy],
 				NULL AS SourceOfValueEstimate,
 				FP.[FISFFE],
 				NULL AS StructureType,
-				FP.[FoundationType],
-				FP.[OccupancyClass],
+				CASE
+					WHEN FP.FoundationType = 'PIER' THEN 1
+					WHEN FP.FoundationType = 'PILE' THEN 2
+					WHEN FP.FoundationType = 'SLAB' THEN 3
+					ELSE 0
+				END AS FoundationType,
+				CASE
+					WHEN FP.[OccupancyClass] = 'RES_1_SINGLE_FAMILY' THEN 1
+					WHEN FP.[OccupancyClass] = 'RES_2_MOBILE_HOME' THEN 2
+					WHEN FP.[OccupancyClass] = 'RES_3_MULTIPLE_FAMILY_DUPLEX_50_UNITS' THEN 4
+					ELSE 0
+				END AS OccupancyClass,
 				NULL AS PercentageOfDamage,
 				FP.[Contaminants],
 				FP.[LowIncomeHousing],
@@ -389,43 +399,6 @@ BEGIN TRY
 				GETDATE() AS LastUpdatedOn
 				FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
 				WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
-
-			INSERT INTO [Flood].[FloodParcelFinance]
-			(
-				[ApplicationId],
-				[PamsPin],
-				[EstimatePurchasePrice],
-				[AdditionalSoftCostEstimate],
-				[AppraisedValue],
-				[AMV],
-				[TotalFEMABenifits],
-				[DOBAffidavitType],
-				[DOBAffidavitAmt],
-				[HardCostFMPAmt],
-				[SoftCostFMPAmt],
-				[AppraisersFee],
-				[SurveyorsFee],
-				[LastUpdatedBy],
-				[LastUpdatedOn]
-			)
-			SELECT TOP 1
-				@v_NEW_APPLICATION_ID,
-				FP.[PAMS_PIN],
-				NULL AS EstimatePurchasePrice,
-				NULL AS AdditionalSoftCostEstimate,
-				FP.[AppraisedValue],
-				FP.[AMV],
-				NULL AS TotalFEMABenifits,
-				NULL AS DOBAffidavitType,
-				FP.[DOBAmount],
-				FP.[HardCostReimbursed],
-				FP.[SoftCostReimbursed],
-				FP.[AppraisersFee],
-				FP.[SurveyorsFee],
-				'flood-admin'  AS LastUpdatedBy,
-				GETDATE() AS LastUpdatedOn
-			FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
-			WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 
 				INSERT INTO [Flood].[FloodParcelTech]
@@ -482,7 +455,7 @@ BEGIN TRY
 			FP.[FIRMEffectiveDate],
 			FP.[FIRMPanel],
 			NULL AS FirmPanelFinal,
-			FP.[FloodZone],
+			FP.[FIRMFloodZone],
 			NULL AS BaseFloodElevation,
 			NULL AS BaseFloodElevationFinal,
 			FP.[RiverID],
@@ -504,86 +477,7 @@ BEGIN TRY
 			FP.[DischargePoint1],
 			'flood-admin'  AS LastUpdatedBy,
 			GETDATE() AS LastUpdatedOn
-			FROM [floodmp].[tblFloodParcel] AS FP 
-			WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
-
-			INSERT INTO [Flood].[FloodParcelTech]
-			(
-			[ApplicationId],
-			[PamsPin],
-			[FEMASevereRepetitiveLossList],
-			[FEMARepetitiveLossList],
-			[IsthepropertywithinthePassaicRiverBasin],
-			[IsthepropertywithinFloodway],
-			[IsthepropertywithinFloodplain],
-			[Claim10Years],
-			[TotalOfClaims],
-			[BenefitCostRatio],
-			[FEMACommunityId],
-			[FirmEffectiveDate],
-			[FirmPanel],
-			[FirmPanelFinal],
-			[FloodZoneDesignation],
-			[BaseFloodElevation],
-			[BaseFloodElevationFinal],
-			[RiverId],
-			[RiverIdFinal],
-			[FisEffectiveDate],
-			[FloodProfile],
-			[FloodProfileFinal],
-			[FloodSource],
-			[FirstFloodElevation],
-			[FirstFloodElevationFinal],
-			[StreambedElevation],
-			[StreambedElevationFinal],
-			[ElevationBeforeMitigation],
-			[ElevationBeforeMitigationFinal],
-			[FloodType],
-			[TenPercent],
-			[TwoPercent],
-			[OnePercent],
-			[PointOnePercent],	
-			[LastUpdatedBy],
-			[LastUpdatedOn]
-			)
-			SELECT TOP 1
-			@v_NEW_APPLICATION_ID,
-			FP.[PAMS_PIN],
-			NULL AS FEMASevereRepetitiveLossList,
-			NULL AS FEMARepetitiveLossList,
-			NULL AS IsthepropertywithinthePassaicRiverBasin,
-			FP.[Floodway],
-			FP.[Floodplain],
-			NULL AS Claim10Years,
-			NULL AS TotalOfClaims,
-			FP.[BCR],
-			FP.[FEMACommunityID],
-			FP.[FIRMEffectiveDate],
-			FP.[FIRMPanel],
-			NULL AS FirmPanelFinal,
-			FP.[FloodZone],
-			NULL AS BaseFloodElevation,
-			NULL AS BaseFloodElevationFinal,
-			FP.[RiverID],
-			NULL AS RiverIdFinal,
-			FP.[FISEffectiveDate],
-			FP.[FISFloodProfile],
-			NULL AS FloodProfileFinal,
-			FP.[FISFloodSource],
-			NULL AS FirstFloodElevation,
-			NULL AS FirstFloodElevationFinal,
-			FP.[FISStreambedElevation],
-			NULL AS StreambedElevationFinal,
-			FP.[FISElevationBeforeMitigation],
-			NULL AS ElevationBeforeMitigationFinal,
-			FP.[FISFloodType],
-			FP.[Discharge10],
-			FP.[Discharge2],
-			FP.[Discharge1],
-			FP.[DischargePoint1],
-			'flood-admin'  AS LastUpdatedBy,
-			GETDATE() AS LastUpdatedOn
-			FROM [floodmp].[tblFloodParcel] AS FP 
+			FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
 			WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 			INSERT INTO [Flood].[FloodParcelFinance]
@@ -607,8 +501,8 @@ BEGIN TRY
 			SELECT TOP 1
 			@v_NEW_APPLICATION_ID,
 			FP.[PAMS_PIN],
-			NULL AS EstimatePurchasePrice,
-			NULL AS AdditionalSoftCostEstimate,
+			FP.[EstPurchasePrice],
+			0 AS AdditionalSoftCostEstimate,
 			FP.[AppraisedValue],
 			FP.[AMV],
 			NULL AS TotalFEMABenifits,
@@ -620,7 +514,7 @@ BEGIN TRY
 			FP.[SurveyorsFee],
 			'flood-admin'  AS LastUpdatedBy,
 			GETDATE() AS LastUpdatedOn
-			FROM [floodmp].[tblFloodParcel] AS FP 
+			FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
 			WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 			Insert into [Flood].[FloodParcelSurvey]
@@ -643,7 +537,7 @@ BEGIN TRY
 				NULL as DateCorrected,
 				'flood-admin',
 				GetDate()
-				FROM [floodmp].[tblFloodParcel]as FP
+				FROM [FloodMitigation].[floodmp].[tblFloodParcel]as FP
 				WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 				Insert into [Flood].[FloodParcelAdminDetails]
@@ -696,7 +590,7 @@ BEGIN TRY
 					NULL as IsPARRequestedbyFunder,
 					'flood-admin',
 					GetDate()
-					from [floodmp].[tblFloodParcel] as FP 
+					from [FloodMitigation].[floodmp].[tblFloodParcel] as FP 
 					WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 
@@ -716,15 +610,15 @@ BEGIN TRY
 						SELECT TOP 1
 						@v_NEW_APPLICATION_ID,
 						FP.PAMS_PIN,
-						NULL as HardCostPaymentTypeId,
+						0 as HardCostPaymentTypeId,
 						NULL as HardCostPaymentDate,
-						NULL as HardCostPaymentStatusId,
-						NULL as SoftCostPaymentTypeId,
+						0 as HardCostPaymentStatusId,
+						0 as SoftCostPaymentTypeId,
 						NULL as SoftCostPaymentDate,
 						NULL as SoftCostPaymentStatusId,
 						'flood-admin',
 						GetDate()
-						from [floodmp].[tblFloodParcel]as FP
+						from [FloodMitigation].[floodmp].[tblFloodParcel]as FP
 						WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 
@@ -762,7 +656,7 @@ BEGIN TRY
 					FP.UseNatural,
 					'flood-admin',
 					GetDate()
-					FROM [floodmp].[tblFloodParcel]as FP
+					FROM [FloodMitigation].[floodmp].[tblFloodParcel]as FP
 					WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 
