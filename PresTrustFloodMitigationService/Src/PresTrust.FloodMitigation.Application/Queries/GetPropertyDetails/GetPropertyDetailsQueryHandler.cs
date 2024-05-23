@@ -44,6 +44,10 @@ public class GetPropertyDetailsQueryHandler : BaseHandler, IRequestHandler<GetPr
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         var property = await repoParcel.GetParcelAsync(application.Id, request.PamsPin);
+        if (property.PamsPin == null)
+        {
+            property.PamsPin = request.PamsPin;
+        }
         var result = mapper.Map<FloodParcelEntity, GetPropertyDetailsQueryViewModel>(property);
 
         // apply security

@@ -181,6 +181,22 @@ BEGIN TRY
 			FROM  [FloodMitigation].[floodmp].tblProjectArea AS PA 
 			WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
+			INSERT INTO [Flood].[FloodApplicationFinanceLineItems]
+			(
+				[ApplicationId],
+				[PamsPin],
+				[ValueEstimate],	
+				[LastUpdatedBy], 
+				[LastUpdatedOn]
+			)
+			SELECT TOP 1
+				@v_NEW_APPLICATION_ID,
+				FP.[PAMS_PIN],
+				NULL AS ValueEstimate,
+				'flood-admin'  AS LastUpdatedBy,
+				GETDATE() AS LastUpdatedOn
+			   FROM [FloodMitigation].[floodmp].tblFloodParcel AS FP 
+			   WHERE FP.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
 		    INSERT INTO [Flood].[FloodApplicationFundingAgency]
 			(
@@ -240,15 +256,15 @@ BEGIN TRY
 			SELECT TOP 1
 				@v_NEW_APPLICATION_ID,
 				FP.MuniResoSupportDate,
-				FP.MuniResoSupport#,
+				NULL AS MunicipalResolutionNumber,
 				FP.FMCPrelimDate,
-				FP.FMCPrelim#,
+				NULL AS FMCPreliminaryNumber,
 				FP.BCFPrelimDate,
-				FP.BCFPrelim#,
-				PA.ProjectDescription,
+				NULL AS BCCPreliminaryNumber,
+                NULL AS ProjectDescription,
 				PA.FundingExpirationDate,
-				PA.FundingExtension_6Mo,
-				PA.FundingExtension_12Mo,
+				NULL AS FirstFundingExpirationDate,
+                NULL AS SecondFundingExpirationDate,
 				NULL As CommissionerMeetingDate,
 				NULL As FirstCommitteeMeetingDate,
 				NULL As SecondCommitteeMeetingDate,
@@ -591,7 +607,7 @@ BEGIN TRY
 					'flood-admin',
 					GetDate()
 					from [FloodMitigation].[floodmp].[tblFloodParcel] as FP 
-					WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
+					WHERE FP.PAMS_PIN IS NOT NULL AND FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 
 					Insert Into [Flood].[FloodParcelPayment]
@@ -615,7 +631,7 @@ BEGIN TRY
 						0 as HardCostPaymentStatusId,
 						0 as SoftCostPaymentTypeId,
 						NULL as SoftCostPaymentDate,
-						NULL as SoftCostPaymentStatusId,
+						0 as SoftCostPaymentStatusId,
 						'flood-admin',
 						GetDate()
 						from [FloodMitigation].[floodmp].[tblFloodParcel]as FP
