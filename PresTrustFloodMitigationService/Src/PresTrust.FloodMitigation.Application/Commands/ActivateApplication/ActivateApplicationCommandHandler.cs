@@ -72,6 +72,7 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
 
         // get application parcels
         var appParcels = await repoApplicationParcel.GetApplicationParcelsByApplicationIdAsync(application.Id);
+        appParcels = appParcels.Where(o => o.StatusId != (int)PropertyStatusEnum.TRANSFERRED).ToList();
 
         //update application parcels
         foreach (var appParcel in appParcels)
