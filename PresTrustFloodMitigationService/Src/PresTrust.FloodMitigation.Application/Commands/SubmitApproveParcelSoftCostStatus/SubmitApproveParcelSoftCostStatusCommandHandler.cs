@@ -61,11 +61,11 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
                 }
             }
 
-            if (reqParcelStatus.IsSubmitted == true)
+            if (reqParcelStatus.IsSubmitted == true && reqParcelStatus.IsApproved == false)
             {
                 emailTemplateCode = EmailTemplateCodeTypeEnum.SUBMIT_SOFTCOST.ToString();
             }
-            else if (reqParcelStatus.IsSubmitted == true && reqParcelStatus.IsApproved == true)
+            else 
             {
                 emailTemplateCode = EmailTemplateCodeTypeEnum.APPROVE_SOFTCOST.ToString();
             }

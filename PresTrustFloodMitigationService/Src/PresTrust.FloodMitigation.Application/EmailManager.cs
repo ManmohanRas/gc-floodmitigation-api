@@ -138,7 +138,7 @@ public class EmailManager : IEmailManager
 
         //property
         htmlBody = htmlBody.Replace("{{PropertyName}}", placeHolders.PropertyAddress);
-        htmlBody = htmlBody.Replace("{{MCHardCostShare}}", placeHolders.HardCostFMPAmt.ToString()); //Hard Cost FMP Amount Reimbursed value from Property Finance screen
+        htmlBody = htmlBody.Replace("{{MCHardCostShare}}", placeHolders.HardCostFMPAmt.ToString("C2", new CultureInfo("en-US")) ?? ""); //Hard Cost FMP Amount Reimbursed value from Property Finance screen
         htmlBody = htmlBody.Replace("{{BCCDate}}", placeHolders.BccFinalApprovalDate?.ToString("dddd, MMMM dd, yyyy"));
 
         //Batch job
