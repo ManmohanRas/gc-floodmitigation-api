@@ -4,8 +4,8 @@ public class TransferParcelSqlCommand
 {
     private readonly string _sqlCommand =
             @"  UPDATE Flood.FloodApplicationParcel
-				SET IsSubmitted = (SELECT IsSubmitted FROM Flood.FloodApplicationParcel WHERE ApplicationId = @p_ApplicationId AND PamsPin = @p_PamsPin),
-					IsApproved = (SELECT IsApproved FROM Flood.FloodApplicationParcel WHERE ApplicationId = @p_ApplicationId AND PamsPin = @p_PamsPin)
+				SET IsSubmitted = (SELECT DISTINCT IsSubmitted FROM Flood.FloodApplicationParcel WHERE ApplicationId = @p_ApplicationId AND PamsPin = @p_PamsPin),
+					IsApproved = (SELECT DISTINCT IsApproved FROM Flood.FloodApplicationParcel WHERE ApplicationId = @p_ApplicationId AND PamsPin = @p_PamsPin)
 				WHERE ApplicationId = @p_TransferApplicationId AND PamsPin = @p_PamsPin;
 
 				DELETE FROM Flood.FloodParcelComment
