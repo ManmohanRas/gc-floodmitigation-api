@@ -6,10 +6,12 @@ public class GetApplicationPropertiesQueryViewModel
     public string PamsPin { get; set; }
     public bool IsLocked { get; set; }
     public bool IsWaiting { get; set; }
+    public bool WaitingApproved { get; set; }
     public string? WaitingApplicationIds { get; set; }
     public bool AlreadyExists { get; set; }
     public string? ExistingApplicationIds { get; set; }
     public bool IsRejected { get; set; }
+    public bool RejectedApproved { get; set; }
     public string? RejectedApplicationIds { get; set; }
     public bool IsValidPamsPin { get; set; }
     public string PropertyAddress { get; set; }

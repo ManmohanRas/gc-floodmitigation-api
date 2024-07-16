@@ -163,6 +163,27 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
         return result;
     }
 
+    public async Task<bool> UpdateApplicationParcelWarnings(FloodApplicationParcelEntity applicationParcel)
+    {
+        bool result = false;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new UpdateApplicationParcelWarningsSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationParcel.ApplicationId,
+                @p_PamsPin = applicationParcel.PamsPin,
+                @p_WaitingApproved = applicationParcel.WaitingApproved,
+                @p_RejectedApproved = applicationParcel.RejectedApproved
+            });
+
+        result = true;
+        return result;
+    }
+
     /// <summary>
     /// Lock Property
     /// </summary>
