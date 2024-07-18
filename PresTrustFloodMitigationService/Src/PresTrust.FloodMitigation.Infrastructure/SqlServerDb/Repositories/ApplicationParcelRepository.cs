@@ -28,7 +28,9 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
                     @p_ApplicationId = applicationParcel.ApplicationId,
                     @p_PamsPin = applicationParcel.PamsPin,
                     @p_StatusId = applicationParcel.StatusId,
-                    @p_IsLocked = applicationParcel.IsLocked
+                    @p_IsLocked = applicationParcel.IsLocked,
+                    @p_WaitingApproved = applicationParcel.WaitingApproved,
+                    @p_RejectedApproved = applicationParcel.RejectedApproved
                 });
         }
     }
