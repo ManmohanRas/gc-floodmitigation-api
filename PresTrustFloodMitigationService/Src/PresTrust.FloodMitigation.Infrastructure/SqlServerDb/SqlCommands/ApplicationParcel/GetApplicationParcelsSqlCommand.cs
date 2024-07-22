@@ -56,7 +56,7 @@ public class GetApplicationParcelsSqlCommand
 							STRING_AGG([ApplicationId], ',') AS [DuplicateApplicationIds],
 							[PamsPin] AS [DuplicatePamsPin]
 						FROM [Flood].[FloodApplicationParcel]
-						WHERE [ApplicationId] != @p_ApplicationId And [StatusId] != 7
+						WHERE [ApplicationId] != @p_ApplicationId And [StatusId] NOT IN (0,5,6,7,8,9,10)
 						GROUP BY [PamsPin]
 					) DuplicateParcels ON ApplicationParcels.[PamsPin] = DuplicateParcels.[DuplicatePamsPin]
 					LEFT JOIN 
