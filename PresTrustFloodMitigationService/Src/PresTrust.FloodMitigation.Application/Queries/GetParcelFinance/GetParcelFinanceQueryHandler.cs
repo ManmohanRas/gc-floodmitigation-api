@@ -37,7 +37,7 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
         var result = mapper.Map<FloodParcelFinanceEntity, GetParcelFinanceQueryViewModel>(parcelFinance);
 
         //softCosts totals
-        if ((bool)property.IsApproved)
+        if (property.IsApproved ?? false)
         {
             result.MunicipalAppraisersFee = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.APPRAISALS).Sum(x => x.PaymentAmount);
             result.EnvAnalysis = softCosts.Where(x => x.SoftCostTypeId == (int)SoftCostTypeEnum.ENVIRONMENTAL_ANALYSIS).Sum(x => x.PaymentAmount);

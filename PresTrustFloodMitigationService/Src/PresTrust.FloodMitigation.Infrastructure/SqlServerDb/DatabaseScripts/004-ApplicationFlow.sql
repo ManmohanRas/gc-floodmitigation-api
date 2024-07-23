@@ -119,13 +119,13 @@ BEGIN TRY
 				PA.[FactorHomes],
 				PA.[FactorContiguousHomes],
 				NULL AS NatlDisaster,
-				NULL AS NatlDisasterId,
+				PA.[NatlDisasterId],
 				NULL AS NatlDisasterName,
 				NULL AS NatlDisasterYear,
 				NULL AS NatlDisasterMonth,
-				FP.[LOI],
+				PA.[LOI],
 				FP.[LOIApproved],
-				FP.[LOIDate],
+				PA.[LOIDate],
 				NULL AS FEMA_OR_NJDEP_Applied,
 				PA.[FEMAApplied],
 				PA.[FEMAApproved],
@@ -153,33 +153,136 @@ BEGIN TRY
 			)
 			SELECT TOP 1
 				@v_NEW_APPLICATION_ID,
-				FP.[ProgramMatchPercent],
+                 CASE 
+					WHEN FP.ProgramMatchPercent = FLOOR(FP.ProgramMatchPercent) 
+					THEN CAST(FP.ProgramMatchPercent AS INT)
+					ELSE CAST((FP.ProgramMatchPercent - FLOOR(FP.ProgramMatchPercent)) * 100 AS INT)
+                 END AS ProgramMatchPercentValue,
 				'flood-admin'  AS LastUpdatedBy,
 				GETDATE() AS LastUpdatedOn
 			FROM [FloodMitigation].[floodmp].tblFloodParcel AS FP 
 			LEFT JOIN [FloodMitigation].[floodmp].tblProjectArea AS PA ON (FP.ProjectAreaID = PA.ProjectAreaID)
 			WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
-			INSERT INTO [Flood].[FloodApplicationFinanceFund]
-			(
-				[ApplicationId],
-				[FundingSourceTypeId],
-				[Title],
-				[Amount],
-				[AwardDate],
-				[LastUpdatedBy],
-				[LastUpdatedOn]
-			)
-			SELECT
-				@v_NEW_APPLICATION_ID,
-				1 AS FundingSourceTypeId,
-				NULL AS Title,
-				ISNULL(PA.[FEMAAwardAmt], 0),
-				PA.[FEMAAwardDate],
-				'flood-admin'  AS LastUpdatedBy,
-				GETDATE() AS LastUpdatedOn
-			FROM  [FloodMitigation].[floodmp].tblProjectArea AS PA 
-			WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
+			-- Insert FEMA Award data
+INSERT INTO [Flood].[FloodApplicationFinanceFund] (ApplicationId,FundingSourceTypeId, Title, Amount, AwardDate,LastUpdatedBy,LastUpdatedOn)
+SELECT
+    @v_NEW_APPLICATION_ID,
+    1 AS FundingSourceTypeId,  -- Assuming 1 corresponds to FEMA in your funding source type table
+    'FEMA Award' AS Title,
+    FEMAAwardAmt AS Amount,
+    ISNULL (FEMAAwardDate,NULL) AS AwardDate,
+	'flood-admin'  AS LastUpdatedBy,
+	GETDATE() AS LastUpdatedOn
+FROM [FloodMitigation].[floodmp].tblProjectArea PA
+WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID
+AND FEMAAwardAmt IS NOT NULL --AND FEMAAwardDate IS NOT NULL;
+
+-- Insert Green Acres data
+INSERT INTO [Flood].[FloodApplicationFinanceFund] (ApplicationId,FundingSourceTypeId, Title, Amount, AwardDate,LastUpdatedBy,LastUpdatedOn)
+SELECT 
+@v_NEW_APPLICATION_ID,
+    2 AS FundingSourceTypeId,  -- Assuming 2 corresponds to Green Acres
+    'Green Acres' AS Title,
+    GreenAcresAmt AS Amount,
+    ISNULL (GreenAcresAmtDate,NULL) AS AwardDate,
+	'flood-admin'  AS LastUpdatedBy,
+	GETDATE() AS LastUpdatedOn
+FROM [FloodMitigation].[floodmp].tblProjectArea PA
+WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID
+AND GreenAcresAmt IS NOT NULL --AND GreenAcresAmtDate IS NOT NULL;
+
+-- Insert Blue Acres data
+INSERT INTO [Flood].[FloodApplicationFinanceFund] (ApplicationId,FundingSourceTypeId, Title, Amount, AwardDate,LastUpdatedBy,LastUpdatedOn)
+SELECT
+@v_NEW_APPLICATION_ID,
+    3 AS FundingSourceTypeId,  -- Assuming 3 corresponds to Blue Acres
+    'Blue Acres' AS Title,
+    BlueAcresAmt AS Amount,
+    ISNULL (BlueAcresAmtDate,NULL) AS AwardDate,
+	'flood-admin'  AS LastUpdatedBy,
+	GETDATE() AS LastUpdatedOn
+FROM [FloodMitigation].[floodmp].tblProjectArea PA
+WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID
+AND BlueAcresAmt IS NOT NULL --AND BlueAcresAmtDate IS NOT NULL;
+
+-- Insert Muni OSTF data
+INSERT INTO [Flood].[FloodApplicationFinanceFund] (ApplicationId,FundingSourceTypeId, Title, Amount, AwardDate,LastUpdatedBy,LastUpdatedOn)
+SELECT 
+@v_NEW_APPLICATION_ID,
+    4 AS FundingSourceTypeId,  -- Assuming 4 corresponds to Muni OSTF
+    'Muni OSTF' AS Title,
+    MuniOSTFAmt AS Amount,
+    ISNULL (MuniOSTFAmtDate,NULL) AS AwardDate,
+	'flood-admin'  AS LastUpdatedBy,
+	GETDATE() AS LastUpdatedOn
+FROM [FloodMitigation].[floodmp].tblProjectArea PA
+WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID
+AND MuniOSTFAmt IS NOT NULL --AND MuniOSTFAmtDate IS NOT NULL;
+
+-- Insert Muni Funds data
+INSERT INTO [Flood].[FloodApplicationFinanceFund] (ApplicationId,FundingSourceTypeId, Title, Amount, AwardDate,LastUpdatedBy,LastUpdatedOn)
+SELECT 
+@v_NEW_APPLICATION_ID,
+    5 AS FundingSourceTypeId,  -- Assuming 5 corresponds to Muni Funds
+    'Muni Funds' AS Title,
+    MuniFundsAmt AS Amount,
+    ISNULL (MuniFundsAmtDate,NULL) AS AwardDate,
+	'flood-admin'  AS LastUpdatedBy,
+	GETDATE() AS LastUpdatedOn
+FROM [FloodMitigation].[floodmp].tblProjectArea PA
+WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID
+AND MuniFundsAmt IS NOT NULL --AND MuniFundsAmtDate IS NOT NULL;
+
+-- Insert Landowner Donation data
+INSERT INTO [Flood].[FloodApplicationFinanceFund] (ApplicationId,FundingSourceTypeId, Title, Amount, AwardDate,LastUpdatedBy,LastUpdatedOn)
+SELECT 
+@v_NEW_APPLICATION_ID,
+    6 AS FundingSourceTypeId,  -- Assuming 6 corresponds to Landowner Donation
+    'Landowner Donation' AS Title,
+    LandownerDonationAmt AS Amount,
+    ISNULL (LandownerDonationAmtDate,NULL) AS AwardDate,
+	'flood-admin'  AS LastUpdatedBy,
+	GETDATE() AS LastUpdatedOn
+FROM [FloodMitigation].[floodmp].tblProjectArea PA
+WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID 
+AND LandownerDonationAmt IS NOT NULL --AND LandownerDonationAmtDate IS NOT NULL;
+
+-- Insert other funding data
+INSERT INTO [Flood].[FloodApplicationFinanceFund] (ApplicationId,FundingSourceTypeId, Title, Amount, AwardDate,LastUpdatedBy,LastUpdatedOn)
+SELECT 
+    @v_NEW_APPLICATION_ID,
+    7 AS FundingSourceTypeId,  -- Assuming 7 corresponds to other funding
+    OtherAmtName,
+    OtherAmt,
+    ISNULL (OtherAmtDate,NULL) AS OtherAmtDate,
+	'flood-admin'  AS LastUpdatedBy,
+	GETDATE() AS LastUpdatedOn
+FROM [FloodMitigation].[floodmp].tblProjectArea PA
+WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID 
+AND OtherAmtName IS NOT NULL AND OtherAmt IS NOT NULL --AND OtherAmtDate IS NOT NULL;
+
+
+			--INSERT INTO [Flood].[FloodApplicationFinanceFund]
+			--(
+			--	[ApplicationId],
+			--	[FundingSourceTypeId],
+			--	[Title],
+			--	[Amount],
+			--	[AwardDate],
+			--	[LastUpdatedBy],
+		    --	[LastUpdatedOn]
+			--)
+			--SELECT
+			--	@v_NEW_APPLICATION_ID,
+			--	1 AS FundingSourceTypeId, -- need to connect with id,amount and date fileds
+			--	NULL AS Title,
+			--	ISNULL(PA.[FEMAAwardAmt],0) AS AMOUNT,
+			--	PA.[FEMAAwardDate],
+			--	'flood-admin'  AS LastUpdatedBy,
+			--	GETDATE() AS LastUpdatedOn
+			--FROM  [FloodMitigation].[floodmp].tblProjectArea AS PA 
+			--WHERE PA.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
 			INSERT INTO [Flood].[FloodApplicationFinanceLineItems]
 			(
@@ -196,7 +299,7 @@ BEGIN TRY
 				'flood-admin'  AS LastUpdatedBy,
 				GETDATE() AS LastUpdatedOn
 			   FROM [FloodMitigation].[floodmp].tblFloodParcel AS FP 
-			   WHERE FP.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
+			   WHERE FP.[PAMS_PIN] is not null and FP.ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 
 		    INSERT INTO [Flood].[FloodApplicationFundingAgency]
 			(
@@ -205,7 +308,7 @@ BEGIN TRY
 				   [CurrentStatus],
                    [DateOfApproval]
 			)
-			SELECT 
+			SELECT
 				@v_NEW_APPLICATION_ID,
                 'Funding Agency' AS FundingAgencyName,
                 NULL AS CurrentStatus,
@@ -227,7 +330,7 @@ BEGIN TRY
 				@v_NEW_APPLICATION_ID,
 				NULL AS Designation,
 				NULL AS Title,
-				'1900-01-01' AS SignedOn,
+				'1900-06-29' AS SignedOn,
 				'CERTIFY_APPLICATION' AS SignatoryType,
 				'flood-admin'  AS LastUpdatedBy,
 				GETDATE() AS LastUpdatedOn
@@ -255,16 +358,16 @@ BEGIN TRY
 			)
 			SELECT TOP 1
 				@v_NEW_APPLICATION_ID,
-				FP.MuniResoSupportDate,
-				NULL AS MunicipalResolutionNumber,
-				FP.FMCPrelimDate,
-				NULL AS FMCPreliminaryNumber,
-				FP.BCFPrelimDate,
-				NULL AS BCCPreliminaryNumber,
-                NULL AS ProjectDescription,
+				PA.MuniResoSupportDate,
+				PA.MuniResoSupportNo,
+				PA.FMCPrelimDate,
+				PA.FMCPrelimNo,
+				PA.BCFPrelimDate,
+				PA.BCFPrelimNo,
+                TRY_CAST (PA.ProjectDescription AS NVARCHAR (max)) AS ProjectDescription,
 				PA.FundingExpirationDate,
-				NULL AS FirstFundingExpirationDate,
-                NULL AS SecondFundingExpirationDate,
+				PA.FundingExtension_6Mo,
+                PA.FundingExtension_12Mo,
 				NULL As CommissionerMeetingDate,
 				NULL As FirstCommitteeMeetingDate,
 				NULL As SecondCommitteeMeetingDate,
@@ -286,7 +389,7 @@ BEGIN TRY
 				LastUpdatedBy,
 				LastUpdatedOn
 			)
-			SELECT  TOP 1
+			SELECT TOP 1
 				@v_NEW_APPLICATION_ID,
 				M.ContactPerson,
 				NULL AS Agency,
@@ -310,7 +413,7 @@ BEGIN TRY
 			)
 			SELECT TOP 1
 				@v_NEW_APPLICATION_ID,
-				ISNULL(CAFNumber, 0),
+				ISNULL(CAFNumber, 0) AS CAFNumber,
 				CAFClosedYN,
 				'flood-admin' AS LastUpdatedBy,
 				GetDate() AS LastUpdatedOn
@@ -355,6 +458,75 @@ BEGIN TRY
 			WHERE ProjectAreaID IS NOT NULL AND PAMS_PIN IS NOT NULL AND ProjectAreaID = @v_LEGACY_APPLICATION_ID;
 			
 			--======= Application Parcel Tabs - Start =======--
+
+			INSERT INTO [Flood].[FloodLockedParcel]
+			    (
+				[ApplicationId],
+				[PamsPin],
+				[AgencyID],
+				[Block],
+				[Lot],
+				[QualificationCode],
+				[Latitude],
+				[Longitude],
+				[StreetNo],
+				[StreetAddress],
+				[Acreage],
+				[OwnersName],
+				[OwnersAddress1],
+				[OwnersAddress2],
+				[OwnersCity],
+				[OwnersState],
+				[OwnersZipcode],
+				[SquareFootage],
+				[YearOfConstruction],
+				[TotalAssessedValue],
+				[LandValue],
+				[ImprovementValue],
+				[AnnualTaxes],
+				[IsValidPamsPin],
+				[TargetAreaId],
+				[DateOfFLAP],
+				[IsElevated],
+				[IsActive],
+			    [LastUpdatedBy],
+				[LastUpdatedOn]
+				)
+				SELECT
+				@v_NEW_APPLICATION_ID,
+				TPL.[PAMS_PIN],
+				TPL.[MunicipalID],
+				TPL.[Block],
+				TPL.[Lot],
+				TPL.[Qcode],
+				TPL.[Latitude],
+				TPL.[Longitude],
+				TPL.[StreetNumber],
+				TPL.[StreetAddress],
+				TPL.[Acreage],
+				TPL.[Landowner],
+				TPL.[AddressLine1],
+				TPL.[AddressLine2],
+				TPL.[City],
+				UPPER(TPL.[State]) AS State,
+				TPL.[Zip],
+				FP.[SquareFootage],
+				TPL.[ConstructionYear],
+				TPL.[TotalAssessedValue],
+				TPL.[LandValue],
+				TPL.[ImprovementValue],
+				TPL.[AnnualTaxes],
+				ISNULL(FP.[IsValidPamsPin],0) AS IsValidPamsPin,
+				FP.[TargetAreaId],
+				FP.[DateOfFLAP],
+				NULL AS [IsElevated],
+				ISNULL(FP.[IsActive],1) AS [IsActive],
+				'flood-admin'  AS LastUpdatedBy,
+				GETDATE() AS LastUpdatedOn
+				FROM [FloodMitigation].[floodmp].[tblFloodParcel] TPL
+				left join [Flood].[FloodParcel] FP on FP.PamsPin = tpl.PAMS_PIN
+				WHERE PAMS_PIN IS NOT NULL AND [ProjectAreaID] =@v_LEGACY_APPLICATION_ID;
+
 			INSERT INTO [Flood].[FloodParcelProperty]
 				(
 				[ApplicationId],
@@ -380,17 +552,39 @@ BEGIN TRY
 				[LastUpdatedBy],
 				[LastUpdatedOn]
 				)
-				SELECT TOP 1
+				SELECT
 				@v_NEW_APPLICATION_ID,
 				FP.[PAMS_PIN],
-				0 AS [Priority],
+				CASE
+				WHEN FP.IsAlternate = 0 THEN 1
+				ELSE 2
+				END AS IsAlternate,
 				0 AS [ValueEstimate],
-				ISNULL(FP.[EstPurchasePrice], 0),
-				FP.[BRV],
-				FP.[NFIPPolicy],
-				NULL AS SourceOfValueEstimate,
-				FP.[FISFFE],
-				NULL AS StructureType,
+				TRY_CAST(FP.[EstPurchasePrice] AS DECIMAL(18,2)) AS EstimatedPurchasePrice, -- Conversion to DECIMAL
+				TRY_CAST(FP.[BRV] AS DECIMAL(18,2)) AS BRV, -- Conversion to DECIMAL
+				FP.[NFIPPolicy] AS NFIPPolicy,
+				--TRY_CAST(FP.EstPurchasePriceSource AS DECIMAL(18,2)) AS SourceOfValueEstimate, -- Conversion to DECIMALFP.EstPurchasePriceSource,
+				CASE 
+				WHEN FP.EstPurchasePriceSource = 'Appraisal' THEN 1 
+				WHEN FP.EstPurchasePriceSource = 'Architect' THEN 2 
+				WHEN FP.EstPurchasePriceSource = 'Engineer' THEN 3 
+				WHEN FP.EstPurchasePriceSource = 'House Sale' THEN 4
+				WHEN FP.EstPurchasePriceSource = 'Housevalues.com' THEN 5 
+				WHEN FP.EstPurchasePriceSource = 'Realestate.com' THEN 6 
+				WHEN FP.EstPurchasePriceSource = 'Tax Assessor' THEN 7
+				WHEN FP.EstPurchasePriceSource = 'Zillow.com' THEN 8
+				ELSE NULL
+				END AS SourceOfValueEstimate,
+				TRY_CAST(FP.[FISFFE] AS DECIMAL(18,2)) AS FirstFloorElevation, -- Conversion to DECIMALFP.[FISFFE],
+				CASE
+					WHEN FP.StructureType = '1 story - no basement' THEN 1
+					WHEN FP.StructureType = '1-2 story - with basement' THEN 2
+					WHEN FP.StructureType = '2 story - no basement' THEN 3
+					WHEN FP.StructureType = 'mobile home' THEN 4
+					WHEN FP.StructureType = 'split level - no basement' THEN 5
+					WHEN FP.StructureType = 'split level - with basement' THEN 6
+					ELSE 7
+                END AS StructureType,
 				CASE
 					WHEN FP.FoundationType = 'PIER' THEN 1
 					WHEN FP.FoundationType = 'PILE' THEN 2
@@ -398,26 +592,26 @@ BEGIN TRY
 					ELSE 0
 				END AS FoundationType,
 				CASE
-					WHEN FP.[OccupancyClass] = 'RES_1_SINGLE_FAMILY' THEN 1
-					WHEN FP.[OccupancyClass] = 'RES_2_MOBILE_HOME' THEN 2
-					WHEN FP.[OccupancyClass] = 'RES_3_MULTIPLE_FAMILY_DUPLEX_50_UNITS' THEN 4
+					WHEN FP.[OccupancyClass] = 'RES 1 - SINGLE FAMILY' THEN 1
+					WHEN FP.[OccupancyClass] = 'RES 2 - MOBILE HOME' THEN 2
+					WHEN FP.[OccupancyClass] = 'RES 3 - MULTIPLE FAMILY DUPLEX 50 UNITS' THEN 4
 					ELSE 0
 				END AS OccupancyClass,
 				NULL AS PercentageOfDamage,
-				FP.[Contaminants],
-				FP.[LowIncomeHousing],
-				FP.[Historic],
-				FP.[RentalProperty],
-				FP.[RentMos],
+				TRY_CAST(FP.Contaminants AS DECIMAL(18,2)) AS HasContaminants, -- Conversion to DECIMALFP.[Contaminants],
+				TRY_CAST(FP.LowIncomeHousing AS DECIMAL(18,2)) AS IsLowIncomeHousing, -- Conversion to DECIMALFP.[LowIncomeHousing],
+				TRY_CAST(FP.Historic AS DECIMAL(18,2)) AS Historic, -- Conversion to DECIMALFP.[Historic],
+				TRY_CAST(FP.RentalProperty AS DECIMAL(18,2)) AS RentalProperty, -- Conversion to DECIMALFP.[RentalProperty],
+				TRY_CAST(FP.RentMos AS DECIMAL(18,2)) AS RentPerMonth, -- Conversion to DECIMALFP.[RentMos],
 				0 AS NeedSoftCost,
-				FP.[IsPreIrenePropertyOwner],
+				TRY_CAST(FP.IsPreIrenePropertyOwner AS DECIMAL(18,2)) AS IsPreIrenePropertyOwner, -- Conversion to DECIMALFP.[IsPreIrenePropertyOwner],
 				'flood-admin'  AS LastUpdatedBy,
 				GETDATE() AS LastUpdatedOn
 				FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
-				WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
+				WHERE FP.[PAMS_PIN] is not null and FP.[ProjectAreaID] =@v_LEGACY_APPLICATION_ID;
 
 
-				INSERT INTO [Flood].[FloodParcelTech]
+			INSERT INTO [Flood].[FloodParcelTech]
 			(
 			[ApplicationId],
 			[PamsPin],
@@ -456,23 +650,23 @@ BEGIN TRY
 			[LastUpdatedBy],
 			[LastUpdatedOn]
 			)
-			SELECT TOP 1
+			SELECT
 			@v_NEW_APPLICATION_ID,
 			FP.[PAMS_PIN],
-			NULL AS FEMASevereRepetitiveLossList,
-			NULL AS FEMARepetitiveLossList,
-			NULL AS IsthepropertywithinthePassaicRiverBasin,
+			FP.SRL,
+			FP.RL,
+			FP.PassaicRiverBasin,
 			FP.[Floodway],
 			FP.[Floodplain],
-			NULL AS Claim10Years,
-			NULL AS TotalOfClaims,
+			FP.Claims,
+			FP.TotalClaimsAmt,
 			FP.[BCR],
 			FP.[FEMACommunityID],
 			FP.[FIRMEffectiveDate],
 			FP.[FIRMPanel],
 			NULL AS FirmPanelFinal,
 			FP.[FIRMFloodZone],
-			NULL AS BaseFloodElevation,
+			FP.FIRMGeneralBFE,
 			NULL AS BaseFloodElevationFinal,
 			FP.[RiverID],
 			NULL AS RiverIdFinal,
@@ -480,13 +674,17 @@ BEGIN TRY
 			FP.[FISFloodProfile],
 			NULL AS FloodProfileFinal,
 			FP.[FISFloodSource],
-			NULL AS FirstFloodElevation,
+			FP.FISFFE,
 			NULL AS FirstFloodElevationFinal,
 			FP.[FISStreambedElevation],
 			NULL AS StreambedElevationFinal,
 			FP.[FISElevationBeforeMitigation],
 			NULL AS ElevationBeforeMitigationFinal,
-			FP.[FISFloodType],
+			CASE 
+		    WHEN FP.[FISFloodType] = 'Mud Flow' THEN 'Mud Flow'
+			WHEN FP.[FISFloodType] = 'Overland Flow' THEN 'Overland Flow'
+			WHEN FP.[FISFloodType] = 'Slope Failure' THEN 'Slope Failure'
+			END AS [FISFloodType],
 			FP.[Discharge10],
 			FP.[Discharge2],
 			FP.[Discharge1],
@@ -494,7 +692,7 @@ BEGIN TRY
 			'flood-admin'  AS LastUpdatedBy,
 			GETDATE() AS LastUpdatedOn
 			FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
-			WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
+			WHERE FP.[PAMS_PIN] IS NOT NULL AND FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 			INSERT INTO [Flood].[FloodParcelFinance]
 			(
@@ -514,10 +712,10 @@ BEGIN TRY
 			[LastUpdatedBy],
 			[LastUpdatedOn]
 			)
-			SELECT TOP 1
+			SELECT
 			@v_NEW_APPLICATION_ID,
 			FP.[PAMS_PIN],
-			FP.[EstPurchasePrice],
+			ISNULL(FP.[EstPurchasePrice],0) AS EstimatePurchasePrice,
 			0 AS AdditionalSoftCostEstimate,
 			FP.[AppraisedValue],
 			FP.[AMV],
@@ -531,7 +729,7 @@ BEGIN TRY
 			'flood-admin'  AS LastUpdatedBy,
 			GETDATE() AS LastUpdatedOn
 			FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
-			WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
+			WHERE FP.[PAMS_PIN] IS NOT NULL AND FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 			Insert into [Flood].[FloodParcelSurvey]
 				(
@@ -544,17 +742,17 @@ BEGIN TRY
 				LastUpdatedBy,
 				LastUpdatedOn
 				)
-				SELECT TOP 1
+				SELECT
 				@v_NEW_APPLICATION_ID,
 				FP.PAMS_PIN,
 				NULL as Surveyor,
 				NULL as SurveyDate,
 				NULL as LastRevision,
 				NULL as DateCorrected,
-				'flood-admin',
-				GetDate()
-				FROM [FloodMitigation].[floodmp].[tblFloodParcel]as FP
-				WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
+				'flood-admin' AS LastUpdatedBy,
+				GetDate() AS LastUpdatedOn
+				FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP
+				WHERE FP.[PAMS_PIN] IS NOT NULL AND FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 				Insert into [Flood].[FloodParcelAdminDetails]
 					(
@@ -582,7 +780,7 @@ BEGIN TRY
 					LastUpdatedBy,																
 					LastUpdatedOn
 					)
-					select
+					SELECT
 					@v_NEW_APPLICATION_ID,
 					FP.PAMS_PIN,
 					FP.FMCFinalDate,
@@ -593,20 +791,20 @@ BEGIN TRY
 					FP.MuniOrdPurchase#,
 					FP.GrantAgreement,
 					FP.GrantAgreementExp,
-					NULL as DOBDocumentsMissingDate,
-					NULL as DueDiligenceDocumentsMissingDate,
-					NULL as ScheduleClosingDate,
-					NULL as SoftCostReimbursementRequestDate,
-					NULL as FMCSoftCostReimbApprovalDate,
-					NULL as FMCSoftCostReimbApprovalNumber,
-					NULL as BCCSoftCostReimbApprovalDate,         											
-					NULL as BCCSoftCostReimbApprovalNumber,        									
-					NULL as DoesHomeOwnerHaveNFIPInsurance,        												
-					NULL as IsDEPInvolved,                        												
-					NULL as IsPARRequestedbyFunder,
-					'flood-admin',
-					GetDate()
-					from [FloodMitigation].[floodmp].[tblFloodParcel] as FP 
+					NULL AS DOBDocumentsMissingDate,
+					NULL AS DueDiligenceDocumentsMissingDate,
+					NULL AS ScheduleClosingDate,
+					NULL AS SoftCostReimbursementRequestDate,
+					NULL AS FMCSoftCostReimbApprovalDate,
+					NULL AS FMCSoftCostReimbApprovalNumber,
+					NULL AS BCCSoftCostReimbApprovalDate,         											
+					NULL AS BCCSoftCostReimbApprovalNumber,        									
+					NULL AS DoesHomeOwnerHaveNFIPInsurance,        												
+					NULL AS IsDEPInvolved,                        												
+					NULL AS IsPARRequestedbyFunder,
+					'flood-admin' AS LastUpdatedBy,
+					GetDate() AS LastUpdatedOn
+					from [FloodMitigation].[floodmp].[tblFloodParcel] AS FP 
 					WHERE FP.PAMS_PIN IS NOT NULL AND FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 
@@ -623,57 +821,56 @@ BEGIN TRY
 						LastUpdatedBy,																
 						LastUpdatedOn
 						)
-						SELECT TOP 1
+						SELECT
 						@v_NEW_APPLICATION_ID,
 						FP.PAMS_PIN,
-						0 as HardCostPaymentTypeId,
-						NULL as HardCostPaymentDate,
-						0 as HardCostPaymentStatusId,
-						0 as SoftCostPaymentTypeId,
-						NULL as SoftCostPaymentDate,
-						0 as SoftCostPaymentStatusId,
-						'flood-admin',
-						GetDate()
-						from [FloodMitigation].[floodmp].[tblFloodParcel]as FP
-						WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
+						0 AS HardCostPaymentTypeId,
+						HardCostReimbursementDate,
+						0 AS HardCostPaymentStatusId,
+						0 AS SoftCostPaymentTypeId,
+						SoftCostReimbursementDate,
+						0 AS SoftCostPaymentStatusId,
+						'flood-admin' AS LastUpdatedBy,
+						GetDate() AS LastUpdatedOn
+						from [FloodMitigation].[floodmp].[tblFloodParcel] AS FP
+						WHERE FP.[PAMS_PIN] IS NOT NULL AND FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
-
-						Insert Into [Flood].[FloodParcelTracking]
+					 Insert Into [Flood].[FloodParcelTracking]
 					(
-					ApplicationId,
-					PamsPin,
-					ClosingDate,
-					DeedBook,
-					DeedPage,
-					DeedDate,
-					DemolitionDate,
-					SiteVisitConfirmDate,
-					PublicPark,
-					RainGarden,
-					CommunityGarden,
-					ActiveRecreation,
-					NaturalHabitat,
-					LastUpdatedBy,																
-					LastUpdatedOn
-					)
-					SELECT TOP 1
-					@v_NEW_APPLICATION_ID,
-					FP.PAMS_PIN,
-					NULL AS ClosingDate,
-					FP.DeedBook,
-					FP.DeedPage,
-					FP.DeedDate,
-					FP.DemolitionDate,
-					FP.SiteVisitConfirmDemo,
-					FP.UsePublicPark,
-					FP.UseGarden,
-					NULL AS CommunityGarden,
-					FP.UseActive,
-					FP.UseNatural,
-					'flood-admin',
-					GetDate()
-					FROM [FloodMitigation].[floodmp].[tblFloodParcel]as FP
-					WHERE FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
+						ApplicationId,
+						PamsPin,
+						ClosingDate,
+						DeedBook,
+						DeedPage,
+						DeedDate,
+						DemolitionDate,
+						SiteVisitConfirmDate,
+						PublicPark,
+						RainGarden,
+						CommunityGarden,
+						ActiveRecreation,
+						NaturalHabitat,
+						LastUpdatedBy,																
+						LastUpdatedOn
+						)
+						SELECT
+						@v_NEW_APPLICATION_ID,
+						FP.PAMS_PIN,
+						FP.ClosingDate,
+						FP.DeedBook,
+						FP.DeedPage,
+						FP.DeedDate,
+						FP.DemolitionDate,
+						FP.SiteVisitConfirmDemo,
+						FP.UsePublicPark,
+						FP.UseRain,
+						FP.UseGarden,
+						FP.UseActive,
+						FP.UseNatural,
+						'flood-admin' AS LastUpdatedBy,
+						GetDate() AS LastUpdatedOn
+						FROM [FloodMitigation].[floodmp].[tblFloodParcel] AS FP
+						WHERE FP.PAMS_PIN IS NOT NULL AND FP.[ProjectAreaID] = @v_LEGACY_APPLICATION_ID;
 
 
 			--======= Application Parcel Tabs - End =======--
