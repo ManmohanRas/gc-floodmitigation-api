@@ -35,4 +35,5 @@ public class ReCalculateParcelFinanceQueryViewModel
     public decimal NetParcelFunds { get; set; }
     public decimal AppraisersFee { get; set; }
     public decimal SurveyorsFee { get; set; }
+    public decimal SCPercentage {  get; set; }
 }
