@@ -37,4 +37,6 @@ public class GetParcelFinanceQueryViewModel
     public decimal SurveyorsFee { get; set; }
     public decimal ReimbursedHardCost { get; set; }
     public decimal ReimbursedSoftCost { get; set; }
+    public decimal SCPercentage { get; set; }
+
 }

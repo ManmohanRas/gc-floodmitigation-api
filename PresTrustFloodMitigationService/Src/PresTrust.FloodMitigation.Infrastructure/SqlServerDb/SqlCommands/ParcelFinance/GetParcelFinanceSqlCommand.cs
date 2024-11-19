@@ -22,6 +22,7 @@ public class GetParcelFinanceSqlCommand
                                ,PF.[SoftCostFMPAmt]
                                ,PF.[AppraisersFee]
                                ,PF.[SurveyorsFee]
+                               ,PF.[SCPercentage]
                                ,PPY.[HardCostPaymentDate]
                                ,PPY.[SoftCostPaymentDate]
                                ,CASE WHEN PPY.[HardCostPaymentStatusId] = 1

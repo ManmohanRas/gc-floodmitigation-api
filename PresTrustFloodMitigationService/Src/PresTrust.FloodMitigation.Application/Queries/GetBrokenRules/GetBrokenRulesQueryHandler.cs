@@ -51,7 +51,7 @@ public class GetBrokenRulesQueryHandler: BaseHandler, IRequestHandler<GetBrokenR
             {
                 bool hasNonSubmittedParcels = false;
                 var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
-                hasNonSubmittedParcels = parcels.Count(o => o.Status != PropertyStatusEnum.SUBMITTED) > 0;
+                hasNonSubmittedParcels = parcels.Count(o => o.Status != PropertyStatusEnum.SUBMITTED && o.Status != PropertyStatusEnum.TRANSFERRED) > 0;
                 if (hasNonSubmittedParcels)
                 {
                     brokenRules.Add(new FloodBrokenRuleEntity()
@@ -72,7 +72,7 @@ public class GetBrokenRulesQueryHandler: BaseHandler, IRequestHandler<GetBrokenR
             {
                 bool hasNonSubmittedParcels = false;
                 var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
-                hasNonSubmittedParcels = parcels.Count(o => o.Status != PropertyStatusEnum.SUBMITTED) > 0;
+                hasNonSubmittedParcels = parcels.Count(o => o.Status != PropertyStatusEnum.SUBMITTED && o.Status != PropertyStatusEnum.TRANSFERRED) > 0;
                 if (hasNonSubmittedParcels)
                 {
                     brokenRules.Add(new FloodBrokenRuleEntity()

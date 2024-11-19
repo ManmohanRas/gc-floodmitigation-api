@@ -9,6 +9,8 @@ public class FloodApplicationParcelEntity
     public bool IsLocked { get; set; }
     public bool? IsSubmitted { get; set; }
     public bool? IsApproved { get; set; }
+    public bool? WaitingApproved { get; set; }
+    public bool? RejectedApproved { get; set; }
     public bool? IsDEPInvolved { get; set; }
     public bool? IsPARRequestedbyFunder { get; set; }
     public bool? NeedSoftCost { get; set; }

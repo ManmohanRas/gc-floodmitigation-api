@@ -28,7 +28,9 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
                     @p_ApplicationId = applicationParcel.ApplicationId,
                     @p_PamsPin = applicationParcel.PamsPin,
                     @p_StatusId = applicationParcel.StatusId,
-                    @p_IsLocked = applicationParcel.IsLocked
+                    @p_IsLocked = applicationParcel.IsLocked,
+                    @p_WaitingApproved = applicationParcel.WaitingApproved,
+                    @p_RejectedApproved = applicationParcel.RejectedApproved
                 });
         }
     }
@@ -157,6 +159,27 @@ public class ApplicationParcelRepository : IApplicationParcelRepository
                 @p_PamsPin = applicationParcel.PamsPin,
                 @p_IsSubmitted = applicationParcel.IsSubmitted,
                 @p_IsApproved = applicationParcel.IsApproved
+            });
+
+        result = true;
+        return result;
+    }
+
+    public async Task<bool> UpdateApplicationParcelWarnings(FloodApplicationParcelEntity applicationParcel)
+    {
+        bool result = false;
+
+        using var conn = context.CreateConnection();
+        var sqlCommand = new UpdateApplicationParcelWarningsSqlCommand();
+        await conn.ExecuteAsync(sqlCommand.ToString(),
+            commandType: CommandType.Text,
+            commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
+            param: new
+            {
+                @p_ApplicationId = applicationParcel.ApplicationId,
+                @p_PamsPin = applicationParcel.PamsPin,
+                @p_WaitingApproved = applicationParcel.WaitingApproved,
+                @p_RejectedApproved = applicationParcel.RejectedApproved
             });
 
         result = true;

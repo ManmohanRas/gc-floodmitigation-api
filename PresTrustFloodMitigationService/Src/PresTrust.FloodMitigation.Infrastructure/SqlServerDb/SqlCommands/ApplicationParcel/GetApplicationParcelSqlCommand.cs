@@ -16,7 +16,7 @@ public class GetApplicationParcelSqlCommand
                     ELSE 0
                     END AS IsFlap
             FROM	[Flood].[FloodApplicationParcel] FA
-            JOIN [Flood].[FloodParcel] FP ON (FA.PamsPin = FP.PamsPin)
+            LEFT JOIN [Flood].[FloodParcel] FP ON (FA.PamsPin = FP.PamsPin)
             WHERE	FA.[ApplicationId] = @p_ApplicationId and FA.[PamsPin] = @p_PamsPin;";
 
     public GetApplicationParcelSqlCommand() { }

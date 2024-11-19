@@ -491,7 +491,7 @@ BEGIN TRY
 		-- Create Constraint
 
 
-		ALTER TABLE [Flood].[FloodApplicationFundingAgency] ADD CONSTRAINT FK_ApplicationId_FloodApplicationFundingAgency  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
+		--ALTER TABLE [Flood].[FloodApplicationFundingAgency] ADD CONSTRAINT FK_ApplicationId_FloodApplicationFundingAgency  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
 		  
 		IF OBJECT_ID('[Flood].[FloodApplicationParcel]') IS NOT NULL
 		BEGIN
@@ -508,13 +508,16 @@ BEGIN TRY
 
 		-- Create Table
 		CREATE TABLE [Flood].[FloodApplicationParcel](
-			[ApplicationId]					[integer]						NOT NULL,
-			[PamsPin]						[varchar](76)					NOT NULL,
-			[StatusId]						[smallint]						NOT NULL,
-			[IsLocked]						[bit]							NOT NULL,
-			[IsSubmitted]                   [bit]                           DEFAULT 0,
-			[IsApproved]                    [bit]                           DEFAULT 0
-			)
+	[ApplicationId]					[integer]						NOT NULL,
+	[PamsPin]						[varchar](76)					NOT NULL,
+	[StatusId]						[smallint]						NOT NULL,
+	[IsLocked]						[bit]							NOT NULL,
+	[IsSubmitted]                   [bit]                           DEFAULT 0,
+	[IsApproved]                    [bit]                           DEFAULT 0,
+	[WaitingApproved]               [bit]                           DEFAULT 0,
+	[RejectedApproved]              [bit]                           DEFAULT 0
+
+	)
 		
 
 		-- Create Constraint
@@ -598,7 +601,7 @@ BEGIN TRY
 		
 
 		-- Create Constraints
-		ALTER TABLE [Flood].[FloodApplicationFinanceFund] ADD CONSTRAINT [FK_ApplicationId_FloodApplicationFinanceFund]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
+		--ALTER TABLE [Flood].[FloodApplicationFinanceFund] ADD CONSTRAINT [FK_ApplicationId_FloodApplicationFinanceFund]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
 		
 
 		ALTER TABLE [Flood].[FloodApplicationFinanceFund] ADD CONSTRAINT [FK_FundingSourceTypeId_FloodApplicationFinanceFund]  FOREIGN KEY (FundingSourceTypeId) REFERENCES [Flood].FloodApplicationFundingSourceType(Id);
@@ -639,7 +642,7 @@ BEGIN TRY
 		
 
 		-- Create Constraint
-		ALTER TABLE [Flood].[FloodApplicationSignatory] ADD CONSTRAINT [FK_ApplicationId_FloodApplicationSignatory]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
+		--ALTER TABLE [Flood].[FloodApplicationSignatory] ADD CONSTRAINT [FK_ApplicationId_FloodApplicationSignatory]  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
 		 
 
 		ALTER TABLE [Flood].[FloodApplicationSignatory] WITH NOCHECK ADD  CONSTRAINT [DF_LastUpdatedOn_FloodApplicationSignatory]  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
@@ -813,7 +816,7 @@ BEGIN TRY
 		
 
 		-- Create Constraints
-		ALTER TABLE [Flood].[FloodApplicationPayment] ADD CONSTRAINT FK_ApplicationId_FloodApplicationPayment  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
+		--ALTER TABLE [Flood].[FloodApplicationPayment] ADD CONSTRAINT FK_ApplicationId_FloodApplicationPayment  FOREIGN KEY (ApplicationId) REFERENCES [Flood].FloodApplication(Id);
 		
 
 		ALTER TABLE [Flood].[FloodApplicationPayment] WITH NOCHECK ADD  CONSTRAINT [DF_CAFClosed_FloodApplicationPayment]  DEFAULT (0) FOR [CAFClosed]
@@ -846,7 +849,7 @@ BEGIN TRY
 		[FMCPreliminaryNumber]                  [varchar](128)							NULL,
 		[BCCPreliminaryApprovalDate]            [datetime]								NULL,
 		[BCCPreliminaryNumber]                  [varchar](128)							NULL,
-		[ProjectDescription]                    [varchar](512)							NULL,
+		[ProjectDescription]                    [varchar](4000)							NULL,
 		[FundingExpirationDate]                 [datetime]								NULL,
 		[FirstFundingExpirationDate]            [datetime]								NULL,
 		[SecondFundingExpirationDate]           [datetime]								NULL,
@@ -917,7 +920,8 @@ BEGIN TRY
 			[LastUpdatedBy]				[varchar](128)							NULL,
 			[LastUpdatedOn]				[datetime]								NOT NULL,
 			[IsActive]					[bit]									NOT NULL,
-	
+	        [IsElevated]				[bit]									NULL,
+
 		CONSTRAINT [PK_FloodParcel_Id] PRIMARY KEY CLUSTERED 
 		(
 			[Id] ASC
