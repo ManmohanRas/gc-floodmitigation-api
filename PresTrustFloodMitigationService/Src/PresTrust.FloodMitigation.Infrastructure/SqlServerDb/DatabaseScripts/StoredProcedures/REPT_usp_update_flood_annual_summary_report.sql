@@ -129,7 +129,7 @@ BEGIN
 			(
 	   			[ApplicationId]                             [integer]            NOT NULL,
 	   			[AgencyId]									[integer]            NOT NULL,
-				[ApplicationTypeId]							[integer]			 NOT NULL,
+				[ApplicationTypeId]							[integer]			     NULL,
 				[ApplicationSubTypeId]						[integer]			 NOT NULL,
 	   			[StatusId]									[integer]            NOT NULL
 			);

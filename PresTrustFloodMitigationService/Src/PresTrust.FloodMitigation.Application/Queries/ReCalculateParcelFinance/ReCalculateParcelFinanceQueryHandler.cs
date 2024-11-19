@@ -19,9 +19,9 @@ public class ReCalculateParcelFinanceQueryHandler : IRequestHandler<ReCalculateP
 
         //recalculate
         parcelFinance.HouseEncubrance = request.EstimatePurchasePrice * request.MatchPercent / 100;
-        if (request.SCPercentage > 0)
+        if (request.SCPercentage != 25)
         {
-            parcelFinance.HouseEncubrance = request.EstimatePurchasePrice * request.SCPercentage / 100;
+            parcelFinance.SoftEstimateInit = (parcelFinance.HouseEncubrance) * request.SCPercentage / 100;
         }
         else
         {
