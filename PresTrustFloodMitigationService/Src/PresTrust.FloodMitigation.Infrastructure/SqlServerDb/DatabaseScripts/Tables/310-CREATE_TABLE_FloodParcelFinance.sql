@@ -29,6 +29,7 @@ CREATE TABLE [Flood].[FloodParcelFinance](
 [SoftCostFMPAmt]                        [decimal](18,2)					          NULL    ,
 [AppraisersFee]                         [decimal](18,2)					          NULL    ,
 [SurveyorsFee]                          [decimal](18,2)					          NULL    ,
+[SCPercentage]						    [decimal](10,2)							  NULL    ,--migration point of view(new)
 [LastUpdatedBy]							[varchar](128)					          NULL	  ,
 [LastUpdatedOn]							[datetime]						          NOT NULL,
 CONSTRAINT [PK_FloodParcelFinance_Id] PRIMARY KEY CLUSTERED 
