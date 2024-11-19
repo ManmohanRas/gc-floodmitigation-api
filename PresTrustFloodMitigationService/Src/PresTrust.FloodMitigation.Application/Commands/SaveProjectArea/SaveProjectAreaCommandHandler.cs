@@ -52,7 +52,9 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
             ApplicationId = application.Id,
             PamsPin = o.PamsPin,
             Status = o.Status,
-            IsLocked = false
+            IsLocked = false,
+            WaitingApproved = o.WaitingApproved,
+            RejectedApproved = o.RejectedApproved
         }).ToList();
 
         // update overview

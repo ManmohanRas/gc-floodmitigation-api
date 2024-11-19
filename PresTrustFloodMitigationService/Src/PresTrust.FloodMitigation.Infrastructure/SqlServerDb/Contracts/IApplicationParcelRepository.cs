@@ -55,6 +55,13 @@ public interface IApplicationParcelRepository
     Task<bool> UpdateApplicationParcelSoftCostStatus(FloodApplicationParcelEntity applicationParcel);
 
     /// <summary>
+    /// Save Application Parcel Warnings
+    /// </summary>
+    /// <param name="application"></param>
+    /// <returns></returns>
+    Task<bool> UpdateApplicationParcelWarnings(FloodApplicationParcelEntity applicationParcel);
+
+    /// <summary>
     /// Lock Property
     /// </summary>
     /// <returns></returns>

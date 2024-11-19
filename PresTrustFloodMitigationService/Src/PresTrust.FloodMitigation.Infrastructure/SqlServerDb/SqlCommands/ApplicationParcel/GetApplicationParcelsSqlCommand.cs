@@ -16,6 +16,8 @@ public class GetApplicationParcelsSqlCommand
 							ISNULL(PSL.[StatusId], 0) AS [PrevStatusId],
 							AP.[IsLocked],
 							AP.[IsApproved],
+                            AP.[WaitingApproved],
+                            AP.[RejectedApproved],
 							PP.[Priority],
 							PP.[ValueEstimate]
 						FROM [Flood].[FloodApplicationParcel] AP
@@ -54,7 +56,7 @@ public class GetApplicationParcelsSqlCommand
 							STRING_AGG([ApplicationId], ',') AS [DuplicateApplicationIds],
 							[PamsPin] AS [DuplicatePamsPin]
 						FROM [Flood].[FloodApplicationParcel]
-						WHERE [ApplicationId] != @p_ApplicationId
+						WHERE [ApplicationId] != @p_ApplicationId And [StatusId] NOT IN (0,5,6,7,8,9,10)
 						GROUP BY [PamsPin]
 					) DuplicateParcels ON ApplicationParcels.[PamsPin] = DuplicateParcels.[DuplicatePamsPin]
 					LEFT JOIN 
@@ -80,10 +82,12 @@ public class GetApplicationParcelsSqlCommand
 					AP.[IsLocked],
 					AP.[IsApproved],
 					CASE WHEN AP.[WaitingPamsPin] IS NULL THEN 0 ELSE 1 END AS [IsWaiting],
+					AP.[WaitingApproved],
 					AP.[WaitingApplicationIds],
 					CASE WHEN AP.[DuplicatePamsPin] IS NULL THEN 0 ELSE 1 END AS [AlreadyExists],
 					AP.[DuplicateApplicationIds] AS [ExistingApplicationIds],
 					CASE WHEN AP.[RejectedPamsPin] IS NULL THEN 0 ELSE 1 END AS [IsRejected],
+					AP.[RejectedApproved],
 					AP.[RejectedApplicationIds],
 					CASE
 						WHEN AP.[IsLocked] = 1
