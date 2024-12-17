@@ -18,6 +18,7 @@ public class FloodPropReleaseOfFundsEntity
     public decimal? SoftEstimate { get; set; }
     public decimal? MatchPercent { get; set; }
     public decimal? EstimatePurchasePrice { get; set; }
+    public decimal? SCPercentage { get; set; }
     public string LastUpdatedBy { get; set; } = "";
 
     public PaymentStatusEnum HardCostPaymentStatus
