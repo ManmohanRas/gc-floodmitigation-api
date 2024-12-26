@@ -41,7 +41,7 @@ public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHand
 
             var estimatePurchasePrice = payments.Sum(y => y.EstimatePurchasePrice);
             houseEncubrance = payments.Sum(y => y.EstimatePurchasePrice * y.MatchPercent / 100) ?? 0;
-            var softEstimateInit = houseEncubrance * 25 / 100;
+            var softEstimateInit = payments.Sum(y => houseEncubrance * y.SCPercentage / 100);
             var additionalSoftCostEstimate = payments.Sum(y => y.AdditionalSoftCostEstimate);
             softEstimate = softEstimateInit + additionalSoftCostEstimate ?? 0;
         }

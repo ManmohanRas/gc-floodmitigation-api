@@ -19,14 +19,18 @@ public class ReCalculateParcelFinanceQueryHandler : IRequestHandler<ReCalculateP
 
         //recalculate
         parcelFinance.HouseEncubrance = request.EstimatePurchasePrice * request.MatchPercent / 100;
-        if (request.SCPercentage != 25)
-        {
-            parcelFinance.SoftEstimateInit = (parcelFinance.HouseEncubrance) * request.SCPercentage / 100;
-        }
-        else
-        {
-            parcelFinance.SoftEstimateInit = (parcelFinance.HouseEncubrance) * 25 / 100;
-        }
+        request.SCPercentage = request.SCPercentage != 0 ? request.SCPercentage : 25;
+
+        parcelFinance.SoftEstimateInit = (parcelFinance.HouseEncubrance) * request.SCPercentage / 100;
+
+        //if (request.SCPercentage != 25)
+        //{
+        //    parcelFinance.SoftEstimateInit = (parcelFinance.HouseEncubrance) * request.SCPercentage / 100;
+        //}
+        //else
+        //{
+        //    parcelFinance.SoftEstimateInit = (parcelFinance.HouseEncubrance) * 25 / 100;
+        //}
         parcelFinance.SoftEstimate = parcelFinance.SoftEstimateInit + request.AdditionalSoftCostEstimate;
         parcelFinance.TotalEncumbresedFunds = parcelFinance.HouseEncubrance + parcelFinance.SoftEstimate;
         parcelFinance.DOBAmount = request.TotalFEMABenifits - request.DOBAffidavitAmt;

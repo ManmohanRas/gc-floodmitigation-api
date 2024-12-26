@@ -33,7 +33,8 @@ public class GetApplicationPaymentsSqlCommand
       								PR.[Priority],
 									ISNULL(PF.[EstimatePurchasePrice], PR.[ValueEstimate]) AS [EstimatePurchasePrice],
 									PF.[AdditionalSoftCostEstimate],
-									AF.[MatchPercent]
+									AF.[MatchPercent],
+									ISNULL(PF.[SCPercentage],25) AS SCPercentage
 							FROM [Flood].[FloodApplicationParcel] AP
 							LEFT JOIN [Flood].[FloodLockedParcel] LP
 									ON (AP.[IsLocked] = 1 AND AP.[ApplicationId] = LP.[ApplicationId] AND AP.[PamsPin] = LP.[PamsPin])
