@@ -33,6 +33,7 @@ public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHand
         decimal amountSpent = 0;
         decimal houseEncubrance = 0;
         decimal softEstimate = 0;
+        decimal softEstimateInit = 0;
         //Amounts released
         if (payments.Count() > 0)
         {
@@ -41,7 +42,13 @@ public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHand
 
             var estimatePurchasePrice = payments.Sum(y => y.EstimatePurchasePrice);
             houseEncubrance = payments.Sum(y => y.EstimatePurchasePrice * y.MatchPercent / 100) ?? 0;
-            var softEstimateInit = payments.Sum(y => houseEncubrance * y.SCPercentage / 100);
+            foreach (var payment in payments)
+            {
+                payment.SCPercentage = payment.SCPercentage.ToString() == null  ? 25 : payment.SCPercentage;
+                softEstimateInit = houseEncubrance * payment.SCPercentage / 100 ?? 0;
+
+            }
+
             var additionalSoftCostEstimate = payments.Sum(y => y.AdditionalSoftCostEstimate);
             softEstimate = softEstimateInit + additionalSoftCostEstimate ?? 0;
         }
