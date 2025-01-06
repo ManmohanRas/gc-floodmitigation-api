@@ -44,8 +44,17 @@ public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHand
             houseEncubrance = payments.Sum(y => y.EstimatePurchasePrice * y.MatchPercent / 100) ?? 0;
             foreach (var payment in payments)
             {
-                payment.SCPercentage = payment.SCPercentage.ToString() == null  ? 25 : payment.SCPercentage;
-                softEstimateInit = houseEncubrance * payment.SCPercentage / 100 ?? 0;
+
+                payment.SCPercentage = payment.SCPercentage == 0 || payment.SCPercentage.ToString() == null ? 25 : payment.SCPercentage;
+                //if (payment.SCPercentage == 0 || payment.SCPercentage.ToString() == null)
+                //{
+                //    payment.SCPercentage = 25;
+                //}else
+                //{
+                //    payment.SCPercentage = payment.SCPercentage;
+                //}
+
+                softEstimateInit += (payment.EstimatePurchasePrice * payment.MatchPercent / 100) * payment.SCPercentage / 100 ?? 0;
 
             }
 
