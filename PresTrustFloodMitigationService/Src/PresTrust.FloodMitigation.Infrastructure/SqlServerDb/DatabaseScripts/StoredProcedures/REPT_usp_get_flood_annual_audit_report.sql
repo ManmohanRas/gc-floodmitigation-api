@@ -1,4 +1,4 @@
-/****** Object:  StoredProcedure [rept].[usp_get_flood_annual_audit_report]    Script Date: 09-01-2025 07:59:56 ******/
+/****** Object:  StoredProcedure [rept].[usp_get_flood_annual_audit_report2]    Script Date: 09-01-2025 07:59:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6,7 +6,7 @@ GO
 
 
 
-CREATE PROCEDURE [rept].[usp_get_flood_annual_audit_report]
+CREATE PROCEDURE [rept].[usp_get_flood_annual_audit_report2]
 (@p_SelectedYear INT)
 AS
 
@@ -21,7 +21,7 @@ AS
 --
 -- <syntax>
 	
-	EXEC	[rept].[usp_get_flood_annual_audit_report]
+	EXEC	[rept].[usp_get_flood_annual_audit_report2]
 												
 -- </syntax>
 --
