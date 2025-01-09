@@ -1,4 +1,3 @@
-use prestrusttemp
 BEGIN TRY
 	BEGIN TRANSACTION
 	--==============================================================================================================--
@@ -228,10 +227,10 @@ BEGIN TRY
 		-- Create Table
 		CREATE TABLE [Flood].[FloodApplication](
 			[Id]						[integer] 		IDENTITY(1,1)	NOT NULL,
-			[Title]						[varchar](256)					NOT NULL,
+			[Title]						[varchar](256)					NULL,
 			[AgencyId]					[integer]						NOT NULL,
-			[ApplicationTypeId]			[smallint]						NOT NULL,
-			[ApplicationSubTypeId]		[smallint]						NOT NULL,
+			[ApplicationTypeId]			[smallint]						NULL,
+			[ApplicationSubTypeId]		[smallint]						NULL,
 			[StatusId]					[smallint]						NOT NULL,
 			[ExpirationDate]			[datetime]						NULL	,
 			[CreatedByProgramAdmin]		[bit]							NOT NULL,
@@ -1027,7 +1026,7 @@ BEGIN TRY
 			[PamsPin]								[varchar](76)					NOT NULL,
 			[StatusId]								[integer]						NOT NULL,
 			[StatusDate]							[datetime]						NULL,
-			[Notes]									[varchar](max)					NOT NULL,
+			[Notes]									[varchar](max)					NULL,
 			[LastUpdatedBy]							[varchar](128)					NULL,
 			[LastUpdatedOn]							[datetime]						NOT NULL)
 		
@@ -1247,8 +1246,8 @@ BEGIN TRY
 			[ApplicationId]				[integer]								NOT NULL,
 			[PamsPin]					[varchar](76)							NOT NULL,
 			[SoftCostTypeId]			[integer]								NOT NULL,
-			[VendorName]				[varchar](256)							NOT NULL,
-			[InvoiceAmount]				[decimal](18,2)							NOT NULL,
+			[VendorName]				[varchar](256)							NULL,
+			[InvoiceAmount]				[decimal](18,2)							NULL,
 			[PaymentAmount]				[decimal](18,2)							NOT NULL,
 			[LastUpdatedBy]				[varchar](128)							NULL	,
 			[LastUpdatedOn]				[datetime]								NOT NULL,
@@ -1301,6 +1300,7 @@ BEGIN TRY
 		[SoftCostFMPAmt]                        [decimal](18,2)					          NULL    ,
 		[AppraisersFee]                         [decimal](18,2)					          NULL    ,
 		[SurveyorsFee]                          [decimal](18,2)					          NULL    ,
+		[SCPercentage]                          [decimal](10,2)                           NULL    ,
 		[LastUpdatedBy]							[varchar](128)					          NULL	  ,
 		[LastUpdatedOn]							[datetime]						          NOT NULL,
 		CONSTRAINT [PK_FloodParcelFinance_Id] PRIMARY KEY CLUSTERED 

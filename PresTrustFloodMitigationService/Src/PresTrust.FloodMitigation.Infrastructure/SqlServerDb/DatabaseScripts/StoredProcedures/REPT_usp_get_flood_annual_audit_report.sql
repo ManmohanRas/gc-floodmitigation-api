@@ -1,15 +1,12 @@
-USE [PresTrustTemp]
-GO
-
-/****** Object:  StoredProcedure [rept].[usp_get_flood_annual_audit_report2]    Script Date: 13-12-2024 12:38:53 ******/
+/****** Object:  StoredProcedure [rept].[usp_get_flood_annual_audit_report]    Script Date: 09-01-2025 07:59:56 ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE PROCEDURE [rept].[usp_get_flood_annual_audit_report2]
+
+CREATE PROCEDURE [rept].[usp_get_flood_annual_audit_report]
 (@p_SelectedYear INT)
 AS
 
@@ -24,7 +21,7 @@ AS
 --
 -- <syntax>
 	
-	EXEC	[rept].[usp_get_flood_annual_audit_report2]
+	EXEC	[rept].[usp_get_flood_annual_audit_report]
 												
 -- </syntax>
 --
@@ -71,7 +68,7 @@ BEGIN
 
 
 --DECLARE @p_SelectedYear AS INT;
-                --SET       @p_SelectedYear = 2024;
+               -- SET       @p_SelectedYear = 2024;
  
                 DECLARE @v_InceptionYear AS INT;    
                 SET       @v_InceptionYear = 2012;
@@ -80,7 +77,7 @@ BEGIN
                  
  
                 -- List of previous project-areas holding ACTIVE, WITHDRAWN & Closed status from the year of inception to the current/selected  year 
-                DROP TABLE IF EXISTS #ProjAreaEstimatesAndPayments;
+         DROP TABLE IF EXISTS #ProjAreaEstimatesAndPayments;
                 CREATE TABLE #ProjAreaEstimatesAndPayments
                 (
                                 ApplicationId                            INT,
@@ -90,10 +87,11 @@ BEGIN
                                 SoftCostFMPAmt                           DECIMAL(18,2),  
                                 HardCostPaymentYear                      INT,
                                 SoftCostPaymentYear                      INT,
-								[Priority]                               INT
+								[Priority]                               INT,
+								SCPercentage                             DECIMAL(18,2)
                 );
                 INSERT INTO #ProjAreaEstimatesAndPayments(ApplicationId, EstimatePurchasePrice, AdditionalSoftCostEstimate, 
-				HardCostFMPAmt, SoftCostFMPAmt, HardCostPaymentYear, SoftCostPaymentYear, [Priority])  
+				HardCostFMPAmt, SoftCostFMPAmt, HardCostPaymentYear, SoftCostPaymentYear, [Priority],SCPercentage)  
                 SELECT
                                                                                 a.Id                                                                                                                                                       AS ApplicationId
                                                                                 ,fpf.EstimatePurchasePrice                                                                 AS EstimatePurchasePrice
@@ -103,6 +101,7 @@ BEGIN
                                                                                 ,YEAR(fpp1.HardCostPaymentDate)                                                             AS HardCostPaymentDate
                                                                                 ,YEAR(fpp2.SoftCostPaymentDate)                                                               AS SoftCostPaymentYear
 																				,fppr.[Priority]
+																				,fpf.SCPercentage
                 FROM                                  Flood.FloodApplication a
                 INNER JOIN   Flood.FloodApplicationAdminDetails ad
                        ON (a.StatusId IN (6,7,9) AND ad.ApplicationId = a.Id)
@@ -141,25 +140,29 @@ BEGIN
  
                                 ClosingsCurrentYear                            INT,
                                 ClosingsInceptionYearToPrevYear                INT,
+								CAFClosedValue								   INT,
                 );
  
                 ;WITH cte_EstimatesAndCostAmounts AS 
                  ( 
                                 SELECT
-                                         ApplicationId                      AS ApplicationId
-                                        ,SUM(EstimatePurchasePrice)         AS EstimatePurchasePrice
-                                        ,SUM(AdditionalSoftCostEstimate)    AS AdditionalSoftCostEstimate
+                                         (ApplicationId)                      AS ApplicationId
+                                        ,(EstimatePurchasePrice)         AS EstimatePurchasePrice
+                                        ,(AdditionalSoftCostEstimate)    AS AdditionalSoftCostEstimate
+										,(SCPercentage)                       AS  SCPercentage
                                 FROM       #ProjAreaEstimatesAndPayments
-                               GROUP BY    ApplicationId                 
+                
                 )
-                INSERT INTO #PrevProjectAreas(ApplicationId, BCCPreliminaryApprovalYear, Title, NoOfHomes, MatchPercent, CAFNumber, FundsEncumbered)  
-                SELECT      a.Id
+                INSERT INTO #PrevProjectAreas(ApplicationId, BCCPreliminaryApprovalYear, Title, NoOfHomes, MatchPercent, CAFNumber, FundsEncumbered, CAFClosedValue)  
+                SELECT   a.Id
                            ,YEAR(ad.BCCPreliminaryApprovalDate)  
                            ,a.Title
                            ,fao.NoOfHomes    
                            ,faf.MatchPercent
                           ,CASE WHEN fap.CAFClosed = 1 THEN CONCAT('*', fap.CAFNumber) ELSE fap.CAFNumber END  
-                         ,(((cte.[EstimatePurchasePrice] * faf.[MatchPercent]) / 100)  + ((((cte.[EstimatePurchasePrice] * faf.[MatchPercent]) / 100) * 25) / 100)  + cte.[AdditionalSoftCostEstimate])   
+                         ,   ((SUM(cte.[EstimatePurchasePrice] * FAF.[MatchPercent]) / 100)  + (((SUM(cte.[EstimatePurchasePrice] * FAF.[MatchPercent]) / 100) * ISNULL(Replace(cte.SCPercentage,0.00,25),25)) / 100)  +
+							SUM(cte.AdditionalSoftCostEstimate)),
+							fap.CAFClosed
                 FROM                  Flood.FloodApplication a
                 INNER JOIN     Flood.FloodApplicationAdminDetails ad
                                                                     ON (ad.ApplicationId = a.Id)   
@@ -170,7 +173,16 @@ BEGIN
                 INNER JOIN     Flood.FloodApplicationPayment fap
                                                                      ON (fap.ApplicationId = a.Id)
                 INNER JOIN     cte_EstimatesAndCostAmounts cte
-                                                                     ON (cte.ApplicationId = a.Id);
+                                                                     ON (cte.ApplicationId = a.Id)
+			
+			   group by a.Id
+                          ,YEAR(ad.BCCPreliminaryApprovalDate)  
+                           ,a.Title
+                           ,fao.NoOfHomes    
+                           ,faf.MatchPercent
+						  ,cte.SCPercentage
+						  ,fap.CAFClosed
+                       ,CASE WHEN fap.CAFClosed = 1 THEN CONCAT('*', fap.CAFNumber) ELSE fap.CAFNumber END;
 
  
                 -- populate HardCostFMPAmtCurrentYear
@@ -294,14 +306,52 @@ BEGIN
                      ,FundsReleasedInceptionYearToCurrentYear = ISNULL(HardCostFMPAmtInceptionYearToCurrentYear,0) + ISNULL(SoftCostFMPAmtInceptionYearToCurrentYear,0)
                                                  
                 --SELECT * FROM #ProjAreaEstimatesAndPayments;
-                SELECT * FROM #PrevProjectAreas;
+               -- Assuming all the previous steps remain unchanged, we will modify the final SELECT query with GROUP BY
+
+				SELECT 
+					ApplicationId,
+					BCCPreliminaryApprovalYear,
+					Title,
+					NoOfHomes,
+					MatchPercent,
+					CAFNumber,
+					SUM(FundsEncumbered) AS FundsEncumbered,
+					SUM(HardCostFMPAmtCurrentYear) AS HardCostFMPAmtCurrentYear,
+					SoftCostFMPAmtCurrentYear AS SoftCostFMPAmtCurrentYear,
+					FundsReleasedCurrentYear AS FundsReleasedCurrentYear,
+					SUM(HardCostFMPAmtInceptionYearToPrevYear) AS HardCostFMPAmtInceptionYearToPrevYear,
+					SUM(SoftCostFMPAmtInceptionYearToPrevYear) AS SoftCostFMPAmtInceptionYearToPrevYear,
+					FundsReleasedInceptionYearToPrevYear AS FundsReleasedInceptionYearToPrevYear,
+					SUM(HardCostFMPAmtInceptionYearToCurrentYear) AS HardCostFMPAmtInceptionYearToCurrentYear,
+					SUM(SoftCostFMPAmtInceptionYearToCurrentYear) AS SoftCostFMPAmtInceptionYearToCurrentYear,
+					FundsReleasedInceptionYearToCurrentYear AS FundsReleasedInceptionYearToCurrentYear,
+					ClosingsCurrentYear AS ClosingsCurrentYear,
+					ClosingsInceptionYearToPrevYear AS ClosingsInceptionYearToPrevYear,
+					case when 
+					CAFClosedValue = 1 Then 
+					SUM(FundsEncumbered)-((isnull(HardCostFMPAmtInceptionYearToCurrentYear,0))+(Isnull(SoftCostFMPAmtInceptionYearToCurrentYear,0)))else 0 End as CAFClosed
+				FROM #PrevProjectAreas
+				GROUP BY 
+					ApplicationId,
+					BCCPreliminaryApprovalYear,
+					Title,
+					NoOfHomes,
+					MatchPercent,
+					CAFNumber,
+					ClosingsCurrentYear,
+					ClosingsInceptionYearToPrevYear,
+					FundsReleasedInceptionYearToPrevYear,
+					FundsReleasedInceptionYearToCurrentYear,
+					SoftCostFMPAmtCurrentYear,
+					FundsReleasedCurrentYear,
+					HardCostFMPAmtInceptionYearToCurrentYear,
+					SoftCostFMPAmtInceptionYearToCurrentYear,
+					CAFClosedValue
+				ORDER BY Title;
+
 	-------------------------------------------------
 	--** Dispose 
 	-------------------------------------------------
 	DISPOSE:
  
-END
-
-GO
-
-
+END 

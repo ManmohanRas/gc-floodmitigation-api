@@ -1,4 +1,3 @@
-use prestrusttemp
 BEGIN TRY
 	BEGIN TRANSACTION
 	--==============================================================================================================--
@@ -418,101 +417,221 @@ BEGIN TRY
 
 		INSERT INTO [Flood].[FloodApplicationFundingSourceType] ([Id],[Title], [SortOrder], [IsActive]) VALUES (7,'OTHER_FUNDING_SOURCE', 7, 1);
 
-
-		--TRUNCATE TABLE [Flood].[FloodParcel];
-
 		WITH CoreParcelCTE AS
-		(
-			SELECT
-				*
-			FROM
-			(
-				SELECT
-					ROW_NUMBER() OVER(ORDER BY PAMS_PIN ASC, OBJECTID ASC) AS RowNo,
-					[PAMS_PIN] AS PamsPin,
-					MunicipalID AS AgencyID,
-					Block AS Block,
-					Lot AS Lot,
-					QualificationCode AS QualificationCode,
-					ISNULL(PropertyLocation, '') AS StreetNoStreetAddress,
-					CalculatedAcreage AS Acreage,
-					OwnersName AS OwnersName,
-					NULL AS OwnersAddress1,
-					NULL AS OwnersAddress2,
-					BuildingSquareFeet AS SquareFootage,
-					YearConstructed AS YearOfConstruction,
-					NULL AS TargetAreaId,
-					NULL AS DateOfFLAP,
-					1 AS IsValidPamsPin,
-					'flood-admin' AS LastUpdatedBy,
-					GetDate() AS LastUpdatedOn,
-					1 AS IsActive
-				FROM		[Core].[Parcels]
-			) CoreParcels
-		)
-		INSERT INTO [Flood].[FloodParcel]
-		(
-			PamsPin,
-			AgencyID,
-			Block,
-			Lot,
-			QualificationCode,
-			Latitude,
-			Longitude,
-			StreetNo,
-			StreetAddress,
-			Acreage,
-			OwnersName,
-			OwnersAddress1,
-			OwnersAddress2,
-			OwnersCity,
-			OwnersState,
-			OwnersZipcode,
-			SquareFootage,
-			YearOfConstruction,
-			TargetAreaId,
-			DateOfFLAP,
-			IsValidPamsPin,
-			LastUpdatedBy,
-			LastUpdatedOn,
-			IsActive
-		)
+ 
+(
+ 
+	SELECT
+ 
+		*
+ 
+	FROM
+ 
+	(
+ 
 		SELECT
-			PamsPin,
-			AgencyID,
-			Block,
-			Lot,
-			QualificationCode,
-			NULL,
-			NULL,
-			TRIM(StreetNo),
-			TRIM(StreetAddress),
-			Acreage,
-			OwnersName,
-			OwnersAddress1,
-			OwnersAddress2,
-			NULL,
-			NULL,
-			NULL,
-			SquareFootage,
-			YearOfConstruction,
-			TargetAreaId,
-			DateOfFLAP,
-			IsValidPamsPin,
-			LastUpdatedBy,
-			LastUpdatedOn,
-			IsActive
-		FROM
-		(
-			SELECT
-				ROW_NUMBER() OVER(PARTITION BY RowNo ORDER BY RowNo ASC) AS StreetNoRow,
-				value AS StreetNo,
-				SUBSTRING(StreetNoStreetAddress, (LEN(value) + 1), LEN(StreetNoStreetAddress)) AS StreetAddress,
-				*
-			FROM CoreParcelCTE
-			CROSS APPLY STRING_SPLIT(StreetNoStreetAddress, ' ')
-		) Parcel
-		WHERE Parcel.StreetNoRow = 1;
+ 
+			ROW_NUMBER() OVER(ORDER BY PAMS_PIN ASC, OBJECTID ASC) AS RowNo,
+ 
+			[PAMS_PIN] AS PamsPin,
+ 
+			MunicipalID AS AgencyID,
+ 
+			Block AS Block,
+ 
+			Lot AS Lot,
+ 
+			QualificationCode AS QualificationCode,
+ 
+			Lat AS Latitude,
+ 
+			Long AS Longitude,
+ 
+			ZipCode,
+ 
+			ISNULL(PropertyLocation, '') AS StreetNoStreetAddress,
+ 
+			CalculatedAcreage AS Acreage,
+ 
+			OwnersName AS OwnersName,
+ 
+			NULL AS OwnersAddress1,
+ 
+			NULL AS OwnersAddress2,
+ 
+			BuildingSquareFeet AS SquareFootage,
+ 
+			YearConstructed AS YearOfConstruction,
+ 
+			NetTaxableValue AS TotalAssessedValue,
+ 
+			LandValue AS LandValue,
+ 
+			ImprovementValue AS ImprovementValue,
+ 
+			LastYearTotalTaxes AS AnnualTaxes,
+ 
+			NULL AS TargetAreaId,
+ 
+			NULL AS DateOfFLAP,
+ 
+			1 AS IsValidPamsPin,
+ 
+			'flood-admin' AS LastUpdatedBy,
+ 
+			GetDate() AS LastUpdatedOn,
+ 
+			1 AS IsActive
+ 
+		FROM		[Core].[Parcels]
+ 
+		WHERE OwnersName != 'unmatched parcel'
+ 
+	) CoreParcels
+ 
+)
+ 
+	INSERT INTO [Flood].[FloodParcel]
+ 
+	(
+ 
+		PamsPin,
+ 
+		AgencyID,
+ 
+		Block,
+ 
+		Lot,
+ 
+		QualificationCode,
+ 
+		Latitude,
+ 
+		Longitude,
+ 
+		StreetNo,
+ 
+		StreetAddress,
+ 
+		Acreage,
+ 
+		OwnersName,
+ 
+		OwnersAddress1,
+ 
+		OwnersAddress2,
+ 
+		OwnersCity,
+ 
+		OwnersState,
+ 
+		OwnersZipcode,
+ 
+		SquareFootage,
+ 
+		YearOfConstruction,
+ 
+		TotalAssessedValue,
+ 
+		LandValue,
+ 
+		ImprovementValue,
+ 
+		AnnualTaxes,
+ 
+		TargetAreaId,
+ 
+		DateOfFLAP,
+ 
+		IsValidPamsPin,
+ 
+		LastUpdatedBy,
+ 
+		LastUpdatedOn,
+ 
+		IsActive
+ 
+	)
+ 
+	SELECT
+ 
+		PamsPin,
+ 
+		AgencyID,
+ 
+		Block,
+ 
+		Lot,
+ 
+		QualificationCode,
+ 
+		CONVERT(varchar(50),Latitude),
+ 
+		CONVERT(varchar(50),Longitude),
+ 
+		TRIM(StreetNo),
+ 
+		TRIM(StreetAddress),
+ 
+		Acreage,
+ 
+		OwnersName,
+ 
+		OwnersAddress1,
+ 
+		OwnersAddress2,
+ 
+		NULL,
+ 
+		NULL,
+ 
+		ZipCode,
+ 
+		SquareFootage,
+ 
+		YearOfConstruction,
+ 
+		TotalAssessedValue,
+ 
+		LandValue,
+ 
+		ImprovementValue,
+ 
+		AnnualTaxes,
+ 
+		TargetAreaId,
+ 
+		DateOfFLAP,
+ 
+		IsValidPamsPin,
+ 
+		LastUpdatedBy,
+ 
+		LastUpdatedOn,
+ 
+		IsActive
+ 
+	FROM
+ 
+	(
+ 
+		SELECT
+ 
+			ROW_NUMBER() OVER(PARTITION BY RowNo ORDER BY RowNo ASC) AS StreetNoRow,
+ 
+			value AS StreetNo,
+ 
+			SUBSTRING(StreetNoStreetAddress, (LEN(value) + 1), LEN(StreetNoStreetAddress)) AS StreetAddress,
+ 
+			*
+ 
+		FROM CoreParcelCTE
+ 
+		CROSS APPLY STRING_SPLIT(StreetNoStreetAddress, ' ')
+ 
+	) Parcel
+ 
+	WHERE Parcel.StreetNoRow = 1;
 
 		DELETE FROM [Flood].[FloodParcelStatus];
 

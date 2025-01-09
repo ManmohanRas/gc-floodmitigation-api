@@ -1,4 +1,3 @@
-use prestrusttemp
 BEGIN TRY
 	BEGIN TRANSACTION
 	--==============================================================================================================--
@@ -9,8 +8,8 @@ BEGIN TRY
 		-- Create Table
 		CREATE TABLE [Flood].[FloodApplicationLegacy](
 			[LegacyApplicationId]			[integer]						NOT NULL,
-			[LegacyApplicationType]			[varchar](256)					NOT NULL,
-			[LegacyApplicationSubType]		[varchar](256)					NOT NULL,
+			[LegacyApplicationType]			[varchar](256)					NULL,
+			[LegacyApplicationSubType]		[varchar](256)					NULL,
 			[LegacyApplicationStatus]		[varchar](256)					NOT NULL,
 			[LegacyAgencyId]				[integer]						NOT NULL,
 			[FloodApplicationId]			[integer]						NULL,
