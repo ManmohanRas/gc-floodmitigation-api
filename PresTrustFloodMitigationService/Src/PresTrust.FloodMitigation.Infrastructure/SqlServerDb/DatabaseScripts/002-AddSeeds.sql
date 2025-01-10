@@ -226,6 +226,116 @@ BEGIN TRY
 		INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (27, 9);
 		INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (27, 10);
 
+		--===========================
+		DELETE FROM [Core].[ReportItem] WHERE [Id] IN (25,26,27,28,29,30,31,32,33,34,35);
+		DELETE FROM [Core].[ReportItem] WHERE ProgramTypeId = 2;
+
+SET IDENTITY_INSERT [Core].[ReportItem] ON
+
+INSERT INTO [Core].[ReportItem] (Id, Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (25, 'Core Application Report', 'FloodCoreApplicationReportGeneral', 'Flood Mitigation Core Application Report', 'description', 1, 2, 1);
+ 
+INSERT INTO [Core].[ReportItem] (Id, Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (26, 'Flood Core Review Report', 'FloodCoreReviewReportPreview', 'Flood Mitigation Core Review Report', 'description', 2, 2, 1);
+ 
+INSERT INTO [Core].[ReportItem] (Id, Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (27, 'Flood Municipal Program Summary Report', 'FloodMunicipalProgramSummaryReport', 'Flood Mitigation Municipal Summary', 'description', 3, 2, 1);
+ 
+INSERT INTO [Core].[ReportItem] (Id, Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (28, 'Flood Project Area Funds Extension Request', 'FloodProjectAreaFundsExtensionRequest', 'Flood Mitigation Project Area Funds Extension Request', 'description', 4, 2, 1);
+ 
+INSERT INTO [Core].[ReportItem] ([Id], Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (29, 'Flood Expiration Report', 'FloodExpirationReport', 'Flood Mitigation Expiration Report', 'description', 5, 2, 1);
+  
+INSERT INTO [Core].[ReportItem] ([Id], Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (30, 'Flood Status Report', 'FloodStatusReport', 'Flood Mitigation Status Report', 'description', 6, 2, 1);
+  
+INSERT INTO [Core].[ReportItem] ([Id], Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (31, 'Flood Flap Summary', 'FloodFlapSummary', 'Flood Mitigation Flap Summary', 'description', 7, 2, 1);
+  
+INSERT INTO [Core].[ReportItem] ([Id], Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (32, 'Flood Annual Audit Report', 'FloodAnnualAuditReport', 'Flood Mitigation Annual Audit Report', 'description', 8, 2, 1);
+  
+INSERT INTO [Core].[ReportItem] ([Id], Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (33, 'Flood County Cost Report', 'FloodCountyCostReport', 'Flood Mitigation County Cost Report', 'description', 9, 2, 1);
+  
+INSERT INTO [Core].[ReportItem] ([Id], Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (34, 'Flood Monthly Funding Summary', 'FloodMonthlyFundingSummary', 'Flood Mitigation Monthly Funding Summary Report', 'description', 10, 2, 1);
+  
+INSERT INTO [Core].[ReportItem] ([Id], Title, ReportUrl, [Description], Icon, SortOrder, ProgramTypeId, IsActive) 
+VALUES (35, 'Flood Program Summary Report', 'FloodProgramSummaryReport', 'Flood Mitigation Program Summary Report', 'description', 11, 2, 1);
+  
+SET IDENTITY_INSERT [Core].[ReportItem] OFF
+
+		--==========================
+
+DELETE FROM [Core].[ReportItemUserRole] WHERE ReportItemId IN (25,26,27,28,29,30,31,32,33,34,35);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (25, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (25, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (25, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (25, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (25, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (26, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (26, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (26, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (26, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (26, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (27, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (27, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (27, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (27, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (27, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (28, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (28, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (28, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (28, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (28, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (29, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (29, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (29, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (29, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (29, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (30, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (30, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (30, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (30, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (30, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (31, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (31, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (31, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (31, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (31, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (32, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (32, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (32, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (32, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (32, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (33, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (33, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (33, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (33, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (33, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (34, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (34, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (34, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (34, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (34, 6);
+
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (35, 1);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (35, 2);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (35, 3);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (35, 4);
+INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (35, 6);
 
 
 		DELETE FROM [Flood].[FloodApplicationStatus];
