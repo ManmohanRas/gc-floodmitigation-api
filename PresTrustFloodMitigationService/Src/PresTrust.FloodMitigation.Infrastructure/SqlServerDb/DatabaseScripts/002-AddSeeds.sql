@@ -227,7 +227,9 @@ BEGIN TRY
 		INSERT INTO [Core].[NavigationItemUserRole]([NavigationItemId], [UserRoleId]) VALUES (27, 10);
 
 		--===========================
-		DELETE FROM [Core].[ReportItem] WHERE [Id] IN (25,26,27,28,29,30,31,32,33,34,35);
+		DELETE FROM [core].[ReportItemUserRole] WHERE [ReportItemId] IN (SELECT  Id FROM [CORE].[ReportItem] WHERE ProgramTypeId = 2);
+
+		--DELETE FROM [Core].[ReportItem] WHERE [Id] IN (25,26,27,28,29,30,31,32,33,34,35);
 		DELETE FROM [Core].[ReportItem] WHERE ProgramTypeId = 2;
 
 SET IDENTITY_INSERT [Core].[ReportItem] ON
@@ -268,8 +270,6 @@ VALUES (35, 'Flood Program Summary Report', 'FloodProgramSummaryReport', 'Flood 
 SET IDENTITY_INSERT [Core].[ReportItem] OFF
 
 		--==========================
-
-DELETE FROM [Core].[ReportItemUserRole] WHERE ReportItemId IN (25,26,27,28,29,30,31,32,33,34,35);
 
 INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (25, 1);
 INSERT INTO [Core].[ReportItemUserRole]([ReportItemId], [UserRoleId]) VALUES (25, 2);
