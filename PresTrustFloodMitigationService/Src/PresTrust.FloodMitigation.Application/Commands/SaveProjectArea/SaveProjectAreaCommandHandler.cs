@@ -35,6 +35,8 @@ public class SaveProjectAreaCommandHandler : BaseHandler, IRequestHandler<SavePr
 
     public async Task<SaveProjectAreaCommandViewModel> Handle(SaveProjectAreaCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // check if application exists
         var application = await GetIfApplicationExists(request.Id);
 

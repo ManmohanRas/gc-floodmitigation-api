@@ -34,6 +34,8 @@ public class SaveApplicationOverviewCommandHandler : BaseHandler,IRequestHandler
     }
     public async Task<int> Handle(SaveApplicationOverviewCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 

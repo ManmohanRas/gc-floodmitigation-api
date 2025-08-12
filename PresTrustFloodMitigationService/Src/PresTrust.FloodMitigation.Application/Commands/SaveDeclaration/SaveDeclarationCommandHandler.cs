@@ -33,6 +33,8 @@ public class SaveDeclarationCommandHandler : BaseHandler, IRequestHandler<SaveDe
     }
     public async Task<bool> Handle(SaveDeclarationCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         bool result = false;
 
         // check if application exists

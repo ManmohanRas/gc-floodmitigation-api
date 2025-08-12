@@ -26,4 +26,5 @@ public class SaveApplicationOverviewCommand : IRequest<int>
     public string? BlueAcresStatus { get; set; }
     public DateTime? BlueAcresApprovedDate { get; set; }
     public bool FundingAgenciesApplied { get; set; }
+    public string UserId { get; set; }
 }

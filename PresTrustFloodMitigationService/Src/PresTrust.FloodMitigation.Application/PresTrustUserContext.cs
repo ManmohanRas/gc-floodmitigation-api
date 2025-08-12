@@ -23,6 +23,7 @@ public interface IPresTrustUserContext
     bool IsExternalUser { get; }
     string AccessToken { get; }
     void DeriveRole(int agencyId);
+    void DeriveUserProfileFromUserId(string userId);
 }
 
 public sealed class PresTrustUserContext : IPresTrustUserContext
@@ -54,6 +55,96 @@ public sealed class PresTrustUserContext : IPresTrustUserContext
         if (agencyUserRole != null)
         {
             userProfile.Role = agencyUserRole.UserRole;
+        }
+    }
+
+    public void DeriveUserProfileFromUserId(string userid)
+    {
+        userProfile = new UserProfileModel();
+        userProfile.Role = UserRoleEnum.NONE;
+
+        userProfile.Email = userid + "@gmail.com";
+        userProfile.Name = userid;
+
+        // internal users
+        if (string.Compare(userid, "programadmin", true) == 0)
+        {
+            userProfile.Role = UserRoleEnum.PROGRAM_ADMIN;
+        }
+
+        if (string.Compare(userid, "programeditor", true) == 0)
+        {
+            userProfile.Role = UserRoleEnum.PROGRAM_EDITOR;
+        }
+
+        if (string.Compare(userid, "programcommittee", true) == 0)
+        {
+            userProfile.Role = UserRoleEnum.PROGRAM_COMMITTEE;
+        }
+
+        if (string.Compare(userid, "programreadonly", true) == 0)
+        {
+            userProfile.Role = UserRoleEnum.PROGRAM_READONLY;
+        }
+
+        if (string.Compare(userid, "systemadmin", true) == 0)
+        {
+            userProfile.Role = UserRoleEnum.SYSTEM_ADMIN;
+        }
+
+        if (Role != UserRoleEnum.NONE)
+            return;
+
+        // external users
+
+        this.isExternalUser = true;
+
+        agencyUserRoles = new List<AgencyUserRole>();
+        userProfile.AgencyIds = new List<int>();
+        int number;
+
+        string[] agencyUserInfo = userid.Split("_").ToArray();
+        string agencyUser = agencyUserInfo[0];
+        string agencyId = agencyUserInfo[1];
+
+        if (string.Compare(agencyUser, "agencyadmin", true) == 0)
+        {
+            userProfile.Role = UserRoleEnum.AGENCY_ADMIN;
+            if (!string.IsNullOrEmpty(agencyId) && int.TryParse(agencyId, out number))
+            {
+                userProfile.AgencyIds.Add(number);
+                agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_ADMIN });
+            }
+        }
+
+        if (string.Compare(agencyUser, "agencyeditor", true) == 0)
+        {
+            userProfile.Role = UserRoleEnum.AGENCY_EDITOR;
+            if (!string.IsNullOrEmpty(agencyId) && int.TryParse(agencyId, out number))
+            {
+                userProfile.AgencyIds.Add(number);
+                agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_EDITOR });
+            }
+        }
+
+        if (string.Compare(agencyUser, "agencysignatory", true) == 0)
+        {
+            userProfile.Role = UserRoleEnum.AGENCY_SIGNATORY;
+            if (!string.IsNullOrEmpty(agencyId) && int.TryParse(agencyId, out number))
+            {
+                userProfile.AgencyIds.Add(number);
+                agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_SIGNATORY });
+            }
+        }
+
+        if (string.Compare(agencyUser, "agencyreadonly", true) == 0)
+        {
+            userProfile.Role = UserRoleEnum.AGENCY_READONLY;
+            if (!string.IsNullOrEmpty(agencyId) && int.TryParse(agencyId, out number))
+            {
+                userProfile.AgencyIds.Add(number);
+                agencyUserRoles.Add(new AgencyUserRole() { AgencyId = number, UserRole = UserRoleEnum.AGENCY_READONLY });
+            }
         }
     }
 
