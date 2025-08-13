@@ -16,4 +16,6 @@ public class SaveParcelFinanceCommand: IRequest<int>
     public decimal SoftCostFMPAmt { get; set; }
     public decimal AppraisersFee { get; set; }
     public decimal SurveyorsFee { get; set; }
+    public string UserId { get; set; }
+
 }

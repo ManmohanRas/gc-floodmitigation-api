@@ -11,4 +11,6 @@ public class SavePropReleaseOfFundsCommand : IRequest<int>
     public string SoftCostPaymentStatus { get; set; }
     public string HardCostPaymentType { get; set; }
     public string SoftCostPaymentType { get; set; }
+    public string UserId { get; set; }
+
 }

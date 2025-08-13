@@ -24,4 +24,6 @@ public class SavePropertyAdminDetailsCommand : IRequest<int>
     public bool DoesHomeOwnerHaveNFIPInsurance { get; set; }
     public bool IsDEPInvolved { get; set; }
     public bool IsPARRequestedbyFunder { get; set; }
+    public string UserId { get; set; }
+
 }

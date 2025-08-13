@@ -6,6 +6,7 @@ namespace PresTrust.FloodMitigation.Application.Commands;
 public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<SaveParcelTrackingCommand, int>
 {
     private IMapper mapper;
+    private readonly IPresTrustUserContext userContext;
     private IParcelTrackingRepository repoParcelTracking;
     private readonly IApplicationRepository repoApplication;
     private readonly IParcelPropertyRepository repoProperty;
@@ -17,6 +18,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
 
     public SaveParcelTrackingCommandHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IParcelTrackingRepository repoParcelTracking,
         IParcelPropertyRepository repoProperty,
         IApplicationRepository repoApplication,
@@ -27,6 +29,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
         ) : base (repoApplication :repoApplication, repoProperty: repoAppParcel)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoParcelTracking = repoParcelTracking;
         this.repoProperty = repoProperty;
         this.repoBrokenRules = repoBrokenRules;
@@ -36,6 +39,7 @@ public class SaveParcelTrackingCommandHandler : BaseHandler,IRequestHandler<Save
 
     public async Task<int> Handle(SaveParcelTrackingCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);

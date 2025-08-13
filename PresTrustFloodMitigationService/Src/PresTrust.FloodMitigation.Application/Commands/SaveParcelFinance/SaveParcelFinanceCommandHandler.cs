@@ -6,6 +6,7 @@ public class SaveParcelFinanceCommandHandler :BaseHandler, IRequestHandler<SaveP
 {
     private IMapper mapper;
     private IParcelFinanceRepository repoParcelFinance;
+    private readonly IPresTrustUserContext userContext;
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IPropertyBrokenRuleRepository repoBrokenRules;
     private readonly IApplicationRepository repoApplication;
@@ -14,6 +15,7 @@ public class SaveParcelFinanceCommandHandler :BaseHandler, IRequestHandler<SaveP
 
     public SaveParcelFinanceCommandHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IParcelFinanceRepository repoParcelFinance,
         IPropertyBrokenRuleRepository repoBrokenRules,
         IOptions<SystemParameterConfiguration> systemParamOptions,
@@ -23,6 +25,7 @@ public class SaveParcelFinanceCommandHandler :BaseHandler, IRequestHandler<SaveP
         ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoParcelFinance = repoParcelFinance;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoBrokenRules = repoBrokenRules;
@@ -32,6 +35,8 @@ public class SaveParcelFinanceCommandHandler :BaseHandler, IRequestHandler<SaveP
     }
     public async Task<int> Handle(SaveParcelFinanceCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);

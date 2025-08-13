@@ -43,6 +43,8 @@ public class SaveSoftCostCommandHandler : BaseHandler, IRequestHandler<SaveSoftC
 
     public async Task<Unit> Handle(SaveSoftCostCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         using (var scope = TransactionScopeBuilder.CreateReadCommitted(systemParamOptions.TransScopeTimeOutInMinutes))
         {
             foreach (var softCost in request.SoftCostLineItems)

@@ -42,6 +42,8 @@ namespace PresTrust.FloodMitigation.Application.Commands
         /// <returns></returns>
         public async Task<Unit> Handle(SavePropertyDocumentChecklistCommand request, CancellationToken cancellationToken)
         {
+            userContext.DeriveUserProfileFromUserId(request.UserId);
+
             // get application details
             var application = await GetIfApplicationExists(request.ApplicationId);
             var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);

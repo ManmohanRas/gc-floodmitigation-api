@@ -36,6 +36,8 @@ public class SubmitPropertyCommandHandler : BaseHandler, IRequestHandler<SubmitP
     /// <returns></returns>
     public async Task<SubmitPropertyCommandViewModel> Handle(SubmitPropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         SubmitPropertyCommandViewModel result = new ();
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
