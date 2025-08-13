@@ -41,6 +41,7 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
     /// <returns></returns>
     public async Task<ReviewApplicationCommandViewModel> Handle(ReviewApplicationCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         ReviewApplicationCommandViewModel result = new ();
 
         // check if application exists

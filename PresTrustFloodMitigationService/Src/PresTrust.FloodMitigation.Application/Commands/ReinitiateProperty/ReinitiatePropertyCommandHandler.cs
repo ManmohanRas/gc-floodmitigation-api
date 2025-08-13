@@ -35,6 +35,7 @@ public class ReinitiatePropertyCommandHandler : BaseHandler, IRequestHandler<Rei
     /// <returns></returns>
     public async Task<Unit> Handle(ReinitiatePropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
 

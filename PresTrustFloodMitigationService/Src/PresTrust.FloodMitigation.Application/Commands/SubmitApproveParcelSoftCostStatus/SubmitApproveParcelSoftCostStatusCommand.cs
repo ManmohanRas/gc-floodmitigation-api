@@ -6,4 +6,5 @@ public class SubmitApproveParcelSoftCostStatusCommand: IRequest<bool>
     public string PamsPin { get; set; }
     public bool? IsSubmitted { get; set; }
     public bool? IsApproved { get; set; }
+    public string UserId { get; set; }
 }

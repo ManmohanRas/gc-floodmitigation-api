@@ -43,6 +43,7 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
     /// <returns></returns>
     public async Task<Unit> Handle(WithdrawApplicationCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // check if application exists
         var application = await GetIfApplicationExists(request.ApplicationId);
 

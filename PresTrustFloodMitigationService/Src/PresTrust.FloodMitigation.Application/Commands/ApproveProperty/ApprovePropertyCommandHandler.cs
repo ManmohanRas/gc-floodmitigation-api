@@ -42,6 +42,8 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
     /// <returns></returns>
     public async Task<ApprovePropertyCommandViewModel> Handle(ApprovePropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         ApprovePropertyCommandViewModel result = new();
 
 

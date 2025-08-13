@@ -37,6 +37,7 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
     }
     public async Task<bool> Handle(SubmitApproveParcelSoftCostStatusCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // check if Property exists
         var application = await GetIfApplicationExists(request.ApplicationId);
         var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);

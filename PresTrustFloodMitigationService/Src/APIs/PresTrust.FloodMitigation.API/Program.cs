@@ -39,7 +39,7 @@ var jobOptions = new RecurringJobOptions()
 };
 
 //RecurringJob.AddOrUpdate("Reminder: Grant Expiration", () => jobGrantExpirationReminder.Handle(), builder.Configuration["CronTimeGrantExpirationReminder"], jobOptions);
-RecurringJob.AddOrUpdate("Reminder: Project Area Expiration", () => jobProjectAreaExpirationReminder.Handle(), builder.Configuration["CronTimeGrantExpirationReminder"], jobOptions);
+//RecurringJob.AddOrUpdate("Reminder: Project Area Expiration", () => jobProjectAreaExpirationReminder.Handle(), builder.Configuration["CronTimeGrantExpirationReminder"], jobOptions);
 
 builder.MapControllers();
 builder.Run();

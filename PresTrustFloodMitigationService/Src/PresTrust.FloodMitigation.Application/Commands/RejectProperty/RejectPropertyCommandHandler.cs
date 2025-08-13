@@ -35,6 +35,7 @@ public class RejectPropertyCommandHandler : BaseHandler, IRequestHandler<RejectP
     /// <returns></returns>
     public async Task<RejectPropertyCommandViewModel> Handle(RejectPropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         RejectPropertyCommandViewModel result = new ();
 
         // check if Property exists

@@ -4,7 +4,7 @@ using PresTrust.FloodMitigation.Domain.Entities;
 
 namespace PresTrust.FloodMitigation.API.Controllers.v1;
 
-[Authorize()]
+//[Authorize()]
 [Route("api/v1/flood")]
 [ApiController]
 public class FloodMitigationController : FloodMitigationWorkflowController

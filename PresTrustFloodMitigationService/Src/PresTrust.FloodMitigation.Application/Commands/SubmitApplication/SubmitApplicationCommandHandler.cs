@@ -41,6 +41,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
     /// <returns></returns>
     public async Task<SubmitApplicationCommandViewModel> Handle(SubmitApplicationCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         SubmitApplicationCommandViewModel result = new();
 
         // check if application exists
