@@ -37,4 +37,6 @@ public class SaveTechDetailsCommand: IRequest<int>
     public decimal? TwoPercent { get; set; }
     public decimal? OnePercent { get; set; }
     public decimal? PointOnePercent { get; set; }
+    public string UserId { get; set; }
+
 }

@@ -5,7 +5,9 @@ public class SaveSoftCostCommand : IRequest<Unit>
     public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
     public IEnumerable<SaveSoftCostModel>? SoftCostLineItems { get; set; }
-    
+    public string UserId { get; set; }
+
+
 }
 
 public class SaveSoftCostModel

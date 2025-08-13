@@ -9,4 +9,6 @@ public class SaveParcelSurveyCommand: IRequest<int>
     public DateTime? SurveyDate { get; set; }
     public DateTime? LastRevision { get; set; }
     public DateTime? DateCorrected { get; set; }
+    public string UserId { get; set; }
+
 }

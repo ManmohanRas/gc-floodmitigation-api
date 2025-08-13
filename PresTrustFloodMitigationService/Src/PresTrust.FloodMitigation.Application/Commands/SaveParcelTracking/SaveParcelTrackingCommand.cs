@@ -16,5 +16,7 @@ public class SaveParcelTrackingCommand : IRequest<int>
     public bool CommunityGarden { get; set; }
     public bool ActiveRecreation { get; set; }
     public bool NaturalHabitat { get; set; }
+    public string UserId { get; set; }
+
 
 }
