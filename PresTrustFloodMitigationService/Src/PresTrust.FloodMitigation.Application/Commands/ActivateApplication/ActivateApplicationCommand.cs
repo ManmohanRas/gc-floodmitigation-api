@@ -3,4 +3,5 @@
 public class ActivateApplicationCommand : IRequest<ActivateApplicationCommandViewModel>
 {
     public int ApplicationId { get; set; }
+    public string UserId { get; set; }
 }

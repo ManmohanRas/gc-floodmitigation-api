@@ -35,6 +35,7 @@ public class ReviewPropertyCommandHandler : BaseHandler, IRequestHandler<ReviewP
     /// <returns></returns>
     public async Task<ReviewPropertyCommandViewModel> Handle(ReviewPropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         ReviewPropertyCommandViewModel result = new ();
         // check if application exists
         var Application = await GetIfApplicationExists(request.ApplicationId);

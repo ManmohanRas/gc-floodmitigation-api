@@ -34,6 +34,7 @@ public class GrantExpirePropertyCommandHandler : BaseHandler, IRequestHandler<Gr
     /// <returns></returns>
     public async Task<GrantExpirePropertyCommandViewModel> Handle(GrantExpirePropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         GrantExpirePropertyCommandViewModel result = new ();
 
         // check if Property exists

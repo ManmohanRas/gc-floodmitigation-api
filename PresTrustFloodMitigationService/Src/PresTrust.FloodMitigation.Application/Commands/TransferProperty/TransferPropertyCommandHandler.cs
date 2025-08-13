@@ -36,6 +36,7 @@ public class TransferPropertyCommandHandler : BaseHandler, IRequestHandler<Trans
     /// <returns></returns>
     public async Task<TransferPropertyCommandViewModel> Handle(TransferPropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         TransferPropertyCommandViewModel result = new();
 
         // check if application exists

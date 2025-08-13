@@ -48,6 +48,7 @@ public class CloseApplicationCommandHandler : BaseHandler, IRequestHandler<Close
     /// <returns></returns>
     public async Task<CloseApplicationCommandViewModel> Handle(CloseApplicationCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         CloseApplicationCommandViewModel result = new();
 
         // check if application exists

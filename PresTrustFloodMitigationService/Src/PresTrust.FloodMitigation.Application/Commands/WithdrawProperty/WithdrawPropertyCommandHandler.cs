@@ -35,6 +35,7 @@ public class WithdrawPropertyCommandHandler : BaseHandler, IRequestHandler<Withd
     /// <returns></returns>
     public async Task<WithdrawPropertyCommandViewModel> Handle(WithdrawPropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         WithdrawPropertyCommandViewModel result = new ();
 
         // check if Property exists

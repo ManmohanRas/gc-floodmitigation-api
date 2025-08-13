@@ -35,6 +35,7 @@ public class ProjectAreaExpirePropertyCommandHandler : BaseHandler, IRequestHand
     /// <returns></returns>
     public async Task<ProjectAreaExpirePropertyCommandViewModel> Handle(ProjectAreaExpirePropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         ProjectAreaExpirePropertyCommandViewModel result = new ();
 
         // check if Property exists

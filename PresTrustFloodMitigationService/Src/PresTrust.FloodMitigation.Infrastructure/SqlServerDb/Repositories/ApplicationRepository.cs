@@ -38,7 +38,7 @@ public class ApplicationRepository: IApplicationRepository
         results = (await conn.QueryAsync<FloodApplicationEntity>(sqlCommand.ToString(),
                     commandType: CommandType.Text,
                     commandTimeout: systemParamConfig.SQLCommandTimeoutInSeconds,
-                    param: new { @p_IdTableType = table.AsTableValuedParameter("[OSTF].[IdTableType]") })).ToList();
+                    param: new { @p_IdTableType = table.AsTableValuedParameter("[Ostf].[IdTableType]") })).ToList();
 
         return results ?? new();
     }

@@ -33,6 +33,7 @@ public class PendingPropertyCommandHandler : BaseHandler, IRequestHandler<Pendin
     /// <returns></returns>
     public async Task<PendingPropertyCommandViewModel> Handle(PendingPropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         PendingPropertyCommandViewModel result = new ();
 
         // check if application exists

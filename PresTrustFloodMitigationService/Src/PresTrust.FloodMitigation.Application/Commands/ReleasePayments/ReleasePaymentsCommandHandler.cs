@@ -34,6 +34,7 @@ public class ReleasePaymentsCommandHandler: BaseHandler, IRequestHandler<Release
 
     public async Task<bool> Handle(ReleasePaymentsCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 

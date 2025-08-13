@@ -42,6 +42,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
     /// <returns></returns>
     public async Task<PreservePropertyCommandViewModel> Handle(PreservePropertyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         PreservePropertyCommandViewModel result = new ();
 
         // check if Property exists
