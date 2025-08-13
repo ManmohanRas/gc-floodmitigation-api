@@ -11,5 +11,7 @@ public class SaveProjectAreaCommand : IRequest<SaveProjectAreaCommandViewModel>
     public int? NoOfHomes { get; set; }
     public int? NoOfContiguousHomes { get; set; }
     public List<string> Parcels { get; set; } = new List<string>();
+    public string UserId { get; set; }
+
 }
 

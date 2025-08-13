@@ -10,5 +10,7 @@ public class SaveApplicationFinanceCommand: IRequest<int>
     public decimal MatchPercent { get; set; }
     public IEnumerable<FloodFundingSourceViewModel> FundingSources { get; set; }
     public IEnumerable<FloodFinanceLineItemViewModel> FinanceLineItems { get; set; }
+    public string UserId { get; set; }
+
 
 }

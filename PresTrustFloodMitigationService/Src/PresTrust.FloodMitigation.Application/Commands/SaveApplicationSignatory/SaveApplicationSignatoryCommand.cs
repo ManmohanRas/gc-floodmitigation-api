@@ -7,4 +7,6 @@ public class SaveApplicationSignatoryCommand : IRequest<int>
     public string? Designation { get; set; }
     public string? Title { get; set; }
     public DateTime? SignedOn { get; set; }
+    public string UserId { get; set; }
+
 }

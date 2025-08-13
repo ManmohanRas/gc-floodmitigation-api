@@ -9,6 +9,7 @@ public class SaveDeclarationCommand : IRequest<bool>
     public string ApplicationSubType { get; set; }
     public List<SaveDeclarationFloodParcel> Parcels { get; set; }
     public List<FloodApplicationUserViewModel> ApplicationUsers { get; set; }
+    public string UserId { get; set; }  
 
     public class SaveDeclarationFloodParcel
     {
