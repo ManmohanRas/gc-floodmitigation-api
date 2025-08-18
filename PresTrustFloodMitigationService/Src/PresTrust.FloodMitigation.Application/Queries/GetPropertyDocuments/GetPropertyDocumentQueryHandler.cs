@@ -6,21 +6,26 @@
         private readonly IPropertyDocumentRepository repoDocument;
         private readonly IApplicationRepository repoApplication;
         private readonly IApplicationParcelRepository repoAppParcel;
+        private readonly IPresTrustUserContext userContext;
 
         public GetPropertyDocumentQueryHandler(
             IMapper mapper,
+            IPresTrustUserContext userContext,
             IPropertyDocumentRepository repoDocument,
             IApplicationRepository repoApplication,
             IApplicationParcelRepository repoAppParcel
             ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
         {
             this.mapper = mapper;
+            this.userContext = userContext;
             this.repoDocument = repoDocument;
             this.repoApplication = repoApplication;
             this.repoAppParcel = repoAppParcel;
         }
         public async Task<IEnumerable<PropertyDocumentTypeViewModel>> Handle(GetPropertyDocumentQuery request, CancellationToken cancellationToken)
         {
+            userContext.DeriveUserProfileFromUserId(request.UserId);
+
             // get application details
             var application = await GetIfApplicationExists(request.ApplicationId);
             var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);

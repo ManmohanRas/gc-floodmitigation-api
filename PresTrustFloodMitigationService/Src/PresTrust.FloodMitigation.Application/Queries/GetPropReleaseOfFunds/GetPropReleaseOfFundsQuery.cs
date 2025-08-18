@@ -4,4 +4,5 @@ public class GetPropReleaseOfFundsQuery: IRequest<GetPropReleaseOfFundsQueryView
 {
     public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
+    public string UserId { get; set;}
 }

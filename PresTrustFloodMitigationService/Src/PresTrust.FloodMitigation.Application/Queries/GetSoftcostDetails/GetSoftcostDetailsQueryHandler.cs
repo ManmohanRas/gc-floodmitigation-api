@@ -8,8 +8,10 @@ public class GetSoftCostDetailsQueryHandler : BaseHandler, IRequestHandler<GetSo
     private readonly IPropertyDocumentRepository repoDocument;
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationParcelRepository repoApplicationParcel;
+    private readonly IPresTrustUserContext userContext;
     public GetSoftCostDetailsQueryHandler(
          IMapper mapper,
+         IPresTrustUserContext userContext,
          IFinanceRepository repoFinance,
          IApplicationRepository repoApplication,
          IPropertyDocumentRepository repoDocument,
@@ -17,6 +19,7 @@ public class GetSoftCostDetailsQueryHandler : BaseHandler, IRequestHandler<GetSo
          IApplicationParcelRepository repoApplicationParcel) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoFinance = repoFinance;
         this.repoSoftCost = repoSoftCost;
         this.repoApplication = repoApplication;
@@ -26,6 +29,8 @@ public class GetSoftCostDetailsQueryHandler : BaseHandler, IRequestHandler<GetSo
 
     public async Task<GetSoftCostDetailsQueryViewModel> Handle(GetSoftCostDetailsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 
