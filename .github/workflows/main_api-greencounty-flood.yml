@@ -1,55 +1,43 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy ASP.Net Core app to Azure Web App - api-greencounty-flood
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: windows-latest
-    permissions:
-      contents: read #This is required for actions/checkout
 
     steps:
-      - uses: actions/checkout@v4
+      # Checkout source code
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v4
+      # Install .NET 7 SDK 
+      - name: Setup .NET 7 SDK
+        uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '8.x'
+          dotnet-version: '7.0.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      # Restore NuGet packages
+      - name: Restore dependencies
+        run: dotnet restore ./PresTrustFloodMitigationService/Src/APIs/PresTrust.FloodMitigation.API
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      # Build the project
+      - name: Build
+        run: dotnet build ./PresTrustFloodMitigationService/Src/APIs/PresTrust.FloodMitigation.API --configuration Release --no-restore
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+      # Publish the project 
+      - name: Publish
+        run: dotnet publish ./PresTrustFloodMitigationService/Src/APIs/PresTrust.FloodMitigation.API --configuration Release --output ./publish --no-restore
 
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
-      
+      # Deploy to Azure Web App
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@v1
         with:
           app-name: 'api-greencounty-flood'
-          slot-name: 'Production'
-          package: .
+          slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DEABF1D20EF44A71BE0A07922072E5DE }}
+          package: ./publish
+
