@@ -7,17 +7,21 @@ public class GetFlapDetailsQueryHandler : IRequestHandler<GetFlapDetailsQuery, G
 {
     private IMapper mapper;
     private IFlapModuleRepository repoFlap;
+    private IPresTrustUserContext userContext;
 
     public GetFlapDetailsQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IFlapModuleRepository repoFlap
         )
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoFlap = repoFlap;
     }
     public async Task<GetFlapDetailsQueryViewModel> Handle(GetFlapDetailsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         //get flap details
         var reqFlap = await repoFlap.GetFlapAsync(request.AgencyId);
         //get flap comments

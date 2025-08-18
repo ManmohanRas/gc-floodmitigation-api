@@ -34,6 +34,7 @@ public class GetPropertyBrokenRulesQueryHandler : BaseHandler, IRequestHandler<G
 
     public async Task<IEnumerable<GetPropertyBrokenRulesQueryViewModel>> Handle(GetPropertyBrokenRulesQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);

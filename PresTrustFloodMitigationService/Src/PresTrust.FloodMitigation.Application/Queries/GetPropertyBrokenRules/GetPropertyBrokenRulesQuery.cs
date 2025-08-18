@@ -6,5 +6,6 @@ public class GetPropertyBrokenRulesQuery: IRequest<IEnumerable<GetPropertyBroken
 {
     public int ApplicationId { get; set; }
     public string? PamsPin { get; set; }
+    public string? UserId { get; set;}
 
 }

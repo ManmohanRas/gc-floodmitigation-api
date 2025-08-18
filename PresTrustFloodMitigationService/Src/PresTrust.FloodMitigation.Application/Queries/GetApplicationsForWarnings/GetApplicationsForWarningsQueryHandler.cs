@@ -32,6 +32,7 @@ public class GetApplicationsForWarningsQueryHandler : BaseHandler, IRequestHandl
     /// <returns></returns>
     public async Task<IEnumerable<GetApplicationsForWarningsQueryViewModel>> Handle(GetApplicationsForWarningsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var applications = await this.repoApplication.GetApplicationsForWarningsAsync(request.ApplicationIds, request.PamsPin, request.IsTransfer);
         var results = mapper.Map<IEnumerable<FloodApplicationEntity>, IEnumerable<GetApplicationsForWarningsQueryViewModel>>(applications);
         return results;

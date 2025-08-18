@@ -8,20 +8,24 @@ public class GetApplicationSignatoryQueryHandler : BaseHandler, IRequestHandler<
     private IMapper mapper;
     private readonly IApplicationRepository repoApplication;
     private IApplicationSignatoryRepository repoSignatory;
+    private IPresTrustUserContext userContext;
 
     public GetApplicationSignatoryQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IApplicationRepository repoApplication,
         IApplicationSignatoryRepository repoSignatory
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplication = repoApplication;
         this.repoSignatory = repoSignatory;
     }
 
     public async Task<GetApplicationSignatoryQueryViewModel> Handle(GetApplicationSignatoryQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 

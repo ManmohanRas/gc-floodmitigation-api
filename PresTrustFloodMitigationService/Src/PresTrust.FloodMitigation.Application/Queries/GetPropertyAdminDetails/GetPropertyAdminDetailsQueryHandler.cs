@@ -7,10 +7,12 @@ public class GetPropertyAdminDetailsQueryHandler : BaseHandler, IRequestHandler<
     private IMapper mapper;
     private readonly IApplicationRepository repoApplication;
     private IPropertyAdminDetailsRepository PropDetails;
+    private readonly IPresTrustUserContext userContext;
     private readonly IPropertyDocumentRepository repoDocument;
 
     public GetPropertyAdminDetailsQueryHandler(
             IMapper mapper,
+            IPresTrustUserContext userContext,
             IApplicationRepository repoApplication,
             IPropertyAdminDetailsRepository PropDetails,
             IPropertyDocumentRepository repoDocument
@@ -24,6 +26,7 @@ public class GetPropertyAdminDetailsQueryHandler : BaseHandler, IRequestHandler<
 
     public async Task<GetPropertyAdminDetailsQueryViewModel> Handle(GetPropertyAdminDetailsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var propertyDetails = await PropDetails.GetAsync(request.ApplicationId, request.PamsPin);
         var documents = await GetPropertyDocument(request.ApplicationId, request.PamsPin);
 

@@ -8,10 +8,12 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
     private IApplicationRepository repoApplication;
     private IParcelFinanceRepository repoParcelFinance;
     private ISoftCostRepository repoSoftCost;
+    private IPresTrustUserContext userContext;
     private readonly IApplicationParcelRepository repoAppParcel;
 
     public GetParcelFinanceQueryHandler(
-        IMapper mapper
+        IMapper mapper,
+        IPresTrustUserContext userContext
        ,IApplicationRepository repoApplication
        ,IParcelFinanceRepository repoParcelFinance
        ,ISoftCostRepository repoSoftCost,
@@ -19,6 +21,7 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
         ) : base(repoApplication: repoApplication, repoProperty: repoAppParcel)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplication = repoApplication;
         this.repoParcelFinance = repoParcelFinance;
         this.repoSoftCost = repoSoftCost;
@@ -26,6 +29,7 @@ public class GetParcelFinanceQueryHandler : BaseHandler, IRequestHandler<GetParc
     }
     public async Task<GetParcelFinanceQueryViewModel> Handle(GetParcelFinanceQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         var property = await GetIfPropertyExists(request.ApplicationId, request.PamsPin);

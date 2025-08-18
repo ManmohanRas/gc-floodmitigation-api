@@ -6,19 +6,24 @@ public class GetCountyUsersQueryHandler : IRequestHandler<GetCountyUsersQuery, I
     private readonly SystemParameterConfiguration systemParamOptions;
     private readonly IIdentityApiConnect identityApiConnect;
     private readonly IApplicationRepository repoApplication;
+    private readonly IPresTrustUserContext userContext;
 
     public GetCountyUsersQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IIdentityApiConnect identityApiConnect
         )
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.systemParamOptions = systemParamOptions.Value;
         this.identityApiConnect = identityApiConnect;
     }
     public async Task<IEnumerable<PresTrustUserEntity>> Handle(GetCountyUsersQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // Identity's Users api - IdentityApi
 
         var users = new List<IdentityApiUser>() {

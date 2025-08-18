@@ -4,5 +4,5 @@ public class GetParcelTrackingQuery : IRequest<GetParcelTrackingQueryViewModel>
 {
     public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
-
+    public string UserId{ get; set; }
 }

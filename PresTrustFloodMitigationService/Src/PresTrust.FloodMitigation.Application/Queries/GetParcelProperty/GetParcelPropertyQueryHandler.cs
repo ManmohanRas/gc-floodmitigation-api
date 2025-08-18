@@ -6,21 +6,26 @@ public class GetParcelPropertyQueryHandler : BaseHandler, IRequestHandler<GetPar
     private readonly IApplicationRepository repoApplication;
     private IParcelPropertyRepository repoParcel;
     private IParcelRepository repoProperty;
+    private readonly IPresTrustUserContext userContext;
 
     public GetParcelPropertyQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IApplicationRepository repoApplication,
         IParcelPropertyRepository repoParcel,
         IParcelRepository repoProperty
        ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplication = repoApplication;
         this.repoParcel = repoParcel;
         this.repoProperty = repoProperty;
     }
     public async Task<GetParcelPropertyQueryViewModel> Handle(GetParcelPropertyQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         // get parcel details

@@ -5,5 +5,6 @@
 public class GetBrokenRulesQuery: IRequest<IEnumerable<GetBrokenRulesQueryViewModel>>
 {
     public int ApplicationId { get; set; }
+    public string UserId { get; set; }
 
 }
