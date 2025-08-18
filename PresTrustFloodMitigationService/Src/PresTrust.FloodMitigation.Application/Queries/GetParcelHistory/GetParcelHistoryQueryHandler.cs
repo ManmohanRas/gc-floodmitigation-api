@@ -3,11 +3,14 @@ public class GetParcelHistoryQueryHandler: IRequestHandler<GetParcelHistoryQuery
 {
     private readonly IMapper mapper;
     private readonly IParcelHistoryRepository repoParcelHistory;
+    private readonly IPresTrustUserContext userContext; 
     public GetParcelHistoryQueryHandler(
           IMapper mapper,
+          IPresTrustUserContext userContext,
           IParcelHistoryRepository repoParcelHistory)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoParcelHistory = repoParcelHistory;
     }
 

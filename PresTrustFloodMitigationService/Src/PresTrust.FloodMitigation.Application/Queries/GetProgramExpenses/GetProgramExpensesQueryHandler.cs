@@ -4,18 +4,22 @@ public class GetProgramExpensesQueryHandler : IRequestHandler<GetProgramExpenses
 {
     private readonly IMapper mapper;
     private readonly IProgramExpensesRepository repoExpenses;
+    private readonly IPresTrustUserContext userContext;
 
 
     public GetProgramExpensesQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IProgramExpensesRepository repoExpenses)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoExpenses = repoExpenses;
     }
 
     public async Task<IEnumerable<GetProgramExpensesQueryViewModel>> Handle(GetProgramExpensesQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var expensesList = await repoExpenses.GetAllProgramExpensesAsync();
         var existingYears = expensesList.Select(o => int.Parse(o.ExpenseYear)).Distinct().ToList();
 

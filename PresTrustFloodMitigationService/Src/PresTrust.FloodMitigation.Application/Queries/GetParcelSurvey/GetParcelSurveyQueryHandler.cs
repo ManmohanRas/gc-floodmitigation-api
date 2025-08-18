@@ -5,19 +5,23 @@ public class GetParcelSurveyQueryHandler : BaseHandler, IRequestHandler<GetParce
     private IMapper mapper;
     private IApplicationRepository repoApplication;
     private IParcelSurveyRepository repoParcelSurvey;
+    private readonly IPresTrustUserContext userContext;
 
     public GetParcelSurveyQueryHandler(
         IMapper mapper
+        , IPresTrustUserContext userContext
        , IApplicationRepository repoApplication
        , IParcelSurveyRepository repoParcelSurvey
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplication = repoApplication;
         this.repoParcelSurvey = repoParcelSurvey;
     }
     public async Task<GetParcelSurveyQueryViewModel> Handle(GetParcelSurveyQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var application = await GetIfApplicationExists(request.ApplicationId);
 
         // get parcel Survey

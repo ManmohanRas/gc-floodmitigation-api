@@ -6,8 +6,10 @@ public class GetParcelTrackingQueryHandler : BaseHandler, IRequestHandler<GetPar
     private IApplicationRepository repoApplication;
     private IParcelTrackingRepository repoParcelTracking;
     private IPropertyDocumentRepository repoDocument;
+    private IPresTrustUserContext userContext;
     public GetParcelTrackingQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IApplicationRepository repoApplication,
         IParcelTrackingRepository repoParcelTracking,
         IPropertyDocumentRepository repoDocument
@@ -15,6 +17,7 @@ public class GetParcelTrackingQueryHandler : BaseHandler, IRequestHandler<GetPar
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplication = repoApplication;
         this.repoParcelTracking = repoParcelTracking;
         this.repoDocument = repoDocument;

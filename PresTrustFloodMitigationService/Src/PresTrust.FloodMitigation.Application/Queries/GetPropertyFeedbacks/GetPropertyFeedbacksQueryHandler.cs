@@ -3,6 +3,7 @@
 public class GetPropertyFeedbacksQueryHandler: IRequestHandler<GetPropertyFeedbacksQuery, IEnumerable<GetPropertyFeedbacksQueryViewModel>>
 {
     private readonly IMapper mapper;
+    private readonly IPresTrustUserContext userContext;
     private readonly IFeedbackPropRepository repoFeedback;
 
     /// </summary>
@@ -19,11 +20,13 @@ public class GetPropertyFeedbacksQueryHandler: IRequestHandler<GetPropertyFeedba
     )
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoFeedback = repoFeedback;
     }
 
     public async Task<IEnumerable<GetPropertyFeedbacksQueryViewModel>> Handle(GetPropertyFeedbacksQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get feedbacks for a given application id
         var feedbacks = await repoFeedback.GetPropertyFeedbackAsync(request.ApplicationId, request.PamsPin);
 

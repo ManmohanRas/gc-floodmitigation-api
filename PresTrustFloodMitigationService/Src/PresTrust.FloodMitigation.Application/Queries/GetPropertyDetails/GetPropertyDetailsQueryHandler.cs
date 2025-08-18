@@ -1,4 +1,7 @@
-﻿namespace PresTrust.FloodMitigation.Application.Queries;
+﻿using OneOf.Types;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace PresTrust.FloodMitigation.Application.Queries;
 
 public class GetPropertyDetailsQueryHandler : BaseHandler, IRequestHandler<GetPropertyDetailsQuery, GetPropertyDetailsQueryViewModel>
 {
@@ -41,6 +44,7 @@ public class GetPropertyDetailsQueryHandler : BaseHandler, IRequestHandler<GetPr
     /// <returns></returns>
     public async Task<GetPropertyDetailsQueryViewModel> Handle(GetPropertyDetailsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         var property = await repoParcel.GetParcelAsync(application.Id, request.PamsPin);

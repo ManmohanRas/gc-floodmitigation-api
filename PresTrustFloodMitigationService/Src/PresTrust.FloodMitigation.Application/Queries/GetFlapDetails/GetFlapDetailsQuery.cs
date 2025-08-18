@@ -3,4 +3,5 @@
 public class GetFlapDetailsQuery: IRequest<GetFlapDetailsQueryViewModel>
 {
     public int AgencyId { get; set; }
+    public string UserId { get; set; }
 }

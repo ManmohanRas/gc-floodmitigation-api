@@ -6,21 +6,24 @@ public class GetTechDetailsQueryHandler : BaseHandler, IRequestHandler<GetTechDe
     private readonly IApplicationRepository repoApplication;
     private ITechDetailsRepository repoTech;
     private IParcelRepository repoProperty;
-
+    private readonly IPresTrustUserContext userContext;
     public GetTechDetailsQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IApplicationRepository repoApplication,
         ITechDetailsRepository repoTech,
         IParcelRepository repoProperty
        ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplication = repoApplication;
         this.repoTech = repoTech;
         this.repoProperty = repoProperty;
     }
     public async Task<GetTechDetailsQueryViewModel> Handle(GetTechDetailsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         // get tech details
