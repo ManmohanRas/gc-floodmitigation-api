@@ -43,9 +43,17 @@ namespace PresTrust.FloodMitigation.Application.Queries
         /// <returns></returns>
         public async Task<IEnumerable<PresTrustUserEntity>> Handle(GetAgencyUsersQuery request, CancellationToken cancellationToken)
         {
-            // Identity's Users api - IdentityApi
-            var endPoint = $"{systemParamOptions.IdentityApiSubDomain}/UserAdmin/users/pres-trust/flood/{request.AgencyId}";
-            var resultUsers = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
+            //TBD
+            var resultUsers = new List<IdentityApiUser>() {
+                    new IdentityApiUser() { Email = "agencyadmin_1401@gmail.com", IsEnabled = true, PhoneNumber="9873734737", UserId="1401", UserName="agencyadmin_1401", Title="",
+                    Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_agencyadmin" } } },
+                    new IdentityApiUser() { Email = "agencyeditor_1402@gmail.com", IsEnabled = false, PhoneNumber="9786756756", UserId="1402", UserName="agencyeditor_1402", Title="",
+                    Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_agencyeditor" } } },
+                    new IdentityApiUser() { Email = "agencysignatory_1403@gmail.com", IsEnabled = false, PhoneNumber="9786756756", UserId="1403", UserName="agencysignatory_1403", Title="",
+                    Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_agencysignature" } } },
+                    new IdentityApiUser() { Email = "agencyreadonly_1404@gmail.com", IsEnabled = false, PhoneNumber="9786756756", UserId="1404", UserName="agencyreadonly_1404", Title="",
+                    Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_agencyreadonly" } } },
+                };
             var agencyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<PresTrustUserEntity>>(resultUsers);
             foreach (var item in agencyUsers)
             {

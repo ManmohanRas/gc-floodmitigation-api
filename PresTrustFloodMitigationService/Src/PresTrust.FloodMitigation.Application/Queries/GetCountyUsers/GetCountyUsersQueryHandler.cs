@@ -19,11 +19,24 @@ public class GetCountyUsersQueryHandler : IRequestHandler<GetCountyUsersQuery, I
     }
     public async Task<IEnumerable<PresTrustUserEntity>> Handle(GetCountyUsersQuery request, CancellationToken cancellationToken)
     {
-        // get identity users by agency id
-        var endPoint = $"{systemParamOptions.IdentityApiSubDomain}/UserAdmin/users/pres-trust/flood";
-        var usersResult = await identityApiConnect.GetDataAsync<List<IdentityApiUser>>(endPoint);
+        // Identity's Users api - IdentityApi
 
-        var countyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<PresTrustUserEntity>>(usersResult);
+        var users = new List<IdentityApiUser>() {
+                new IdentityApiUser() { Email = "programcommittee@gmail.com", IsEnabled = true, PhoneNumber="9873734737", UserId="1", UserName="programcommittee", Title="",
+                    Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_program_committee" } } },
+                new IdentityApiUser() { Email = "programeditor@gmail.com", IsEnabled = false, PhoneNumber="9786756756", UserId="2", UserName="programeditor", Title="",
+                Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_program_editor" } } },
+                new IdentityApiUser() { Email = "programreadonly@gmail.com", IsEnabled = false, PhoneNumber="9786756756", UserId="4", UserName="programreadonly", Title="",
+                Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_program_readonly" } } },
+                new IdentityApiUser() { Email = "programcommittee2@gmail.com", IsEnabled = true, PhoneNumber="9873734737", UserId="1", UserName="programcommittee2", Title="",
+                    Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_program_committee" } } },
+                new IdentityApiUser() { Email = "programeditor2@gmail.com", IsEnabled = false, PhoneNumber="9786756756", UserId="2", UserName="programeditor2", Title="",
+                Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_program_editor" } } },
+                new IdentityApiUser() { Email = "programreadonly2@gmail.com", IsEnabled = false, PhoneNumber="9786756756", UserId="4", UserName="programreadonly2", Title="",
+                Roles = new List<IdentityUserRole>(){ new IdentityUserRole() { Name = "flood_program_readonly" } } }
+                };
+
+        var countyUsers = mapper.Map<IEnumerable<IdentityApiUser>, IEnumerable<PresTrustUserEntity>>(users);
         foreach (var item in countyUsers)
         {
             item.Status = item.IsEnabled ? "Active" : "In-Active";
