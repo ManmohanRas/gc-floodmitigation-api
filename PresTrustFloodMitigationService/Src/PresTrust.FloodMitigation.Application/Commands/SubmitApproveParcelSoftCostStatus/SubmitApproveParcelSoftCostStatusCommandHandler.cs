@@ -11,10 +11,12 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
     private readonly IFinanceRepository repoApplicationFinance;
     private readonly IParcelFinanceRepository repoParcelFinance;
     private readonly IApplicationParcelRepository repoProperty;
+    private readonly IPresTrustUserContext userContext;
 
 
     public SubmitApproveParcelSoftCostStatusCommandHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IApplicationParcelRepository repoApplicationParcel,
         IOptions<SystemParameterConfiguration> systemParamOptions,
         IApplicationRepository repoApplication,
@@ -26,6 +28,7 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
         ) : base(repoApplication, repoProperty)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplicationParcel = repoApplicationParcel;
         this.systemParamOptions = systemParamOptions.Value;
         this.repoApplication = repoApplication;

@@ -2,5 +2,5 @@
 
 public class GetCountyUsersQuery : IRequest<IEnumerable<PresTrustUserEntity>>
 {
-    public string UserID { get; set; }
+    public string UserId { get; set; }
 }
