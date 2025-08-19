@@ -6,6 +6,7 @@ public class SaveParcelPropertyCommand : IRequest<int>
     public int ApplicationId { get; set; }
     public string PamsPin { get; set; }
     public int AgencyId { get; set; }
+    public string UserId { get; set; }
 
     //Flood Parcel Property
     public int Priority { get; set; }

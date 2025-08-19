@@ -10,4 +10,5 @@ public class ResponseToRequestForPropertyCorrectionCommand : IRequest<bool>
     public List<string> Sections { get; set; }
     public string Feedback { get; set; }
     public string PamsPin { get; set; }
+    public string UserId { get; set; }
 }

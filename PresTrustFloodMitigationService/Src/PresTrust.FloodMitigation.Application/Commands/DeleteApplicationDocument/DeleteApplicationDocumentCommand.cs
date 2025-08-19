@@ -6,4 +6,5 @@ public class DeleteApplicationDocumentCommand: IRequest<bool>
 {
     public int ApplicationId { get; set; }
     public int Id { get; set; }
+    public string UserId { get; set; }
 }

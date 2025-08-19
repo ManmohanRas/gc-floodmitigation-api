@@ -46,6 +46,7 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
     /// <returns></returns>
     public async Task<bool> Handle(ResponseToRequestForApplicationCorrectionCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         AuthorizationCheck(application);

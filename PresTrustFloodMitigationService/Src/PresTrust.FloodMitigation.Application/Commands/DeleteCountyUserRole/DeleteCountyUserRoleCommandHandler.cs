@@ -28,6 +28,8 @@ public class DeleteCountyUserRoleCommandHandler : IRequestHandler<DeleteCountyUs
     /// <returns></returns>
     public async Task<bool> Handle(DeleteCountyUserRoleCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // call external api - IdentityApi
         var postUserJson = new JsonContent(new DeleteCountyUserRoleRequest()
         {

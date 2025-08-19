@@ -47,6 +47,8 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
     /// <returns></returns>
     public async Task<ActivateApplicationCommandViewModel> Handle(ActivateApplicationCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         ActivateApplicationCommandViewModel result = new ();
 
         // check if application exists

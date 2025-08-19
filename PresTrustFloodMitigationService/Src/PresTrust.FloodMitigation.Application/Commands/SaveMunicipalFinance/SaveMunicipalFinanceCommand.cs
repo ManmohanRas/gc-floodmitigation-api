@@ -3,6 +3,7 @@
 public class SaveMunicipalFinanceCommand: IRequest<int>
 {
     public int Id { get; set; }
+    public string UserId { get; set; }
     public int AgencyId { get; set; }
     public int FiscalYear { get; set; }
     public decimal TaxRate { get; set; }

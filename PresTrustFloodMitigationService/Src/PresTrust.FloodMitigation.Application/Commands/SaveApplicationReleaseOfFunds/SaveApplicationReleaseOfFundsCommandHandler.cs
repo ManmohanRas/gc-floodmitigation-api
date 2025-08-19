@@ -28,6 +28,7 @@ public class SaveApplicationReleaseOfFundsCommandHandler: BaseHandler, IRequestH
 
     public async Task<int> Handle(SaveApplicationReleaseOfFundsCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         int releaseOfFundsId = 0;
 
         // get application details

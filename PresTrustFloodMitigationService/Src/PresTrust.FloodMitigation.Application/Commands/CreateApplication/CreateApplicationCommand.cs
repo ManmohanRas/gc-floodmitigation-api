@@ -9,4 +9,5 @@ public class CreateApplicationCommand : IRequest<CreateApplicationCommandViewMod
     public int AgencyId { get; set; }
     public string ApplicationType { get; set; }
     public string ApplicationSubType { get; set; }
+    public string UserId { get; set; }
 }

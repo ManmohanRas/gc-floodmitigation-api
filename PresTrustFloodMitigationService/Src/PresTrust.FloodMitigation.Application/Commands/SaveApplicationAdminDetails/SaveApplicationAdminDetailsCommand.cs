@@ -2,6 +2,7 @@
 
 public class SaveApplicationAdminDetailsCommand : IRequest<int>
 {
+    public string UserId { get; set; }
     public int Id { get; set; }
     public int ApplicationId { get; set; }
     public DateTime? MunicipalResolutionDate { get; set; }

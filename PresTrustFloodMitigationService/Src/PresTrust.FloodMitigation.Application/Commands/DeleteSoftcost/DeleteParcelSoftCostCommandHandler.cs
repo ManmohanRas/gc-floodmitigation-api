@@ -5,20 +5,25 @@ public class DeleteParcelSoftCostCommandHandler : BaseHandler, IRequestHandler<D
     private readonly IMapper mapper;
     private readonly IApplicationRepository repoApplication;
     private readonly ISoftCostRepository repoSoftCost;
+    private readonly IPresTrustUserContext userContext;
 
     public DeleteParcelSoftCostCommandHandler
         (
             IMapper mapper,
             IApplicationRepository repoApplication,
-            ISoftCostRepository repoSoftCost
+            ISoftCostRepository repoSoftCost,
+            IPresTrustUserContext userContext
         ) : base(repoApplication)
     {
         this.mapper = mapper;
         this.repoApplication = repoApplication;
         this.repoSoftCost = repoSoftCost;
+        this.userContext = userContext;
     }
     public async Task<bool> Handle(DeleteParcelSoftCostCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 

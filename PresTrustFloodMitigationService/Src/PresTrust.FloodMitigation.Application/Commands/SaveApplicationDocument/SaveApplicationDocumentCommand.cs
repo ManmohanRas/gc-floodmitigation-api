@@ -10,4 +10,5 @@ public class SaveApplicationDocumentCommand: IRequest<SaveApplicationDocumentCom
     public string FileName { get; set; }
     public string DocumentType { get; set; }
     public int? OtherFundingSourceId { get; set; }
+    public string UserId { get; set; }
 }

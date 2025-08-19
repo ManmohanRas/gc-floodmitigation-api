@@ -35,6 +35,7 @@ public class SavePropertyCommentCommandHandler : BaseHandler, IRequestHandler<Sa
     /// <returns></returns>
     public async Task<int> Handle(SavePropertyCommentCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         AuthorizationCheck(application);
