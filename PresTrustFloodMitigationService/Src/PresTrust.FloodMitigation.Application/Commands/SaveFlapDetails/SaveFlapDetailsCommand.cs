@@ -8,6 +8,7 @@ public class SaveFlapDetailsCommand: IRequest<Unit>
     public DateTime? ApprovedDate { get; set; }
     public DateTime? LastRevisedDate { get; set; }
     public DateTime? FlapMailToGrantee { get; set; }
+    public string UserId { get; set; }
     public List<FloodFlapCommentViewModel> FlapComments { get; set; } = new List<FloodFlapCommentViewModel>();
 }
 

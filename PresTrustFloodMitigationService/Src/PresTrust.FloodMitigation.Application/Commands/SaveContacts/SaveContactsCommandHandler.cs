@@ -26,6 +26,7 @@ public class SaveContactsCommandHandler : BaseHandler, IRequestHandler<SaveConta
 
     public async Task<bool> Handle(SaveContactsCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var application = await GetIfApplicationExists(request.ApplicationId);
 
         foreach(var contact in request.Contacts)

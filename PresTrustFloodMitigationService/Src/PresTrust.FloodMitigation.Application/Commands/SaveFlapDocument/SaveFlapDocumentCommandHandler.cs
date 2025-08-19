@@ -22,6 +22,7 @@ public class SaveFlapDocumentCommandHandler: IRequestHandler<SaveFlapDocumentCom
 
     public async Task<SaveFlapDocumentCommandViewModel> Handle(SaveFlapDocumentCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var reqDocument = mapper.Map<SaveFlapDocumentCommand, FloodFlapDocumentEntity>(request );
         reqDocument.LastUpdatedBy = userContext.Email;
 

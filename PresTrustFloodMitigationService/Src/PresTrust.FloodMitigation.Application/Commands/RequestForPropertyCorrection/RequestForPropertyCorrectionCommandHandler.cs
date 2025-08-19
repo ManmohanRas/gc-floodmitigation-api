@@ -45,6 +45,7 @@ public class RequestForPropertyCorrectionCommandHandler : BaseHandler, IRequestH
     /// <returns></returns>
     public async Task<bool> Handle(RequestForPropertyCorrectionCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var application = await GetIfApplicationExists(request.ApplicationId);
         //AuthorizationCheck(application);
         // update feedback status and send email to an applicant

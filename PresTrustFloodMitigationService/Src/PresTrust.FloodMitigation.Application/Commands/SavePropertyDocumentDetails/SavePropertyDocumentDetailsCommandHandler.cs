@@ -19,6 +19,7 @@
         }
         public async Task<SavePropertyDocumentDetailsCommandViewModel> Handle(SavePropertyDocumentDetailsCommand request, CancellationToken cancellationToken)
         {
+            userContext.DeriveUserProfileFromUserId(request.UserId);
             // map command object to the HistDocumentEntity
             var reqDocument = mapper.Map<SavePropertyDocumentDetailsCommand, FloodPropertyDocumentEntity>(request);
             reqDocument.LastUpdatedBy = userContext.Email;

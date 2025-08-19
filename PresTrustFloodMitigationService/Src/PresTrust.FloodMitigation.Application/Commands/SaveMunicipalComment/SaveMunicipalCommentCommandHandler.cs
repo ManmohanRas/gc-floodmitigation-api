@@ -23,10 +23,8 @@ public class SaveMunicipalCommentCommandHandler : IRequestHandler<SaveMunicipalC
 
     public async Task<int> Handle(SaveMunicipalCommentCommand request, CancellationToken cancellationToken)
     {
-
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var reqComment = mapper.Map<SaveMunicipalCommentCommand, FloodMunicipalCommentEntity>(request);
-
-
         // save comment
         FloodMunicipalCommentEntity comment = default;
         reqComment.LastUpdatedBy = this.userContext.Name;

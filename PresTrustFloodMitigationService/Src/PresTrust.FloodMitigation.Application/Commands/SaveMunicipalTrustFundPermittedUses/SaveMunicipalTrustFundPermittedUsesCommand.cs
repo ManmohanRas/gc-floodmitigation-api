@@ -4,6 +4,7 @@ public class SaveMunicipalTrustFundPermittedUsesCommand:IRequest<int>
 {
     public int Id { get; set; }
     public int AgencyId { get; set; }
+    public string UserId { get; set; }
     public string YearOfInception { get; set; }
     public bool AcquisitionOfLands { get; set; }
     public bool AcquisitionOfFarmLands { get; set; }

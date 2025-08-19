@@ -43,6 +43,8 @@ public class ResponseToRequestForPropertyCorrectionCommandHandler : BaseHandler,
     /// <returns></returns>
     public async Task<bool> Handle(ResponseToRequestForPropertyCorrectionCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         //AuthorizationCheck(application);

@@ -7,4 +7,5 @@ public class DeleteApplicationFundingAgencyCommand: IRequest<bool>
 {
     public int Id { get; set; }
     public int ApplicationId { get; set; }
+    public string UserId { get; set; }
 }

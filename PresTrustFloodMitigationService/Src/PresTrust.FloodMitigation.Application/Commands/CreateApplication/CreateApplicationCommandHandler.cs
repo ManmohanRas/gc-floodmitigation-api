@@ -39,8 +39,10 @@ public class CreateApplicationCommandHandler : BaseHandler, IRequestHandler<Crea
 
     public async Task<CreateApplicationCommandViewModel> Handle(CreateApplicationCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         //check permissions
-        AuthorizationCheck(request);
+        //AuthorizationCheck(request);
 
         // create application
         var reqApplication = mapper.Map<CreateApplicationCommand, FloodApplicationEntity>(request);

@@ -11,6 +11,7 @@ namespace PresTrust.FloodMitigation.Application.Commands
     public class SaveApplicationDocumentChecklistCommand : IRequest<Unit>
     {
         public int ApplicationId { get; set; }
+        public string UserId { get; set; }
         public IEnumerable<ApplicationDocumentViewModel> Documents { get; set; }
     }
 }

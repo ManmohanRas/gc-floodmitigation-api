@@ -33,6 +33,7 @@ public class SaveApplicationAdminDetailsCommandHandler : BaseHandler, IRequestHa
 
     public async Task<int> Handle(SaveApplicationAdminDetailsCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         int AppDetailsId = 0;
 
         // get application details

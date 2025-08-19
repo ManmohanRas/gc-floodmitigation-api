@@ -24,7 +24,7 @@ public class SaveAnnualFundingDetailsCommandHandler : IRequestHandler<SaveAnnual
 
     public async Task<bool> Handle(SaveAnnualFundingDetailsCommand request, CancellationToken cancellationToken)
     {
-
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var reqDetails = mapper.Map<SaveAnnualFundingDetailsCommand, FloodAnnualFundingEntity>(request);
         await repoAnnualFunding.SaveAsync(reqDetails);
         return true;

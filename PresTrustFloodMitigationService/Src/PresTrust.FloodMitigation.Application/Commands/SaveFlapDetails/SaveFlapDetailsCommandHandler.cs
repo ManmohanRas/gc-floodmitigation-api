@@ -21,6 +21,7 @@ public class SaveFlapDetailsCommandHandler : IRequestHandler<SaveFlapDetailsComm
     }
     public async Task<Unit> Handle(SaveFlapDetailsCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         var flap = mapper.Map<SaveFlapDetailsCommand, FloodFlapEntity>(request);
         flap.LastUpdatedBy = userContext.Email;
 

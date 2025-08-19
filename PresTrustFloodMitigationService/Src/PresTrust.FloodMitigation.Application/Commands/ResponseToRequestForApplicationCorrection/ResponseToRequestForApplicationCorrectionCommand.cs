@@ -8,4 +8,5 @@ public class ResponseToRequestForApplicationCorrectionCommand : IRequest<bool>
     public int ApplicationId { get; set; }
     public List<string> Sections { get; set; }
     public string Feedback { get; set; }
+    public string UserId { get; set; }
 }

@@ -21,6 +21,8 @@ public class SaveApplicationDocumentCommandHandler : IRequestHandler<SaveApplica
     }
     public async Task<SaveApplicationDocumentCommandViewModel> Handle(SaveApplicationDocumentCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // map command object to the HistDocumentEntity
         var reqDocument = mapper.Map<SaveApplicationDocumentCommand, FloodApplicationDocumentEntity>(request);
         reqDocument.LastUpdatedBy = userContext.Email;

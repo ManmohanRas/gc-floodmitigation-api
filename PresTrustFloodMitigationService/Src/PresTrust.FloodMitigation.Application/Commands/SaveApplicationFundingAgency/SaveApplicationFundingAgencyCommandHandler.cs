@@ -5,21 +5,26 @@ public class SaveApplicationFundingAgencyCommandHandler :BaseHandler, IRequestHa
     private readonly IMapper mapper;
     private readonly IApplicationFundingAgencyRepository repoFundingAgency;
     private readonly IApplicationDocumentRepository repoDocument;
+    private readonly IPresTrustUserContext userContext;
 
 
 
     public SaveApplicationFundingAgencyCommandHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IApplicationFundingAgencyRepository repoFundingAgency,
         IApplicationDocumentRepository repoDocument
         )
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoFundingAgency  = repoFundingAgency;
         this.repoDocument = repoDocument;
     }
     public async Task<int> Handle(SaveApplicationFundingAgencyCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         var fundingAgency = mapper.Map<SaveApplicationFundingAgencyCommand, FloodApplicationFundingAgencyEntity>(request);
         fundingAgency = await repoFundingAgency.SaveAsync(fundingAgency);
 

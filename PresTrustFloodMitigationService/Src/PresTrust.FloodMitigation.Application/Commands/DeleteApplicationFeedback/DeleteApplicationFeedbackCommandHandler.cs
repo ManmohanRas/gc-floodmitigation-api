@@ -40,8 +40,10 @@ public class DeleteApplicationFeedbackCommandHandler : IRequestHandler<DeleteApp
     /// <returns></returns>
     public async Task<bool> Handle(DeleteApplicationFeedbackCommand request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
-       // var application = await GetIfApplicationExists(request.ApplicationId);
+        // var application = await GetIfApplicationExists(request.ApplicationId);
 
         // map command object to the FloodApplicationFeedbackEntity
         var reqFeedback = mapper.Map<DeleteApplicationFeedbackCommand, FloodApplicationFeedbackEntity>(request);
