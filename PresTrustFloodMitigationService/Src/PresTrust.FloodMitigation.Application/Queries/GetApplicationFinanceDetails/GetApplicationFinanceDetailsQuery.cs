@@ -5,4 +5,5 @@
 public class GetApplicationFinanceDetailsQuery: IRequest<GetApplicationFinanceDetailsQueryViewModel>
 {
     public int ApplicationId { get; set; }
+    public string UserId { get; set; }
 }

@@ -3,4 +3,5 @@
 public class GetApplicationDocumentChecklistQuery : IRequest<IEnumerable<ApplicationDocumentChecklistSectionViewModel>>
 {
     public int ApplicationId { get; set; }
+    public string UserId { get; set; }
 }

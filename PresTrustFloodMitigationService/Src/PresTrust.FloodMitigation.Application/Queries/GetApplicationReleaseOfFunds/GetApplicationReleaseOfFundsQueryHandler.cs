@@ -5,22 +5,27 @@ namespace PresTrust.FloodMitigation.Application.Queries;
 public class GetApplicationReleaseOfFundsQueryHandler: BaseHandler, IRequestHandler<GetApplicationReleaseOfFundsQuery, GetApplicationReleaseOfFundsQueryViewModel>
 {
     private readonly IMapper mapper;
+    private readonly IPresTrustUserContext userContext;
     private readonly IApplicationRepository repoApplication;
     private readonly IApplicationReleaseOfFundsRepository repoApplicationROF;
 
     public GetApplicationReleaseOfFundsQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IApplicationRepository repoApplication,
         IApplicationReleaseOfFundsRepository repoApplicationROF
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplication = repoApplication;
         this.repoApplicationROF = repoApplicationROF;
     }
 
     public async Task<GetApplicationReleaseOfFundsQueryViewModel> Handle(GetApplicationReleaseOfFundsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 

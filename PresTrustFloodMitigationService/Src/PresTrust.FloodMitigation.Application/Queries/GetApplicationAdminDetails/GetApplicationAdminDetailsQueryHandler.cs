@@ -5,15 +5,18 @@ public class GetApplicationAdminDetailsQueryHandler : BaseHandler, IRequestHandl
     private IMapper mapper;
     private readonly IApplicationRepository repoApplication;
     private IApplicationDetailsRepository repoDetails;
+    private IPresTrustUserContext userContext;
     private readonly IApplicationDocumentRepository repoDocument;
     public GetApplicationAdminDetailsQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IApplicationRepository repoApplication,
         IApplicationDetailsRepository repoDetails,
         IApplicationDocumentRepository repoDocument
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoApplication = repoApplication;
         this.repoDetails = repoDetails;
         this.repoDocument = repoDocument;
@@ -21,6 +24,7 @@ public class GetApplicationAdminDetailsQueryHandler : BaseHandler, IRequestHandl
 
     public async Task<GetApplicationAdminDetailsQueryViewModel> Handle(GetApplicationAdminDetailsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
         //get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         var documents =  await GetDocuments(request.ApplicationId);

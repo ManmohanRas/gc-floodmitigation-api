@@ -10,4 +10,5 @@ public class GetFloodParcelsByFilterQuery : IRequest<IEnumerable<GetFloodParcels
     public string? Address { get; set; }
     public List<string>? ExistingPamsPins { get; set; }
     public bool IsDOI { get; set; } = false;
+    public string UserId { get; set; }
 }

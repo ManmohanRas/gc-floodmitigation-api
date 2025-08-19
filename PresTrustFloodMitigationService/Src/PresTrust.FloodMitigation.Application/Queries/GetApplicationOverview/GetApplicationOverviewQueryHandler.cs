@@ -10,8 +10,10 @@ public class GetApplicationOverviewQueryHandler :BaseHandler, IRequestHandler<Ge
     private readonly IApplicationFundingAgencyRepository repoFundingAgency;
     private readonly IApplicationDocumentRepository repoDocument;
     private readonly IApplicationRepository repoApplication;
+    private readonly IPresTrustUserContext userContext;
     public GetApplicationOverviewQueryHandler(
              IMapper mapper,
+             IPresTrustUserContext userContext,
              IApplicationOverviewRepository repoOverviewDetails,
              IApplicationFundingAgencyRepository repoFundingAgency,
              IApplicationRepository repoApplication,
@@ -20,6 +22,7 @@ public class GetApplicationOverviewQueryHandler :BaseHandler, IRequestHandler<Ge
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoOverviewDetails = repoOverviewDetails;
         this.repoFundingAgency = repoFundingAgency;
         this.repoApplication = repoApplication;
@@ -29,6 +32,8 @@ public class GetApplicationOverviewQueryHandler :BaseHandler, IRequestHandler<Ge
 
     public async Task<GetApplicationOverviewQueryViewModel> Handle(GetApplicationOverviewQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         FloodApplicationOverviewEntity results = default;
 
         // get application details

@@ -29,6 +29,8 @@ public class GetFloodParcelsByFilterQueryHandler : IRequestHandler<GetFloodParce
     /// <returns></returns>
     public async Task<IEnumerable<GetFloodParcelsByFilterQueryViewModel>> Handle(GetFloodParcelsByFilterQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         var parcels = await repoCore.GetFloodParcelsByFilterAsync(request.AgencyId, request.Block, request.Lot, request.Address, request.ExistingPamsPins, request.IsDOI);
         var result = mapper.Map<IEnumerable<FloodParcelEntity>, IEnumerable<GetFloodParcelsByFilterQueryViewModel>>(parcels);
         return result;

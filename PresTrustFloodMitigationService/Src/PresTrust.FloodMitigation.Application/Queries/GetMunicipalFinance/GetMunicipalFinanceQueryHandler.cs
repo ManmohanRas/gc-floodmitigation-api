@@ -5,19 +5,24 @@ public class GetMunicipalFinanceQueryHandler : IRequestHandler<GetMunicipalFinan
     private readonly IMapper mapper;
     private readonly IMunicipalTrustFundPermittedUsesRepository repoMunicipalTrustFundPermittedUses;
     private readonly IMunicipalFinanceRepository repoFinance;
+    private readonly IPresTrustUserContext userContext;
 
     public GetMunicipalFinanceQueryHandler(
                IMapper mapper,
+               IPresTrustUserContext userContext,
                IMunicipalTrustFundPermittedUsesRepository repoMunicipalTrustFundPermittedUses,
                IMunicipalFinanceRepository repoFinance
         )
     {
         this.repoMunicipalTrustFundPermittedUses = repoMunicipalTrustFundPermittedUses;
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoFinance = repoFinance;
     }
     public async Task<GetMunicipalFinanceQueryViewModel> Handle(GetMunicipalFinanceQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         var municipalTrustFundPermittedUses = await repoMunicipalTrustFundPermittedUses.GetMunicipalTrustFundPermittedUses(request.AgencyId);
         var municipalFinances = await repoFinance.GetMunicipalFinanceDetails(request.AgencyId);
 
