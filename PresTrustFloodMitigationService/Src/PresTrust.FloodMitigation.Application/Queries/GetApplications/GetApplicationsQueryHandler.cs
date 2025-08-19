@@ -32,6 +32,8 @@ public class GetApplicationsQueryHandler : BaseHandler, IRequestHandler<GetAppli
     /// <returns></returns>
     public async Task<IEnumerable<GetApplicationsQueryViewModel>> Handle(GetApplicationsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         var applications = await this.repoApplication.GetApplicationsByAgenciesAsync(userContext.AgencyIds, userContext.IsExternalUser);
         var results = mapper.Map<IEnumerable<FloodApplicationEntity>, IEnumerable<GetApplicationsQueryViewModel>>(applications);
         return results;

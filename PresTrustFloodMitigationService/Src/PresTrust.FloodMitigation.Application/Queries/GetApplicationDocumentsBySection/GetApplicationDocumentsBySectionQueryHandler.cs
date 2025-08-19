@@ -5,20 +5,25 @@
 public class GetApplicationDocumentsBySectionQueryHandler : BaseHandler, IRequestHandler<GetApplicationDocumentsBySectionQuery, IEnumerable<ApplicationDocumentTypeViewModel>>
 {
     private readonly IMapper mapper;
+    private readonly IPresTrustUserContext userContext;
     private readonly IApplicationDocumentRepository repoDocument;
     private readonly IApplicationRepository repoApplication;
     public GetApplicationDocumentsBySectionQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IApplicationDocumentRepository repoDocument,
         IApplicationRepository repoApplication
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoDocument = repoDocument;
         this.repoApplication = repoApplication;
     }
     public async Task<IEnumerable<ApplicationDocumentTypeViewModel>> Handle(GetApplicationDocumentsBySectionQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 

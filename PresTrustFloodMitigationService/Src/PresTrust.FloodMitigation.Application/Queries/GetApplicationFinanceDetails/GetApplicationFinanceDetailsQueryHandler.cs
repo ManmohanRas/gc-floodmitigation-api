@@ -5,6 +5,7 @@
 public class GetApplicationFinanceDetailsQueryHandler : BaseHandler, IRequestHandler<GetApplicationFinanceDetailsQuery, GetApplicationFinanceDetailsQueryViewModel>
 {
     private IMapper mapper;
+    private IPresTrustUserContext userContext;
     private readonly IFinanceRepository repoFinance;
     private readonly IFundingSourceRepoitory repoFundingSource;
     private readonly IFinanceLineItemRepository repoFinanceLineItem;
@@ -13,6 +14,7 @@ public class GetApplicationFinanceDetailsQueryHandler : BaseHandler, IRequestHan
 
     public GetApplicationFinanceDetailsQueryHandler(
         IMapper mapper,
+        IPresTrustUserContext userContext,
         IFinanceRepository repoFinance,
         IFundingSourceRepoitory repoFundingSource,
         IFinanceLineItemRepository repoFinanceLineItem,
@@ -20,6 +22,7 @@ public class GetApplicationFinanceDetailsQueryHandler : BaseHandler, IRequestHan
         ) : base(repoApplication: repoApplication)
     {
         this.mapper = mapper;
+        this.userContext = userContext;
         this.repoFinance = repoFinance;
         this.repoFundingSource = repoFundingSource;
         this.repoFinanceLineItem = repoFinanceLineItem;
@@ -27,6 +30,8 @@ public class GetApplicationFinanceDetailsQueryHandler : BaseHandler, IRequestHan
     }
     public async Task<GetApplicationFinanceDetailsQueryViewModel> Handle(GetApplicationFinanceDetailsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
 

@@ -38,6 +38,8 @@ public class GetApplicationDetailsQueryHandler : BaseHandler, IRequestHandler<Ge
     /// <returns></returns>
     public async Task<GetApplicationDetailsQueryViewModel> Handle(GetApplicationDetailsQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         // get application details
         var application = await GetIfApplicationExists(request.ApplicationId);
         var result = mapper.Map<FloodApplicationEntity, GetApplicationDetailsQueryViewModel>(application);

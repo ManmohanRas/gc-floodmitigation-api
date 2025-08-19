@@ -3,5 +3,6 @@
     public class GetApplicationFeedbacksQuery: IRequest<IEnumerable<GetApplicationFeedbacksQueryViewModel>>
     {
         public int ApplicationId { get; set; }
+        public string UserId { get; set; }
     }
 }

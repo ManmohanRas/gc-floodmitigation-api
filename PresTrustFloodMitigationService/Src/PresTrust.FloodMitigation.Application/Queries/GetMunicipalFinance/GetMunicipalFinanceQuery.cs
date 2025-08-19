@@ -1,7 +1,8 @@
 ﻿namespace PresTrust.FloodMitigation.Application.Queries;
 
-public class GetMunicipalFinanceQuery: IRequest<GetMunicipalFinanceQueryViewModel>
+public class GetMunicipalFinanceQuery : IRequest<GetMunicipalFinanceQueryViewModel>
 {
     public int AgencyId { get; set; }
+    public string UserId { get; set;}
 
 }

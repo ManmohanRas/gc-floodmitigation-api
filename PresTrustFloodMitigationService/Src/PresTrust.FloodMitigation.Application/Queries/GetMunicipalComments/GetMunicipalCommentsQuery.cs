@@ -3,4 +3,5 @@
 public class GetMunicipalCommentsQuery : IRequest<IEnumerable<GetMunicipalCommentsQueryViewModel>>
 {
     public int AgencyId { get; set; }
+    public string UserId { get; set; }
 }

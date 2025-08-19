@@ -6,4 +6,5 @@ public class GetApplicationDocumentsBySectionQuery: IRequest<IEnumerable<Applica
 {
     public int ApplicationId { get; set; }
     public string SectionName { get; set; }
+    public string UserId { get; set; }
 }

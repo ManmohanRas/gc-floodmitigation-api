@@ -29,6 +29,8 @@ public class GetApplicationPropertiesQueryHandler : IRequestHandler<GetApplicati
     /// <returns></returns>
     public async Task<IEnumerable<GetApplicationPropertiesQueryViewModel>> Handle(GetApplicationPropertiesQuery request, CancellationToken cancellationToken)
     {
+        userContext.DeriveUserProfileFromUserId(request.UserId);
+
         var parcels = await repoApplicationParcel.GetApplicationPropertiesAsync(request.ApplicationId);
         var result = mapper.Map<IEnumerable<FloodParcelEntity>, IEnumerable<GetApplicationPropertiesQueryViewModel>>(parcels);
         result = result.OrderBy(o => o.PamsPin);
