@@ -99,7 +99,7 @@ public class ApprovePropertyCommandHandler : BaseHandler, IRequestHandler<Approv
             await repoPropertyBrokenRules.SavePropertyBrokenRules(defaultBrokenRules);
 
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_PROPERTY_STATUS_FROM_PENDING_TO_APPROVED.ToString(), application, property);
+            //await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_PROPERTY_STATUS_FROM_PENDING_TO_APPROVED.ToString(), application, property);
 
             scope.Complete();
             result.IsSuccess = true;

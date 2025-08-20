@@ -103,7 +103,7 @@ public class SubmitApplicationCommandHandler : BaseHandler, IRequestHandler<Subm
             await repoApplication.SaveStatusLogAsync(appStatusLog);
 
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_APPROVED_TO_SUBMITTED.ToString(), application);
+            //await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_APPROVED_TO_SUBMITTED.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;

@@ -122,7 +122,7 @@ public class ReviewApplicationCommandHandler : BaseHandler, IRequestHandler<Revi
             await repoPropBrokenRules.SavePropertyBrokenRules(defaultPropertyBrokenRules);
 
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_SUBMITTED_TO_IN_REVIEW.ToString(), application);
+            //await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_SUBMITTED_TO_IN_REVIEW.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;

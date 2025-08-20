@@ -87,7 +87,7 @@ public class ApproveDeclarationCommandHandler : BaseHandler, IRequestHandler<App
             await repoPropBrokenRules.SavePropertyBrokenRules(defaultPropertyBrokenRules);
 
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_SUBMITTED_TO_DOI_APPROVED.ToString(), application);
+            //await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_SUBMITTED_TO_DOI_APPROVED.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;
