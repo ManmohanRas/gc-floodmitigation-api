@@ -66,6 +66,17 @@ public sealed class PresTrustUserContext : IPresTrustUserContext
         userProfile.Email = userid + "@gmail.com";
         userProfile.Name = userid;
 
+        if (!userid.Contains("_") && !userid.Any(char.IsDigit))
+        {
+            string[] programAdmin = userid.Split("-").ToArray();
+            userid = "program" + programAdmin[1];
+            this.isExternalUser = false;
+        }
+        else
+        {
+            this.isExternalUser = true;
+        }
+
         // internal users
         if (string.Compare(userid, "programadmin", true) == 0)
         {
