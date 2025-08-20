@@ -99,7 +99,7 @@ public class RejectApplicationCommandHandler : BaseHandler, IRequestHandler<Reje
                 await repoApplicationParcel.CreateLockedParcel(appParcel.ApplicationId, appParcel.PamsPin, userContext.Email);
             }
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_IN_REVIEW_TO_REJECTED.ToString(), application);
+            //await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_IN_REVIEW_TO_REJECTED.ToString(), application);
 
 
             scope.Complete();

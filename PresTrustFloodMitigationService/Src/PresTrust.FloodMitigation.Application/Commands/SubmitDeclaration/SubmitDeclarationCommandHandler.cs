@@ -76,7 +76,7 @@ public class SubmitDeclarationCommandHandler : BaseHandler, IRequestHandler<Subm
             //await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
 
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_DRAFT_TO_DOI_SUBMITTED.ToString(), application);
+            //await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_DOI_DRAFT_TO_DOI_SUBMITTED.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;

@@ -99,7 +99,7 @@ public class PreservePropertyCommandHandler : BaseHandler, IRequestHandler<Prese
             await repoProperty.CreateLockedParcel(property.ApplicationId, property.PamsPin, userContext.Email);
 
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_PROPERTY_STATUS_FROM_APPROVED_TO_PRESERVED.ToString(), application, property);
+            //await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_PROPERTY_STATUS_FROM_APPROVED_TO_PRESERVED.ToString(), application, property);
 
             scope.Complete();
             result.IsSuccess = true;

@@ -97,7 +97,7 @@ public class WithdrawApplicationCommandHandler : BaseHandler, IRequestHandler<Wi
 
                 await repoApplicationParcel.CreateLockedParcel(appParcel.ApplicationId, appParcel.PamsPin, userContext.Email);
             }
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_ACTIVE_TO_WITHDRAWN.ToString(), application);
+            //await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_ACTIVE_TO_WITHDRAWN.ToString(), application);
 
             scope.Complete();
         }

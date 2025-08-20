@@ -138,7 +138,7 @@ public class ActivateApplicationCommandHandler : BaseHandler, IRequestHandler<Ac
             await repoBrokenRules.SaveBrokenRules(defaultBrokenRules);
             await repoPropBrokenRules.SavePropertyBrokenRules(defaultPropertyBrokenRules);
 
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_IN_REVIEW_TO_ACTIVE.ToString(), application);
+            //await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.CHANGE_STATUS_FROM_IN_REVIEW_TO_ACTIVE.ToString(), application);
 
             scope.Complete();
             result.IsSuccess = true;
