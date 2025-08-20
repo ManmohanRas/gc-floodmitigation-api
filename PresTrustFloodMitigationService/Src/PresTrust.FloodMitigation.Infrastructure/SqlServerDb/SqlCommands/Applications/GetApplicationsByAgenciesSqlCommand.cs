@@ -6,7 +6,7 @@ public class GetApplicationsByAgenciesSqlCommand
        @"   IF(EXISTS(SELECT TOP(1) * FROM @p_IdTableType))
 			BEGIN
 				WITH AgencyCTE AS (
-						SELECT
+						SELECT 
 							FA.[AgencyId],
 							AG.[AgencyName]
 						FROM
@@ -18,7 +18,7 @@ public class GetApplicationsByAgenciesSqlCommand
 						) FA
 						JOIN [Core].[View_AgencyEntities_FLOOD] AG
 							ON FA.AgencyId = AG.AgencyId)
-					SELECT
+					SELECT 
 						F.[Id],
 						F.[AgencyId],
 						A.[AgencyName],
@@ -47,7 +47,7 @@ public class GetApplicationsByAgenciesSqlCommand
 			ELSE
 			BEGIN
 					WITH AgencyCTE AS (
-						SELECT
+						SELECT DISTINCT
 							FA.[AgencyId],
 							AG.[AgencyName]
 						FROM
@@ -59,7 +59,7 @@ public class GetApplicationsByAgenciesSqlCommand
 						) FA
 						JOIN [Core].[View_AgencyEntities_FLOOD] AG
 							ON FA.AgencyId = AG.AgencyId)
-					SELECT
+					SELECT 
 						F.[Id],
 						F.[AgencyId],
 						A.[AgencyName],
