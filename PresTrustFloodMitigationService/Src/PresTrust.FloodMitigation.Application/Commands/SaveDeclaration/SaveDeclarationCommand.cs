@@ -8,8 +8,9 @@ public class SaveDeclarationCommand : IRequest<bool>
     public string ApplicationType { get; set; }
     public string ApplicationSubType { get; set; }
     public List<SaveDeclarationFloodParcel> Parcels { get; set; }
-    public List<FloodApplicationUserViewModel> ApplicationUsers { get; set; }
-    public string UserId { get; set; }  
+    public List<FloodApplicationUserViewModel>? ApplicationUsers { get; set; }
+    public string UserId { get; set; }
+}
 
     public class SaveDeclarationFloodParcel
     {
@@ -24,4 +25,4 @@ public class SaveDeclarationCommand : IRequest<bool>
         public bool IsValidPamsPin { get; set; }
     }
 
-}
+

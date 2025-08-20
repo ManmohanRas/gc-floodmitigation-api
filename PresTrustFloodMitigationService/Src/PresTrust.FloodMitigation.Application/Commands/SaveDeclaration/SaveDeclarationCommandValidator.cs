@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace PresTrust.FloodMitigation.Application.Commands;
+﻿namespace PresTrust.FloodMitigation.Application.Commands;
 
 public class SaveDeclarationCommandValidator : AbstractValidator<SaveDeclarationCommand>
 {
