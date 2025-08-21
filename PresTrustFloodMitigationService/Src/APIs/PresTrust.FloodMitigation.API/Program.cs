@@ -17,8 +17,8 @@ var sqlServerStorageOptions = new SqlServerStorageOptions
     DisableGlobalLocks = true,
 };
 
-applicationBuilder.Services.AddHangfire(x => x.UseSqlServerStorage(applicationBuilder.Configuration.GetConnectionString("HangfireDbConnectionStrings"), sqlServerStorageOptions));
-applicationBuilder.Services.AddHangfireServer();
+//applicationBuilder.Services.AddHangfire(x => x.UseSqlServerStorage(applicationBuilder.Configuration.GetConnectionString("HangfireDbConnectionStrings"), sqlServerStorageOptions));
+//applicationBuilder.Services.AddHangfireServer();
 
 applicationBuilder.Services.AddEndpointsApiExplorer();
 //CACHE
@@ -27,8 +27,8 @@ applicationBuilder.Services.AddMemoryCache();
 var builder = applicationBuilder.Build();
 builder.AddMiddleware(builder.Environment);
 
-builder.MapHangfireDashboard();
-builder.UseHangfireDashboard("/backgroundjobs");
+//builder.MapHangfireDashboard();
+//builder.UseHangfireDashboard("/backgroundjobs");
 
 //var jobGrantExpirationReminder = builder.Services.GetService<IGrantExpirationReminder>();
 var jobProjectAreaExpirationReminder = builder.Services.GetService<IProjectAreaExpirationReminder>();
