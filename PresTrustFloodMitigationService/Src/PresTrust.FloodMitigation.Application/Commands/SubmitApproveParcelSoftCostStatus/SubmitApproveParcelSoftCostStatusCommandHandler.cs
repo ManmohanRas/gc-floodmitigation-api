@@ -74,7 +74,7 @@ public class SubmitApproveParcelSoftCostStatusCommandHandler : BaseHandler, IReq
                 emailTemplateCode = EmailTemplateCodeTypeEnum.APPROVE_SOFTCOST.ToString();
             }
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(emailTemplateCode, application, property);
+           // await repoEmailManager.GetEmailTemplate(emailTemplateCode, application, property);
 
             scope.Complete();
         }
