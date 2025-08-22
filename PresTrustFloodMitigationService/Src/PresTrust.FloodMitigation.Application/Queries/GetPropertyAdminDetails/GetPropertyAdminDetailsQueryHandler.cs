@@ -22,6 +22,7 @@ public class GetPropertyAdminDetailsQueryHandler : BaseHandler, IRequestHandler<
         this.repoApplication = repoApplication;
         this.PropDetails = PropDetails;
         this.repoDocument = repoDocument;
+        this.userContext = userContext;
     }
 
     public async Task<GetPropertyAdminDetailsQueryViewModel> Handle(GetPropertyAdminDetailsQuery request, CancellationToken cancellationToken)

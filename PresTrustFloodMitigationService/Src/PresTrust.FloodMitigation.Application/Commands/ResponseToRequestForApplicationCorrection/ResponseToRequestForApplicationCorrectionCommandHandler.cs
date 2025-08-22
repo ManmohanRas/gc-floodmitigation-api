@@ -80,7 +80,7 @@ public class ResponseToRequestForApplicationCorrectionCommandHandler : BaseHandl
             }
 
             //Get Template and Send Email
-            await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.FEEDBACK_RESPONSE_EMAIL.ToString(), application);
+           // await repoEmailManager.GetEmailTemplate(EmailTemplateCodeTypeEnum.FEEDBACK_RESPONSE_EMAIL.ToString(), application);
 
             scope.Complete();
         };
