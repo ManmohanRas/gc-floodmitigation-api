@@ -22,7 +22,8 @@ public class ReadTargetListFileQueryHandler : IRequestHandler<ReadTargetListFile
         var file = request.file;
         var fileextension = Path.GetExtension(file.FileName);
         var filename = Guid.NewGuid().ToString() + fileextension;
-        string path = @"C:\\Downloads\";//static path
+       // string path = @"C:\\Downloads\";//static path
+        string path = Environment.GetEnvironmentVariable("CSV_PATH") ?? @"C:\\Downloads\";
         bool hasError = false;
 
         var filepath = Path.Combine(path, file.FileName);
